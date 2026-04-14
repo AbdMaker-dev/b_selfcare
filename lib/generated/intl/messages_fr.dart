@@ -21,5 +21,26 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'fr';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "appName": MessageLookupByLibrary.simpleMessage("B-Selfcare"),
+    "errorOccurred": MessageLookupByLibrary.simpleMessage(
+      "Une erreur est survenue",
+    ),
+    "featureUnderDevelopment": MessageLookupByLibrary.simpleMessage(
+      "Fonctionnalité en développement",
+    ),
+    "loading": MessageLookupByLibrary.simpleMessage("Chargement..."),
+    "login": MessageLookupByLibrary.simpleMessage("Se connecter"),
+    "loginContinue": MessageLookupByLibrary.simpleMessage(
+      "Connectez-vous pour continuer",
+    ),
+    "otpSentTo": MessageLookupByLibrary.simpleMessage(
+      "Veuillez saisir le code envoyé au",
+    ),
+    "phoneNumber": MessageLookupByLibrary.simpleMessage("Numéro de téléphone"),
+    "resendCode": MessageLookupByLibrary.simpleMessage("Renvoyer le code"),
+    "verification": MessageLookupByLibrary.simpleMessage("Vérification"),
+    "verify": MessageLookupByLibrary.simpleMessage("Vérifier"),
+    "welcome": MessageLookupByLibrary.simpleMessage("Bienvenue"),
+  };
 }

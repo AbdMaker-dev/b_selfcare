@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toastification/toastification.dart';
+import 'package:b_selfcare/src/utils/app_theme.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -53,12 +54,7 @@ class _MyAppState extends State<MyApp> {
         child: ToastificationWrapper(
           child: MaterialApp.router(
             title: AppConfig.shared.appName,
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.deepPurple,
-              ),
-              useMaterial3: true,
-            ),
+            theme: AppTheme.lightTheme,
             routerConfig: _appRouter.config(
             navigatorObservers: () => [
               AppRouteObserver(
@@ -98,5 +94,5 @@ class _MyAppState extends State<MyApp> {
 // dart run build_runner build --delete-conflicting-outputs
 // flutter pub run intl_utils:generate
 // flutter packages pub run build_runner build
-// flutter run -d chrom --web-renderer html -t lib/main_dev.dart
-// flutter run -d chrom --web-renderer html -t lib/main_prod.dart
+// flutter run -d chrom -t lib/main_dev.dart
+// flutter run -d chrom -t lib/main_prod.dart

@@ -1,7 +1,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 
-extension ResponsiveExtension on double {
+extension ResponsiveExtension on num {
   // Dimensions - avec facteur web
   double get rh => kIsWeb ? h * 0.85 : h;
   double get rw => kIsWeb ? w * 0.85 : w;

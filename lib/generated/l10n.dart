@@ -53,6 +53,101 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
+
+  /// `B-Selfcare`
+  String get appName {
+    return Intl.message('B-Selfcare', name: 'appName', desc: '', args: []);
+  }
+
+  /// `Bienvenue`
+  String get welcome {
+    return Intl.message('Bienvenue', name: 'welcome', desc: '', args: []);
+  }
+
+  /// `Connectez-vous pour continuer`
+  String get loginContinue {
+    return Intl.message(
+      'Connectez-vous pour continuer',
+      name: 'loginContinue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Numéro de téléphone`
+  String get phoneNumber {
+    return Intl.message(
+      'Numéro de téléphone',
+      name: 'phoneNumber',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Se connecter`
+  String get login {
+    return Intl.message('Se connecter', name: 'login', desc: '', args: []);
+  }
+
+  /// `Vérification`
+  String get verification {
+    return Intl.message(
+      'Vérification',
+      name: 'verification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Veuillez saisir le code envoyé au`
+  String get otpSentTo {
+    return Intl.message(
+      'Veuillez saisir le code envoyé au',
+      name: 'otpSentTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vérifier`
+  String get verify {
+    return Intl.message('Vérifier', name: 'verify', desc: '', args: []);
+  }
+
+  /// `Renvoyer le code`
+  String get resendCode {
+    return Intl.message(
+      'Renvoyer le code',
+      name: 'resendCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chargement...`
+  String get loading {
+    return Intl.message('Chargement...', name: 'loading', desc: '', args: []);
+  }
+
+  /// `Une erreur est survenue`
+  String get errorOccurred {
+    return Intl.message(
+      'Une erreur est survenue',
+      name: 'errorOccurred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fonctionnalité en développement`
+  String get featureUnderDevelopment {
+    return Intl.message(
+      'Fonctionnalité en développement',
+      name: 'featureUnderDevelopment',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
