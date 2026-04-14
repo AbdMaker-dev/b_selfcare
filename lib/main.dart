@@ -92,7 +92,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 // dart run build_runner build --delete-conflicting-outputs
-// flutter pub run intl_utils:generate
-// flutter packages pub run build_runner build
+// dart run intl_utils:generate
+// dart run build_runner build
 // flutter run -d chrom -t lib/main_dev.dart
 // flutter run -d chrom -t lib/main_prod.dart

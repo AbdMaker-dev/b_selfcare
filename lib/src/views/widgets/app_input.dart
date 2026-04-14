@@ -53,7 +53,7 @@ class _AppInputState extends State<AppInput> {
               AppText(
                 widget.labelText!,
                 type: AppTextType.label,
-                fontSize: 18.rsp,
+                fontSize: 22.rsp,
                 color: AppColors.primary,
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.start,
@@ -62,7 +62,7 @@ class _AppInputState extends State<AppInput> {
                 AppText(
                   widget.labelActionText!,
                   type: AppTextType.label,
-                  fontSize: 18.rsp,
+                  fontSize: 22.rsp,
                   color: AppColors.primary,
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.start,

@@ -44,7 +44,7 @@ class LoginForm extends StatelessWidget {
         SizedBox(height: 15.0.rh),
         AppCheckbox(
           text: "Rester connecté",
-          fontSize: 16.rsp,
+          fontSize: 24.rsp,
           fontWeight: FontWeight.w500,
           color: AppColors.inputBorderLight,
           onCheck: (value) {},
@@ -69,7 +69,7 @@ class LoginForm extends StatelessWidget {
           spacing: 10.rw,
           children: [
             Expanded(child: Container(height: 1.rh, color: AppColors.primary)),
-            AppText("OU", color: AppColors.black, fontSize: 16.rsp, fontWeight: FontWeight.w500, textAlign: TextAlign.center, type: AppTextType.heading),
+            AppText("OU", color: AppColors.black, fontSize: 22.rsp, fontWeight: FontWeight.w500, textAlign: TextAlign.center, type: AppTextType.heading),
             Expanded(child: Container(height: 1.rh, color: AppColors.primary)),
           ],
         ),
@@ -90,7 +90,7 @@ class LoginForm extends StatelessWidget {
             AppText(
               "Besoin d'aide ?",
               color: AppColors.inputBorderLight,
-              fontSize: 16.rsp,
+              fontSize: 22.rsp,
               fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
               type: AppTextType.heading,
@@ -98,7 +98,7 @@ class LoginForm extends StatelessWidget {
             AppText(
               "Contactez le support YAS",
               color: AppColors.primary,
-              fontSize: 18.rsp,
+              fontSize: 24.rsp,
               fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
               onClick: () {},

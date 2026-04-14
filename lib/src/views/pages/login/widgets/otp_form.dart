@@ -13,7 +13,7 @@ class OtpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 400.rw,
+      width: 450.rw,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,7 +39,7 @@ class OtpForm extends StatelessWidget {
           SizedBox(height: 15.rh),
           AppText(
             "Saisissez le code à 6 chiffres envoyé à l’adresse e-mail enregistre",
-            fontSize: 14.5.rsp,
+            fontSize: 22.rsp,
             type: AppTextType.heading,
             fontWeight: FontWeight.w500,
             color: AppColors.black,
@@ -54,13 +54,13 @@ class OtpForm extends StatelessWidget {
           ),
           SizedBox(height: 10.rh),
           SizedBox(
-            width: 400.rw,
+            width: 450.rw,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppCheckbox(
                   text: "Vous n'avez pas reçu le code ?",
-                  fontSize: 16.rsp,
+                  fontSize: 24.rsp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.inputBorderLight,
                   onCheck: (value) {},
@@ -68,7 +68,7 @@ class OtpForm extends StatelessWidget {
                 AppText(
                   "Renvoyer",
                   color: AppColors.inputBorderLight,
-                  fontSize: 16.rsp,
+                  fontSize: 24.rsp,
                   fontWeight: FontWeight.w500,
                   textAlign: TextAlign.center,
                   onClick: () {},
@@ -79,7 +79,7 @@ class OtpForm extends StatelessWidget {
           ),
           SizedBox(height: 30.rh),
           AppButton(
-            width: 400.rw,
+            width: 450.rw,
             text: "Vérifier le code",
             onPressed: () {},
             type: AppButtonType.primary,
@@ -89,7 +89,7 @@ class OtpForm extends StatelessWidget {
           AppText(
             "← Retour à la connexion",
             color: AppColors.inputBorderLight,
-            fontSize: 18.rsp,
+            fontSize: 24.rsp,
             fontWeight: FontWeight.w500,
             textAlign: TextAlign.center,
             onClick: () {},
