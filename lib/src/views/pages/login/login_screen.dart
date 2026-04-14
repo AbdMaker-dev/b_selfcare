@@ -58,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                               "Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.",
                               color: AppColors.white,
                               fontFamily: "Syne",
-                              fontSize: 24.rsp,
+                              fontSize: 21.rsp,
                               fontWeight: FontWeight.w400,
                             ),
                           ],

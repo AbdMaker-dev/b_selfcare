@@ -53,7 +53,7 @@ class _AppInputState extends State<AppInput> {
               AppText(
                 widget.labelText!,
                 type: AppTextType.label,
-                fontSize: 22.rsp,
+                fontSize: 14.rsp,
                 color: AppColors.primary,
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.start,
@@ -62,7 +62,7 @@ class _AppInputState extends State<AppInput> {
                 AppText(
                   widget.labelActionText!,
                   type: AppTextType.label,
-                  fontSize: 22.rsp,
+                  fontSize: 14.rsp,
                   color: AppColors.primary,
                 fontWeight: FontWeight.w400,
                 textAlign: TextAlign.start,
@@ -81,7 +81,7 @@ class _AppInputState extends State<AppInput> {
           onTap: widget.onTap,
           style: TextStyle(
             fontFamily: 'Montserrat',
-            fontSize: 20.rsp,
+            fontSize: 16.rsp,
             fontWeight: FontWeight.w500,
             color: AppColors.textHeading,
           ),
@@ -104,7 +104,7 @@ class _AppInputState extends State<AppInput> {
             hintStyle: TextStyle(
               fontFamily: 'Montserrat',
               color: AppColors.textMuted,
-              fontSize: 18.rsp,
+              fontSize: 14.rsp,
             ),
             filled: true,
             fillColor: Colors.white,

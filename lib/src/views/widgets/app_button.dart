@@ -86,14 +86,14 @@ class AppButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (icon != null) ...[
-                Icon(icon, size: 20.rsp),
+                Icon(icon, size: 18.rsp),
                 SizedBox(width: 8.rw),
               ],
               AppText(
                 text,
                 color: textColor ?? txtColor,
                 fontWeight: FontWeight.w700,
-                fontSize: 25.rsp,
+                fontSize: 19.rsp,
                 fontStyle: FontStyle.normal,
               ),
             ],
