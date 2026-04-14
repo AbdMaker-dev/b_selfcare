@@ -26,6 +26,7 @@ dependencies:
   dio: ^5.9.2
   dartz: ^0.10.1
   universal_html: ^2.3.0
+  pin_code_fields: ^9.3.0
 
 
 
@@ -52,10 +53,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # assets:
-  #   - assets/images/
-  #   - assets/logo/
-  #   - assets/icons/
+  assets:
+     - assets/images/
 
   fonts:
     - family: Montserrat

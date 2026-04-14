@@ -7,6 +7,7 @@ class AppInput extends StatefulWidget {
   final TextEditingController? controller;
   final String? hintText;
   final String? labelText;
+  final String? labelActionText;
   final bool isPassword;
   final TextInputType keyboardType;
   final Widget? prefixIcon;
@@ -21,6 +22,7 @@ class AppInput extends StatefulWidget {
     this.controller,
     this.hintText,
     this.labelText,
+    this.labelActionText,
     this.isPassword = false,
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
@@ -45,13 +47,27 @@ class _AppInputState extends State<AppInput> {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (widget.labelText != null) ...[
-          AppText(
-            widget.labelText!,
-            type: AppTextType.label,
-            fontSize: 14.rsp,
-            color: AppColors.primary,
-            fontWeight: FontWeight.w400,
-            textAlign: TextAlign.start,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,  
+            children: [
+              AppText(
+                widget.labelText!,
+                type: AppTextType.label,
+                fontSize: 18.rsp,
+                color: AppColors.primary,
+                fontWeight: FontWeight.w400,
+                textAlign: TextAlign.start,
+              ),
+              if(widget.labelActionText != null)
+                AppText(
+                  widget.labelActionText!,
+                  type: AppTextType.label,
+                  fontSize: 18.rsp,
+                  color: AppColors.primary,
+                fontWeight: FontWeight.w400,
+                textAlign: TextAlign.start,
+              )
+            ],
           ),
           SizedBox(height: 8.0.rh),
         ],
@@ -65,7 +81,7 @@ class _AppInputState extends State<AppInput> {
           onTap: widget.onTap,
           style: TextStyle(
             fontFamily: 'Montserrat',
-            fontSize: 16.rsp,
+            fontSize: 20.rsp,
             fontWeight: FontWeight.w500,
             color: AppColors.textHeading,
           ),
@@ -73,28 +89,28 @@ class _AppInputState extends State<AppInput> {
             hintText: widget.hintText,
             prefixIcon: widget.prefixIcon,
             suffixIcon: widget.isPassword
-                ? IconButton(
-                    icon: Icon(
-                      _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                      color: AppColors.textMuted,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureText = !_obscureText;
-                      });
-                    },
-                  )
-                : widget.suffixIcon,
+            ? IconButton(
+              icon: Icon(
+                _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                color: AppColors.textMuted,
+                size: 16.rsp,
+              ),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            ) : widget.suffixIcon,
             hintStyle: TextStyle(
               fontFamily: 'Montserrat',
               color: AppColors.textMuted,
-              fontSize: 14.rsp,
+              fontSize: 18.rsp,
             ),
             filled: true,
             fillColor: Colors.white,
             contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.rw,
-              vertical: 18.rh,
+              horizontal: 15.rw,
+              vertical: 5.rh,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.rr),

@@ -17,6 +17,12 @@ class AppText extends StatelessWidget {
   final String? fontFamily;
   final AppTextType type;
 
+  final String? highlight;
+  final Color? highlightColor;
+  final double? highlightFontSize;
+  final double? highlightHeight;
+  final VoidCallback? onClick;
+
   const AppText(
     this.text, {
     super.key,
@@ -30,16 +36,26 @@ class AppText extends StatelessWidget {
     this.overflow,
     this.fontFamily,
     this.type = AppTextType.body,
+    this.highlight,
+    this.highlightColor,
+    this.highlightFontSize,
+    this.highlightHeight,
+    this.onClick,
   });
 
-  // Constructeurs nommés pour plus de simplicité
-  factory AppText.heading(String text, {
+  factory AppText.textHighlight(
+    String text, {
     Key? key,
     Color? color,
     double? fontSize,
     TextAlign? textAlign,
     int? maxLines,
     FontWeight? fontWeight,
+    String? highlight,
+    Color? highlightColor,
+    double? highlightFontSize,
+    double? highlightHeight,
+    FontStyle? fontStyle,
   }) {
     return AppText(
       text,
@@ -50,35 +66,24 @@ class AppText extends StatelessWidget {
       maxLines: maxLines,
       fontWeight: fontWeight,
       type: AppTextType.heading,
+      highlight: highlight,
+      highlightColor: highlightColor,
+      highlightFontSize: highlightFontSize,
+      highlightHeight: highlightHeight,
+      fontStyle: fontStyle,
     );
   }
-
-  factory AppText.small(String text, {
-    Key? key,
-    Color? color,
-    TextAlign? textAlign,
-  }) {
-    return AppText(
-      text,
-      key: key,
-      color: color,
-      type: AppTextType.small,
-    );
-  }
-
-
-
   @override
   Widget build(BuildContext context) {
     TextStyle defaultStyle;
-    
+
     switch (type) {
       case AppTextType.heading:
         defaultStyle = Theme.of(context).textTheme.headlineMedium!.copyWith(
           fontFamily: 'Montserrat',
           color: color ?? AppColors.textHeading,
           fontSize: fontSize,
-          fontWeight: fontWeight,
+          fontWeight: fontWeight ?? FontWeight.w800,
         );
         break;
       case AppTextType.small:
@@ -108,21 +113,59 @@ class AppText extends StatelessWidget {
         break;
     }
 
-    // On fusionne avec le style passé en paramètre si présent
-    final finalStyle = defaultStyle.merge(style).copyWith(
-      color: color,
-      fontSize: fontSize?.rsp,
-      fontWeight: fontWeight,
-      fontStyle: fontStyle,
-      fontFamily: fontFamily,
-    );
+    final finalStyle = defaultStyle
+        .merge(style)
+        .copyWith(
+          color: color,
+          fontSize: (fontSize ?? defaultStyle.fontSize)?.rsp,
+          fontWeight: fontWeight ?? defaultStyle.fontWeight,
+          fontStyle: fontStyle,
+          fontFamily: fontFamily ?? defaultStyle.fontFamily,
+        );
 
-    return Text(
-      text,
-      style: finalStyle,
-      textAlign: textAlign ?? (type == AppTextType.label ? TextAlign.center : null),
-      maxLines: maxLines,
-      overflow: overflow,
+    if (highlight != null && text.contains(highlight!)) {
+      final parts = text.split(highlight!);
+      final hColor = highlightColor ?? AppColors.secondary;
+      return RichText(
+        textAlign: textAlign ?? (type == AppTextType.label ? TextAlign.center : TextAlign.start),
+        maxLines: maxLines,
+        overflow: overflow ?? TextOverflow.clip,
+        text: TextSpan(
+          style: finalStyle.copyWith(height: 1.0),
+          children:
+              parts.asMap().entries.map((entry) {
+                final idx = entry.key;
+                final part = entry.value;
+
+                return TextSpan(
+                  children: [
+                    TextSpan(text: part),
+                    if (idx < parts.length - 1)
+                      TextSpan(
+                        text: highlight,
+                        style: finalStyle.copyWith(
+                          color: hColor,
+                          fontSize:
+                              highlightFontSize?.rsp ?? finalStyle.fontSize,
+                          height: highlightHeight ?? 1.0,
+                        ),
+                      ),
+                  ],
+                );
+              }).toList(),
+        ),
+      );
+    }
+
+    return InkWell(
+      onTap: onClick,
+      child: Text(
+        text,
+        style: finalStyle,
+        textAlign: textAlign ?? (type == AppTextType.label ? TextAlign.center : null),
+        maxLines: maxLines,
+        overflow: overflow,
+      ),
     );
   }
 }

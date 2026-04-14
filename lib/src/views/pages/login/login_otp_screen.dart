@@ -31,7 +31,7 @@ class _LoginOtpScreenState extends State<LoginOtpScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText.heading(s.verification),
+              AppText.textHighlight(s.verification),
               SizedBox(height: 8.0.rh),
               RichText(
                 text: TextSpan(

@@ -9,7 +9,7 @@ class AppTheme {
         seedColor: AppColors.primary,
         primary: AppColors.primary,
         secondary: AppColors.secondary,
-        surface: AppColors.surface,
+        surface: AppColors.white,
         error: AppColors.error,
       ),
       scaffoldBackgroundColor: AppColors.background,

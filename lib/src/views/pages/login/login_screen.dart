@@ -1,11 +1,12 @@
-import 'package:b_selfcare/generated/l10n.dart';
-import 'package:b_selfcare/src/views/widgets/app_button.dart';
-import 'package:b_selfcare/src/views/widgets/app_input.dart';
+import 'package:b_selfcare/gen/assets.gen.dart';
+import 'package:b_selfcare/src/views/pages/login/widgets/login_form.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:b_selfcare/src/views/widgets/left_login_deco.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {
@@ -13,43 +14,69 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(24.0.rw),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: EdgeInsets.all(0.0.rw),
+          child: Row(
             children: [
-              SizedBox(height: 60.0.rh),
-              AppText.heading(s.welcome),
-              SizedBox(height: 8.0.rh),
-              AppText(
-                s.loginContinue,
-                color: AppColors.textMuted,
-              ),
-              SizedBox(height: 48.0.rh),
-              AppInput(
-                labelText: s.phoneNumber,
-                // prefixIcon: const Icon(Icons.phone_outlined),
-                keyboardType: TextInputType.phone,
-              ),
-              SizedBox(height: 24.0.rh),
-              AppButton(
-                text: s.login,
-                onPressed: () {},
-                type: AppButtonType.secondary,
-              ),
-              const Spacer(),
-              Center(
-                child: AppText(
-                  s.appName,
-                  type: AppTextType.label,
-                  fontSize: 18,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(
+                    left: 0.0.rw,
+                    right: 0.0.rw,
+                    top: 100.rh,
+                    bottom: 0.rh,
+                  ),
+                  color: AppColors.primary,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: SvgPicture.asset(
+                          Assets.images.logoWithLabel,
+                          width: 366.rw,
+                          height: 109.33.rh,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(height: 40.rh),
+                      Padding(
+                        padding: EdgeInsets.only(left: 100.rw),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText.textHighlight(
+                              "Votre entreprise,\nVotre flotte,\nVotre contrôle.",
+                              fontSize: 69.rsp,
+                              color: AppColors.white,
+                              highlight: "flotte",
+                              highlightColor: AppColors.secondary,
+                            ),
+                            SizedBox(height: 20.0.rh),
+                            AppText(
+                              "Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.",
+                              color: AppColors.white,
+                              fontFamily: "Syne",
+                              fontSize: 21.rsp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(child: LeftLoginDeco()),
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 16.0.rh),
+              Expanded(
+                child: Center(
+                  child: SizedBox(
+                    width: 531.rw,
+                    child: LoginForm(),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

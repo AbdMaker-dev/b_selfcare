@@ -23,7 +23,7 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    // Splash screen 
+    // Splash screen
     AutoRoute(path: routeSplash, page: SplashRoute.page, initial: true),
 
     // LOGIN
@@ -39,7 +39,7 @@ class UnderDevelopmentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: AppText.heading('Fonctionnalité en développement'),
+        child: AppText.textHighlight('Fonctionnalité en développement'),
       ),
     );
   }
