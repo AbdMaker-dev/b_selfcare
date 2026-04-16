@@ -23,27 +23,69 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "appName": MessageLookupByLibrary.simpleMessage("B-Selfcare"),
+    "appTagline": MessageLookupByLibrary.simpleMessage(
+      "Votre santé, notre priorité",
+    ),
+    "backToLogin": MessageLookupByLibrary.simpleMessage(
+      "← Retour à la connexion",
+    ),
+    "contactSupport": MessageLookupByLibrary.simpleMessage(
+      "Contactez le support YAS",
+    ),
     "errorOccurred": MessageLookupByLibrary.simpleMessage(
       "Une erreur est survenue",
     ),
     "featureUnderDevelopment": MessageLookupByLibrary.simpleMessage(
       "Fonctionnalité en développement",
     ),
+    "forgotPassword": MessageLookupByLibrary.simpleMessage(
+      "Mot de passe oublié",
+    ),
     "loading": MessageLookupByLibrary.simpleMessage("Chargement..."),
     "login": MessageLookupByLibrary.simpleMessage("Se connecter"),
     "loginContinue": MessageLookupByLibrary.simpleMessage(
       "Connectez-vous pour continuer",
     ),
+    "loginTitle": MessageLookupByLibrary.simpleMessage(
+      "Connexion à votre \nespace",
+    ),
+    "loginTitleHighlight": MessageLookupByLibrary.simpleMessage("espace"),
+    "needHelp": MessageLookupByLibrary.simpleMessage("Besoin d\'aide ?"),
+    "or": MessageLookupByLibrary.simpleMessage("OU"),
+    "otpNotReceived": MessageLookupByLibrary.simpleMessage(
+      "Vous n\'avez pas reçu le code ?",
+    ),
     "otpSentTo": MessageLookupByLibrary.simpleMessage(
       "Veuillez saisir le code envoyé au",
     ),
+    "otpSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Saisissez le code à 6 chiffres envoyé à l\'adresse e-mail enregistrée",
+    ),
+    "otpTitle": MessageLookupByLibrary.simpleMessage("Vérification OTP"),
+    "otpTitleHighlight": MessageLookupByLibrary.simpleMessage("OTP"),
+    "password": MessageLookupByLibrary.simpleMessage("Mot de passe"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Numéro de téléphone"),
     "pwd": MessageLookupByLibrary.simpleMessage("Mot de passe"),
+    "resend": MessageLookupByLibrary.simpleMessage("Renvoyer"),
     "resendCode": MessageLookupByLibrary.simpleMessage("Renvoyer le code"),
     "resetPwd": MessageLookupByLibrary.simpleMessage("Changer le Mot de passe"),
+    "ssoLogin": MessageLookupByLibrary.simpleMessage(
+      "Connexion SSO Entreprise",
+    ),
+    "stayConnected": MessageLookupByLibrary.simpleMessage("Rester connecté"),
+    "stepAccess": MessageLookupByLibrary.simpleMessage("Accès"),
+    "stepCredentials": MessageLookupByLibrary.simpleMessage("Identifiants"),
     "titlereset": MessageLookupByLibrary.simpleMessage("Changement de votre"),
     "verification": MessageLookupByLibrary.simpleMessage("Vérification"),
     "verify": MessageLookupByLibrary.simpleMessage("Vérifier"),
+    "verifyCode": MessageLookupByLibrary.simpleMessage("Vérifier le code"),
     "welcome": MessageLookupByLibrary.simpleMessage("Bienvenue"),
+    "authPanelTitle": MessageLookupByLibrary.simpleMessage(
+      "Votre entreprise,\nVotre flotte,\nVotre contrôle.",
+    ),
+    "authPanelTitleHighlight": MessageLookupByLibrary.simpleMessage("flotte"),
+    "authPanelSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.",
+    ),
   };
 }

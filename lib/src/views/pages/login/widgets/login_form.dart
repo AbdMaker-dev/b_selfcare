@@ -23,8 +23,8 @@ class LoginForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         AppText.textHighlight(
-          "Connexion à votre \nespace",
-          highlight: "espace",
+          s.loginTitle,
+          highlight: s.loginTitleHighlight,
           highlightHeight: 0.68,
           fontSize: 40.rsp,
           highlightFontSize: 94.rsp,
@@ -38,20 +38,19 @@ class LoginForm extends StatelessWidget {
         AppInput(labelText: s.phoneNumber, keyboardType: TextInputType.phone),
         SizedBox(height: 24.0.rh),
         AppInput(
-          labelText: "Mot de passe",
-          labelActionText: "Mot de passe oublié",
+          labelText: s.password,
+          labelActionText: s.forgotPassword,
           onTap: (){
-            context.router.push(ResetPasswordRoute());
           },
           keyboardType: TextInputType.text,
           isPassword: true,
           labelActionOnTap: () {
-            context.router.replaceAll([const SplashRoute()]);
+            context.router.replaceAll([const ResetPasswordRoute()]);
           },
         ),
         SizedBox(height: 15.0.rh),
         AppCheckbox(
-          text: "Rester connecté",
+          text: s.stayConnected,
           fontSize: 14.rsp,
           fontWeight: FontWeight.w500,
           color: AppColors.inputBorderLight,
@@ -77,14 +76,14 @@ class LoginForm extends StatelessWidget {
           spacing: 10.rw,
           children: [
             Expanded(child: Container(height: 1.rh, color: AppColors.primary)),
-            AppText("OU", color: AppColors.black, fontSize: 12.rsp, fontWeight: FontWeight.w600, textAlign: TextAlign.center, type: AppTextType.heading),
+            AppText(s.or, color: AppColors.black, fontSize: 12.rsp, fontWeight: FontWeight.w600, textAlign: TextAlign.center, type: AppTextType.heading),
             Expanded(child: Container(height: 1.rh, color: AppColors.primary)),
           ],
         ),
 
         SizedBox(height: 30.0.rh),
         AppButton(
-          text: "Connexion SSO Entreprise",
+          text: s.ssoLogin,
           onPressed: () {
 
           },
@@ -98,7 +97,7 @@ class LoginForm extends StatelessWidget {
           spacing: 5.rw,
           children: [
             AppText(
-              "Besoin d'aide ?",
+              s.needHelp,
               color: AppColors.inputBorderLight,
               fontSize: 19.rsp,
               fontWeight: FontWeight.w500,
@@ -106,7 +105,7 @@ class LoginForm extends StatelessWidget {
               type: AppTextType.heading,
             ),
             AppText(
-              "Contactez le support YAS",
+              s.contactSupport,
               color: AppColors.primary,
               fontSize: 19.rsp,
               fontWeight: FontWeight.w500,

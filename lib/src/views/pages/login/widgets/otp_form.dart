@@ -1,3 +1,4 @@
+import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
@@ -12,6 +13,8 @@ class OtpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return SizedBox(
       width: 450.rw,
       child: Column(
@@ -21,12 +24,12 @@ class OtpForm extends StatelessWidget {
           SizedBox(height: 30.rh),
           AppStepIndicator(
             currentStep: 1,
-            steps: const ['Identifiants', 'Vérification', 'Accès'],
+            steps: [s.stepCredentials, s.verification, s.stepAccess],
           ),
           SizedBox(height: 20.rh),
           AppText.textHighlight(
-            "Vérification OTP",
-            highlight: "OTP",
+            s.otpTitle,
+            highlight: s.otpTitleHighlight,
             highlightHeight: 0.68,
             fontSize: 54.rsp,
             highlightFontSize: 54.rsp,
@@ -38,7 +41,7 @@ class OtpForm extends StatelessWidget {
           ),
           SizedBox(height: 15.rh),
           AppText(
-            "Saisissez le code à 6 chiffres envoyé à l’adresse e-mail enregistre",
+            s.otpSubtitle,
             fontSize: 22.rsp,
             type: AppTextType.heading,
             fontWeight: FontWeight.w500,
@@ -59,14 +62,14 @@ class OtpForm extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppCheckbox(
-                  text: "Vous n'avez pas reçu le code ?",
+                  text: s.otpNotReceived,
                   fontSize: 24.rsp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.inputBorderLight,
                   onCheck: (value) {},
                 ),
                 AppText(
-                  "Renvoyer",
+                  s.resend,
                   color: AppColors.inputBorderLight,
                   fontSize: 24.rsp,
                   fontWeight: FontWeight.w500,
@@ -80,14 +83,14 @@ class OtpForm extends StatelessWidget {
           SizedBox(height: 30.rh),
           AppButton(
             width: 450.rw,
-            text: "Vérifier le code",
+            text: s.verifyCode,
             onPressed: () {},
             type: AppButtonType.primary,
             icon: Icons.arrow_forward,
           ),
           SizedBox(height: 20.rh),
           AppText(
-            "← Retour à la connexion",
+            s.backToLogin,
             color: AppColors.inputBorderLight,
             fontSize: 24.rsp,
             fontWeight: FontWeight.w500,

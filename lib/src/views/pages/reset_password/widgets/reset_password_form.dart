@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/generated/l10n.dart';
+import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordForm extends StatelessWidget {
@@ -17,7 +20,7 @@ class ResetPasswordForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         AppText.textHighlight(
-          s.titlereset,
+          "${s.titlereset}\n\n${s.pwd}",
           highlight: s.pwd,
           highlightHeight: 0.68,
           fontSize: 40.rsp,
@@ -28,9 +31,9 @@ class ResetPasswordForm extends StatelessWidget {
           fontStyle: FontStyle.italic,
           textAlign: TextAlign.center,
         ),
-        SizedBox(height: 40.0.rh),
+        SizedBox(height: 45.0.rh),
         AppInput(labelText: s.phoneNumber, keyboardType: TextInputType.phone),
-        SizedBox(height: 15.0.rh),
+        SizedBox(height: 50.0.rh),
         AppButton(
           text: s.resetPwd,
           onPressed: () {
@@ -44,8 +47,15 @@ class ResetPasswordForm extends StatelessWidget {
           type: AppButtonType.primary,
           icon: Icons.arrow_forward,
         ),
-
         SizedBox(height: 30.0.rh),
+        AppButton(
+          text: s.login,
+          onPressed: () {
+            context.router.replaceAll([const LoginRoute()]);
+          },
+          type: AppButtonType.primary,
+          icon: Icons.arrow_back,
+        ),
       ],
     );
   }

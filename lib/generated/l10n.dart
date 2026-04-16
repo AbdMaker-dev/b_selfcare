@@ -173,6 +173,201 @@ class S {
       args: [],
     );
   }
+
+  /// `Connexion à votre \nespace`
+  String get loginTitle {
+    return Intl.message(
+      'Connexion à votre \nespace',
+      name: 'loginTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `espace`
+  String get loginTitleHighlight {
+    return Intl.message(
+      'espace',
+      name: 'loginTitleHighlight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mot de passe`
+  String get password {
+    return Intl.message('Mot de passe', name: 'password', desc: '', args: []);
+  }
+
+  /// `Mot de passe oublié`
+  String get forgotPassword {
+    return Intl.message(
+      'Mot de passe oublié',
+      name: 'forgotPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rester connecté`
+  String get stayConnected {
+    return Intl.message(
+      'Rester connecté',
+      name: 'stayConnected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OU`
+  String get or {
+    return Intl.message('OU', name: 'or', desc: '', args: []);
+  }
+
+  /// `Connexion SSO Entreprise`
+  String get ssoLogin {
+    return Intl.message(
+      'Connexion SSO Entreprise',
+      name: 'ssoLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Besoin d'aide ?`
+  String get needHelp {
+    return Intl.message(
+      'Besoin d\'aide ?',
+      name: 'needHelp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contactez le support YAS`
+  String get contactSupport {
+    return Intl.message(
+      'Contactez le support YAS',
+      name: 'contactSupport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Votre santé, notre priorité`
+  String get appTagline {
+    return Intl.message(
+      'Votre santé, notre priorité',
+      name: 'appTagline',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Identifiants`
+  String get stepCredentials {
+    return Intl.message(
+      'Identifiants',
+      name: 'stepCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Accès`
+  String get stepAccess {
+    return Intl.message('Accès', name: 'stepAccess', desc: '', args: []);
+  }
+
+  /// `Vérification OTP`
+  String get otpTitle {
+    return Intl.message(
+      'Vérification OTP',
+      name: 'otpTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OTP`
+  String get otpTitleHighlight {
+    return Intl.message('OTP', name: 'otpTitleHighlight', desc: '', args: []);
+  }
+
+  /// `Saisissez le code à 6 chiffres envoyé à l'adresse e-mail enregistrée`
+  String get otpSubtitle {
+    return Intl.message(
+      'Saisissez le code à 6 chiffres envoyé à l\'adresse e-mail enregistrée',
+      name: 'otpSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Vous n'avez pas reçu le code ?`
+  String get otpNotReceived {
+    return Intl.message(
+      'Vous n\'avez pas reçu le code ?',
+      name: 'otpNotReceived',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Renvoyer`
+  String get resend {
+    return Intl.message('Renvoyer', name: 'resend', desc: '', args: []);
+  }
+
+  /// `Vérifier le code`
+  String get verifyCode {
+    return Intl.message(
+      'Vérifier le code',
+      name: 'verifyCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `← Retour à la connexion`
+  String get backToLogin {
+    return Intl.message(
+      '← Retour à la connexion',
+      name: 'backToLogin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Votre entreprise,\nVotre flotte,\nVotre contrôle.`
+  String get authPanelTitle {
+    return Intl.message(
+      'Votre entreprise,\nVotre flotte,\nVotre contrôle.',
+      name: 'authPanelTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `flotte`
+  String get authPanelTitleHighlight {
+    return Intl.message(
+      'flotte',
+      name: 'authPanelTitleHighlight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.`
+  String get authPanelSubtitle {
+    return Intl.message(
+      'Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.',
+      name: 'authPanelSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,3 +1,4 @@
+import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -29,6 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -45,14 +48,14 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             SizedBox(height: 24.0.rh),
             AppText(
-              'B-Selfcare',
+              s.appName,
               type: AppTextType.heading,
               color: Colors.white,
               fontSize: 42.rsp,
             ),
             SizedBox(height: 8.0.rh),
             AppText(
-              'Votre santé, notre priorité',
+              s.appTagline,
               color: Colors.white.withOpacity(0.8),
               fontSize: 16.rsp,
             ),
