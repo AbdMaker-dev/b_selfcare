@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/generated/l10n.dart';
+import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/login/widgets/otp_form.dart';
@@ -38,6 +40,9 @@ class LoginForm extends StatelessWidget {
         AppInput(
           labelText: "Mot de passe",
           labelActionText: "Mot de passe oublié",
+          onTap: (){
+            context.router.push(ResetPasswordRoute());
+          },
           keyboardType: TextInputType.text,
           isPassword: true,
         ),
@@ -77,7 +82,9 @@ class LoginForm extends StatelessWidget {
         SizedBox(height: 30.0.rh),
         AppButton(
           text: "Connexion SSO Entreprise",
-          onPressed: () {},
+          onPressed: () {
+
+          },
           type: AppButtonType.outline,
           icon: Icons.corporate_fare,
         ),
@@ -101,7 +108,9 @@ class LoginForm extends StatelessWidget {
               fontSize: 19.rsp,
               fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
-              onClick: () {},
+              onClick: () {
+
+              },
               type: AppTextType.heading,
             ),
           ],

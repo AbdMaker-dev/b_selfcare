@@ -89,6 +89,31 @@ class S {
     return Intl.message('Se connecter', name: 'login', desc: '', args: []);
   }
 
+  /// `Changer le Mot de passe`
+  String get resetPwd {
+    return Intl.message(
+      'Changer le Mot de passe',
+      name: 'resetPwd',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changement de votre`
+  String get titlereset {
+    return Intl.message(
+      'Changement de votre',
+      name: 'titlereset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mot de passe`
+  String get pwd {
+    return Intl.message('Mot de passe', name: 'pwd', desc: '', args: []);
+  }
+
   /// `Vérification`
   String get verification {
     return Intl.message(
