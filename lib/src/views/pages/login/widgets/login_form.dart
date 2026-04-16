@@ -45,6 +45,9 @@ class LoginForm extends StatelessWidget {
           },
           keyboardType: TextInputType.text,
           isPassword: true,
+          labelActionOnTap: () {
+            context.router.replaceAll([const SplashRoute()]);
+          },
         ),
         SizedBox(height: 15.0.rh),
         AppCheckbox(

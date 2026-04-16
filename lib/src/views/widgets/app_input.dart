@@ -15,7 +15,7 @@ class AppInput extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final bool readOnly;
-  final VoidCallback? onTap;
+  final VoidCallback? onTap, labelActionOnTap;
 
   const AppInput({
     super.key,
@@ -31,6 +31,7 @@ class AppInput extends StatefulWidget {
     this.onChanged,
     this.readOnly = false,
     this.onTap,
+    this.labelActionOnTap,
   });
 
   @override
@@ -64,8 +65,9 @@ class _AppInputState extends State<AppInput> {
                   type: AppTextType.label,
                   fontSize: 14.rsp,
                   color: AppColors.primary,
-                fontWeight: FontWeight.w400,
-                textAlign: TextAlign.start,
+                  fontWeight: FontWeight.w400,
+                  textAlign: TextAlign.start,
+                  onClick: widget.labelActionOnTap,
               )
             ],
           ),
