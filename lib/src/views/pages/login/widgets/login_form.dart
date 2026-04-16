@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/generated/l10n.dart';
+import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/login/widgets/otp_form.dart';
@@ -40,6 +42,9 @@ class LoginForm extends StatelessWidget {
           labelActionText: "Mot de passe oublié",
           keyboardType: TextInputType.text,
           isPassword: true,
+          labelActionOnTap: () {
+            context.router.replaceAll([const SplashRoute()]);
+          },
         ),
         SizedBox(height: 15.0.rh),
         AppCheckbox(
