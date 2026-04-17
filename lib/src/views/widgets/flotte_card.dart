@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 
 import 'app_text.dart';
 
@@ -27,18 +28,20 @@ class FlotteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 466.rw,
+      height: 237.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.rr),
         boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 4))],
       ),
       child: Column(
         children: [
           _buildHeader(),
           const Divider(height: 1, color: Color(0xFFEEF0F6)),
-          _buildBody(),
+          Expanded(child: _buildBody()),
           _buildStatsRow(),
-          const SizedBox(height: 16),
+          SizedBox(height: 12.rh),
         ],
       ),
     );
@@ -46,17 +49,16 @@ class FlotteCard extends StatelessWidget {
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 18),
+      padding: EdgeInsets.symmetric(horizontal: 20.rw, vertical: 12.rh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppText('Ma flotte', type: AppTextType.heading, fontSize: 20),
+          AppText('Ma flotte', type: AppTextType.heading, fontSize: 13.rsp),
           AppText(
             '${_fmt(total)} numéros',
             type: AppTextType.small,
             color: AppColors.textMuted,
-            fontSize: 13,
-            fontFamily: 'monospace',
+            fontSize: 11.rsp,
           ),
         ],
       ),
@@ -66,30 +68,31 @@ class FlotteCard extends StatelessWidget {
   Widget _buildBody() {
     final pct = (_pctActifs * 100).round();
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 20),
+      padding: EdgeInsets.fromLTRB(20.rw, 8.rh, 20.rw, 8.rh),
       child: Row(
         children: [
-          SizedBox(
-            width: 120, height: 120,
+          AspectRatio(
+            aspectRatio: 1,
             child: CustomPaint(
               painter: _DonutPainter(progress: _pctActifs),
               child: Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    AppText('$pct%', type: AppTextType.heading, color: AppColors.primary, fontSize: 22, fontStyle: FontStyle.italic),
-                    AppText('Actifs', type: AppTextType.small, color: AppColors.textMuted, fontSize: 11),
+                    AppText('$pct%', type: AppTextType.heading, color: AppColors.primary, fontSize: 15.rsp, fontStyle: FontStyle.italic),
+                    AppText('Actifs', type: AppTextType.small, color: AppColors.textMuted, fontSize: 11.rsp),
                   ],
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 28),
+          SizedBox(width: 16.rw),
           Expanded(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _LegendRow(label: 'Actifs', count: actifs, total: total, color: AppColors.success),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.rh),
                 _LegendRow(label: 'Suspendus', count: suspendus, total: total, color: const Color(0xFFE2E8F0)),
               ],
             ),
@@ -102,13 +105,13 @@ class FlotteCard extends StatelessWidget {
   Widget _buildStatsRow() {
     String formatSim(int v) => v >= 1000 ? '${(v / 1000).toStringAsFixed(1)}K' : '$v';
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 12.rw),
       child: Row(
         children: [
           Expanded(child: _StatBox(value: '$groupes', label: 'GROUPES', color: AppColors.success)),
-          const SizedBox(width: 10),
+          SizedBox(width: 8.rw),
           Expanded(child: _StatBox(value: '$employes', label: 'EMPLOYÉS', color: AppColors.primary)),
-          const SizedBox(width: 10),
+          SizedBox(width: 8.rw),
           Expanded(child: _StatBox(value: formatSim(simStock), label: 'SIM STOCK', color: AppColors.primary)),
         ],
       ),
@@ -133,21 +136,21 @@ class _LegendRow extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 14, height: 14,
+          width: 10.rw, height: 10.rw,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(3.rr),
             border: isActive ? null : Border.all(color: AppColors.inputBorderLight),
           ),
         ),
-        const SizedBox(width: 10),
-        Expanded(child: AppText(label, type: AppTextType.body, fontSize: 15, fontWeight: FontWeight.w500)),
-        AppText(_fmt(count), type: AppTextType.body, fontSize: 15, fontWeight: FontWeight.w700,
+        SizedBox(width: 8.rw),
+        Expanded(child: AppText(label, type: AppTextType.body, fontSize: 12.rsp, fontWeight: FontWeight.w500)),
+        AppText(_fmt(count), type: AppTextType.body, fontSize: 12.rsp, fontWeight: FontWeight.w700,
             color: isActive ? AppColors.primary : AppColors.textMuted),
-        const SizedBox(width: 12),
+        SizedBox(width: 8.rw),
         SizedBox(
-          width: 40,
-          child: AppText('$pct%', type: AppTextType.small, fontSize: 13, fontWeight: FontWeight.w600,
+          width: 32.rw,
+          child: AppText('$pct%', type: AppTextType.small, fontSize: 11.rsp, fontWeight: FontWeight.w600,
               textAlign: TextAlign.right,
               color: isActive ? AppColors.success : AppColors.textMuted),
         ),
@@ -168,16 +171,16 @@ class _StatBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(12, 16, 12, 12),
+      padding: EdgeInsets.fromLTRB(8.rw, 10.rh, 8.rw, 8.rh),
       decoration: BoxDecoration(
         color: AppColors.background,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10.rr),
       ),
       child: Column(
         children: [
-          AppText(value, type: AppTextType.heading, fontSize: 28, fontStyle: FontStyle.italic, color: color),
-          const SizedBox(height: 6),
-          AppText(label, type: AppTextType.small, fontSize: 9, color: AppColors.textMuted, fontFamily: 'monospace'),
+          AppText(value, type: AppTextType.heading, fontSize: 16.rsp, fontStyle: FontStyle.italic, color: color),
+          SizedBox(height: 4.rh),
+          AppText(label, type: AppTextType.small, fontSize: 9.rsp, color: AppColors.textMuted),
         ],
       ),
     );
@@ -191,8 +194,8 @@ class _DonutPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2 - 10;
-    const strokeWidth = 14.0;
+    final radius = size.width / 2 - 8;
+    const strokeWidth = 10.0;
     canvas.drawCircle(center, radius, Paint()
       ..color = AppColors.success.withValues(alpha: 0.15)
       ..style = PaintingStyle.stroke

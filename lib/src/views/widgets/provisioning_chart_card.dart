@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 
 import 'app_text.dart';
 
@@ -39,18 +40,20 @@ class _ProvisioningChartCardState extends State<ProvisioningChartCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 1073.rw,
+      height: 390.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.rr),
         boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 4))],
       ),
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+      padding: EdgeInsets.fromLTRB(20.rw, 20.rh, 20.rw, 12.rh),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
-          const SizedBox(height: 16),
-          SizedBox(height: 300, child: _BarChart(data: _data[_period]!, maxValue: 1500)),
+          SizedBox(height: 16.rh),
+          Expanded(child: _BarChart(data: _data[_period]!, maxValue: 1500)),
         ],
       ),
     );
@@ -64,9 +67,9 @@ class _ProvisioningChartCardState extends State<ProvisioningChartCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText('Provisioning - $_periodLabel', type: AppTextType.heading, fontSize: 16),
-              const SizedBox(height: 4),
-              AppText('SUCCESS · ERROR · BLOCKED', type: AppTextType.small, color: AppColors.textMuted, fontSize: 11),
+              AppText('Provisioning - $_periodLabel', type: AppTextType.heading, fontSize: 16.rsp),
+              SizedBox(height: 4.rh),
+              AppText('SUCCESS · ERROR · BLOCKED', type: AppTextType.small, color: AppColors.textMuted, fontSize: 11.rsp),
             ],
           ),
         ),
@@ -86,9 +89,9 @@ class _PeriodSelector extends StatelessWidget {
     return Row(
       children: [
         _PeriodBtn(label: '14j', value: PeriodFilter.j14, selected: selected, onTap: onChanged),
-        const SizedBox(width: 4),
+        SizedBox(width: 4.rw),
         _PeriodBtn(label: '30j', value: PeriodFilter.j30, selected: selected, onTap: onChanged),
-        const SizedBox(width: 4),
+        SizedBox(width: 4.rw),
         _PeriodBtn(label: '3m',  value: PeriodFilter.m3,  selected: selected, onTap: onChanged),
       ],
     );
@@ -109,16 +112,16 @@ class _PeriodBtn extends StatelessWidget {
       onTap: () => onTap(value),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 5.rh),
         decoration: BoxDecoration(
           color: isActive ? AppColors.primary : Colors.transparent,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.rr),
           border: Border.all(color: isActive ? AppColors.primary : AppColors.inputBorderLight),
         ),
         child: AppText(
           label,
           type: AppTextType.small,
-          fontSize: 12,
+          fontSize: 12.rsp,
           fontWeight: FontWeight.w500,
           color: isActive ? AppColors.white : AppColors.textMuted,
         ),
@@ -150,11 +153,11 @@ class _BarChart extends StatelessWidget {
           children: List.generate(16, (i) => AppText(
             '${(15 - i) * 100}',
             type: AppTextType.small,
-            fontSize: 9,
+            fontSize: 9.rsp,
             color: AppColors.textMuted,
           )),
         ),
-        const SizedBox(width: 8),
+        SizedBox(width: 8.rw),
         Expanded(
           child: Column(
             children: [
@@ -164,13 +167,13 @@ class _BarChart extends StatelessWidget {
                   child: const SizedBox.expand(),
                 ),
               ),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.rh),
               Row(
                 children: data.asMap().entries.map((e) => Expanded(
                   child: AppText(
                     e.key % labelStep == 0 ? e.value.label : '',
                     type: AppTextType.small,
-                    fontSize: 9,
+                    fontSize: 9.rsp,
                     color: AppColors.textMuted,
                     textAlign: TextAlign.center,
                   ),

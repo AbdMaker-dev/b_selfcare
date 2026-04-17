@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'app_text.dart';
+import 'app_button.dart';
 
 enum ActivityType { provisioning, recharge, campagne, facture, utilisateur }
 
@@ -30,10 +32,12 @@ class ActiviteRecenteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 338.rw,
+      height: 390.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha:0.06), blurRadius: 16, offset: const Offset(0, 4))],
+        borderRadius: BorderRadius.circular(20.rr),
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 4))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,20 +52,18 @@ class ActiviteRecenteCard extends StatelessWidget {
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 20, 20, 16),
+      padding: EdgeInsets.fromLTRB(24.rw, 20.rh, 20.rw, 16.rh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppText('Activité récente', type: AppTextType.heading, fontSize: 20),
-          OutlinedButton(
+          AppText('Activité récente', type: AppTextType.heading, fontSize: 20.rsp),
+          AppButton(
+            text: 'Tout',
+            type: AppButtonType.outline,
             onPressed: onToutPressed,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.textMuted,
-              side: BorderSide(color: AppColors.inputBorderLight),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            ),
-            child: AppText('Tout', type: AppTextType.small, fontSize: 13, color: AppColors.textMuted),
+            width: 60.rw,
+            height: 29.rh,
+            fontSize: 11.rsp,
           ),
         ],
       ),
@@ -80,30 +82,30 @@ class _ActivityRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFEEF0F6))),
       ),
-      padding: const EdgeInsets.fromLTRB(24, 18, 24, 18),
+      padding: EdgeInsets.fromLTRB(24.rw, 18.rh, 24.rw, 18.rh),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 13,
+            width: 13.rw,
             child: Column(
               children: [
-                Container(width: 13, height: 13, decoration: BoxDecoration(color: item.dotColor, shape: BoxShape.circle)),
+                Container(width: 13.rw, height: 13.rw, decoration: BoxDecoration(color: item.dotColor, shape: BoxShape.circle)),
                 if (!isLast)
-                  Container(width: 2, height: 52, margin: const EdgeInsets.only(top: 4), color: const Color(0xFFEEF0F6)),
+                  Container(width: 2.rw, height: 52.rh, margin: EdgeInsets.only(top: 4.rh), color: const Color(0xFFEEF0F6)),
               ],
             ),
           ),
-          const SizedBox(width: 14),
+          SizedBox(width: 14.rw),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(item.title, type: AppTextType.heading, fontSize: 16),
-                const SizedBox(height: 4),
-                AppText(item.meta, type: AppTextType.small, color: AppColors.textBody, fontSize: 12, fontFamily: 'monospace'),
-                const SizedBox(height: 3),
-                AppText(item.date, type: AppTextType.small, color: AppColors.textMuted, fontSize: 12, fontFamily: 'monospace'),
+                AppText(item.title, type: AppTextType.heading, fontSize: 16.rsp),
+                SizedBox(height: 4.rh),
+                AppText(item.meta, type: AppTextType.small, color: AppColors.textBody, fontSize: 12.rsp),
+                SizedBox(height: 3.rh),
+                AppText(item.date, type: AppTextType.small, color: AppColors.textMuted, fontSize: 12.rsp),
               ],
             ),
           ),

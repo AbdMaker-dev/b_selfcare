@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'app_text.dart';
+import 'app_button.dart';
 
 enum RechargeStatus { confirme, enAttente, echoue }
 
@@ -25,7 +27,6 @@ class RechargeItem {
     RechargeProvider.orangeMoney => 'Orange Money',
   };
 
-  // Chemin de l'asset image
   String get assetPath => switch (provider) {
     RechargeProvider.mixx        => 'assets/images/providers/mixx.png',
     RechargeProvider.wave        => 'assets/images/providers/wave.png',
@@ -70,11 +71,13 @@ class DernieresRechargesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 466.rw,
+      height: 237.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.rr),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 16, offset: const Offset(0, 4)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
       child: Column(
@@ -82,10 +85,16 @@ class DernieresRechargesCard extends StatelessWidget {
         children: [
           _buildHeader(),
           const Divider(height: 1, color: Color(0xFFEEF0F6)),
-          ...recharges.asMap().entries.map((e) => _RechargeRow(
+          Expanded(
+            child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: recharges.asMap().entries.map((e) => _RechargeRow(
                 item: e.value,
                 isLast: e.key == recharges.length - 1,
-              )),
+              )).toList(),
+            ),
+          ),
         ],
       ),
     );
@@ -93,26 +102,18 @@ class DernieresRechargesCard extends StatelessWidget {
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 20, 20, 16),
+      padding: EdgeInsets.fromLTRB(20.rw, 12.rh, 16.rw, 12.rh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppText('Dernières recharges', type: AppTextType.heading, fontSize: 22),
-          OutlinedButton(
+          AppText('Dernières recharges', type: AppTextType.heading, fontSize: 13.rsp),
+          AppButton(
+            text: 'Voir tout →',
+            type: AppButtonType.outline,
             onPressed: onVoirTout,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.textMuted,
-              side: BorderSide(color: AppColors.inputBorderLight),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            ),
-            child: AppText(
-              'Voir tout →',
-              type: AppTextType.small,
-              fontSize: 13,
-              color: AppColors.textMuted,
-              fontFamily: 'monospace',
-            ),
+            width: 80.rw,
+            height: 29.rh,
+            fontSize: 11.rsp,
           ),
         ],
       ),
@@ -139,74 +140,58 @@ class _RechargeRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFEEF0F6))),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20.rw, vertical: 10.rh),
       child: Row(
         children: [
-          // Logo provider
           Container(
-            width: 56,
-            height: 56,
+            width: 36.rw,
+            height: 36.rw,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(10.rr),
               border: Border.all(color: const Color(0xFFEEF0F6)),
             ),
             clipBehavior: Clip.hardEdge,
             child: Image.asset(
               item.assetPath,
               fit: BoxFit.cover,
-              // Fallback si l'image n'existe pas encore
               errorBuilder: (_, __, ___) => Container(
                 color: AppColors.background,
                 child: Center(
-                  child: AppText(
-                    item.providerName[0],
-                    type: AppTextType.heading,
-                    fontSize: 20,
-                    color: AppColors.primary,
-                  ),
+                  child: AppText(item.providerName[0], type: AppTextType.heading, fontSize: 13.rsp, color: AppColors.primary),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 16),
-          // Nom + date
+          SizedBox(width: 12.rw),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(item.providerName, type: AppTextType.heading, fontSize: 18, color: AppColors.primary),
-                const SizedBox(height: 4),
-                AppText(item.date, type: AppTextType.small, fontSize: 12, color: AppColors.textMuted, fontFamily: 'monospace'),
+                AppText(item.providerName, type: AppTextType.heading, fontSize: 13.rsp, color: AppColors.primary),
+                SizedBox(height: 3.rh),
+                AppText(item.date, type: AppTextType.small, fontSize: 11.rsp, color: AppColors.textMuted),
               ],
             ),
           ),
-          // Montant + badge
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               AppText(
                 '+${_formatMontant(item.montant)} Fcfa',
                 type: AppTextType.body,
-                fontSize: 15,
+                fontSize: 13.rsp,
                 fontWeight: FontWeight.w800,
                 color: AppColors.success,
-                fontFamily: 'monospace',
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 5.rh),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 4.rh),
                 decoration: BoxDecoration(
                   color: item.badgeBg,
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: item.badgeBorder, width: 1.5),
+                  borderRadius: BorderRadius.circular(20.rr),
+                  border: Border.all(color: item.badgeBorder, width: 1),
                 ),
-                child: AppText(
-                  item.statusLabel,
-                  type: AppTextType.small,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w800,
-                  color: item.badgeText,
-                ),
+                child: AppText(item.statusLabel, type: AppTextType.small, fontSize: 10.rsp, fontWeight: FontWeight.w800, color: item.badgeText),
               ),
             ],
           ),

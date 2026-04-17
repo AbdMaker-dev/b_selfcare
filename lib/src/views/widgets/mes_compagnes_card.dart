@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'app_text.dart';
+import 'app_button.dart';
 
 enum CampagneStatus { succes, erreur, enCours, planifie }
 
@@ -57,11 +59,13 @@ class MesCampagnesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 466.rw,
+      height: 237.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.rr),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 16, offset: const Offset(0, 4)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
       child: Column(
@@ -69,10 +73,16 @@ class MesCampagnesCard extends StatelessWidget {
         children: [
           _buildHeader(),
           const Divider(height: 1, color: Color(0xFFEEF0F6)),
-          ...campagnes.asMap().entries.map((e) => _CampagneRow(
+          Expanded(
+            child: ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.zero,
+              children: campagnes.asMap().entries.map((e) => _CampagneRow(
                 item: e.value,
                 isLast: e.key == campagnes.length - 1,
-              )),
+              )).toList(),
+            ),
+          ),
         ],
       ),
     );
@@ -80,26 +90,18 @@ class MesCampagnesCard extends StatelessWidget {
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 20, 20, 16),
+      padding: EdgeInsets.fromLTRB(20.rw, 12.rh, 16.rw, 12.rh),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AppText('Mes campagnes', type: AppTextType.heading, fontSize: 22),
-          OutlinedButton(
+          AppText('Mes campagnes', type: AppTextType.heading, fontSize: 13.rsp),
+          AppButton(
+            text: 'Voir tout →',
+            type: AppButtonType.outline,
             onPressed: onVoirTout,
-            style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.textMuted,
-              side: BorderSide(color: AppColors.inputBorderLight),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-            ),
-            child: AppText(
-              'Voir tout →',
-              type: AppTextType.small,
-              fontSize: 13,
-              color: AppColors.textMuted,
-              fontFamily: 'monospace',
-            ),
+            width: 80.rw,
+            height: 29.rh,
+            fontSize: 11.rsp,
           ),
         ],
       ),
@@ -119,46 +121,27 @@ class _CampagneRow extends StatelessWidget {
       decoration: BoxDecoration(
         border: isLast ? null : const Border(bottom: BorderSide(color: Color(0xFFEEF0F6))),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20.rw, vertical: 12.rh),
       child: Row(
         children: [
-          // Gauche
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(
-                  item.name,
-                  type: AppTextType.heading,
-                  fontSize: 17,
-                  color: AppColors.primary,
-                ),
-                const SizedBox(height: 5),
-                AppText(
-                  item.meta,
-                  type: AppTextType.small,
-                  fontSize: 12,
-                  color: AppColors.textMuted,
-                  fontFamily: 'monospace',
-                ),
+                AppText(item.name, type: AppTextType.heading, fontSize: 13.rsp, color: AppColors.primary),
+                SizedBox(height: 4.rh),
+                AppText(item.meta, type: AppTextType.small, fontSize: 11.rsp, color: AppColors.textMuted),
               ],
             ),
           ),
-          // Badge statut
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
+            padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 5.rh),
             decoration: BoxDecoration(
               color: item.badgeBg,
-              borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: item.badgeBorder, width: 1.5),
+              borderRadius: BorderRadius.circular(20.rr),
+              border: Border.all(color: item.badgeBorder, width: 1),
             ),
-            child: AppText(
-              item.statusLabel,
-              type: AppTextType.small,
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
-              color: item.badgeText,
-            ),
+            child: AppText(item.statusLabel, type: AppTextType.small, fontSize: 10.rsp, fontWeight: FontWeight.w800, color: item.badgeText),
           ),
         ],
       ),

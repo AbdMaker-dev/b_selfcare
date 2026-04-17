@@ -56,6 +56,7 @@ class AppText extends StatelessWidget {
     double? highlightFontSize,
     double? highlightHeight,
     FontStyle? fontStyle,
+    String? fontFamily
   }) {
     return AppText(
       text,
@@ -71,6 +72,7 @@ class AppText extends StatelessWidget {
       highlightFontSize: highlightFontSize,
       highlightHeight: highlightHeight,
       fontStyle: fontStyle,
+      fontFamily: fontFamily,
     );
   }
   @override
@@ -80,7 +82,7 @@ class AppText extends StatelessWidget {
     switch (type) {
       case AppTextType.heading:
         defaultStyle = Theme.of(context).textTheme.headlineMedium!.copyWith(
-          fontFamily: 'Montserrat',
+          fontFamily: fontFamily?? 'Montserrat',
           color: color ?? AppColors.textHeading,
           fontSize: fontSize,
           fontWeight: fontWeight ?? FontWeight.w800,

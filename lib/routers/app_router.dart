@@ -10,6 +10,10 @@ const String routeSplash = '/';
 const String routeLogin = '/login';
 const String routeLoginOtp = '$routeLogin/otp';
 
+// 2. APP MAIN
+const String routeApp = '/app';
+const String routeAppDashbord = 'dashbord';
+
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
   AppRouter({super.navigatorKey});
@@ -29,6 +33,14 @@ class AppRouter extends RootStackRouter {
     // LOGIN
     AutoRoute(path: routeLogin, page: LoginRoute.page),
     AutoRoute(path: routeLoginOtp, page: LoginOtpRoute.page),
+
+    // APP MAIN
+    AutoRoute(
+      path: routeApp,
+      page: LayoutRoute.page,
+      guards: [],
+      children: [AutoRoute(path: routeAppDashbord, page: DashboardRoute.page)],
+    ),
   ];
 }
 

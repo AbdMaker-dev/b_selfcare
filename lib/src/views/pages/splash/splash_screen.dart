@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToNext() async {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
-      context.router.replaceAll([const LoginRoute()]);
+      context.router.replaceAll([const DashboardRoute()]);
     }
   }
 

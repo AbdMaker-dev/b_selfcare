@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'app_text.dart';
 
 enum AlerteVariant { green, blue, yellow }
@@ -44,45 +45,37 @@ class AlertesSeuilsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 708.rw,
+      height: 251.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.rr),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 16, offset: const Offset(0, 4)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 20, 24, 14),
+            padding: EdgeInsets.fromLTRB(20.rw, 12.rh, 20.rw, 10.rh),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText('Alertes & seuils', type: AppTextType.heading, fontSize: 20),
-                const SizedBox(height: 3),
-                AppText(
-                  'Notifications configurées',
-                  type: AppTextType.small,
-                  color: AppColors.textMuted,
-                  fontSize: 12,
-                  fontFamily: 'monospace',
-                ),
+                AppText('Alertes & seuils', type: AppTextType.heading, fontSize: 13.rsp),
+                SizedBox(height: 3.rh),
+                AppText('Notifications configurées', type: AppTextType.small, color: AppColors.textMuted, fontSize: 11.rsp),
               ],
             ),
           ),
           const Divider(height: 1, color: Color(0xFFEEF0F6)),
-          // Rows
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: items
-                  .map((item) => Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: _AlerteRow(item: item),
-                      ))
-                  .toList(),
+          Expanded(
+            child: ListView.separated(
+              physics: const NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.all(12.rw),
+              itemCount: items.length,
+              separatorBuilder: (_, _) => SizedBox(height: 8.rh),
+              itemBuilder: (_, i) => _AlerteRow(item: items[i]),
             ),
           ),
         ],
@@ -98,46 +91,25 @@ class _AlerteRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 10.rh),
       decoration: BoxDecoration(
         color: item.bgColor,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10.rr),
         border: Border.all(color: item.borderColor),
       ),
       child: Row(
         children: [
-          // Gauche
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(
-                  item.title,
-                  type: AppTextType.body,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                ),
-                const SizedBox(height: 3),
-                AppText(
-                  item.meta,
-                  type: AppTextType.small,
-                  fontSize: 12,
-                  color: AppColors.textMuted,
-                  fontFamily: 'monospace',
-                ),
+                AppText(item.title, type: AppTextType.body, fontSize: 13.rsp, fontWeight: FontWeight.w700, color: AppColors.primary),
+                SizedBox(height: 3.rh),
+                AppText(item.meta, type: AppTextType.small, fontSize: 11.rsp, color: AppColors.textMuted),
               ],
             ),
           ),
-          // Valeur
-          AppText(
-            item.value,
-            type: AppTextType.body,
-            fontSize: 15,
-            fontWeight: FontWeight.w800,
-            color: item.valueColor,
-            fontFamily: 'monospace',
-          ),
+          AppText(item.value, type: AppTextType.body, fontSize: 13.rsp, fontWeight: FontWeight.w800, color: item.valueColor),
         ],
       ),
     );

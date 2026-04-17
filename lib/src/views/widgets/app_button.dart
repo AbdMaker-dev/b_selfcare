@@ -14,6 +14,7 @@ class AppButton extends StatelessWidget {
   final double? height;
   final IconData? icon;
   final Color? textColor;
+  final double? fontSize;
 
   const AppButton({
     super.key,
@@ -25,6 +26,7 @@ class AppButton extends StatelessWidget {
     this.height,
     this.icon,
     this.textColor,
+    this.fontSize,
   });
 
   @override
@@ -47,7 +49,7 @@ class AppButton extends StatelessWidget {
       case AppButtonType.outline:
         backgroundColor = Colors.transparent;
         txtColor = textColor ?? AppColors.primary;
-        borderSide =  BorderSide(color: textColor ?? AppColors.primary, width: 1.5);
+        borderSide =  BorderSide(color: textColor ?? AppColors.inputBorder, width: 1.5);
         break;
         case AppButtonType.none:
         backgroundColor = Colors.transparent;
@@ -56,48 +58,47 @@ class AppButton extends StatelessWidget {
         break;
     }
 
-    return SizedBox(
-      width: width ?? double.infinity,
-      height: (height ?? 63).rh,
-      child: ElevatedButton(
-        onPressed: isEnabled ? onPressed : null,
-        style: ElevatedButton.styleFrom(
-          enableFeedback: false,
-          backgroundColor: backgroundColor,
-          foregroundColor: textColor?? txtColor,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.rr),
-            side: borderSide,
-          ),
-          disabledBackgroundColor: backgroundColor.withValues(alpha: 0.6),
-          disabledForegroundColor: (textColor??txtColor).withValues(alpha: 0.6),
+    final effectiveColor = isEnabled || backgroundColor == Colors.transparent
+        ? backgroundColor
+        : backgroundColor.withValues(alpha: 0.6);
+    final effectiveTxtColor = isEnabled ? (textColor ?? txtColor) : (textColor ?? txtColor).withValues(alpha: 0.6);
+
+    return GestureDetector(
+      onTap: isEnabled ? onPressed : null,
+      child: Container(
+        width: width ?? double.infinity,
+        height: (height ?? 63).rh,
+        decoration: BoxDecoration(
+          color: effectiveColor,
+          borderRadius: BorderRadius.circular(12.rr),
+          border: borderSide != BorderSide.none ? Border.all(color: borderSide.color, width: borderSide.width) : null,
         ),
+        alignment: Alignment.center,
         child: isLoading
-        ? SizedBox(
-            height: 20.rh,
-            width: 20.rh,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation<Color>(textColor?? txtColor),
-            ),
-          )
-        : Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (icon != null) ...[
-                Icon(icon, size: 18.rsp),
-                SizedBox(width: 8.rw),
-              ],
-              AppText(
-                text,
-                color: textColor ?? txtColor,
-                fontWeight: FontWeight.w700,
-                fontSize: 19.rsp,
-                fontStyle: FontStyle.normal,
+            ? SizedBox(
+                height: 20.rh,
+                width: 20.rh,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(effectiveTxtColor),
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    Icon(icon, size: fontSize ?? 18.rsp, color: effectiveTxtColor),
+                    SizedBox(width: 8.rw),
+                  ],
+                  AppText(
+                    text,
+                    color: effectiveTxtColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: fontSize ?? 19.rsp,
+                    fontStyle: FontStyle.normal,
+                  ),
+                ],
               ),
-            ],
-          ),
       ),
     );
   }

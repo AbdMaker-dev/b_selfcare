@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'app_text.dart';
 
 enum ServiceStatus { ok, warning, error }
@@ -32,32 +33,32 @@ class EtatServicesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 708.rw,
+      height: 251.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.rr),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 16, offset: const Offset(0, 4)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 16, offset: const Offset(0, 4)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Header
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
-            child: AppText('État des services', type: AppTextType.heading, fontSize: 20),
+            padding: EdgeInsets.fromLTRB(20.rw, 12.rh, 20.rw, 12.rh),
+            child: AppText('État des services', type: AppTextType.heading, fontSize: 13.rsp),
           ),
           const Divider(height: 1, color: Color(0xFFEEF0F6)),
-          // Liste
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: services
-                  .map((s) => Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: _ServiceRow(item: s),
-                      ))
-                  .toList(),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(12.rw),
+              child: Column(
+                children: services.map((s) => Padding(
+                  padding: EdgeInsets.only(bottom: 8.rh),
+                  child: _ServiceRow(item: s),
+                )).toList(),
+              ),
             ),
           ),
         ],
@@ -73,43 +74,25 @@ class _ServiceRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+      padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 10.rh),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(10.rr),
         border: Border.all(color: const Color(0xFFEEF0F6)),
       ),
       child: Row(
         children: [
-          // Icône
-          Text(item.icon, style: const TextStyle(fontSize: 20)),
-          const SizedBox(width: 12),
-          // Nom
+          Text(item.icon, style: TextStyle(fontSize: 15.rsp)),
+          SizedBox(width: 10.rw),
           Expanded(
-            child: AppText(
-              item.name,
-              type: AppTextType.body,
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-              color: AppColors.primary,
-            ),
+            child: AppText(item.name, type: AppTextType.body, fontSize: 13.rsp, fontWeight: FontWeight.w600, color: AppColors.primary),
           ),
-          // Meta + dot
-          AppText(
-            item.meta,
-            type: AppTextType.small,
-            fontSize: 12,
-            color: AppColors.textMuted,
-            fontFamily: 'monospace',
-          ),
-          const SizedBox(width: 8),
+          AppText(item.meta, type: AppTextType.small, fontSize: 11.rsp, color: AppColors.textMuted),
+          SizedBox(width: 8.rw),
           Container(
-            width: 11,
-            height: 11,
-            decoration: BoxDecoration(
-              color: item.dotColor,
-              shape: BoxShape.circle,
-            ),
+            width: 9.rw,
+            height: 9.rw,
+            decoration: BoxDecoration(color: item.dotColor, shape: BoxShape.circle),
           ),
         ],
       ),
