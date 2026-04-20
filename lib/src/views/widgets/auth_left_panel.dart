@@ -18,7 +18,7 @@ class AuthLeftPanel extends StatelessWidget {
       padding: EdgeInsets.only(
         left: 0.0.rw,
         right: 0.0.rw,
-        top: 100.rh,
+        top: 30.rh,
         bottom: 0.rh,
       ),
       color: AppColors.primary,
@@ -33,22 +33,22 @@ class AuthLeftPanel extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          SizedBox(height: 40.rh),
+          SizedBox(height: 20.rh),
           Padding(
             padding: EdgeInsets.only(left: 100.rw),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppText.textHighlight(
-                  s.authPanelTitle,
-                  fontSize: 69.rsp,
+                  "Votre entreprise,\nVotre flotte,\nVotre contrôle.",
+                  fontSize: 49.rsp,
                   color: AppColors.white,
-                  highlight: s.authPanelTitleHighlight,
+                  highlight: "flotte",
                   highlightColor: AppColors.secondary,
                 ),
-                SizedBox(height: 20.0.rh),
+                SizedBox(height: 15.0.rh),
                 AppText(
-                  s.authPanelSubtitle,
+                  "Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.",
                   color: AppColors.white,
                   fontFamily: "Syne",
                   fontSize: 21.rsp,
@@ -57,6 +57,8 @@ class AuthLeftPanel extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(height: 20.rh),
+
           Expanded(child: LeftLoginDeco()),
         ],
       ),

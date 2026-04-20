@@ -34,9 +34,7 @@ class AppRouter extends RootStackRouter {
     // LOGIN
     AutoRoute(path: routeLogin, page: LoginRoute.page),
     AutoRoute(path: routeLoginOtp, page: LoginOtpRoute.page),
-<<<<<<< HEAD
     AutoRoute(path: routeResetPwd, page: ResetPasswordRoute.page),
-=======
 
     // APP MAIN
     AutoRoute(
@@ -45,7 +43,6 @@ class AppRouter extends RootStackRouter {
       guards: [],
       children: [AutoRoute(path: routeAppDashbord, page: DashboardRoute.page)],
     ),
->>>>>>> main
   ];
 }
 

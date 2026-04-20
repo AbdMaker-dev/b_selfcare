@@ -54,7 +54,7 @@ class ResetPasswordForm extends StatelessWidget {
         AppButton(
           text: s.login,
           onPressed: () {
-            // context.router.replaceAll([LoginRoute()]);
+            context.router.replaceAll([LoginRoute()]);
           },
           type: AppButtonType.primary,
           icon: Icons.arrow_back,
