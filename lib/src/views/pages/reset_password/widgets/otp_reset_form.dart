@@ -33,6 +33,8 @@ class _OtpResetFormState extends State<OtpResetForm> {
     // TODO: appeler votre BLoC / use case ici
     Navigator.of(context).pop();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -49,8 +51,7 @@ class _OtpResetFormState extends State<OtpResetForm> {
             child: child,
           ),
         ),
-        child: _currentStep == 0
-            ? OtpStep(
+        child: _currentStep == 0 ? OtpStep(
           isOtpComplete: _isOtpComplete,
           onChanged: (value) => setState(() {
             _otpValue = value;
@@ -65,8 +66,7 @@ class _OtpResetFormState extends State<OtpResetForm> {
             // TODO: renvoyer le code OTP
           },
           onBack: () => Navigator.of(context).pop(),
-        )
-            : NewPasswordStep(
+        ): NewPasswordStep(
           newPasswordController: _newPasswordController,
           confirmPasswordController: _confirmPasswordController,
           onConfirm: _handlePasswordReset,

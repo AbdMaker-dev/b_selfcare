@@ -16,6 +16,7 @@ class AppInput extends StatefulWidget {
   final void Function(String)? onChanged;
   final bool readOnly;
   final VoidCallback? onTap, labelActionOnTap;
+  final double? width;
 
   const AppInput({
     super.key,
@@ -32,6 +33,7 @@ class AppInput extends StatefulWidget {
     this.readOnly = false,
     this.onTap,
     this.labelActionOnTap,
+    this.width
   });
 
   @override
@@ -43,108 +45,106 @@ class _AppInputState extends State<AppInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (widget.labelText != null) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,  
-            children: [
-              AppText(
-                widget.labelText!,
-                type: AppTextType.label,
-                fontSize: 14.rsp,
-                color: AppColors.primary,
-                fontWeight: FontWeight.w400,
-                textAlign: TextAlign.start,
-              ),
-              if(widget.labelActionText != null)
+    return SizedBox(
+      width: widget.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (widget.labelText != null) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 AppText(
-                  widget.labelActionText!,
+                  widget.labelText!,
                   type: AppTextType.label,
                   fontSize: 14.rsp,
                   color: AppColors.primary,
                   fontWeight: FontWeight.w400,
                   textAlign: TextAlign.start,
-                  onClick: widget.labelActionOnTap,
-              )
-            ],
-          ),
-          SizedBox(height: 8.0.rh),
-        ],
-        TextFormField(
-          controller: widget.controller,
-          obscureText: widget.isPassword ? _obscureText : false,
-          keyboardType: widget.keyboardType,
-          validator: widget.validator,
-          onChanged: widget.onChanged,
-          readOnly: widget.readOnly,
-          onTap: widget.onTap,
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontSize: 16.rsp,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textHeading,
-          ),
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            prefixIcon: widget.prefixIcon,
-            suffixIcon: widget.isPassword
-            ? IconButton(
-              icon: Icon(
-                _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                color: AppColors.textMuted,
-                size: 16.rsp,
-              ),
-              onPressed: () {
-                setState(() {
-                  _obscureText = !_obscureText;
-                });
-              },
-            ) : widget.suffixIcon,
-            hintStyle: TextStyle(
+                ),
+                if (widget.labelActionText != null)
+                  AppText(
+                    widget.labelActionText!,
+                    type: AppTextType.label,
+                    fontSize: 14.rsp,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w400,
+                    textAlign: TextAlign.start,
+                    onClick: widget.labelActionOnTap,
+                  ),
+              ],
+            ),
+            SizedBox(height: 8.0.rh),
+          ],
+          TextFormField(
+            controller: widget.controller,
+            obscureText: widget.isPassword ? _obscureText : false,
+            keyboardType: widget.keyboardType,
+            validator: widget.validator,
+            onChanged: widget.onChanged,
+            readOnly: widget.readOnly,
+            onTap: widget.onTap,
+            style: TextStyle(
               fontFamily: 'Montserrat',
-              color: AppColors.textMuted,
-              fontSize: 14.rsp,
+              fontSize: 16.rsp,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textHeading,
             ),
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 15.rw,
-              vertical: 5.rh,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.rr),
-              borderSide: BorderSide(
-                color: AppColors.inputBorder,
-                width: 1.6.rh,
+            decoration: InputDecoration(
+              hintText: widget.hintText,
+              prefixIcon: widget.prefixIcon,
+              suffixIcon:
+                  widget.isPassword
+                      ? IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined,
+                          color: AppColors.textMuted,
+                          size: 16.rsp,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      )
+                      : widget.suffixIcon,
+              hintStyle: TextStyle(
+                fontFamily: 'Montserrat',
+                color: AppColors.textMuted,
+                fontSize: 14.rsp,
               ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.rr),
-              borderSide: BorderSide(
-                color: AppColors.primary,
-                width: 1.6.rh,
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 15.rw,
+                vertical: 0.rh,
               ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.rr),
-              borderSide: BorderSide(
-                color: AppColors.error,
-                width: 1.6.rh,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.rr),
+                borderSide: BorderSide(
+                  color: AppColors.inputBorder,
+                  width: 1.6.rh,
+                ),
               ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.rr),
-              borderSide: BorderSide(
-                color: AppColors.error,
-                width: 1.6.rh,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.rr),
+                borderSide: BorderSide(color: AppColors.primary, width: 1.6.rh),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.rr),
+                borderSide: BorderSide(color: AppColors.error, width: 1.6.rh),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.rr),
+                borderSide: BorderSide(color: AppColors.error, width: 1.6.rh),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -55,6 +55,7 @@ class _AppOtpInputState extends State<AppOtpInput> {
         ],
         MaterialPinField(
           length: widget.length,
+          
           pinController: _pinController,
           keyboardType: TextInputType.number,
           obscureText: widget.obscureText,
@@ -64,17 +65,10 @@ class _AppOtpInputState extends State<AppOtpInput> {
           : null,
           onChanged: widget.onChanged,
           onCompleted: widget.onCompleted,
-          // validator: widget.validator,
-          // textStyle: TextStyle(
-          //   fontFamily: 'Montserrat',
-          //   fontSize: 24.rsp,
-          //   fontWeight: FontWeight.w600,
-          //   color: AppColors.textHeading,
-          // ),
           theme: MaterialPinTheme(
-            shape: MaterialPinShape.outlined, // bordure comme ton AppInput
-            cellSize: Size(52.rw, 62.rh),     // taille de chaque case
-            spacing: 10.rw,                   // espace entre les cases
+            shape: MaterialPinShape.outlined,
+            cellSize: Size(52.rw, 62.rh),
+            spacing: 17.5.rw,
             borderRadius: BorderRadius.circular(12.rr),
 
             // Bordures

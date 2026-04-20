@@ -4,8 +4,9 @@ import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/login/widgets/otp_form.dart';
+// import 'package:b_selfcare/src/views/pages/login/widgets/otp_form.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/widgets/otp_reset_form.dart';
-import 'package:b_selfcare/src/views/pages/reset_password/widgets/otp_step.dart';
+// import 'package:b_selfcare/src/views/pages/reset_password/widgets/otp_step.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -42,8 +43,8 @@ class ResetPasswordForm extends StatelessWidget {
           onPressed: () {
             AppDialogs.popup(
               context: context,
-              width: 592.rw,
-              height: 0.50,
+              width: 530.rw,
+              height: 0.6,
               contents: OtpResetForm(),
             );
           },
@@ -56,7 +57,7 @@ class ResetPasswordForm extends StatelessWidget {
           onPressed: () {
             context.router.replaceAll([LoginRoute()]);
           },
-          type: AppButtonType.primary,
+          type: AppButtonType.outline,
           icon: Icons.arrow_back,
         ),
       ],

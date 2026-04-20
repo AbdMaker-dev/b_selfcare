@@ -62,8 +62,8 @@ class LoginForm extends StatelessWidget {
           onPressed: () {
             AppDialogs.popup(
               context: context,
-              width: 592.rw,
-              height: 0.45,
+              width: 530.rw,
+              height: 0.5,
               contents: OtpForm(),
             );
           },
@@ -84,9 +84,7 @@ class LoginForm extends StatelessWidget {
         SizedBox(height: 30.0.rh),
         AppButton(
           text: s.ssoLogin,
-          onPressed: () {
-
-          },
+          onPressed: () {},
           type: AppButtonType.outline,
           icon: Icons.corporate_fare,
         ),
@@ -100,7 +98,7 @@ class LoginForm extends StatelessWidget {
               s.needHelp,
               color: AppColors.inputBorderLight,
               fontSize: 19.rsp,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
               textAlign: TextAlign.center,
               type: AppTextType.heading,
             ),

@@ -24,8 +24,9 @@ class NewPasswordStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.rw),
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 0.rw),
+      width: 450.rw,
       child: Column(
         key: const ValueKey('password_step'),
         mainAxisAlignment: MainAxisAlignment.center,
@@ -41,8 +42,8 @@ class NewPasswordStep extends StatelessWidget {
             "${s.titlereset}\n${s.newPwd}",
             highlight: s.newPwd,
             highlightHeight: 0.68,
-            fontSize: 40.rsp,
-            highlightFontSize: 70.rsp,
+            fontSize: 46.rsp,
+            highlightFontSize: 46.rsp,
             color: AppColors.primary,
             fontWeight: FontWeight.w900,
             highlightColor: AppColors.secondary,
@@ -51,6 +52,7 @@ class NewPasswordStep extends StatelessWidget {
           ),
           SizedBox(height: 30.rh),
           AppInput(
+            width: 450.rw,
             labelText: s.newPassword,
             keyboardType: TextInputType.text,
             controller: newPasswordController,
@@ -58,6 +60,7 @@ class NewPasswordStep extends StatelessWidget {
           ),
           SizedBox(height: 20.rh),
           AppInput(
+            width: 450.rw,
             labelText: s.confirmPassword,
             keyboardType: TextInputType.text,
             controller: confirmPasswordController,
@@ -75,7 +78,7 @@ class NewPasswordStep extends StatelessWidget {
           AppText(
             s.backToLogin,
             color: AppColors.inputBorderLight,
-            fontSize: 24.rsp,
+            fontSize: 15.rsp,
             fontWeight: FontWeight.w500,
             textAlign: TextAlign.center,
             onClick: onBack,

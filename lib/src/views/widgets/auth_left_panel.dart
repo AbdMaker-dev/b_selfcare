@@ -1,5 +1,5 @@
 import 'package:b_selfcare/gen/assets.gen.dart';
-import 'package:b_selfcare/generated/l10n.dart';
+// import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -12,7 +12,7 @@ class AuthLeftPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
+    // final s = S.of(context);
 
     return Container(
       padding: EdgeInsets.only(

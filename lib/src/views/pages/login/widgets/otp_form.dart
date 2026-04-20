@@ -26,44 +26,47 @@ class OtpForm extends StatelessWidget {
             currentStep: 1,
             steps: [s.stepCredentials, s.verification, s.stepAccess],
           ),
-          SizedBox(height: 20.rh),
+          SizedBox(height: 40.rh),
           AppText.textHighlight(
             s.otpTitle,
             highlight: s.otpTitleHighlight,
             highlightHeight: 0.68,
-            fontSize: 54.rsp,
-            highlightFontSize: 54.rsp,
+            fontSize: 46.rsp,
+            highlightFontSize: 46.rsp,
             color: AppColors.primary,
             fontWeight: FontWeight.w900,
             highlightColor: AppColors.secondary,
             fontStyle: FontStyle.italic,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 15.rh),
+          SizedBox(height: 10.rh),
           AppText(
             s.otpSubtitle,
-            fontSize: 22.rsp,
-            type: AppTextType.heading,
-            fontWeight: FontWeight.w500,
+            fontSize: 12.rsp,
+            fontWeight: FontWeight.w700,
             color: AppColors.black,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 30.rh),
-          AppOtpInput(
+          SizedBox(
+            width: 400.rw,
+            child: AppOtpInput(
             length: 6,
+            enableAutofill: true,
             onChanged: (value) => print("En cours : $value"),
             onCompleted: (pin) {
             },
           ),
+          ),
           SizedBox(height: 10.rh),
           SizedBox(
-            width: 450.rw,
+            width: 400.rw,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppCheckbox(
                   text: s.otpNotReceived,
-                  fontSize: 24.rsp,
+                  fontSize: 12.rsp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.inputBorderLight,
                   onCheck: (value) {},
@@ -71,7 +74,7 @@ class OtpForm extends StatelessWidget {
                 AppText(
                   s.resend,
                   color: AppColors.inputBorderLight,
-                  fontSize: 24.rsp,
+                  fontSize: 12.rsp,
                   fontWeight: FontWeight.w500,
                   textAlign: TextAlign.center,
                   onClick: () {},
@@ -80,7 +83,7 @@ class OtpForm extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 30.rh),
+          SizedBox(height: 40.rh),
           AppButton(
             width: 450.rw,
             text: s.verifyCode,
@@ -92,7 +95,7 @@ class OtpForm extends StatelessWidget {
           AppText(
             s.backToLogin,
             color: AppColors.inputBorderLight,
-            fontSize: 24.rsp,
+            fontSize: 15.rsp,
             fontWeight: FontWeight.w500,
             textAlign: TextAlign.center,
             onClick: () {},
