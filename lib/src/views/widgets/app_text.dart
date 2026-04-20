@@ -75,6 +75,8 @@ class AppText extends StatelessWidget {
       fontFamily: fontFamily,
     );
   }
+
+  
   @override
   Widget build(BuildContext context) {
     TextStyle defaultStyle;
