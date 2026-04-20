@@ -29,7 +29,7 @@ class BalanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 349.rw,
-      height: 148.rh,
+      height: 180.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(10.rr),

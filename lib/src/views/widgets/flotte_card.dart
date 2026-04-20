@@ -29,7 +29,7 @@ class FlotteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 466.rw,
-      height: 237.rh,
+      height: 260.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(20.rr),

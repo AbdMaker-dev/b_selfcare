@@ -55,7 +55,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
               ),
             ),
 
-            Expanded(
+            SizedBox(
+              width: 1476.rw,
+              height: 1223.rh,
               child: Column(
                 children: [
                   DashboardAppBar(

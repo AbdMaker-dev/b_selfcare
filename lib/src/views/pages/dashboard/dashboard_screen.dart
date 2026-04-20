@@ -44,6 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         // Cartes de solde
         Row(
           spacing: 12.rw,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BalanceCard(
               title: 'SOLDE DISPONIBLE',
@@ -88,6 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         // Section activités récentes
         Row(
           spacing: 12.rw,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const ProvisioningChartCard(),
             ActiviteRecenteCard(
@@ -112,6 +114,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
         Row(
           spacing: 12.rw,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const FlotteCard(),
             MesCampagnesCard(
@@ -155,6 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
         Row(
           spacing: 12.rw,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const AlertesSeuilsCard(
               items: [
