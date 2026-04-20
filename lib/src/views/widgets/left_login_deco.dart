@@ -15,25 +15,28 @@ class LeftLoginDeco extends StatelessWidget {
         fit: StackFit.loose,
         children: [
           Positioned(
-            top: -100.rh,
+            top: -90.rh,
             child: SvgPicture.asset(
               Assets.images.decoYelow,
-              width: 427.6936288034416.rw,
-              height: 494.84759050928204.rh,
+              width: 450.39.rw,
+              height: 400.8779021606497.rh,
               fit: BoxFit.fill,
             ) ,
           ),
+
+
           Positioned(
-            bottom: -150,
+            bottom: -650.rh,
             left: 0,
             right: 0,
             child: SvgPicture.asset(
               Assets.images.elips,
-              width: 491.39.rw,
-              height: 467.88.rh,
+              width: 957.rw,
+              height: 957.rh,
               fit: BoxFit.cover,
             ),
           ),
+
           Positioned(
             top: 50.rh,
             bottom: 0,

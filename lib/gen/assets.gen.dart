@@ -26,6 +26,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/person.svg
   String get person => 'assets/images/person.svg';
 
+  /// Directory path: assets/images/providers
+  $AssetsImagesProvidersGen get providers => const $AssetsImagesProvidersGen();
+
   /// File path: assets/images/smiley-man-with-old-phone 1.png
   AssetGenImage get smileyManWithOldPhone1 =>
       const AssetGenImage('assets/images/smiley-man-with-old-phone 1.png');
@@ -40,10 +43,40 @@ class $AssetsImagesGen {
   ];
 }
 
+class $AssetsLogoGen {
+  const $AssetsLogoGen();
+
+  /// File path: assets/logo/logo.svg
+  String get logo => 'assets/logo/logo.svg';
+
+  /// List of all assets
+  List<String> get values => [logo];
+}
+
+class $AssetsImagesProvidersGen {
+  const $AssetsImagesProvidersGen();
+
+  /// File path: assets/images/providers/mixx.png
+  AssetGenImage get mixx =>
+      const AssetGenImage('assets/images/providers/mixx.png');
+
+  /// File path: assets/images/providers/orange_money.png
+  AssetGenImage get orangeMoney =>
+      const AssetGenImage('assets/images/providers/orange_money.png');
+
+  /// File path: assets/images/providers/wave.png
+  AssetGenImage get wave =>
+      const AssetGenImage('assets/images/providers/wave.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [mixx, orangeMoney, wave];
+}
+
 class Assets {
   const Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLogoGen logo = $AssetsLogoGen();
 }
 
 class AssetGenImage {
