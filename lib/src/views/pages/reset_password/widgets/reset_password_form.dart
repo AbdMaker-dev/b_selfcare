@@ -3,6 +3,9 @@ import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/login/widgets/otp_form.dart';
+import 'package:b_selfcare/src/views/pages/reset_password/widgets/otp_reset_form.dart';
+import 'package:b_selfcare/src/views/pages/reset_password/widgets/otp_step.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -37,12 +40,12 @@ class ResetPasswordForm extends StatelessWidget {
         AppButton(
           text: s.resetPwd,
           onPressed: () {
-            /*AppDialogs.popup(
+            AppDialogs.popup(
               context: context,
               width: 592.rw,
-              height: 0.45,
-              contents: OtpForm(),
-            );*/
+              height: 0.50,
+              contents: OtpResetForm(),
+            );
           },
           type: AppButtonType.primary,
           icon: Icons.arrow_forward,

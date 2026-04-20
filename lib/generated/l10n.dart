@@ -114,6 +114,36 @@ class S {
     return Intl.message('Mot de passe', name: 'pwd', desc: '', args: []);
   }
 
+  /// `Mot de passe`
+  String get newPwd {
+    return Intl.message('Mot de passe', name: 'newPwd', desc: '', args: []);
+  }
+
+  /// `Nouveau mot de passe`
+  String get newPassword {
+    return Intl.message(
+      'Nouveau mot de passe',
+      name: 'newPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmer le mot de passe`
+  String get confirmPassword {
+    return Intl.message(
+      'Confirmer le mot de passe',
+      name: 'confirmPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirmer`
+  String get confirm {
+    return Intl.message('Confirmer', name: 'confirm', desc: '', args: []);
+  }
+
   /// `Vérification`
   String get verification {
     return Intl.message(

@@ -26,8 +26,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "appTagline": MessageLookupByLibrary.simpleMessage(
       "Votre santé, notre priorité",
     ),
+    "authPanelSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.",
+    ),
+    "authPanelTitle": MessageLookupByLibrary.simpleMessage(
+      "Votre entreprise,\nVotre flotte,\nVotre contrôle.",
+    ),
+    "authPanelTitleHighlight": MessageLookupByLibrary.simpleMessage("flotte"),
     "backToLogin": MessageLookupByLibrary.simpleMessage(
       "← Retour à la connexion",
+    ),
+    "confirm": MessageLookupByLibrary.simpleMessage("Confirmer"),
+    "confirmPassword": MessageLookupByLibrary.simpleMessage(
+      "Confirmer le mot de passe",
     ),
     "contactSupport": MessageLookupByLibrary.simpleMessage(
       "Contactez le support YAS",
@@ -51,6 +62,8 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "loginTitleHighlight": MessageLookupByLibrary.simpleMessage("espace"),
     "needHelp": MessageLookupByLibrary.simpleMessage("Besoin d\'aide ?"),
+    "newPassword": MessageLookupByLibrary.simpleMessage("Nouveau mot de passe"),
+    "newPwd": MessageLookupByLibrary.simpleMessage("Mot de passe"),
     "or": MessageLookupByLibrary.simpleMessage("OU"),
     "otpNotReceived": MessageLookupByLibrary.simpleMessage(
       "Vous n\'avez pas reçu le code ?",
@@ -80,12 +93,5 @@ class MessageLookup extends MessageLookupByLibrary {
     "verify": MessageLookupByLibrary.simpleMessage("Vérifier"),
     "verifyCode": MessageLookupByLibrary.simpleMessage("Vérifier le code"),
     "welcome": MessageLookupByLibrary.simpleMessage("Bienvenue"),
-    "authPanelTitle": MessageLookupByLibrary.simpleMessage(
-      "Votre entreprise,\nVotre flotte,\nVotre contrôle.",
-    ),
-    "authPanelTitleHighlight": MessageLookupByLibrary.simpleMessage("flotte"),
-    "authPanelSubtitle": MessageLookupByLibrary.simpleMessage(
-      "Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.",
-    ),
   };
 }
