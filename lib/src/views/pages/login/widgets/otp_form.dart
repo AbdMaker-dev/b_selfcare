@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/generated/l10n.dart';
+import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
@@ -87,7 +89,9 @@ class OtpForm extends StatelessWidget {
           AppButton(
             width: 450.rw,
             text: s.verifyCode,
-            onPressed: () {},
+            onPressed: () {
+              context.router.replaceAll([DashboardRoute()]);
+            },
             type: AppButtonType.primary,
             icon: Icons.arrow_forward,
           ),
