@@ -1,4 +1,4 @@
-import 'package:b_selfcare/gen/assets.gen.dart';
+// import 'package:b_selfcare/gen/assets.gen.dart';
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';

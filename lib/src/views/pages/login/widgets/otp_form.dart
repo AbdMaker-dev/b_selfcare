@@ -1,3 +1,6 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:b_selfcare/generated/l10n.dart';
+import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
@@ -12,6 +15,8 @@ class OtpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
+
     return SizedBox(
       width: 450.rw,
       child: Column(
@@ -21,54 +26,57 @@ class OtpForm extends StatelessWidget {
           SizedBox(height: 30.rh),
           AppStepIndicator(
             currentStep: 1,
-            steps: const ['Identifiants', 'Vérification', 'Accès'],
+            steps: [s.stepCredentials, s.verification, s.stepAccess],
           ),
-          SizedBox(height: 20.rh),
+          SizedBox(height: 40.rh),
           AppText.textHighlight(
-            "Vérification OTP",
-            highlight: "OTP",
+            s.otpTitle,
+            highlight: s.otpTitleHighlight,
             highlightHeight: 0.68,
-            fontSize: 54.rsp,
-            highlightFontSize: 54.rsp,
+            fontSize: 46.rsp,
+            highlightFontSize: 46.rsp,
             color: AppColors.primary,
             fontWeight: FontWeight.w900,
             highlightColor: AppColors.secondary,
             fontStyle: FontStyle.italic,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 15.rh),
+          SizedBox(height: 10.rh),
           AppText(
-            "Saisissez le code à 6 chiffres envoyé à l’adresse e-mail enregistre",
-            fontSize: 22.rsp,
-            type: AppTextType.heading,
-            fontWeight: FontWeight.w500,
+            s.otpSubtitle,
+            fontSize: 12.rsp,
+            fontWeight: FontWeight.w700,
             color: AppColors.black,
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 30.rh),
-          AppOtpInput(
+          SizedBox(
+            width: 400.rw,
+            child: AppOtpInput(
             length: 6,
+            enableAutofill: true,
             onChanged: (value) => print("En cours : $value"),
             onCompleted: (pin) {
             },
           ),
+          ),
           SizedBox(height: 10.rh),
           SizedBox(
-            width: 450.rw,
+            width: 400.rw,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppCheckbox(
-                  text: "Vous n'avez pas reçu le code ?",
-                  fontSize: 24.rsp,
+                  text: s.otpNotReceived,
+                  fontSize: 12.rsp,
                   fontWeight: FontWeight.w500,
                   color: AppColors.inputBorderLight,
                   onCheck: (value) {},
                 ),
                 AppText(
-                  "Renvoyer",
+                  s.resend,
                   color: AppColors.inputBorderLight,
-                  fontSize: 24.rsp,
+                  fontSize: 12.rsp,
                   fontWeight: FontWeight.w500,
                   textAlign: TextAlign.center,
                   onClick: () {},
@@ -77,19 +85,21 @@ class OtpForm extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 30.rh),
+          SizedBox(height: 40.rh),
           AppButton(
             width: 450.rw,
-            text: "Vérifier le code",
-            onPressed: () {},
+            text: s.verifyCode,
+            onPressed: () {
+              context.router.replaceAll([DashboardRoute()]);
+            },
             type: AppButtonType.primary,
             icon: Icons.arrow_forward,
           ),
           SizedBox(height: 20.rh),
           AppText(
-            "← Retour à la connexion",
+            s.backToLogin,
             color: AppColors.inputBorderLight,
-            fontSize: 24.rsp,
+            fontSize: 15.rsp,
             fontWeight: FontWeight.w500,
             textAlign: TextAlign.center,
             onClick: () {},
