@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "contactSupport": MessageLookupByLibrary.simpleMessage(
       "Contactez le support YAS",
     ),
+    "email": MessageLookupByLibrary.simpleMessage("E-mail"),
     "errorOccurred": MessageLookupByLibrary.simpleMessage(
       "Une erreur est survenue",
     ),
