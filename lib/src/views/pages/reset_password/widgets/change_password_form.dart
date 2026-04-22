@@ -13,16 +13,25 @@ import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ResetPasswordForm extends StatefulWidget {
-  const ResetPasswordForm({super.key});
+class ChangePasswordForm extends StatefulWidget {
+  final String token;
+  final String email;
+
+  const ChangePasswordForm({
+    super.key,
+    required this.token,
+    required this.email,
+  });
 
   @override
-  State<ResetPasswordForm> createState() => _ResetPasswordFormState();
+  State<ChangePasswordForm> createState() => _ChangePasswordFormState();
 }
 
-class _ResetPasswordFormState extends State<ResetPasswordForm> {
+class _ChangePasswordFormState extends State<ChangePasswordForm> {
   final resetCubit = getIt<ResetPasswordCubit>();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _newPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +40,9 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
       bloc: resetCubit,
       listener: (context, state) {
         state.maybeWhen(
-            resetPasswordFailed: (message){
-            },
-            resetPasswordError: (data){
-            },
-            orElse: (){}
+          changePasswordFailed: (message) {},
+          changePasswordError: (data) {},
+          orElse: () {},
         );
       },
       builder: (context, state) {
@@ -44,11 +51,11 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AppText.textHighlight(
-              "${s.titlereset}\n${s.pwd}",
-              highlight: s.pwd,
+              "${s.titlereset}\n${s.newPwd}",
+              highlight: s.newPwd,
               highlightHeight: 0.68,
-              fontSize: 40.rsp,
-              highlightFontSize: 74.rsp,
+              fontSize: 46.rsp,
+              highlightFontSize: 46.rsp,
               color: AppColors.primary,
               fontWeight: FontWeight.w900,
               highlightColor: AppColors.secondary,
@@ -57,16 +64,28 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
             ),
             SizedBox(height: 40.0.rh),
             AppInput(
-              labelText: s.email,
-              keyboardType: TextInputType.emailAddress,
-              controller: _emailController,
+              labelText: s.newPassword,
+              keyboardType: TextInputType.text,
+              isPassword: true,
+              controller: _newPasswordController,
+            ),
+            SizedBox(height: 20.rh),
+            AppInput(
+              labelText: s.confirmPassword,
+              keyboardType: TextInputType.text,
+              controller: _confirmPasswordController,
+              isPassword: true,
             ),
             SizedBox(height: 50.0.rh),
             AppButton(
               text: s.resetPwd,
               onPressed: () {
-                //resetCubit.forgetPassword(email: _emailController.text);
-                context.router.replaceAll([ChangePasswordRoute()]);
+                /*resetCubit.resetPassword(
+                  email: widget.email,
+                  password: _newPasswordController.text,
+                  passwordConfirmation: _confirmPasswordController.text,
+                  token: widget.token,
+                );*/
               },
               type: AppButtonType.primary,
               icon: Icons.arrow_forward,

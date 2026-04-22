@@ -10,6 +10,7 @@ const String routeSplash = '/';
 const String routeLogin = '/login';
 const String routeLoginOtp = '$routeLogin/otp';
 const String routeResetPwd = '/reset-password';
+const String routeChangePwd = '/change-password';
 
 // 2. APP MAIN
 const String routeApp = '/app';
@@ -35,6 +36,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(path: routeLogin, page: LoginRoute.page),
     AutoRoute(path: routeLoginOtp, page: LoginOtpRoute.page),
     AutoRoute(path: routeResetPwd, page: ResetPasswordRoute.page),
+    AutoRoute(path: routeChangePwd, page: ChangePasswordRoute.page),
 
     // APP MAIN
     AutoRoute(
