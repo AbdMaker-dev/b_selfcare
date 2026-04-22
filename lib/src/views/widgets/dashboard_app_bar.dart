@@ -24,7 +24,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(56.rh);
+  Size get preferredSize => Size.fromHeight(50.rh);
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           type: AppButtonType.outline,
           onPressed: onActualiser,
           width: 97.rw,
-          height: 60.rh,
+          height: 50.rh,
           fontSize: 11.5.rsp,
         ),
         SizedBox(width: 8.rw),
@@ -96,7 +96,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           type: AppButtonType.secondary,
           onPressed: onRecharger,
           width: 105.rw,
-          height: 60.rh,
+          height: 50.rh,
           fontSize: 12.5.rsp,
         ),
       ],

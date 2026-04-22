@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 extension ResponsiveExtension on num {
   // Dimensions - avec facteur web
   double get rh => kIsWeb ? h : h;
-  double get rw => kIsWeb ? w  : w;
+  double get rw => kIsWeb ? w : w;
   
   // Texte & Icons - maintenir la lisibilité
-  double get rsp => kIsWeb ? sp  : sp; // Pas de modification
+  double get rsp => kIsWeb ? sp * 0.85  : sp; // Pas de modification
   
   // Radius - proportionnel aux dimensions
-  double get rr => kIsWeb ? r : r;
+  double get rr => kIsWeb ? r * 0.8 : r;
 }
