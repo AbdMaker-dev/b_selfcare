@@ -84,6 +84,11 @@ class S {
     );
   }
 
+  /// `E-mail`
+  String get email {
+    return Intl.message('E-mail', name: 'email', desc: '', args: []);
+  }
+
   /// `Se connecter`
   String get login {
     return Intl.message('Se connecter', name: 'login', desc: '', args: []);

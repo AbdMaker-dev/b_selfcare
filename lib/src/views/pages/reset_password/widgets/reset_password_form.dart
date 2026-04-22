@@ -33,7 +33,7 @@ class ResetPasswordForm extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 40.0.rh),
-        AppInput(labelText: s.phoneNumber, keyboardType: TextInputType.phone),
+        AppInput(labelText: s.email, keyboardType: TextInputType.emailAddress),
         SizedBox(height: 50.0.rh),
         AppButton(
           text: s.resetPwd,
