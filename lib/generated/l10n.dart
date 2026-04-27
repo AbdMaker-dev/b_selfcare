@@ -403,6 +403,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Email envoyé !`
+  String get emailSentTitle {
+    return Intl.message(
+      'Email envoyé !',
+      name: 'emailSentTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Un lien de réinitialisation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception.`
+  String get emailSentDescription {
+    return Intl.message(
+      'Un lien de réinitialisation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception.',
+      name: 'emailSentDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -44,6 +44,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Contactez le support YAS",
     ),
     "email": MessageLookupByLibrary.simpleMessage("E-mail"),
+    "emailSentDescription": MessageLookupByLibrary.simpleMessage(
+      "Un lien de réinitialisation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception.",
+    ),
+    "emailSentTitle": MessageLookupByLibrary.simpleMessage("Email envoyé !"),
     "errorOccurred": MessageLookupByLibrary.simpleMessage(
       "Une erreur est survenue",
     ),

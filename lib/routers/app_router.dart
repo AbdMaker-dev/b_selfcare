@@ -15,6 +15,7 @@ const String routeChangePwd = '/change-password';
 // 2. APP MAIN
 const String routeApp = '/app';
 const String routeAppDashbord = 'dashbord';
+const String routeAppMyFlotte = 'flotte';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -43,7 +44,10 @@ class AppRouter extends RootStackRouter {
       path: routeApp,
       page: LayoutRoute.page,
       guards: [],
-      children: [AutoRoute(path: routeAppDashbord, page: DashboardRoute.page)],
+      children: [
+        AutoRoute(path: routeAppDashbord, page: DashboardRoute.page),
+        AutoRoute(path: routeAppMyFlotte, page: MyFlotteRoute.page)
+      ],
     ),
   ];
 }

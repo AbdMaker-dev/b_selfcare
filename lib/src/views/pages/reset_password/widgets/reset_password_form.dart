@@ -6,6 +6,7 @@ import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_cubit.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/widgets/otp_reset_form.dart';
+import 'package:b_selfcare/src/views/pages/reset_password/widgets/send_mail_message.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -39,7 +40,13 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         );
       },
       builder: (context, state) {
-        return Column(
+        return state is ResetPasswordLoaded ?
+        SendMailMessage(
+          emailSentDescription: s.emailSentDescription,
+          emailSentTitle:  s.emailSentTitle,
+          icon: Icons.mark_email_read_outlined,
+        ):
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -47,13 +54,13 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               "${s.titlereset}\n${s.pwd}",
               highlight: s.pwd,
               highlightHeight: 0.68,
-              fontSize: 40.rsp,
-              highlightFontSize: 74.rsp,
+              fontSize: 46.rsp,
+              highlightFontSize: 46.rsp,
               color: AppColors.primary,
               fontWeight: FontWeight.w900,
               highlightColor: AppColors.secondary,
               fontStyle: FontStyle.italic,
-              textAlign: TextAlign.center,
+              textAlign: TextAlign.center
             ),
             SizedBox(height: 40.0.rh),
             AppInput(
