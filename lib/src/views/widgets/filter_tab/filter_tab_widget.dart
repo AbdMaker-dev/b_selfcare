@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FilterTabsWidget extends StatefulWidget {
   final List<FilterTab> tabs;
-  final ValueChanged<int>? onTabChanged;
+  final ValueChanged<FilterTab>? onTabChanged;
 
   const FilterTabsWidget({
     super.key,
@@ -36,7 +36,7 @@ class _FilterTabsWidgetState extends State<FilterTabsWidget> {
 
 class _FilterTabsView extends StatelessWidget {
   final List<FilterTab> tabs;
-  final ValueChanged<int>? onTabChanged;
+  final ValueChanged<FilterTab>? onTabChanged;
 
   const _FilterTabsView({required this.tabs, this.onTabChanged});
 
@@ -65,7 +65,7 @@ class _FilterTabsView extends StatelessWidget {
                   isSelected: isSelected,
                   onTap: () {
                     context.read<FilterTabCubit>().selectTab(i);
-                    onTabChanged?.call(i);
+                    onTabChanged?.call(tab);
                   },
                 ),
               );
