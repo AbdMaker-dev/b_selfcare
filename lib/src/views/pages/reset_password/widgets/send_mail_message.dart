@@ -8,10 +8,10 @@ import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class SendMailMessage extends StatelessWidget {
-  String emailSentTitle;
-  String emailSentDescription;
-  IconData icon;
-   SendMailMessage({super.key,required this.emailSentTitle,required this.emailSentDescription,required this.icon});
+  final String emailSentTitle;
+  final String emailSentDescription;
+  final IconData icon;
+  const SendMailMessage({super.key,required this.emailSentTitle,required this.emailSentDescription,required this.icon});
 
   @override
   Widget build(BuildContext context) {

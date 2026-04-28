@@ -50,7 +50,7 @@ class _SideMenuListState extends State<SideMenuList> {
         ),
         CustomItemMenu(
           title: "Ma flotte",
-          icon: Icons.dashboard,
+          icon: Icons.sim_card,
           isActive: context.router.currentUrl.contains("flotte"),
           onSelect: () => context.router.pushPath('$routeApp/$routeAppMyFlotte'),
         ),

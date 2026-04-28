@@ -10,10 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class InfoFlotteCard extends StatelessWidget {
-  String name, department, phone, forfait;
-  bool status;
+  final String name;
+  final String department;
+  final String phone;
+  final String forfait;
+  final bool status;
 
-  InfoFlotteCard({
+  const InfoFlotteCard({
     super.key,
     required this.name,
     required this.department,
@@ -26,7 +29,7 @@ class InfoFlotteCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 470.rw,
-      height: 180.rh,
+      height: 190.rh,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(10.rr),

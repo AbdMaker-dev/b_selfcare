@@ -4,6 +4,7 @@ import 'package:b_selfcare/routers/app_route_observer.dart';
 import 'package:b_selfcare/routers/app_router.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/app_config.dart';
+import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -59,7 +60,7 @@ class _MyAppState extends State<MyApp> {
             navigatorObservers: () => [
               AppRouteObserver(
                 onRouteChage: ({route, args}) {
-                  // appMainCubit.onRouteChange(route: route, args: args);
+                  getIt<LayoutCubit>().onRouteChange(route: route, args: args);
                 },
               ),
               ],
