@@ -1,4 +1,5 @@
 import 'package:b_selfcare/gen/fonts.gen.dart';
+import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/example_model/employe_model.dart';
@@ -47,6 +48,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     return ListView(
       padding: EdgeInsets.only(bottom: 50.rh),
       children: [
@@ -57,8 +59,8 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppText.textHighlight(
-                  "Ma flotte",
-                  highlight: "flotte",
+                  s.myFlotte,
+                  highlight: s.flotte,
                   fontSize: 22.rsp,
                   highlightColor: Colors.green,
                   fontFamily: FontFamily.syne,
@@ -75,7 +77,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
             Row(
               children: [
                 AppButton(
-                  text: "Swap SIM",
+                  text: s.simSwap,
                   type: AppButtonType.outline,
                   icon: Icons.swap_horiz,
                   width: 130.rw,
@@ -172,7 +174,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
         ),
         SizedBox(height: 20.rh),
         AppTable(
-          title: 'Flotte complète',
+          title: s.flotteComplete,
           source: SourceEmployes(rows: _employes),
         ),
       ],

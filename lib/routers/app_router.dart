@@ -9,13 +9,14 @@ const String routeSplash = '/';
 // 1. LOGIN
 const String routeLogin = '/login';
 const String routeLoginOtp = '$routeLogin/otp';
-const String routeResetPwd = '/reset-password';
-const String routeChangePwd = '/change-password';
+const String routeResetPwd = '/forgot-password';
+const String routeChangePwd = '/reset-password';
 
 // 2. APP MAIN
 const String routeApp = '/app';
 const String routeAppDashbord = 'dashbord';
 const String routeAppMyFlotte = 'flotte';
+const String routeAppMyCampagnes = 'campagnes';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -46,7 +47,8 @@ class AppRouter extends RootStackRouter {
       guards: [],
       children: [
         AutoRoute(path: routeAppDashbord, page: DashboardRoute.page),
-        AutoRoute(path: routeAppMyFlotte, page: MyFlotteRoute.page)
+        AutoRoute(path: routeAppMyFlotte, page: MyFlotteRoute.page),
+        AutoRoute(path: routeAppMyCampagnes, page: CampagneRoute.page),
       ],
     ),
   ];

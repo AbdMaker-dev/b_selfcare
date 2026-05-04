@@ -45,6 +45,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
           emailSentDescription: s.emailSentDescription,
           emailSentTitle:  s.emailSentTitle,
           icon: Icons.mark_email_read_outlined,
+          isNotSend: true,
         ):
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -72,8 +73,8 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
             AppButton(
               text: s.resetPwd,
               onPressed: () {
-                //resetCubit.forgetPassword(email: _emailController.text);
-                context.router.replaceAll([ChangePasswordRoute()]);
+                resetCubit.forgetPassword(email: _emailController.text);
+                //context.router.replaceAll([ChangePasswordRoute()]);
               },
               type: AppButtonType.primary,
               icon: Icons.arrow_forward,

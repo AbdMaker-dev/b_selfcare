@@ -6,6 +6,7 @@ import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_cubit.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/widgets/otp_reset_form.dart';
+import 'package:b_selfcare/src/views/pages/reset_password/widgets/send_mail_message.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -46,7 +47,13 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
         );
       },
       builder: (context, state) {
-        return Column(
+        return state is ChangePasswordLoaded ?
+        SendMailMessage(
+          emailSentDescription: state.data.message ?? "",
+          emailSentTitle:  s.pwdChangement,
+          icon: Icons.mark_chat_read_sharp,
+        ) :
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -80,12 +87,12 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
             AppButton(
               text: s.resetPwd,
               onPressed: () {
-                /*resetCubit.resetPassword(
+                resetCubit.resetPassword(
                   email: widget.email,
                   password: _newPasswordController.text,
                   passwordConfirmation: _confirmPasswordController.text,
                   token: widget.token,
-                );*/
+                );
               },
               type: AppButtonType.primary,
               icon: Icons.arrow_forward,

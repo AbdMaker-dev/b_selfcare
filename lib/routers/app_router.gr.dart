@@ -9,30 +9,48 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i10;
-import 'package:b_selfcare/routers/app_router.dart' as _i9;
-import 'package:b_selfcare/src/views/pages/dashboard/dashboard_screen.dart'
-    as _i2;
-import 'package:b_selfcare/src/views/pages/layout/layout_screen.dart' as _i3;
-import 'package:b_selfcare/src/views/pages/login/login_otp_screen.dart' as _i4;
-import 'package:b_selfcare/src/views/pages/login/login_screen.dart' as _i5;
-import 'package:b_selfcare/src/views/pages/my_flotte/my_flotte_screen.dart'
-    as _i6;
-import 'package:b_selfcare/src/views/pages/reset_password/change_password_screen.dart'
+import 'package:auto_route/auto_route.dart' as _i11;
+import 'package:b_selfcare/routers/app_router.dart' as _i10;
+import 'package:b_selfcare/src/views/pages/campagne/campagne_screen.dart'
     as _i1;
-import 'package:b_selfcare/src/views/pages/reset_password/reset_password_screen.dart'
+import 'package:b_selfcare/src/views/pages/dashboard/dashboard_screen.dart'
+    as _i3;
+import 'package:b_selfcare/src/views/pages/layout/layout_screen.dart' as _i4;
+import 'package:b_selfcare/src/views/pages/login/login_otp_screen.dart' as _i5;
+import 'package:b_selfcare/src/views/pages/login/login_screen.dart' as _i6;
+import 'package:b_selfcare/src/views/pages/my_flotte/my_flotte_screen.dart'
     as _i7;
-import 'package:b_selfcare/src/views/pages/splash/splash_screen.dart' as _i8;
-import 'package:flutter/material.dart' as _i11;
+import 'package:b_selfcare/src/views/pages/reset_password/change_password_screen.dart'
+    as _i2;
+import 'package:b_selfcare/src/views/pages/reset_password/reset_password_screen.dart'
+    as _i8;
+import 'package:b_selfcare/src/views/pages/splash/splash_screen.dart' as _i9;
+import 'package:flutter/material.dart' as _i12;
 
 /// generated route for
-/// [_i1.ChangePasswordScreen]
-class ChangePasswordRoute extends _i10.PageRouteInfo<ChangePasswordRouteArgs> {
+/// [_i1.CampagneScreen]
+class CampagneRoute extends _i11.PageRouteInfo<void> {
+  const CampagneRoute({List<_i11.PageRouteInfo>? children})
+    : super(CampagneRoute.name, initialChildren: children);
+
+  static const String name = 'CampagneRoute';
+
+  static _i11.PageInfo page = _i11.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.CampagneScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i2.ChangePasswordScreen]
+class ChangePasswordRoute extends _i11.PageRouteInfo<ChangePasswordRouteArgs> {
   ChangePasswordRoute({
-    _i11.Key? key,
+    _i12.Key? key,
     String token = '',
     String email = '',
-    List<_i10.PageRouteInfo>? children,
+    List<_i11.PageRouteInfo>? children,
   }) : super(
          ChangePasswordRoute.name,
          args: ChangePasswordRouteArgs(key: key, token: token, email: email),
@@ -42,7 +60,7 @@ class ChangePasswordRoute extends _i10.PageRouteInfo<ChangePasswordRouteArgs> {
 
   static const String name = 'ChangePasswordRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
       final queryParams = data.queryParams;
@@ -52,7 +70,7 @@ class ChangePasswordRoute extends _i10.PageRouteInfo<ChangePasswordRouteArgs> {
           email: queryParams.getString('email', ''),
         ),
       );
-      return _i1.ChangePasswordScreen(
+      return _i2.ChangePasswordScreen(
         key: args.key,
         token: args.token,
         email: args.email,
@@ -64,7 +82,7 @@ class ChangePasswordRoute extends _i10.PageRouteInfo<ChangePasswordRouteArgs> {
 class ChangePasswordRouteArgs {
   const ChangePasswordRouteArgs({this.key, this.token = '', this.email = ''});
 
-  final _i11.Key? key;
+  final _i12.Key? key;
 
   final String token;
 
@@ -87,129 +105,129 @@ class ChangePasswordRouteArgs {
 }
 
 /// generated route for
-/// [_i2.DashboardScreen]
-class DashboardRoute extends _i10.PageRouteInfo<void> {
-  const DashboardRoute({List<_i10.PageRouteInfo>? children})
+/// [_i3.DashboardScreen]
+class DashboardRoute extends _i11.PageRouteInfo<void> {
+  const DashboardRoute({List<_i11.PageRouteInfo>? children})
     : super(DashboardRoute.name, initialChildren: children);
 
   static const String name = 'DashboardRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i2.DashboardScreen();
+      return const _i3.DashboardScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i3.LayoutScreen]
-class LayoutRoute extends _i10.PageRouteInfo<void> {
-  const LayoutRoute({List<_i10.PageRouteInfo>? children})
+/// [_i4.LayoutScreen]
+class LayoutRoute extends _i11.PageRouteInfo<void> {
+  const LayoutRoute({List<_i11.PageRouteInfo>? children})
     : super(LayoutRoute.name, initialChildren: children);
 
   static const String name = 'LayoutRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i3.LayoutScreen();
+      return const _i4.LayoutScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i4.LoginOtpScreen]
-class LoginOtpRoute extends _i10.PageRouteInfo<void> {
-  const LoginOtpRoute({List<_i10.PageRouteInfo>? children})
+/// [_i5.LoginOtpScreen]
+class LoginOtpRoute extends _i11.PageRouteInfo<void> {
+  const LoginOtpRoute({List<_i11.PageRouteInfo>? children})
     : super(LoginOtpRoute.name, initialChildren: children);
 
   static const String name = 'LoginOtpRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i4.LoginOtpScreen();
+      return const _i5.LoginOtpScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i5.LoginScreen]
-class LoginRoute extends _i10.PageRouteInfo<void> {
-  const LoginRoute({List<_i10.PageRouteInfo>? children})
+/// [_i6.LoginScreen]
+class LoginRoute extends _i11.PageRouteInfo<void> {
+  const LoginRoute({List<_i11.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i5.LoginScreen();
+      return const _i6.LoginScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i6.MyFlotteScreen]
-class MyFlotteRoute extends _i10.PageRouteInfo<void> {
-  const MyFlotteRoute({List<_i10.PageRouteInfo>? children})
+/// [_i7.MyFlotteScreen]
+class MyFlotteRoute extends _i11.PageRouteInfo<void> {
+  const MyFlotteRoute({List<_i11.PageRouteInfo>? children})
     : super(MyFlotteRoute.name, initialChildren: children);
 
   static const String name = 'MyFlotteRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i6.MyFlotteScreen();
+      return const _i7.MyFlotteScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i7.ResetPasswordScreen]
-class ResetPasswordRoute extends _i10.PageRouteInfo<void> {
-  const ResetPasswordRoute({List<_i10.PageRouteInfo>? children})
+/// [_i8.ResetPasswordScreen]
+class ResetPasswordRoute extends _i11.PageRouteInfo<void> {
+  const ResetPasswordRoute({List<_i11.PageRouteInfo>? children})
     : super(ResetPasswordRoute.name, initialChildren: children);
 
   static const String name = 'ResetPasswordRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i7.ResetPasswordScreen();
+      return const _i8.ResetPasswordScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i8.SplashScreen]
-class SplashRoute extends _i10.PageRouteInfo<void> {
-  const SplashRoute({List<_i10.PageRouteInfo>? children})
+/// [_i9.SplashScreen]
+class SplashRoute extends _i11.PageRouteInfo<void> {
+  const SplashRoute({List<_i11.PageRouteInfo>? children})
     : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i8.SplashScreen();
+      return const _i9.SplashScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i9.UnderDevelopmentScreen]
-class UnderDevelopmentRoute extends _i10.PageRouteInfo<void> {
-  const UnderDevelopmentRoute({List<_i10.PageRouteInfo>? children})
+/// [_i10.UnderDevelopmentScreen]
+class UnderDevelopmentRoute extends _i11.PageRouteInfo<void> {
+  const UnderDevelopmentRoute({List<_i11.PageRouteInfo>? children})
     : super(UnderDevelopmentRoute.name, initialChildren: children);
 
   static const String name = 'UnderDevelopmentRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i9.UnderDevelopmentScreen();
+      return const _i10.UnderDevelopmentScreen();
     },
   );
 }
