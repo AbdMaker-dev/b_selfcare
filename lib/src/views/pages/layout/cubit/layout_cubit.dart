@@ -8,9 +8,7 @@ part 'layout_cubit.freezed.dart';
 @lazySingleton
 class LayoutCubit extends Cubit<LayoutState> {
   LayoutCubit() : super(LayoutState.initial());
-
-
-
+  
   void onRouteChange({String? route, dynamic args}) {
     emit(LayoutState.initial());
     emit(LayoutState.routeChanged(route, args));

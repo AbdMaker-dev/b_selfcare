@@ -423,6 +423,46 @@ class S {
       args: [],
     );
   }
+
+  /// `L'adresse e-mail est obligatoire`
+  String get validatorEmailRequired {
+    return Intl.message(
+      'L\'adresse e-mail est obligatoire',
+      name: 'validatorEmailRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adresse e-mail invalide`
+  String get validatorEmailInvalid {
+    return Intl.message(
+      'Adresse e-mail invalide',
+      name: 'validatorEmailInvalid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le mot de passe est obligatoire`
+  String get validatorPasswordRequired {
+    return Intl.message(
+      'Le mot de passe est obligatoire',
+      name: 'validatorPasswordRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Le mot de passe doit contenir au moins 8 caractères`
+  String get validatorPasswordTooShort {
+    return Intl.message(
+      'Le mot de passe doit contenir au moins 8 caractères',
+      name: 'validatorPasswordTooShort',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

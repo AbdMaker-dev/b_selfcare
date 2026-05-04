@@ -17,6 +17,8 @@ import 'package:b_selfcare/src/domain/usecases/reset_password_usecase.dart'
     as _i322;
 import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart'
     as _i100;
+import 'package:b_selfcare/src/views/pages/login/cubit/login_cubit.dart'
+    as _i48;
 import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_cubit.dart'
     as _i865;
 import 'package:b_selfcare/src/views/widgets/filter_tab/cubit/filter_tab_cubit.dart'
@@ -36,6 +38,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i222.FilterTabCubit>(() => _i222.FilterTabCubit());
     gh.factory<_i330.HttpHelper>(
       () => _i330.HttpHelper(gh<_i749.LocaHelper>()),
+    );
+    gh.lazySingleton<_i48.LoginCubit>(
+      () => _i48.LoginCubit(gh<_i330.HttpHelper>(), gh<_i749.LocaHelper>()),
     );
     gh.singleton<_i991.ResetPasswordRepo>(
       () => _i991.ResetPasswordRepo(

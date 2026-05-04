@@ -19,7 +19,6 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
-
 void main() {
   mainCommon();
 }
@@ -91,6 +90,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
 // dart run build_runner build --delete-conflicting-outputs
 // dart run intl_utils:generate
 // dart run build_runner build

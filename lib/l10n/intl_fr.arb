@@ -43,5 +43,9 @@
   "authPanelTitleHighlight": "flotte",
   "authPanelSubtitle": "Gérez vos lignes mobiles, programmez vos dotations et\nsuivez vos dépenses directement depuis votre espace.",
   "emailSentTitle": "Email envoyé !",
-  "emailSentDescription": "Un lien de réinitialisation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception."
+  "emailSentDescription": "Un lien de réinitialisation a été envoyé à votre adresse e-mail. Veuillez vérifier votre boîte de réception.",
+  "validatorEmailRequired": "L'adresse e-mail est obligatoire",
+  "validatorEmailInvalid": "Adresse e-mail invalide",
+  "validatorPasswordRequired": "Le mot de passe est obligatoire",
+  "validatorPasswordTooShort": "Le mot de passe doit contenir au moins 8 caractères"
 }

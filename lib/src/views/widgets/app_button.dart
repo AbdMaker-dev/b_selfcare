@@ -15,6 +15,7 @@ class AppButton extends StatelessWidget {
   final IconData? icon;
   final Color? textColor;
   final double? fontSize;
+  final Color? color;
 
   const AppButton({
     super.key,
@@ -27,6 +28,7 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.textColor,
     this.fontSize,
+    this.color,
   });
 
   @override
@@ -39,20 +41,20 @@ class AppButton extends StatelessWidget {
 
     switch (type) {
       case AppButtonType.primary:
-        backgroundColor = AppColors.primary;
+        backgroundColor = color ?? AppColors.primary;
         txtColor = textColor ?? Colors.white;
         break;
       case AppButtonType.secondary:
-        backgroundColor = AppColors.secondary;
+        backgroundColor = color ??  AppColors.secondary;
         txtColor = textColor ?? AppColors.primary;
         break;
       case AppButtonType.outline:
-        backgroundColor = Colors.transparent;
+        backgroundColor = color ?? Colors.transparent;
         txtColor = textColor ?? AppColors.primary;
         borderSide =  BorderSide(color: textColor ?? AppColors.inputBorder, width: 1.5.rr);
         break;
         case AppButtonType.none:
-        backgroundColor = Colors.transparent;
+        backgroundColor = color ?? Colors.transparent;
         txtColor = textColor ?? AppColors.primary;
         borderSide =  BorderSide.none;
         break;
