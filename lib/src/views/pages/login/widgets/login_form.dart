@@ -154,9 +154,7 @@ class _LoginFormState extends State<LoginForm> {
               fontSize: 19.rsp,
               fontWeight: FontWeight.w500,
               textAlign: TextAlign.center,
-              onClick: () {
-
-              },
+              onClick: () {},
               type: AppTextType.heading,
             ),
           ],
