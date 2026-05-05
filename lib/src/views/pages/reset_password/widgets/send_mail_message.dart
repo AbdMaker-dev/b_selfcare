@@ -8,10 +8,18 @@ import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 
 class SendMailMessage extends StatelessWidget {
-  final String emailSentTitle;
-  final String emailSentDescription;
-  final IconData icon;
-  const SendMailMessage({super.key,required this.emailSentTitle,required this.emailSentDescription,required this.icon});
+  String emailSentTitle;
+  String emailSentDescription;
+  bool isNotSend;
+  IconData icon;
+
+  SendMailMessage({
+    super.key,
+    required this.emailSentTitle,
+    required this.emailSentDescription,
+    required this.icon,
+    this.isNotSend = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +28,7 @@ class SendMailMessage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(
-          icon,
-          size: 80.0.rsp,
-          color: AppColors.secondary,
-        ),
+        Icon(icon, size: 80.0.rsp, color: AppColors.secondary),
         SizedBox(height: 24.0.rh),
         AppText.textHighlight(
           emailSentTitle,
@@ -50,6 +54,23 @@ class SendMailMessage extends StatelessWidget {
           ),
         ),
         SizedBox(height: 40.0.rh),
+        isNotSend
+            ? GestureDetector(
+                onTap: () {},
+                child: AppText(
+                  s.resendLink,
+                  type: AppTextType.label,
+                  fontSize: 14.rsp,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w400,
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              )
+            : SizedBox(),
+        SizedBox(height: isNotSend ? 20.0.rh : 1.rh),
         AppButton(
           text: s.login,
           onPressed: () {

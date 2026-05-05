@@ -28,8 +28,7 @@ class InfoFlotteCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 470.rw,
-      height: 190.rh,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(10.rr),
@@ -61,7 +60,7 @@ class InfoFlotteCard extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         type: AppTextType.heading,
                       ),
-                      SizedBox(height: 2.rh),
+                      //SizedBox(height: 2.rh),
                       AppText(
                         '${department}'.toUpperCase(),
                         fontSize: 15.rsp,

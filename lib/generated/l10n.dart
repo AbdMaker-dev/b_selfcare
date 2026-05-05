@@ -259,6 +259,71 @@ class S {
     return Intl.message('OU', name: 'or', desc: '', args: []);
   }
 
+  /// `Mes campagnes`
+  String get myCampagne {
+    return Intl.message(
+      'Mes campagnes',
+      name: 'myCampagne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Nom campagne`
+  String get nameCampagne {
+    return Intl.message(
+      'Nom campagne',
+      name: 'nameCampagne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Planifier la campagne`
+  String get planingCampagne {
+    return Intl.message(
+      'Planifier la campagne',
+      name: 'planingCampagne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `campagnes`
+  String get campagne {
+    return Intl.message('campagnes', name: 'campagne', desc: '', args: []);
+  }
+
+  /// `Flotte`
+  String get flotte {
+    return Intl.message('Flotte', name: 'flotte', desc: '', args: []);
+  }
+
+  /// `Historique`
+  String get historique {
+    return Intl.message('Historique', name: 'historique', desc: '', args: []);
+  }
+
+  /// `Swap SIM`
+  String get simSwap {
+    return Intl.message('Swap SIM', name: 'simSwap', desc: '', args: []);
+  }
+
+  /// `Ma flotte`
+  String get myFlotte {
+    return Intl.message('Ma flotte', name: 'myFlotte', desc: '', args: []);
+  }
+
+  /// `Flotte complète`
+  String get flotteComplete {
+    return Intl.message(
+      'Flotte complète',
+      name: 'flotteComplete',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Connexion SSO Entreprise`
   String get ssoLogin {
     return Intl.message(
@@ -354,6 +419,16 @@ class S {
     return Intl.message('Renvoyer', name: 'resend', desc: '', args: []);
   }
 
+  /// `Renvoyer le lien de réinitialisation du mot de passe`
+  String get resendLink {
+    return Intl.message(
+      'Renvoyer le lien de réinitialisation du mot de passe',
+      name: 'resendLink',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Vérifier le code`
   String get verifyCode {
     return Intl.message(
@@ -409,6 +484,16 @@ class S {
     return Intl.message(
       'Email envoyé !',
       name: 'emailSentTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Votre mot de passe est mis à jour`
+  String get pwdChangement {
+    return Intl.message(
+      'Votre mot de passe est mis à jour',
+      name: 'pwdChangement',
       desc: '',
       args: [],
     );

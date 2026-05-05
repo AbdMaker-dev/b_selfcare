@@ -20,6 +20,9 @@ class AppTable<T> extends StatelessWidget {
   final int currentPage;
   final int totalCount;
   final String emptyMessage;
+  final List<TableFilter>? filters;
+  final String? selectedFilter;
+  final ValueChanged<String>? onFilterChanged;
 
   const AppTable({
     super.key,
@@ -33,6 +36,9 @@ class AppTable<T> extends StatelessWidget {
     this.currentPage = 1,
     this.totalCount = 0,
     this.emptyMessage = 'Aucune donnée',
+    this.filters,
+    this.selectedFilter,
+    this.onFilterChanged,
   });
 
   @override
@@ -52,7 +58,12 @@ class AppTable<T> extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitleTable(title: title),
+          TitleTable(
+            title: title,
+            filters: filters,
+            selectedFilter: selectedFilter,
+            onFilterChanged: onFilterChanged,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

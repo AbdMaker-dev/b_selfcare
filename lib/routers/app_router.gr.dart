@@ -11,6 +11,17 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i11;
 import 'package:b_selfcare/routers/app_router.dart' as _i10;
+import 'package:b_selfcare/src/views/pages/campagne/campagne_screen.dart'
+    as _i1;
+import 'package:b_selfcare/src/views/pages/dashboard/dashboard_screen.dart'
+    as _i3;
+import 'package:b_selfcare/src/views/pages/layout/layout_screen.dart' as _i4;
+import 'package:b_selfcare/src/views/pages/login/login_otp_screen.dart' as _i5;
+import 'package:b_selfcare/src/views/pages/login/login_screen.dart' as _i6;
+import 'package:b_selfcare/src/views/pages/my_flotte/my_flotte_screen.dart'
+    as _i7;
+import 'package:b_selfcare/src/views/pages/reset_password/change_password_screen.dart'
+    as _i2;
 import 'package:b_selfcare/src/views/pages/dashboard/dashboard_screen.dart'
     as _i2;
 import 'package:b_selfcare/src/views/pages/layout/layout_screen.dart' as _i3;
@@ -28,6 +39,23 @@ import 'package:b_selfcare/src/views/pages/splash/splash_screen.dart' as _i9;
 import 'package:flutter/material.dart' as _i12;
 
 /// generated route for
+/// [_i1.CampagneScreen]
+class CampagneRoute extends _i11.PageRouteInfo<void> {
+  const CampagneRoute({List<_i11.PageRouteInfo>? children})
+    : super(CampagneRoute.name, initialChildren: children);
+
+  static const String name = 'CampagneRoute';
+
+  static _i11.PageInfo page = _i11.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.CampagneScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i2.ChangePasswordScreen]
 /// [_i1.ChangePasswordScreen]
 class ChangePasswordRoute extends _i11.PageRouteInfo<ChangePasswordRouteArgs> {
   ChangePasswordRoute({
@@ -54,7 +82,7 @@ class ChangePasswordRoute extends _i11.PageRouteInfo<ChangePasswordRouteArgs> {
           email: queryParams.getString('email', ''),
         ),
       );
-      return _i1.ChangePasswordScreen(
+      return _i2.ChangePasswordScreen(
         key: args.key,
         token: args.token,
         email: args.email,
@@ -89,6 +117,7 @@ class ChangePasswordRouteArgs {
 }
 
 /// generated route for
+/// [_i3.DashboardScreen]
 /// [_i2.DashboardScreen]
 class DashboardRoute extends _i11.PageRouteInfo<void> {
   const DashboardRoute({List<_i11.PageRouteInfo>? children})
@@ -99,12 +128,13 @@ class DashboardRoute extends _i11.PageRouteInfo<void> {
   static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i2.DashboardScreen();
+      return const _i3.DashboardScreen();
     },
   );
 }
 
 /// generated route for
+/// [_i4.LayoutScreen]
 /// [_i3.LayoutScreen]
 class LayoutRoute extends _i11.PageRouteInfo<void> {
   const LayoutRoute({List<_i11.PageRouteInfo>? children})
@@ -115,12 +145,13 @@ class LayoutRoute extends _i11.PageRouteInfo<void> {
   static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i3.LayoutScreen();
+      return const _i4.LayoutScreen();
     },
   );
 }
 
 /// generated route for
+/// [_i5.LoginOtpScreen]
 /// [_i4.LoginOtpScreen]
 class LoginOtpRoute extends _i11.PageRouteInfo<void> {
   const LoginOtpRoute({List<_i11.PageRouteInfo>? children})
@@ -131,12 +162,13 @@ class LoginOtpRoute extends _i11.PageRouteInfo<void> {
   static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i4.LoginOtpScreen();
+      return const _i5.LoginOtpScreen();
     },
   );
 }
 
 /// generated route for
+/// [_i6.LoginScreen]
 /// [_i5.LoginScreen]
 class LoginRoute extends _i11.PageRouteInfo<void> {
   const LoginRoute({List<_i11.PageRouteInfo>? children})
@@ -147,12 +179,13 @@ class LoginRoute extends _i11.PageRouteInfo<void> {
   static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i5.LoginScreen();
+      return const _i6.LoginScreen();
     },
   );
 }
 
 /// generated route for
+/// [_i7.MyFlotteScreen]
 /// [_i6.MyFlotteScreen]
 class MyFlotteRoute extends _i11.PageRouteInfo<void> {
   const MyFlotteRoute({List<_i11.PageRouteInfo>? children})
@@ -163,7 +196,7 @@ class MyFlotteRoute extends _i11.PageRouteInfo<void> {
   static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      return const _i6.MyFlotteScreen();
+      return const _i7.MyFlotteScreen();
     },
   );
 }

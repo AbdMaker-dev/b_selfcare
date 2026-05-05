@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "backToLogin": MessageLookupByLibrary.simpleMessage(
       "← Retour à la connexion",
     ),
+    "campagne": MessageLookupByLibrary.simpleMessage("campagnes"),
     "confirm": MessageLookupByLibrary.simpleMessage("Confirmer"),
     "confirmPassword": MessageLookupByLibrary.simpleMessage(
       "Confirmer le mot de passe",
@@ -54,9 +55,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "featureUnderDevelopment": MessageLookupByLibrary.simpleMessage(
       "Fonctionnalité en développement",
     ),
+    "flotte": MessageLookupByLibrary.simpleMessage("Flotte"),
+    "flotteComplete": MessageLookupByLibrary.simpleMessage("Flotte complète"),
     "forgotPassword": MessageLookupByLibrary.simpleMessage(
       "Mot de passe oublié",
     ),
+    "historique": MessageLookupByLibrary.simpleMessage("Historique"),
     "loading": MessageLookupByLibrary.simpleMessage("Chargement..."),
     "login": MessageLookupByLibrary.simpleMessage("Se connecter"),
     "loginContinue": MessageLookupByLibrary.simpleMessage(
@@ -66,6 +70,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Connexion à votre \nespace",
     ),
     "loginTitleHighlight": MessageLookupByLibrary.simpleMessage("espace"),
+    "myCampagne": MessageLookupByLibrary.simpleMessage("Mes campagnes"),
+    "myFlotte": MessageLookupByLibrary.simpleMessage("Ma flotte"),
+    "nameCampagne": MessageLookupByLibrary.simpleMessage("Nom campagne"),
     "needHelp": MessageLookupByLibrary.simpleMessage("Besoin d\'aide ?"),
     "newPassword": MessageLookupByLibrary.simpleMessage("Nouveau mot de passe"),
     "newPwd": MessageLookupByLibrary.simpleMessage("Mot de passe"),
@@ -83,10 +90,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "otpTitleHighlight": MessageLookupByLibrary.simpleMessage("OTP"),
     "password": MessageLookupByLibrary.simpleMessage("Mot de passe"),
     "phoneNumber": MessageLookupByLibrary.simpleMessage("Numéro de téléphone"),
+    "planingCampagne": MessageLookupByLibrary.simpleMessage(
+      "Planifier la campagne",
+    ),
     "pwd": MessageLookupByLibrary.simpleMessage("Mot de passe"),
+    "pwdChangement": MessageLookupByLibrary.simpleMessage(
+      "Votre mot de passe est mis à jour",
+    ),
     "resend": MessageLookupByLibrary.simpleMessage("Renvoyer"),
     "resendCode": MessageLookupByLibrary.simpleMessage("Renvoyer le code"),
+    "resendLink": MessageLookupByLibrary.simpleMessage(
+      "Renvoyer le lien de réinitialisation du mot de passe",
+    ),
     "resetPwd": MessageLookupByLibrary.simpleMessage("Changer le Mot de passe"),
+    "simSwap": MessageLookupByLibrary.simpleMessage("Swap SIM"),
     "ssoLogin": MessageLookupByLibrary.simpleMessage(
       "Connexion SSO Entreprise",
     ),

@@ -25,7 +25,7 @@ class ResetPasswordRepo {
   }
 
   Future<Either<Failure, DataResponseModel>> resetPassword({required String email,required String password,required String passwordConfirmation,required String token}) async {
-    var res = await htttHelper.handlePostRequest("auth/password/reset ",
+    var res = await htttHelper.handlePostRequest("auth/password/reset",
         {
           "token":token,
           "email": email,
