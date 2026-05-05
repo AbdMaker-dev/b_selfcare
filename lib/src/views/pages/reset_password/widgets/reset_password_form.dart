@@ -29,8 +29,8 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     super.dispose();
   }
 
-  Future<void> _submit() async{
-    if(!_formKey.currentState!.validate()) return;
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
     final resetCubit = getIt<ResetPasswordCubit>();
     await resetCubit.forgetPassword(email: _emailController.text.trim());
   }
@@ -52,51 +52,51 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
         builder: (context, state) {
           return state is ResetPasswordLoaded
               ? SendMailMessage(
-                  emailSentDescription: s.emailSentDescription,
-                  emailSentTitle: s.emailSentTitle,
-                  icon: Icons.mark_email_read_outlined,
-                  isNotSend: true,
-                )
+                emailSentDescription: s.emailSentDescription,
+                emailSentTitle: s.emailSentTitle,
+                icon: Icons.mark_email_read_outlined,
+                isNotSend: true,
+              )
               : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppText.textHighlight(
-                      "${s.titlereset}\n${s.pwd}",
-                      highlight: s.pwd,
-                      highlightHeight: 0.68,
-                      fontSize: 46.rsp,
-                      highlightFontSize: 46.rsp,
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w900,
-                      highlightColor: AppColors.secondary,
-                      fontStyle: FontStyle.italic,
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 40.0.rh),
-                    AppInput(
-                      labelText: s.email,
-                      keyboardType: TextInputType.emailAddress,
-                      controller: _emailController,
-                    ),
-                    SizedBox(height: 50.0.rh),
-                    AppButton(
-                      text: s.resetPwd,
-                      onPressed: _submit,
-                      type: AppButtonType.primary,
-                      icon: Icons.arrow_forward,
-                    ),
-                    SizedBox(height: 30.0.rh),
-                    AppButton(
-                      text: s.login,
-                      onPressed: () {
-                        context.router.replaceAll([LoginRoute()]);
-                      },
-                      type: AppButtonType.outline,
-                      icon: Icons.arrow_back,
-                    ),
-                  ],
-                );
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AppText.textHighlight(
+                    "${s.titlereset}\n${s.pwd}",
+                    highlight: s.pwd,
+                    highlightHeight: 0.68,
+                    fontSize: 46.rsp,
+                    highlightFontSize: 46.rsp,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w900,
+                    highlightColor: AppColors.secondary,
+                    fontStyle: FontStyle.italic,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 40.0.rh),
+                  AppInput(
+                    labelText: s.email,
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
+                  ),
+                  SizedBox(height: 50.0.rh),
+                  AppButton(
+                    text: s.resetPwd,
+                    onPressed: _submit,
+                    type: AppButtonType.primary,
+                    icon: Icons.arrow_forward,
+                  ),
+                  SizedBox(height: 30.0.rh),
+                  AppButton(
+                    text: s.login,
+                    onPressed: () {
+                      context.router.replaceAll([LoginRoute()]);
+                    },
+                    type: AppButtonType.outline,
+                    icon: Icons.arrow_back,
+                  ),
+                ],
+              );
         },
       ),
     );
