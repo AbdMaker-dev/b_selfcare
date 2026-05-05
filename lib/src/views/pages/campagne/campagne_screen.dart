@@ -109,7 +109,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
         ),
         SizedBox(height: 30.rh),
         Container(
-          height: 360.rh,
+          height: 370.rh,
           padding: EdgeInsets.all(12.rw),
           decoration: BoxDecoration(
             color: AppColors.white,
