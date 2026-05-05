@@ -10,7 +10,6 @@ import 'package:b_selfcare/src/views/pages/reset_password/widgets/send_mail_mess
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
-import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

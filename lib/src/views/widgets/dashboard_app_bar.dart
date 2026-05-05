@@ -24,7 +24,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(56.rh);
+  Size get preferredSize => Size.fromHeight(50.rh);
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +85,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icons.refresh_rounded,
           type: AppButtonType.outline,
           onPressed: onActualiser,
-          width: 97.rw,
-          height: 60.rh,
+          width: 110.rw,
+          height: 50.rh,
           fontSize: 11.5.rsp,
         ),
         SizedBox(width: 8.rw),
@@ -95,8 +95,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icons.add_circle_outline,
           type: AppButtonType.secondary,
           onPressed: onRecharger,
-          width: 105.rw,
-          height: 60.rh,
+          width: 120.rw,
+          height: 50.rh,
           fontSize: 12.5.rsp,
         ),
       ],
@@ -112,7 +112,7 @@ class _BadgeActif extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 61.rw,
+      width: 75.rw,
       height: 30.rh,
       padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 5.rh),
       decoration: BoxDecoration(
@@ -124,6 +124,8 @@ class _BadgeActif extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 6.rw,
@@ -155,7 +157,7 @@ class _BadgeSolde extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 112.rw,
+      width: 120.rw,
       height: 30.rh,
       padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 5.rh),
       decoration: BoxDecoration(
@@ -165,6 +167,8 @@ class _BadgeSolde extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: 6.rw,

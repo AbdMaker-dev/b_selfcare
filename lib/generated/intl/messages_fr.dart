@@ -111,6 +111,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "stepAccess": MessageLookupByLibrary.simpleMessage("Accès"),
     "stepCredentials": MessageLookupByLibrary.simpleMessage("Identifiants"),
     "titlereset": MessageLookupByLibrary.simpleMessage("Changement de votre"),
+    "validatorEmailInvalid": MessageLookupByLibrary.simpleMessage(
+      "Adresse e-mail invalide",
+    ),
+    "validatorEmailRequired": MessageLookupByLibrary.simpleMessage(
+      "L\'adresse e-mail est obligatoire",
+    ),
+    "validatorPasswordRequired": MessageLookupByLibrary.simpleMessage(
+      "Le mot de passe est obligatoire",
+    ),
+    "validatorPasswordTooShort": MessageLookupByLibrary.simpleMessage(
+      "Le mot de passe doit contenir au moins 8 caractères",
+    ),
     "verification": MessageLookupByLibrary.simpleMessage("Vérification"),
     "verify": MessageLookupByLibrary.simpleMessage("Vérifier"),
     "verifyCode": MessageLookupByLibrary.simpleMessage("Vérifier le code"),

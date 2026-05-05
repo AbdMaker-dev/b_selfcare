@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:b_selfcare/routers/auth_guard.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ const String routeApp = '/app';
 const String routeAppDashbord = 'dashbord';
 const String routeAppMyFlotte = 'flotte';
 const String routeAppMyCampagnes = 'campagnes';
+const String routeAppProducts = 'products';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -44,11 +46,12 @@ class AppRouter extends RootStackRouter {
     AutoRoute(
       path: routeApp,
       page: LayoutRoute.page,
-      guards: [],
+      guards: [AuthGuard()],
       children: [
         AutoRoute(path: routeAppDashbord, page: DashboardRoute.page),
         AutoRoute(path: routeAppMyFlotte, page: MyFlotteRoute.page),
         AutoRoute(path: routeAppMyCampagnes, page: CampagneRoute.page),
+        AutoRoute(path: routeAppProducts, page: ProductsRoute.page),
       ],
     ),
   ];

@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:injectable/injectable.dart';
+import 'package:toastification/toastification.dart';
 import 'package:universal_html/html.dart' as html;
-
 import '../models/app_config.dart';
 import '../models/failure.dart';
 import '../models/success.dart';
@@ -36,11 +37,13 @@ class HttpHelper {
   }
 
   void _showMessage(String message, {bool isError = false}) {
-    if (isError) {
-      EasyLoading.showError(message, dismissOnTap: true);
-      return;
-    }
-    EasyLoading.showSuccess(message, dismissOnTap: true);
+    toastification.show(
+      type: isError ? ToastificationType.error : ToastificationType.success,
+      style: ToastificationStyle.flatColored,
+      title: Text(message),
+      autoCloseDuration: const Duration(seconds: 4),
+      alignment: Alignment.topRight,
+    );
   }
 
   Future<void> _handleResponse(Response<dynamic> response, ResponseInterceptorHandler handler) async {
@@ -51,10 +54,6 @@ class HttpHelper {
   }
 
   Future<void> _handleRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    if (kDebugMode) {
-      print("========= API PATH ===========");
-      print(options.path);
-    }
     if (!_isContainsPath(options.path)) {
       final String accessToken = (await locaHelper.getToken()) ?? "";
       options.headers['Authorization'] = 'Bearer $accessToken';
@@ -63,38 +62,37 @@ class HttpHelper {
   }
 
   Future<void> _handleError(DioException error, ErrorInterceptorHandler handler) async {
-    try {
-      if (showL || isGet) {
-        _hideLoader();
-      }
-      if (kDebugMode) {
-        print("========== HTTP ERROR =========");
-        print(error.response?.statusCode);
-        print(error.response?.statusMessage);
-        // print(((error.response?.data?['data']?['errors'] is List && (error.response?.data?['data']?['errors'])?.isNotEmpty))
-        //   ? error.response?.data?['data']?['errors'][0]
-        //   : error.response?.data?['data']?['errors'] is Map<String, dynamic>
-        //   ? error.response?.data?['data']?['errors']['message']
-        //   : error.response?.data?['message'] ?? "An error has occurred. Please check your connection status.",
-        // );
-      }
-      // _showMessage(
-      //   (((error.response?.data?['data']?['errors'] is List && (error.response?.data?['data']?['errors'])?.isNotEmpty))
-      //   ? error.response?.data?['data']?['errors'][0]
-      //   : error.response?.data?['data']?['errors'] is Map<String, dynamic>
-      //   ? error.response?.data?['data']?['errors']['message']
-      //   : error.response?.data?['message'] ?? "An error has occurred. Please check your connection status.").toString(),
-      //   isError: true,
-      // );
-      if (error.response?.statusCode == 401) {}
-      handler.next(error);
-    } catch (e) {
-      _showMessage("An error has occurred. Please check your connection status.", isError: true);
+    if (showL || isGet) _hideLoader();
+
+    if (kDebugMode) {
+      print("========== HTTP ERROR =========");
+      print(error);
     }
+    if (error.response?.statusCode == 401) {
+      await locaHelper.logOut();
+    }
+
+    _showMessage(_extractMessage(error), isError: true);
+    handler.next(error);
   }
 
   bool _isContainsPath(String path) {
-    return path.contains('/auth/login') || path.contains('/auth/check-otp');
+    return path.contains('/auth/login') || path.contains('/auth/mfa/challenge') || path.contains('/auth/mfa/send');
+  }
+
+  String _extractMessage(DioException e) {
+    final data = e.response?.data;
+    if (data is! Map) return e.response?.statusMessage ?? '';
+
+    final errors = data['errors'];
+    if (errors is String && errors.isNotEmpty) return errors;
+    if (errors is Map && errors.isNotEmpty) {
+      final firstField = errors.values.first;
+      if (firstField is List && firstField.isNotEmpty) {
+        return firstField.first.toString();
+      }
+    }
+    return data['message']?.toString() ?? e.response?.statusMessage ?? '';
   }
 
   Future<Either<Failure, Success>> handlePostRequest(String api, Map<String, dynamic> data, { showSuccessToast = true, showLoader = true}) async {
@@ -103,6 +101,10 @@ class HttpHelper {
       if (showLoader) {
         _showLoader();
       }
+      if (kDebugMode) {
+        print("============ POST HTTP DEBUG ${AppConfig.shared.baseUrl}/$api");
+      }
+
       final res = await _dio.post('${AppConfig.shared.baseUrl}/$api', data: data);
       if (showSuccessToast) {
         _showMessage((res.data?['message'] ?? res.data.toString()).toString());
@@ -112,7 +114,7 @@ class HttpHelper {
       return Left(
         Failure(
           e.response?.statusCode ?? 0,
-          e.response?.data['message'] ?? e.response?.statusMessage ?? "",
+          _extractMessage(e),
         ),
       );
     }
@@ -141,7 +143,7 @@ class HttpHelper {
       return Left(
         Failure(
           e.response?.statusCode ?? 0,
-          e.response?.data['message'] ?? e.response?.statusMessage ?? "",
+          _extractMessage(e),
         ),
       );
     }
@@ -170,7 +172,7 @@ class HttpHelper {
       return Left(
         Failure(
           e.response?.statusCode ?? 0,
-          e.response?.data['message'] ?? e.response?.statusMessage ?? "",
+          _extractMessage(e),
         ),
       );
     }
@@ -199,7 +201,7 @@ class HttpHelper {
       return Left(
         Failure(
           e.response?.statusCode ?? 0,
-          e.response?.data['message'] ?? e.response?.statusMessage ?? "",
+          _extractMessage(e),
         ),
       );
     }
@@ -217,6 +219,10 @@ class HttpHelper {
       if (showLoader) {
         _showLoader();
       }
+
+      if (kDebugMode) {
+        print("============ GET HTTP DEBUG ${AppConfig.shared.baseUrl}/$api");
+      }
       var res = await _dio.get(
         '${AppConfig.shared.baseUrl}/$api',
         data: data,
@@ -227,7 +233,7 @@ class HttpHelper {
       return Left(
         Failure(
           e.response?.statusCode ?? 0,
-          e.response?.data['message'] ?? e.response?.statusMessage ?? "",
+          _extractMessage(e),
         ),
       );
     }
@@ -267,7 +273,7 @@ class HttpHelper {
       return Left(
         Failure(
           e.response?.statusCode ?? 0,
-          e.response?.data['message'] ?? e.response?.statusMessage ?? "",
+          _extractMessage(e),
         ),
       );
     }
@@ -321,7 +327,7 @@ class HttpHelper {
       return Left(
         Failure(
           e.response?.statusCode ?? 0,
-          e.response?.data['message'] ?? e.response?.statusMessage ?? "",
+          _extractMessage(e),
         ),
       );
     }

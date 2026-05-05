@@ -22,6 +22,17 @@ import 'package:b_selfcare/src/views/pages/my_flotte/my_flotte_screen.dart'
     as _i7;
 import 'package:b_selfcare/src/views/pages/reset_password/change_password_screen.dart'
     as _i2;
+import 'package:b_selfcare/src/views/pages/dashboard/dashboard_screen.dart'
+    as _i2;
+import 'package:b_selfcare/src/views/pages/layout/layout_screen.dart' as _i3;
+import 'package:b_selfcare/src/views/pages/login/login_otp_screen.dart' as _i4;
+import 'package:b_selfcare/src/views/pages/login/login_screen.dart' as _i5;
+import 'package:b_selfcare/src/views/pages/my_flotte/my_flotte_screen.dart'
+    as _i6;
+import 'package:b_selfcare/src/views/pages/products/products_screen.dart'
+    as _i7;
+import 'package:b_selfcare/src/views/pages/reset_password/change_password_screen.dart'
+    as _i1;
 import 'package:b_selfcare/src/views/pages/reset_password/reset_password_screen.dart'
     as _i8;
 import 'package:b_selfcare/src/views/pages/splash/splash_screen.dart' as _i9;
@@ -45,6 +56,7 @@ class CampagneRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.ChangePasswordScreen]
+/// [_i1.ChangePasswordScreen]
 class ChangePasswordRoute extends _i11.PageRouteInfo<ChangePasswordRouteArgs> {
   ChangePasswordRoute({
     _i12.Key? key,
@@ -106,6 +118,7 @@ class ChangePasswordRouteArgs {
 
 /// generated route for
 /// [_i3.DashboardScreen]
+/// [_i2.DashboardScreen]
 class DashboardRoute extends _i11.PageRouteInfo<void> {
   const DashboardRoute({List<_i11.PageRouteInfo>? children})
     : super(DashboardRoute.name, initialChildren: children);
@@ -122,6 +135,7 @@ class DashboardRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.LayoutScreen]
+/// [_i3.LayoutScreen]
 class LayoutRoute extends _i11.PageRouteInfo<void> {
   const LayoutRoute({List<_i11.PageRouteInfo>? children})
     : super(LayoutRoute.name, initialChildren: children);
@@ -138,6 +152,7 @@ class LayoutRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.LoginOtpScreen]
+/// [_i4.LoginOtpScreen]
 class LoginOtpRoute extends _i11.PageRouteInfo<void> {
   const LoginOtpRoute({List<_i11.PageRouteInfo>? children})
     : super(LoginOtpRoute.name, initialChildren: children);
@@ -154,6 +169,7 @@ class LoginOtpRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.LoginScreen]
+/// [_i5.LoginScreen]
 class LoginRoute extends _i11.PageRouteInfo<void> {
   const LoginRoute({List<_i11.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
@@ -170,6 +186,7 @@ class LoginRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.MyFlotteScreen]
+/// [_i6.MyFlotteScreen]
 class MyFlotteRoute extends _i11.PageRouteInfo<void> {
   const MyFlotteRoute({List<_i11.PageRouteInfo>? children})
     : super(MyFlotteRoute.name, initialChildren: children);
@@ -180,6 +197,22 @@ class MyFlotteRoute extends _i11.PageRouteInfo<void> {
     name,
     builder: (data) {
       return const _i7.MyFlotteScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i7.ProductsScreen]
+class ProductsRoute extends _i11.PageRouteInfo<void> {
+  const ProductsRoute({List<_i11.PageRouteInfo>? children})
+    : super(ProductsRoute.name, initialChildren: children);
+
+  static const String name = 'ProductsRoute';
+
+  static _i11.PageInfo page = _i11.PageInfo(
+    name,
+    builder: (data) {
+      return const _i7.ProductsScreen();
     },
   );
 }

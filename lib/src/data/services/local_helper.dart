@@ -13,12 +13,15 @@ class LocaHelper {
     return prefs;
   }
 
-  saveToken(String? token, DateTime expiryDate) async {
+  Future<bool> saveToken(String? token, {DateTime? expiryDate}) async {
     if (token != null) {
       var pf = await getSharedPreferences();
-      pf.setString("token", token);
-      pf.setString('tokenExpiryDate', expiryDate.toIso8601String());
+      if(expiryDate != null){
+        await pf.setString('tokenExpiryDate', expiryDate.toIso8601String());
+      }
+      return  await pf.setString("token", token);
     }
+    return false;
   }
   
 

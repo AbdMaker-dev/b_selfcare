@@ -50,7 +50,7 @@ class _SideMenuListState extends State<SideMenuList> {
         ),
         CustomItemMenu(
           title: "Ma flotte",
-          icon: Icons.dashboard,
+          icon: Icons.sim_card,
           isActive: context.router.currentUrl.contains("flotte"),
           onSelect: () => context.router.pushPath('$routeApp/$routeAppMyFlotte'),
         ),
@@ -60,7 +60,12 @@ class _SideMenuListState extends State<SideMenuList> {
           isActive: context.router.currentUrl.contains("campagnes"),
           onSelect: () => context.router.pushPath('$routeApp/$routeAppMyCampagnes'),
         ),
-
+        CustomItemMenu(
+          title: "Mes produits",
+          icon: Icons.card_giftcard_sharp,
+          isActive: context.router.currentUrl.contains("products"),
+          onSelect: () => context.router.pushPath('$routeApp/$routeAppProducts'),
+        ),
       ],
     );
   }

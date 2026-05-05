@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/dashboard_app_bar.dart';
 import 'package:b_selfcare/src/views/widgets/side_menu_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class LayoutScreen extends StatefulWidget {
@@ -26,7 +29,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
           children: [
             AnimatedContainer(
               width: 252.rw,
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 50),
               decoration: BoxDecoration(color: AppColors.primary),
               padding: EdgeInsets.only(bottom: 10.rh),
               child: Stack(
@@ -37,7 +40,22 @@ class _LayoutScreenState extends State<LayoutScreen> {
                       Expanded(
                         child: SingleChildScrollView(
                           padding: EdgeInsets.only(bottom: 100.rh),
-                          child: SideMenuList(),
+                          child: BlocSelector<LayoutCubit, LayoutState, AppMainRouteChange?>(
+                            bloc: getIt<LayoutCubit>(),
+                            selector: (state){
+                              return state.map(
+                                initial: (value){
+                                  return null;
+                                },
+                                routeChanged: (value){
+                                  return value;
+                                },
+                              );
+                            },
+                            builder: (context, state){
+                              return SideMenuList();
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -63,7 +81,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   DashboardAppBar(
                     companyName: 'CORTECH GROUP',
                     solde: '2 850 000 Fcfa',
-                    isActif: true,
+                    isActif: false,
                     onActualiser: () {},
                     onRecharger: () {},
                   ),
