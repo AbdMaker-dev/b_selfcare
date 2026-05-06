@@ -1,7 +1,7 @@
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/singleton.dart';
-import 'package:b_selfcare/src/data/models/data_employee_response_model.dart';
+import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';

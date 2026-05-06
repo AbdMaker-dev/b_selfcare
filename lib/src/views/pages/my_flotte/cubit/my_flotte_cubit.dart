@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:b_selfcare/src/data/models/data_employee_response_model.dart';
+import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
 import 'package:b_selfcare/src/domain/usecases/employee_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';

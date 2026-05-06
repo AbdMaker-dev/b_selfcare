@@ -3,12 +3,16 @@ class MetaModel {
   int? perPage;
   int? total;
   int? lastPage;
+  int? from;
+  int? to;
 
   MetaModel(
       {this.currentPage,
         this.perPage,
         this.total,
-        this.lastPage
+        this.lastPage,
+        this.from,
+        this.to
       });
 
   MetaModel.fromJson(Map<String, dynamic> json) {
@@ -16,6 +20,8 @@ class MetaModel {
     perPage = json['per_page'];
     total = json['total'];
     lastPage = json['last_page'];
+    from = json['from'];
+    to = json['to'];
   }
 
   Map<String, dynamic> toJson() {
@@ -24,6 +30,8 @@ class MetaModel {
     data['per_page'] = this.perPage;
     data['total'] = this.total;
     data['last_page'] = this.lastPage;
+    data['to'] = this.to;
+    data['from'] = this.from;
     return data;
   }
 }

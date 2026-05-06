@@ -1,7 +1,7 @@
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import '../../data/models/data_employee_response_model.dart';
+import '../../data/models/employee/data_employee_response_model.dart';
 import '../../data/repositories/employee_repo.dart';
 
 @lazySingleton

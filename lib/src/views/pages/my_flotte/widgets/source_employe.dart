@@ -1,4 +1,4 @@
-import 'package:b_selfcare/src/data/models/employee_model.dart';
+import 'package:b_selfcare/src/data/models/employee/employee_model.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_actions_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
