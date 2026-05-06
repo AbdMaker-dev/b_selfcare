@@ -1,29 +1,25 @@
-import 'dart:convert';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/user_deails_model.dart';
-
-// @Named("LocaHelper")
 @injectable
 class LocaHelper {
-  var prefs;
+  SharedPreferences? prefs;
+
   Future<SharedPreferences> getSharedPreferences() async {
     prefs ??= await SharedPreferences.getInstance();
-    return prefs;
+    return prefs!;
   }
 
   Future<bool> saveToken(String? token, {DateTime? expiryDate}) async {
     if (token != null) {
       var pf = await getSharedPreferences();
-      if(expiryDate != null){
+      if (expiryDate != null) {
         await pf.setString('tokenExpiryDate', expiryDate.toIso8601String());
       }
-      return  await pf.setString("token", token);
+      return await pf.setString("token", token);
     }
     return false;
   }
-  
 
   Future<String?> getToken() async {
     var pf = await getSharedPreferences();
@@ -35,25 +31,31 @@ class LocaHelper {
     return pf.getString("tokenExpiryDate");
   }
 
-  Future<void> saveCustomerData(UserDetailsModel data) async {
-    var pf = await getSharedPreferences();
-    pf.setString("customer", jsonEncode(data.toJson()));
-  }
+  /// Retourne true si un token existe et n'est pas expiré.
+  /// Efface automatiquement le token si expiré.
+  Future<bool> isTokenValid() async {
+    final pf = await getSharedPreferences();
+    final token = pf.getString("token");
+    if (token == null || token.isEmpty) return false;
 
-  Future<UserDetailsModel?> getCustomerData() async {
-    var pf = await getSharedPreferences();
-    var data = pf.getString("customer");
-    if (data != null) {
-      return UserDetailsModel.fromJson(jsonDecode(data));
-    } else {
-      return null;
+    final expiryStr = pf.getString("tokenExpiryDate");
+    if (expiryStr == null) return false;
+
+    final expiry = DateTime.tryParse(expiryStr);
+    if (expiry == null) return false;
+
+    if (DateTime.now().isAfter(expiry)) {
+      await logOut();
+      return false;
     }
+
+    return true;
   }
 
   logOut() async {
     var pf = await getSharedPreferences();
     await pf.remove("token");
-    await pf.remove("customer");
+    await pf.remove("tokenExpiryDate");
   }
 
   saveLang(String l) async {
