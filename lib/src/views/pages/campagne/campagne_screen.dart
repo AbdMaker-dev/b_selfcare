@@ -4,7 +4,6 @@ import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_historique_campagne.dart';
-import 'package:b_selfcare/src/views/pages/my_flotte/example_model/employe_model.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -14,6 +13,8 @@ import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/title_table.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+
+import '../my_flotte/widgets/employe_model.dart';
 
 @RoutePage()
 class CampagneScreen extends StatefulWidget {

@@ -1,9 +1,10 @@
-import 'package:b_selfcare/src/views/pages/my_flotte/example_model/employe_model.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_actions_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_text_table.dart';
 import 'package:flutter/material.dart';
+
+import '../../my_flotte/widgets/employe_model.dart';
 
 class SourceHistoriqueCampagne extends AppTableSource<EmployeModel> {
   @override
