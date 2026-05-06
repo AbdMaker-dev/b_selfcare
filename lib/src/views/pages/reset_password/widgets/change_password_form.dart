@@ -3,6 +3,7 @@ import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/app_validators.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_cubit.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/widgets/send_mail_message.dart';
@@ -92,6 +93,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                     keyboardType: TextInputType.text,
                     isPassword: true,
                     controller: _newPasswordController,
+                    validator: AppValidators.password(context),
                   ),
                   SizedBox(height: 20.rh),
                   AppInput(
@@ -99,6 +101,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                     keyboardType: TextInputType.text,
                     controller: _confirmPasswordController,
                     isPassword: true,
+                    validator: AppValidators.password(context),
                   ),
                   SizedBox(height: 50.0.rh),
                   AppButton(

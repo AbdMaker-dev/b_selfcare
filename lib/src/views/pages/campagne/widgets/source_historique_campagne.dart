@@ -1,35 +1,41 @@
+import 'package:b_selfcare/src/data/models/campaign/campaign_model.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_text_table.dart';
 import 'package:flutter/material.dart';
 
-import '../../my_flotte/widgets/employe_model.dart';
-
-class SourceHistoriqueCampagne extends AppTableSource<EmployeModel> {
+class SourceHistoriqueCampagne extends AppTableSource<CampaignModel> {
   @override
-  final List<EmployeModel> rows;
+  final List<CampaignModel> rows;
 
   SourceHistoriqueCampagne({required this.rows});
 
   @override
   List<({String label, int flex})> get columns => [
-    (label: 'Date',  flex: 2),
-    (label: 'Campagne',   flex: 4),
-    (label: 'Numéro',  flex: 3),
-    (label: 'Provisionnés',  flex: 3),
-    (label: 'Coût',   flex: 3),
-    (label: 'Status',  flex: 2),
-    (label: 'Durée',  flex: 3),
+    (label: 'Date',          flex: 3),
+    (label: 'Campagne',      flex: 4),
+    (label: 'Produit',       flex: 3),
+    (label: 'Coût',          flex: 3),
+    (label: 'Statut',        flex: 3),
+    (label: 'Prochain Run',  flex: 4),
   ];
 
   @override
-  List<Widget> buildRow(EmployeModel e) => [
-    CellTextTable(text: e.name, sub: e.group),
-    CellTextTable(text: e.group),
-    CellTextTable(text: e.phone),
-    CellTextTable(text: e.product),
-    CellTextTable(text: e.product),
-    e.status == 'Succès' ? CellBadgeTable.success() : CellBadgeTable.echec(),
-    CellTextTable(text: e.product),
+  List<Widget> buildRow(CampaignModel e) => [
+    CellTextTable(text: e.createdAt ?? '-'),
+    CellTextTable(text: e.name ?? '-', sub: e.description),
+    CellTextTable(text: e.productId?.toString() ?? '-'),
+    CellTextTable(text: e.estimatedCost ?? '-'),
+    _statusBadge(e.status),
+    CellTextTable(text: e.nextExecution ?? '-'),
   ];
+
+  Widget _statusBadge(String? status) {
+    return switch (status?.toLowerCase()) {
+      'active'   => CellBadgeTable.actif(),
+      'inactive' => CellBadgeTable.inactif(),
+      'paused'   => CellBadgeTable.enAttente(),
+      _          => CellBadgeTable.inactif(),
+    };
+  }
 }

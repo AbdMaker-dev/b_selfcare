@@ -16,8 +16,8 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     (label: 'Employé',   flex: 5),
     (label: 'Poste',     flex: 4),
     (label: 'Téléphone', flex: 4),
-    (label: 'Numéros',   flex: 3),
-    (label: 'Statut',    flex: 3),
+    (label: 'Numéros',   flex: 4),
+    (label: 'Statut',    flex: 2),
     (label: 'Actions',   flex: 4),
   ];
 
@@ -30,10 +30,18 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     CellTextTable(text: e.position ?? '-'),
     CellTextTable(text: e.phone ?? '-'),
     CellTextTable(text: '${e.fleetNumbersCount ?? 0} numéros'),
-    e.status == 'active' ? CellBadgeTable.actif() : CellBadgeTable.suspendu(),
+    _statusBadge(e.status),
     CellActionsTable(actions: [
       (label: 'Modifier', danger: false, onTap: () {}),
       (label: 'Swap SIM', danger: true,  onTap: () {}),
     ]),
   ];
+  Widget _statusBadge(String? status) {
+    return switch (status?.toLowerCase()) {
+      'active'   => CellBadgeTable.actif(),
+      'inactive' => CellBadgeTable.inactif(),
+      'paused'   => CellBadgeTable.enAttente(),
+      _          => CellBadgeTable.inactif(),
+    };
+  }
 }

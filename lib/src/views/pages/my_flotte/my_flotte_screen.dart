@@ -146,7 +146,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                       department: e.position ?? '-',
                       forfait: '${e.fleetNumbersCount ?? 0} numéros',
                       phone: e.phone ?? '-',
-                      status: e.status == 'active',
+                      status: e.status == 'active' || e.status == 'ACTIVE',
                     );
                   }).toList();
 

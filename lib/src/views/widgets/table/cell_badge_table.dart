@@ -9,6 +9,7 @@ class CellBadgeTable extends StatelessWidget {
   const CellBadgeTable({super.key, required this.label, required this.bg, required this.fg, required this.dot});
 
   factory CellBadgeTable.actif()     =>  CellBadgeTable(label: 'Actif',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
+  factory CellBadgeTable.active()     =>  CellBadgeTable(label: 'ACTIVE',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
   factory CellBadgeTable.success()     =>  CellBadgeTable(label: 'Succès',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
   factory CellBadgeTable.suspendu()  =>  CellBadgeTable(label: 'Suspendu',   bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
   factory CellBadgeTable.enAttente() =>  CellBadgeTable(label: 'En attente', bg: AppColors.amberCream, fg: AppColors.amberBrown, dot: AppColors.amberGold);
