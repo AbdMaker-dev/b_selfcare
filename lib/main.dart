@@ -95,4 +95,5 @@ class _MyAppState extends State<MyApp> {
 // dart run intl_utils:generate
 // dart run build_runner build
 // flutter run -d chrom -t lib/main_dev.dart
+// flutter run -d chrome -t lib/main_dev.dart --web-browser-flag "--disable-web-security"
 // flutter run -d chrom -t lib/main_prod.dart

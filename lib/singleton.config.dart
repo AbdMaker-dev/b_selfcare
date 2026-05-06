@@ -31,6 +31,8 @@ import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dar
     as _i37;
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart'
     as _i595;
+import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart'
+    as _i822;
 import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_cubit.dart'
     as _i865;
 import 'package:b_selfcare/src/views/widgets/filter_tab/cubit/filter_tab_cubit.dart'
@@ -48,14 +50,10 @@ extension GetItInjectableX on _i174.GetIt {
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     gh.factory<_i749.LocaHelper>(() => _i749.LocaHelper());
-    gh.lazySingleton<_i100.LayoutCubit>(() => _i100.LayoutCubit());
     gh.lazySingleton<_i222.FilterTabCubit>(() => _i222.FilterTabCubit());
     gh.lazySingleton<_i114.SelectCubit>(() => _i114.SelectCubit());
     gh.factory<_i330.HttpHelper>(
       () => _i330.HttpHelper(gh<_i749.LocaHelper>()),
-    );
-    gh.lazySingleton<_i48.LoginCubit>(
-      () => _i48.LoginCubit(gh<_i330.HttpHelper>(), gh<_i749.LocaHelper>()),
     );
     gh.singleton<_i231.CampaignRepo>(
       () => _i231.CampaignRepo(gh<_i749.LocaHelper>(), gh<_i330.HttpHelper>()),
@@ -77,6 +75,12 @@ extension GetItInjectableX on _i174.GetIt {
         resetPasswordRepo: gh<_i991.ResetPasswordRepo>(),
       ),
     );
+    gh.lazySingleton<_i100.LayoutCubit>(
+      () => _i100.LayoutCubit(gh<_i330.HttpHelper>()),
+    );
+    gh.lazySingleton<_i822.ProductsCubit>(
+      () => _i822.ProductsCubit(gh<_i330.HttpHelper>()),
+    );
     gh.lazySingleton<_i784.GroupUsecase>(
       () => _i784.GroupUsecase(groupRepo: gh<_i206.GroupRepo>()),
     );
@@ -97,6 +101,13 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i215.CampagneCubit>(
       () => _i215.CampagneCubit(gh<_i868.CampaignUsecase>()),
+    );
+    gh.lazySingleton<_i48.LoginCubit>(
+      () => _i48.LoginCubit(
+        gh<_i330.HttpHelper>(),
+        gh<_i749.LocaHelper>(),
+        gh<_i100.LayoutCubit>(),
+      ),
     );
     return this;
   }

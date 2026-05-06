@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/generated/l10n.dart';
+import 'package:b_selfcare/routers/app_router.dart';
 import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
@@ -75,7 +76,9 @@ class _OtpFormState extends State<OtpForm> {
                   setState(() => currentStep = 2);
                   await Future.delayed(const Duration(seconds: 3), () {});
                   // ignore: use_build_context_synchronously
-                  context.router.replaceAll([DashboardRoute()]);
+                  context.router.pushPath('$routeApp/$routeAppDashbord');
+                  // context.router.replaceAll([DashboardRoute()]);
+
                 },
               );
             },

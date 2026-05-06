@@ -1,3 +1,5 @@
+import 'package:b_selfcare/singleton.dart';
+import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -37,13 +39,15 @@ class HttpHelper {
   }
 
   void _showMessage(String message, {bool isError = false}) {
-    toastification.show(
-      type: isError ? ToastificationType.error : ToastificationType.success,
-      style: ToastificationStyle.flatColored,
-      title: Text(message),
-      autoCloseDuration: const Duration(seconds: 4),
-      alignment: Alignment.topRight,
-    );
+    try {
+      toastification.show(
+        type: isError ? ToastificationType.error : ToastificationType.success,
+        style: ToastificationStyle.flatColored,
+        title: Text(message),
+        autoCloseDuration: const Duration(seconds: 4),
+        alignment: Alignment.topRight,
+      );
+    } catch (_) {}
   }
 
   Future<void> _handleResponse(Response<dynamic> response, ResponseInterceptorHandler handler) async {
@@ -57,6 +61,11 @@ class HttpHelper {
     if (!_isContainsPath(options.path)) {
       final String accessToken = (await locaHelper.getToken()) ?? "";
       options.headers['Authorization'] = 'Bearer $accessToken';
+      final slug = getIt<LayoutCubit>().currentUser?.company?.slug;
+      print(getIt<LayoutCubit>().currentUser?.toJson());
+      if (slug != null) {
+        options.headers['X-Tenant'] = slug;
+      }
     }
     return handler.next(options);
   }
@@ -64,15 +73,17 @@ class HttpHelper {
   Future<void> _handleError(DioException error, ErrorInterceptorHandler handler) async {
     if (showL || isGet) _hideLoader();
 
-    if (kDebugMode) {
-      print("========== HTTP ERROR =========");
-      print(error);
+    final showError = error.requestOptions.extra['showError'] as bool? ?? true;
+    if (kDebugMode && showError) {
+      debugPrint("========== HTTP ERROR =========");
+      debugPrint(error.toString());
     }
     if (error.response?.statusCode == 401) {
       await locaHelper.logOut();
     }
-
-    _showMessage(_extractMessage(error), isError: true);
+    if (showError) {
+      _showMessage(_extractMessage(error), isError: true);
+    }
     handler.next(error);
   }
 
@@ -95,17 +106,27 @@ class HttpHelper {
     return data['message']?.toString() ?? e.response?.statusMessage ?? '';
   }
 
-  Future<Either<Failure, Success>> handlePostRequest(String api, Map<String, dynamic> data, { showSuccessToast = true, showLoader = true}) async {
+  Future<Either<Failure, Success>> handlePostRequest(
+    String api,
+    Map<String, dynamic> data, {
+    showSuccessToast = true,
+    showLoader = true,
+    bool showErrorToast = true,
+  }) async {
     try {
       showL = showLoader;
       if (showLoader) {
         _showLoader();
       }
       if (kDebugMode) {
-        print("============ POST HTTP DEBUG ${AppConfig.shared.baseUrl}/$api");
+        debugPrint("============ POST HTTP DEBUG ${AppConfig.shared.baseUrl}/$api");
       }
 
-      final res = await _dio.post('${AppConfig.shared.baseUrl}/$api', data: data);
+      final res = await _dio.post(
+        '${AppConfig.shared.baseUrl}/$api',
+        data: data,
+        options: Options(extra: {'showError': showErrorToast}),
+      );
       if (showSuccessToast) {
         _showMessage((res.data?['message'] ?? res.data.toString()).toString());
       }
@@ -221,7 +242,7 @@ class HttpHelper {
       }
 
       if (kDebugMode) {
-        print("============ GET HTTP DEBUG ${AppConfig.shared.baseUrl}/$api");
+        debugPrint("============ GET HTTP DEBUG ${AppConfig.shared.baseUrl}/$api");
       }
       var res = await _dio.get(
         '${AppConfig.shared.baseUrl}/$api',
@@ -259,7 +280,7 @@ class HttpHelper {
         options: Options(responseType: ResponseType.bytes),
       );
       if (res.statusCode == 200) {
-        print(res.data);
+        debugPrint(res.data);
         Uint8List bytes = Uint8List.fromList(res.data);
         var blob = html.Blob([bytes], 'application/pdf');
         var blobUrl = html.Url.createObjectUrlFromBlob(blob);
@@ -307,7 +328,7 @@ class HttpHelper {
         // Vérifier si c'est vraiment un PDF
         String header = String.fromCharCodes(bytes.take(10));
         if (!header.startsWith('%PDF')) {
-          print(
+          debugPrint(
             'Erreur: Le fichier reçu n\'est pas un PDF. Contenu: ${String.fromCharCodes(bytes.take(100))}',
           );
           return Left(
