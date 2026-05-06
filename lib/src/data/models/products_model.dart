@@ -36,10 +36,12 @@ class ProductsModel {
 
 class Quotas {
   int? walletId;
+  String? category;
+  String? unit;
   int? quota;
   int? price;
 
-  Quotas({this.walletId, this.quota, this.price});
+  Quotas({this.walletId, this.quota, this.price, this.category, this.unit});
 
   Quotas.fromJson(Map<String, dynamic> json) {
     walletId = json['wallet_id'];

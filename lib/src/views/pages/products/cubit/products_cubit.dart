@@ -35,7 +35,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> fetchProducts() async {
     if (products.isNotEmpty) return;
     emit(ProductsState.productsLoading());
-    final response = await _httpHelper.handleGetRequest("products/custom");
+    final response = await _httpHelper.handleGetRequest("products/custom", showLoader: true);
     response.fold(
       (left) => emit(ProductsState.productsError(left.message)),
       (right) {

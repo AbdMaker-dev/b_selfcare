@@ -1,6 +1,7 @@
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_text.dart';
 
 enum PlanStatus { active, archive }
@@ -73,7 +74,27 @@ class PlanCard extends StatelessWidget {
           children: [
             _buildHeader(),
             SizedBox(height: 12.rh),
-            Expanded(child: _buildFeatureRow()),
+            Expanded(
+              child: features.isEmpty
+              ? Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 0.5.rw, color: AppColors.inputBorder),
+                  borderRadius: BorderRadius.circular(5.r)
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.layers_outlined, size: 16, color: AppColors.textMuted),
+                      SizedBox(width: 6.rw),
+                      AppText('Aucun quota configuré', fontSize: 11.rsp, color: AppColors.textMuted),
+                    ],
+                  ),
+                ),
+              ) : _buildFeatureRow(),
+            ),
           ],
         ),
       ),
