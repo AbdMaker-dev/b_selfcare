@@ -55,14 +55,17 @@ extension GroupStatePatterns on GroupState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetGroupsLoading value)?  getGroupsLoading,TResult Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult Function( GetGroupsFailed value)?  getGroupsFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetGroupsLoading value)?  getGroupsLoading,TResult Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult Function( GetGroupsFailed value)?  getGroupsFailed,TResult Function( CreateGroupeLoading value)?  createGroupeLoading,TResult Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult Function( CreateGroupeFailed value)?  createGroupeFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case GetGroupsLoading() when getGroupsLoading != null:
 return getGroupsLoading(_that);case GetGroupsLoaded() when getGroupsLoaded != null:
 return getGroupsLoaded(_that);case GetGroupsFailed() when getGroupsFailed != null:
-return getGroupsFailed(_that);case _:
+return getGroupsFailed(_that);case CreateGroupeLoading() when createGroupeLoading != null:
+return createGroupeLoading(_that);case CreateGroupeLoaded() when createGroupeLoaded != null:
+return createGroupeLoaded(_that);case CreateGroupeFailed() when createGroupeFailed != null:
+return createGroupeFailed(_that);case _:
   return orElse();
 
 }
@@ -80,14 +83,17 @@ return getGroupsFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetGroupsLoading value)  getGroupsLoading,required TResult Function( GetGroupsLoaded value)  getGroupsLoaded,required TResult Function( GetGroupsFailed value)  getGroupsFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetGroupsLoading value)  getGroupsLoading,required TResult Function( GetGroupsLoaded value)  getGroupsLoaded,required TResult Function( GetGroupsFailed value)  getGroupsFailed,required TResult Function( CreateGroupeLoading value)  createGroupeLoading,required TResult Function( CreateGroupeLoaded value)  createGroupeLoaded,required TResult Function( CreateGroupeFailed value)  createGroupeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case GetGroupsLoading():
 return getGroupsLoading(_that);case GetGroupsLoaded():
 return getGroupsLoaded(_that);case GetGroupsFailed():
-return getGroupsFailed(_that);case _:
+return getGroupsFailed(_that);case CreateGroupeLoading():
+return createGroupeLoading(_that);case CreateGroupeLoaded():
+return createGroupeLoaded(_that);case CreateGroupeFailed():
+return createGroupeFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -104,14 +110,17 @@ return getGroupsFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetGroupsLoading value)?  getGroupsLoading,TResult? Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult? Function( GetGroupsFailed value)?  getGroupsFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetGroupsLoading value)?  getGroupsLoading,TResult? Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult? Function( GetGroupsFailed value)?  getGroupsFailed,TResult? Function( CreateGroupeLoading value)?  createGroupeLoading,TResult? Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult? Function( CreateGroupeFailed value)?  createGroupeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case GetGroupsLoading() when getGroupsLoading != null:
 return getGroupsLoading(_that);case GetGroupsLoaded() when getGroupsLoaded != null:
 return getGroupsLoaded(_that);case GetGroupsFailed() when getGroupsFailed != null:
-return getGroupsFailed(_that);case _:
+return getGroupsFailed(_that);case CreateGroupeLoading() when createGroupeLoading != null:
+return createGroupeLoading(_that);case CreateGroupeLoaded() when createGroupeLoaded != null:
+return createGroupeLoaded(_that);case CreateGroupeFailed() when createGroupeFailed != null:
+return createGroupeFailed(_that);case _:
   return null;
 
 }
@@ -128,13 +137,16 @@ return getGroupsFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getGroupsLoading,TResult Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult Function( String message)?  getGroupsFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getGroupsLoading,TResult Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult Function( String message)?  getGroupsFailed,TResult Function()?  createGroupeLoading,TResult Function( DataResponseModel data)?  createGroupeLoaded,TResult Function( String message)?  createGroupeFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetGroupsLoading() when getGroupsLoading != null:
 return getGroupsLoading();case GetGroupsLoaded() when getGroupsLoaded != null:
 return getGroupsLoaded(_that.data);case GetGroupsFailed() when getGroupsFailed != null:
-return getGroupsFailed(_that.message);case _:
+return getGroupsFailed(_that.message);case CreateGroupeLoading() when createGroupeLoading != null:
+return createGroupeLoading();case CreateGroupeLoaded() when createGroupeLoaded != null:
+return createGroupeLoaded(_that.data);case CreateGroupeFailed() when createGroupeFailed != null:
+return createGroupeFailed(_that.message);case _:
   return orElse();
 
 }
@@ -152,13 +164,16 @@ return getGroupsFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getGroupsLoading,required TResult Function( DataGroupResponseModel data)  getGroupsLoaded,required TResult Function( String message)  getGroupsFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getGroupsLoading,required TResult Function( DataGroupResponseModel data)  getGroupsLoaded,required TResult Function( String message)  getGroupsFailed,required TResult Function()  createGroupeLoading,required TResult Function( DataResponseModel data)  createGroupeLoaded,required TResult Function( String message)  createGroupeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetGroupsLoading():
 return getGroupsLoading();case GetGroupsLoaded():
 return getGroupsLoaded(_that.data);case GetGroupsFailed():
-return getGroupsFailed(_that.message);case _:
+return getGroupsFailed(_that.message);case CreateGroupeLoading():
+return createGroupeLoading();case CreateGroupeLoaded():
+return createGroupeLoaded(_that.data);case CreateGroupeFailed():
+return createGroupeFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -175,13 +190,16 @@ return getGroupsFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getGroupsLoading,TResult? Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult? Function( String message)?  getGroupsFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getGroupsLoading,TResult? Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult? Function( String message)?  getGroupsFailed,TResult? Function()?  createGroupeLoading,TResult? Function( DataResponseModel data)?  createGroupeLoaded,TResult? Function( String message)?  createGroupeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetGroupsLoading() when getGroupsLoading != null:
 return getGroupsLoading();case GetGroupsLoaded() when getGroupsLoaded != null:
 return getGroupsLoaded(_that.data);case GetGroupsFailed() when getGroupsFailed != null:
-return getGroupsFailed(_that.message);case _:
+return getGroupsFailed(_that.message);case CreateGroupeLoading() when createGroupeLoading != null:
+return createGroupeLoading();case CreateGroupeLoaded() when createGroupeLoaded != null:
+return createGroupeLoaded(_that.data);case CreateGroupeFailed() when createGroupeFailed != null:
+return createGroupeFailed(_that.message);case _:
   return null;
 
 }
@@ -377,6 +395,170 @@ class _$GetGroupsFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(GetGroupsFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class CreateGroupeLoading implements GroupState {
+  const CreateGroupeLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateGroupeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'GroupState.createGroupeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class CreateGroupeLoaded implements GroupState {
+  const CreateGroupeLoaded({required this.data});
+  
+
+ final  DataResponseModel data;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreateGroupeLoadedCopyWith<CreateGroupeLoaded> get copyWith => _$CreateGroupeLoadedCopyWithImpl<CreateGroupeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateGroupeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'GroupState.createGroupeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreateGroupeLoadedCopyWith<$Res> implements $GroupStateCopyWith<$Res> {
+  factory $CreateGroupeLoadedCopyWith(CreateGroupeLoaded value, $Res Function(CreateGroupeLoaded) _then) = _$CreateGroupeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$CreateGroupeLoadedCopyWithImpl<$Res>
+    implements $CreateGroupeLoadedCopyWith<$Res> {
+  _$CreateGroupeLoadedCopyWithImpl(this._self, this._then);
+
+  final CreateGroupeLoaded _self;
+  final $Res Function(CreateGroupeLoaded) _then;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(CreateGroupeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class CreateGroupeFailed implements GroupState {
+  const CreateGroupeFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CreateGroupeFailedCopyWith<CreateGroupeFailed> get copyWith => _$CreateGroupeFailedCopyWithImpl<CreateGroupeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CreateGroupeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'GroupState.createGroupeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CreateGroupeFailedCopyWith<$Res> implements $GroupStateCopyWith<$Res> {
+  factory $CreateGroupeFailedCopyWith(CreateGroupeFailed value, $Res Function(CreateGroupeFailed) _then) = _$CreateGroupeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$CreateGroupeFailedCopyWithImpl<$Res>
+    implements $CreateGroupeFailedCopyWith<$Res> {
+  _$CreateGroupeFailedCopyWithImpl(this._self, this._then);
+
+  final CreateGroupeFailed _self;
+  final $Res Function(CreateGroupeFailed) _then;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(CreateGroupeFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

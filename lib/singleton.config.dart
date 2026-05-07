@@ -90,6 +90,13 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i865.ResetPasswordCubit>(
       () => _i865.ResetPasswordCubit(gh<_i322.ResetPasswordUsecase>()),
     );
+    gh.lazySingleton<_i48.LoginCubit>(
+      () => _i48.LoginCubit(
+        gh<_i330.HttpHelper>(),
+        gh<_i749.LocaHelper>(),
+        gh<_i100.LayoutCubit>(),
+      ),
+    );
     gh.lazySingleton<_i868.CampaignUsecase>(
       () => _i868.CampaignUsecase(campaignRepo: gh<_i231.CampaignRepo>()),
     );
@@ -101,13 +108,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i215.CampagneCubit>(
       () => _i215.CampagneCubit(gh<_i868.CampaignUsecase>()),
-    );
-    gh.lazySingleton<_i48.LoginCubit>(
-      () => _i48.LoginCubit(
-        gh<_i330.HttpHelper>(),
-        gh<_i749.LocaHelper>(),
-        gh<_i100.LayoutCubit>(),
-      ),
     );
     return this;
   }

@@ -1,8 +1,11 @@
+import 'package:b_selfcare/src/data/models/products_model.dart';
+
 class GroupModel {
   int? id;
   String? name;
   String? description;
   int? productId;
+  ProductsModel? product;
   int? employeesCount;
   String? createdAt;
   String? updatedAt;
@@ -12,6 +15,7 @@ class GroupModel {
       this.name,
       this.description,
       this.productId,
+      this.product,
       this.employeesCount,
         this.createdAt,
         this.updatedAt
@@ -23,6 +27,7 @@ class GroupModel {
     description = json['description'];
     productId = json['product_id'];
     employeesCount = json['employees_count'];
+    product = json['product'] != null ? ProductsModel.fromJson(json['product']) : null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -36,6 +41,9 @@ class GroupModel {
     data['employees_count'] = this.employeesCount;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    if (product != null) {
+      data['product'] = product!.toJson();
+    }
     return data;
   }
 }

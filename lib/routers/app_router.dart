@@ -19,6 +19,7 @@ const String routeAppDashbord = 'dashbord';
 const String routeAppMyFlotte = 'flotte';
 const String routeAppMyCampagnes = 'campagnes';
 const String routeAppProducts = 'products';
+const String routeAppGroups = 'groupes';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -50,6 +51,7 @@ class AppRouter extends RootStackRouter {
       children: [
         AutoRoute(path: routeAppDashbord, page: DashboardRoute.page),
         AutoRoute(path: routeAppMyFlotte, page: MyFlotteRoute.page),
+        AutoRoute(path: routeAppGroups, page: MyGroupeRoute.page),
         AutoRoute(path: routeAppMyCampagnes, page: CampagneRoute.page),
         AutoRoute(path: routeAppProducts, page: ProductsRoute.page),
       ],

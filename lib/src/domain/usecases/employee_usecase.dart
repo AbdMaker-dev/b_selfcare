@@ -1,3 +1,4 @@
+import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -20,5 +21,15 @@ class EmployeeUsecase {
       },
     );
   }
-
+  Future<Either<Failure, DataResponseModel>> createEmployee({required dynamic data}) async {
+    var res = await employeeRepo.createEmployee(data: data);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) {
+        return Right(success);
+      },
+    );
+  }
 }

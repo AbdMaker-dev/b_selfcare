@@ -1,3 +1,4 @@
+import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:b_selfcare/src/data/services/http_helper.dart';
 import 'package:b_selfcare/src/data/services/local_helper.dart';
@@ -21,6 +22,19 @@ class EmployeeRepo {
           (success) async{
         var forgetPasswordData = DataEmployeeResponseModel.fromJson(success.response);
         return Right(forgetPasswordData);
+      },
+    );
+  }
+
+  Future<Either<Failure, DataResponseModel>> createEmployee({required dynamic data}) async {
+    var res = await htttHelper.handlePostRequest("fleet/employees", data,showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
       },
     );
   }

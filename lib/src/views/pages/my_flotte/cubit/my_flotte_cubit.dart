@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
 import 'package:b_selfcare/src/domain/usecases/employee_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,6 +20,15 @@ class MyFlotteCubit extends Cubit<MyFlotteState> {
     res.fold(
       (failure) => emit(MyFlotteState.getEmployeesFailed(failure.message)),
       (data) => emit(MyFlotteState.getEmployeesLoaded(data: data)),
+    );
+  }
+
+  Future<void> createEmployee({required dynamic data}) async {
+    emit(const MyFlotteState.createEmployeeLoading());
+    final res = await employeeUsecase.createEmployee(data: data);
+    res.fold(
+      (failure) => emit(MyFlotteState.createEmployeeFailed(failure.message)),
+      (data) => emit(MyFlotteState.createEmployeeLoaded(data: data)),
     );
   }
 }

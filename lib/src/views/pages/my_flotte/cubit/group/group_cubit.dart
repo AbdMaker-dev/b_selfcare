@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/domain/usecases/group_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,6 +20,15 @@ class GroupCubit extends Cubit<GroupState> {
     res.fold(
       (failure) => emit(GroupState.getGroupsFailed(failure.message)),
       (data) => emit(GroupState.getGroupsLoaded(data: data)),
+    );
+  }
+
+  Future<void> createGroupe({required dynamic data}) async {
+    emit(const GroupState.createGroupeLoading());
+    final res = await groupUsecase.createGroupe(data: data);
+    res.fold(
+      (failure) => emit(GroupState.createGroupeFailed(failure.message)),
+      (data) => emit(GroupState.createGroupeLoaded(data: data)),
     );
   }
 }
