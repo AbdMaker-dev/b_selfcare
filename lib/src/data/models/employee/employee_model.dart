@@ -1,3 +1,5 @@
+import 'package:b_selfcare/src/data/models/group/group_model.dart';
+
 class EmployeeModel {
   int? id;
   String? firstName;
@@ -6,7 +8,7 @@ class EmployeeModel {
   String? phone;
   String? position;
   String? status;
-  int? groupId;
+  GroupModel? group;
   int? fleetNumbersCount;
   String? createdAt;
   String? updatedAt;
@@ -19,7 +21,7 @@ class EmployeeModel {
       this.phone,
       this.position,
       this.status,
-      this.groupId,
+      this.group,
       this.fleetNumbersCount,
       this.createdAt,
       this.updatedAt
@@ -33,7 +35,7 @@ class EmployeeModel {
     phone = json['phone'];
     position = json['position'];
     status = json['status'];
-    groupId = json['group_id'];
+    group = json['group'] != null ? GroupModel.fromJson(json['group']) : null;
     fleetNumbersCount = json['fleet_numbers_count'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -48,7 +50,9 @@ class EmployeeModel {
     data['phone'] = this.phone;
     data['position'] = this.position;
     data['status'] = this.status;
-    data['group_id'] = this.groupId;
+    if (group != null) {
+      data['group'] = group!.toJson();
+    }
     data['fleet_numbers_count'] = this.fleetNumbersCount;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;

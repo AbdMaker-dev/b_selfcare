@@ -24,7 +24,7 @@ class SourceHistoriqueCampagne extends AppTableSource<CampaignModel> {
   List<Widget> buildRow(CampaignModel e) => [
     CellTextTable(text: e.createdAt ?? '-'),
     CellTextTable(text: e.name ?? '-', sub: e.description),
-    CellTextTable(text: e.productId?.toString() ?? '-'),
+    CellTextTable(text: e.product?.name ?? '-'),
     CellTextTable(text: e.estimatedCost ?? '-'),
     _statusBadge(e.status),
     CellTextTable(text: e.nextExecution ?? '-'),

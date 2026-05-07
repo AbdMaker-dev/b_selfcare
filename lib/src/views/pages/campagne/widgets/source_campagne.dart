@@ -27,7 +27,7 @@ class SourceCampagne extends AppTableSource<CampaignModel> {
   List<Widget> buildRow(CampaignModel e) => [
     CellTextTable(text: e.name ?? '---', sub: e.description),
     CellTextTable(text: e.frequency ?? '---'),
-    CellTextTable(text: e.productId?.toString() ?? '---'),
+    CellTextTable(text: e.product?.name ?? '---'),
     CellTextTable(text: e.estimatedCost != null ? AppMoney.formatString(e.estimatedCost!) : '---'),
     CellTextTable(text: e.startDate != null ? AppDate.formatShort(e.startDate!) : '---'),
     CellTextTable(text: e.endDate != null ? AppDate.formatShort(e.endDate!) : '---'),
@@ -40,6 +40,7 @@ class SourceCampagne extends AppTableSource<CampaignModel> {
       'active'   => CellBadgeTable.actif(),
       'inactive' => CellBadgeTable.inactif(),
       'paused'   => CellBadgeTable.enAttente(),
+      'cancelled'   => CellBadgeTable.cancelled(),
       _          => CellBadgeTable.inactif(),
     };
   }

@@ -17,6 +17,7 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     (label: 'Poste',     flex: 4),
     (label: 'Téléphone', flex: 4),
     (label: 'Numéros',   flex: 4),
+    (label: 'Groupe',   flex: 4),
     (label: 'Statut',    flex: 2),
     (label: 'Actions',   flex: 4),
   ];
@@ -30,6 +31,7 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     CellTextTable(text: e.position ?? '-'),
     CellTextTable(text: e.phone ?? '-'),
     CellTextTable(text: '${e.fleetNumbersCount ?? 0} numéros'),
+    CellTextTable(text: e.group?.name ?? '-'),
     _statusBadge(e.status),
     CellActionsTable(actions: [
       (label: 'Modifier', danger: false, onTap: () {}),

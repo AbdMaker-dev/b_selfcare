@@ -12,6 +12,7 @@ class CellBadgeTable extends StatelessWidget {
   factory CellBadgeTable.active()     =>  CellBadgeTable(label: 'ACTIVE',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
   factory CellBadgeTable.success()     =>  CellBadgeTable(label: 'Succès',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
   factory CellBadgeTable.suspendu()  =>  CellBadgeTable(label: 'Suspendu',   bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
+  factory CellBadgeTable.cancelled()  =>  CellBadgeTable(label: 'cancelled',   bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
   factory CellBadgeTable.enAttente() =>  CellBadgeTable(label: 'En attente', bg: AppColors.amberCream, fg: AppColors.amberBrown, dot: AppColors.amberGold);
   factory CellBadgeTable.inactif()   =>  CellBadgeTable(label: 'Inactif',    bg: AppColors.beigeIvory, fg: AppColors.beigeMole, dot: AppColors.beigeSmoke);
   factory CellBadgeTable.echec()   =>  CellBadgeTable(label: 'Echec',    bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);

@@ -1,3 +1,5 @@
+import 'package:b_selfcare/src/data/models/products_model.dart';
+
 class CampaignModel {
   int? id;
   String? name;
@@ -10,7 +12,7 @@ class CampaignModel {
   String? nextExecution;
   String? status;
   String? estimatedCost;
-  int? productId;
+  ProductsModel? product;
   String? createdAt;
 
   CampaignModel(
@@ -25,7 +27,7 @@ class CampaignModel {
       this.nextExecution,
       this.status,
       this.estimatedCost,
-      this.productId,
+      this.product,
       this.createdAt
       });
 
@@ -42,7 +44,7 @@ class CampaignModel {
     createdAt = json['created_at'];
     nextExecution = json['next_execution'];
     estimatedCost = json['estimated_cost'];
-    productId = json['product_id'];
+    product = json['product'] != null ? ProductsModel.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -59,7 +61,9 @@ class CampaignModel {
     data['created_at'] = this.createdAt;
     data['next_execution'] = this.nextExecution;
     data['estimated_cost'] = this.estimatedCost;
-    data['product_id'] = this.productId;
+    if (product != null) {
+      data['product'] = product!.toJson();
+    }
     return data;
   }
 }
