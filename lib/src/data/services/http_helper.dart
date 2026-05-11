@@ -169,6 +169,28 @@ class HttpHelper {
     }
   }
 
+  Future<Either<Failure, Success>> handlePatchRequest(
+    String api, {
+    Map<String, dynamic>? data,
+    showSuccessToast = true,
+    showLoader = true,
+  }) async {
+    try {
+      showL = showLoader;
+      if (showLoader) _showLoader();
+      final res = await _dio.patch(
+        '${AppConfig.shared.baseUrl}/$api',
+        data: data,
+      );
+      if (showSuccessToast) {
+        _showMessage((res.data?['message'] ?? res.data.toString()).toString());
+      }
+      return Right(Success<Map<String, dynamic>?>(res.data));
+    } on DioException catch (e) {
+      return Left(Failure(e.response?.statusCode ?? 0, _extractMessage(e)));
+    }
+  }
+
   Future<Either<Failure, Success>> handleFormDataPutRequest(
     String api,
     FormData data, {

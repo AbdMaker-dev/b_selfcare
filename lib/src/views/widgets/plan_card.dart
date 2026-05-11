@@ -10,11 +10,13 @@ class PlanFeature {
   final String label;
   final String value;
   final String unit;
+  final int? price;
 
   const PlanFeature({
     required this.label,
     required this.value,
     required this.unit,
+    this.price,
   });
 }
 
@@ -23,6 +25,8 @@ class PlanCard extends StatelessWidget {
   final PlanStatus status;
   final List<PlanFeature> features;
   final VoidCallback? onTap;
+  final VoidCallback? onEdit;
+  final VoidCallback? onArchive;
 
   const PlanCard({
     super.key,
@@ -30,6 +34,8 @@ class PlanCard extends StatelessWidget {
     required this.features,
     this.status = PlanStatus.active,
     this.onTap,
+    this.onEdit,
+    this.onArchive,
   });
 
   String get _statusLabel => switch (status) {
@@ -105,26 +111,63 @@ class PlanCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText(
-          name,
-          fontSize: 15.rsp,
-          fontWeight: FontWeight.w500,
-          color: AppColors.primary,
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 5.rh),
-          decoration: BoxDecoration(
-            color: _badgeBg,
-            borderRadius: BorderRadius.circular(30.rr),
-            border: Border.all(color: _badgeBorder, width: 1.5),
-          ),
+        Expanded(
           child: AppText(
-            _statusLabel,
-            type: AppTextType.small,
-            fontSize: 11.rsp,
-            fontWeight: FontWeight.w700,
-            color: _badgeText,
+            name,
+            fontSize: 15.rsp,
+            fontWeight: FontWeight.w500,
+            color: AppColors.primary,
+            overflow: TextOverflow.ellipsis,
           ),
+        ),
+        Row(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 5.rh),
+              decoration: BoxDecoration(
+                color: _badgeBg,
+                borderRadius: BorderRadius.circular(30.rr),
+                border: Border.all(color: _badgeBorder, width: 1.5),
+              ),
+              child: AppText(
+                _statusLabel,
+                type: AppTextType.small,
+                fontSize: 11.rsp,
+                fontWeight: FontWeight.w700,
+                color: _badgeText,
+              ),
+            ),
+            if (onEdit != null) ...[
+              SizedBox(width: 8.rw),
+              GestureDetector(
+                onTap: onEdit,
+                child: Container(
+                  padding: EdgeInsets.all(6.rw),
+                  decoration: BoxDecoration(
+                    color: AppColors.background,
+                    borderRadius: BorderRadius.circular(8.rr),
+                    border: Border.all(color: AppColors.inputBorder),
+                  ),
+                  child: Icon(Icons.edit_outlined, size: 14.rsp, color: AppColors.primary),
+                ),
+              ),
+            ],
+            if (onArchive != null) ...[
+              SizedBox(width: 6.rw),
+              GestureDetector(
+                onTap: onArchive,
+                child: Container(
+                  padding: EdgeInsets.all(6.rw),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFF4F4),
+                    borderRadius: BorderRadius.circular(8.rr),
+                    border: Border.all(color: const Color(0xFFFFCDD2)),
+                  ),
+                  child: Icon(Icons.archive_outlined, size: 14.rsp, color: AppColors.error),
+                ),
+              ),
+            ],
+          ],
         ),
       ],
     );
@@ -173,14 +216,25 @@ class _FeatureBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
-
         children: [
-          AppText(
-            feature.label,
-            type: AppTextType.small,
-            fontSize: 10.rsp,
-            color: AppColors.textMuted,
-            fontWeight: FontWeight.w400,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppText(
+                feature.label,
+                type: AppTextType.small,
+                fontSize: 10.rsp,
+                color: AppColors.textMuted,
+                fontWeight: FontWeight.w400,
+              ),
+              if (feature.price != null)
+                AppText(
+                  '${feature.price} F',
+                  fontSize: 10.rsp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.success,
+                ),
+            ],
           ),
           SizedBox(height: 2.rh),
           Row(

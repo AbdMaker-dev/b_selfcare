@@ -45,11 +45,42 @@ class ProductsCubit extends Cubit<ProductsState> {
     );
   }
 
-  Future<void> createProductsBulk({
-    required String name,
-    String? description,
-    required List<Map<String, dynamic>> quotas,
-  }) async {
+  Future<void> updateProduct({required int productId, required String name, String? description, required List<Map<String, dynamic>> quotas}) async {
+    emit(ProductsState.updateProductLoading());
+    final response = await _httpHelper.handlePutRequest(
+      "products/custom/$productId",
+      {
+        "name": name,
+        if (description != null && description.isNotEmpty) "description": description,
+        "quotas": quotas,
+      },
+    );
+    response.fold(
+      (left) => emit(ProductsState.updateProductError(left.message)),
+      (right) {
+        products = [];
+        fetchProducts();
+        emit(ProductsState.updateProductSuccess());
+      },
+    );
+  }
+
+  Future<void> archiveProduct(int productId) async {
+    emit(ProductsState.archiveProductLoading());
+    final response = await _httpHelper.handlePatchRequest(
+      "products/custom/$productId/archive",
+    );
+    response.fold(
+      (left) => emit(ProductsState.archiveProductError(left.message)),
+      (right) {
+        products = [];
+        fetchProducts();
+        emit(ProductsState.archiveProductSuccess());
+      },
+    );
+  }
+
+  Future<void> createProductsBulk({required String name, String? description, required List<Map<String, dynamic>> quotas}) async {
     emit(ProductsState.createProductsLoading());
     final response = await _httpHelper.handlePostRequest(
       "products/custom/bulk",

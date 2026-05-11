@@ -1,4 +1,5 @@
 import 'package:b_selfcare/singleton.dart';
+import 'package:b_selfcare/src/data/models/products_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart';
@@ -13,15 +14,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class _QuotaRow {
   int? walletId;
   double? quota;
-  final TextEditingController quotaController = TextEditingController();
+  final TextEditingController quotaController;
 
-  _QuotaRow();
+  _QuotaRow({int? initialWalletId, double? initialQuota})
+      : walletId = initialWalletId,
+        quota = initialQuota,
+        quotaController = TextEditingController(
+          text: initialQuota != null ? initialQuota.toString() : '',
+        );
 
   void dispose() => quotaController.dispose();
 }
 
 class ProductForm extends StatefulWidget {
-  const ProductForm({super.key});
+  final ProductsModel? product;
+
+  const ProductForm({super.key, this.product});
 
   @override
   State<ProductForm> createState() => _ProductFormState();
@@ -30,13 +38,30 @@ class ProductForm extends StatefulWidget {
 class _ProductFormState extends State<ProductForm> {
   final _formKey = GlobalKey<FormState>();
   final _cubit = getIt<ProductsCubit>();
-  final _nameController = TextEditingController();
-  final _descController = TextEditingController();
-  final List<_QuotaRow> _quotas = List.generate(4, (_) => _QuotaRow());
+  late final TextEditingController _nameController;
+  late final TextEditingController _descController;
+  late final List<_QuotaRow> _quotas;
+
+  bool get _isEdit => widget.product != null;
 
   @override
   void initState() {
     super.initState();
+    final p = widget.product;
+    _nameController = TextEditingController(text: p?.name ?? '');
+    _descController = TextEditingController(text: p?.description ?? '');
+
+    if (_isEdit && (p!.quotas ?? []).isNotEmpty) {
+      _quotas = p.quotas!
+          .map((q) => _QuotaRow(
+                initialWalletId: q.walletId,
+                initialQuota: q.quota?.toDouble(),
+              ))
+          .toList();
+    } else {
+      _quotas = List.generate(4, (_) => _QuotaRow());
+    }
+
     _cubit.fetchWallets();
   }
 
@@ -61,13 +86,24 @@ class _ProductFormState extends State<ProductForm> {
       return;
     }
 
-    final quotas = _quotas.map((q) => {'wallet_id': q.walletId!, 'quota': q.quota!}).toList();
+    final quotas = _quotas
+        .map((q) => {'wallet_id': q.walletId!, 'quota': q.quota!})
+        .toList();
 
-    await _cubit.createProductsBulk(
-      name: _nameController.text.trim(),
-      description: _descController.text.trim(),
-      quotas: quotas,
-    );
+    if (_isEdit) {
+      await _cubit.updateProduct(
+        productId: widget.product!.id!,
+        name: _nameController.text.trim(),
+        description: _descController.text.trim(),
+        quotas: quotas,
+      );
+    } else {
+      await _cubit.createProductsBulk(
+        name: _nameController.text.trim(),
+        description: _descController.text.trim(),
+        quotas: quotas,
+      );
+    }
   }
 
   @override
@@ -77,6 +113,7 @@ class _ProductFormState extends State<ProductForm> {
       listener: (context, state) {
         state.whenOrNull(
           createProductsSuccess: () => Navigator.of(context).pop(),
+          updateProductSuccess: () => Navigator.of(context).pop(),
         );
       },
       child: Padding(
@@ -87,7 +124,7 @@ class _ProductFormState extends State<ProductForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                'Nouveau produit',
+                _isEdit ? 'Modifier le produit' : 'Nouveau produit',
                 fontSize: 18.rsp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textHeading,
@@ -130,6 +167,7 @@ class _ProductFormState extends State<ProductForm> {
                       ),
                     );
                   }
+
                   final walletOptions = _cubit.wallets
                       .map((w) => SelectOptionModel<int>(
                             label: w.name ?? '—',
@@ -145,6 +183,13 @@ class _ProductFormState extends State<ProductForm> {
                     separatorBuilder: (_, _) => SizedBox(height: 12.rh),
                     itemBuilder: (_, index) {
                       final row = _quotas[index];
+                      final initialOption = row.walletId != null
+                          ? walletOptions.firstWhere(
+                              (o) => o.value == row.walletId,
+                              orElse: () => walletOptions.first,
+                            )
+                          : null;
+
                       return Container(
                         padding: EdgeInsets.all(12.rw),
                         decoration: BoxDecoration(
@@ -166,6 +211,7 @@ class _ProductFormState extends State<ProductForm> {
                               label: 'Wallet',
                               options: walletOptions,
                               placeholder: 'Sélectionner un wallet...',
+                              initialValue: initialOption,
                               onChanged: (opt) => setState(() => row.walletId = opt.value),
                             ),
                             SizedBox(height: 10.rh),
@@ -196,15 +242,19 @@ class _ProductFormState extends State<ProductForm> {
                   createProductsLoading: () => true,
                   createProductsError: (_) => true,
                   createProductsSuccess: () => true,
+                  updateProductLoading: () => true,
+                  updateProductError: (_) => true,
+                  updateProductSuccess: () => true,
                   orElse: () => false,
                 ),
                 builder: (context, state) {
                   final isLoading = state.maybeWhen(
                     createProductsLoading: () => true,
+                    updateProductLoading: () => true,
                     orElse: () => false,
                   );
                   return AppButton(
-                    text: 'Créer le produit',
+                    text: _isEdit ? 'Enregistrer' : 'Créer le produit',
                     isLoading: isLoading,
                     onPressed: isLoading ? null : _submit,
                   );

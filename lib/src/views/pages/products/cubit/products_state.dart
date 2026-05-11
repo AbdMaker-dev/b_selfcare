@@ -16,4 +16,12 @@ class ProductsState with _$ProductsState {
   const factory ProductsState.createProductsLoading() = _CreateProductsLoading;
   const factory ProductsState.createProductsError(String? message) = _CreateProductsError;
   const factory ProductsState.createProductsSuccess() = _CreateProductsSuccess;
+
+  const factory ProductsState.updateProductLoading() = _UpdateProductLoading;
+  const factory ProductsState.updateProductError(String? message) = _UpdateProductError;
+  const factory ProductsState.updateProductSuccess() = _UpdateProductSuccess;
+
+  const factory ProductsState.archiveProductLoading() = _ArchiveProductLoading;
+  const factory ProductsState.archiveProductError(String? message) = _ArchiveProductError;
+  const factory ProductsState.archiveProductSuccess() = _ArchiveProductSuccess;
 }

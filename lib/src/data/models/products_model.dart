@@ -5,8 +5,7 @@ class ProductsModel {
   bool? isActive;
   List<Quotas>? quotas;
 
-  ProductsModel(
-      {this.id, this.name, this.description, this.isActive, this.quotas});
+  ProductsModel({this.id, this.name, this.description, this.isActive, this.quotas});
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

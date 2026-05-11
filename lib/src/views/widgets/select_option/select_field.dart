@@ -11,6 +11,7 @@ class SelectField<T> extends StatelessWidget {
   final List<SelectOptionModel<T>> options;
   final String placeholder;
   final ValueChanged<SelectOptionModel<T>>? onChanged;
+  final SelectOptionModel<T>? initialValue;
 
   const SelectField({
     super.key,
@@ -18,12 +19,17 @@ class SelectField<T> extends StatelessWidget {
     required this.options,
     this.placeholder = 'Sélectionner...',
     this.onChanged,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SelectCubit(),
+      create: (_) {
+        final cubit = SelectCubit();
+        if (initialValue != null) cubit.select(initialValue!);
+        return cubit;
+      },
       child: _SelectFieldView<T>(
         label: label,
         options: options,

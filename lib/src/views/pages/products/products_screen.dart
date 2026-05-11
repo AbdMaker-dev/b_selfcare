@@ -105,7 +105,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   return PlanCard(
                     name: product.name ?? '—',
                     status: product.isActive == true ? PlanStatus.active : PlanStatus.archive,
-                    features: (product.quotas??[]).map((q)=> PlanFeature(label: q.name??"---", unit: q.unit??"---", value: '${q.quota??0}')).toList(),
+                    features: (product.quotas??[]).map((q)=> PlanFeature(label: q.name??"---", unit: q.unit??"---", value: '${q.quota??0}', price: q.price)).toList(),
+                    onEdit: () => AppDialogs.popup(
+                      context: context,
+                      width: 600.rw,
+                      height: 0.6,
+                      contents: ProductForm(product: product),
+                    ),
+                    onArchive: product.id != null
+                        ? () => _cubit.archiveProduct(product.id!)
+                        : null,
                   );
                 },
               );
