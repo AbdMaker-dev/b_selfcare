@@ -73,7 +73,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   return PlanCard(
                     name: product.name ?? '—',
                     status: product.isActive == true ? PlanStatus.active : PlanStatus.archive,
-                    features: (product.quotas??[]).map((q)=> PlanFeature(label: q?.category??"", unit: q.unit??"", value: '${q.quota??0}')).toList(),
+                    features: (product.quotas??[]).map((q)=> PlanFeature(label: q.name??"---", unit: q.unit??"---", value: '${q.quota??0}')).toList(),
                   );
                 },
               );

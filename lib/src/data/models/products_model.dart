@@ -36,17 +36,23 @@ class ProductsModel {
 
 class Quotas {
   int? walletId;
+  String? name;
+  String? code;
   String? category;
   String? unit;
   int? quota;
   int? price;
 
-  Quotas({this.walletId, this.quota, this.price, this.category, this.unit});
+  Quotas({this.walletId, this.quota, this.price, this.category, this.unit, this.name, this.code});
 
   Quotas.fromJson(Map<String, dynamic> json) {
     walletId = json['wallet_id'];
     quota = json['quota'];
     price = json['price'];
+    category = json['category']??json['wallet']?['category'];
+    unit = json['unit']??json['wallet']?['unit'];
+    name = json['name']??json['wallet']?['name'];
+    code = json['code']??json['wallet']?['code'];
   }
 
   Map<String, dynamic> toJson() {

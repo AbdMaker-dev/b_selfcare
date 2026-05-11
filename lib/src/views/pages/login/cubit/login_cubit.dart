@@ -16,10 +16,8 @@ class LoginCubit extends Cubit<LoginState> {
   final LayoutCubit _layoutCubit;
 
   Timer? _refreshTimer;
-
-  // Rafraîchit le token 5 minutes avant expiration
+  
   static const _refreshBeforeExpiry = Duration(minutes: 5);
-
   LoginCubit(this._httpHelper, this._localHelper, this._layoutCubit) : super(LoginState.initial());
 
   Future<bool> login(Map<String, dynamic> payload) async {
@@ -79,21 +77,14 @@ class LoginCubit extends Cubit<LoginState> {
     );
   }
 
-  /// À appeler après login ou après un démarrage d'app avec session valide.
   Future<void> scheduleTokenRefresh() async {
     _refreshTimer?.cancel();
-
     final expiryStr = await _localHelper.getExpireDate();
     if (expiryStr == null) return;
-
     final expiry = DateTime.tryParse(expiryStr);
     if (expiry == null) return;
-
     final refreshAt = expiry.subtract(_refreshBeforeExpiry);
-    final delay = refreshAt.isAfter(DateTime.now())
-        ? refreshAt.difference(DateTime.now())
-        : Duration.zero;
-
+    final delay = refreshAt.isAfter(DateTime.now())? refreshAt.difference(DateTime.now()): Duration.zero;
     _refreshTimer = Timer(delay, _refreshToken);
   }
 

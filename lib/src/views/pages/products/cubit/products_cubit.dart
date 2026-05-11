@@ -1,6 +1,6 @@
 import 'package:b_selfcare/src/data/models/products_model.dart';
 import 'package:b_selfcare/src/data/services/http_helper.dart';
-import 'package:b_selfcare/src/views/widgets/plan_card.dart';
+// import 'package:b_selfcare/src/views/widgets/plan_card.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -15,22 +15,22 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   List<ProductsModel> products = [];
 
-  List<PlanFeature> featuresForProduct(ProductsModel product) {
-    final quotas = product.quotas ?? [];
-    final features = <PlanFeature>[];
-    for (final q in quotas) {
-      features.add(PlanFeature(
-        label: 'Quota ${q.walletId}',
-        value: '${q.quota ?? 0}',
-        unit: 'u',
-      ));
-      if (features.length >= 4) break;
-    }
-    while (features.length < 4) {
-      features.add(const PlanFeature(label: '—', value: '—', unit: ''));
-    }
-    return features;
-  }
+  // List<PlanFeature> featuresForProduct(ProductsModel product) {
+  //   final quotas = product.quotas ?? [];
+  //   final features = <PlanFeature>[];
+  //   for (final q in quotas) {
+  //     features.add(PlanFeature(
+  //       label: 'Quota ${q.walletId}',
+  //       value: '${q.quota ?? 0}',
+  //       unit: 'u',
+  //     ));
+  //     if (features.length >= 4) break;
+  //   }
+  //   while (features.length < 4) {
+  //     features.add(const PlanFeature(label: '—', value: '—', unit: ''));
+  //   }
+  //   return features;
+  // }
 
   Future<void> fetchProducts() async {
     if (products.isNotEmpty) return;

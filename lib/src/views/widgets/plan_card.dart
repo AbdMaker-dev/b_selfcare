@@ -136,9 +136,9 @@ class PlanCard extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Expanded(child: _FeatureBox(feature: features[0])),
+              Expanded(child: features.isNotEmpty ?  _FeatureBox(feature: features[0]) : SizedBox()),
               SizedBox(width: 8.rw),
-              Expanded(child: _FeatureBox(feature: features[1])),
+              Expanded(child: features.length>= 2 ? _FeatureBox(feature: features[1]): SizedBox()),
             ],
           ),
         ),
@@ -146,9 +146,9 @@ class PlanCard extends StatelessWidget {
         Expanded(
           child: Row(
             children: [
-              Expanded(child: _FeatureBox(feature: features[2])),
+              Expanded(child: features.length>= 3 ?  _FeatureBox(feature: features[2]) : SizedBox()),
               SizedBox(width: 8.rw),
-              Expanded(child: _FeatureBox(feature: features[3])),
+              Expanded(child: features.length>= 4 ?  _FeatureBox(feature: features[3]) : SizedBox()),
             ],
           ),
         ),

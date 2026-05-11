@@ -62,7 +62,6 @@ class HttpHelper {
       final String accessToken = (await locaHelper.getToken()) ?? "";
       options.headers['Authorization'] = 'Bearer $accessToken';
       final slug = getIt<LayoutCubit>().currentUser?.company?.slug;
-      print(getIt<LayoutCubit>().currentUser?.toJson());
       if (slug != null) {
         options.headers['X-Tenant'] = slug;
       }
