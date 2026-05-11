@@ -31,4 +31,13 @@ class GroupCubit extends Cubit<GroupState> {
       (data) => emit(GroupState.createGroupeLoaded(data: data)),
     );
   }
+
+  Future<void> updateGroupe({required int id, required dynamic data}) async {
+    emit(const GroupState.updateGroupeLoading());
+    final res = await groupUsecase.updateGroupe(id: id, data: data);
+    res.fold(
+      (failure) => emit(GroupState.updateGroupeFailed(failure.message)),
+      (data) => emit(GroupState.updateGroupeLoaded(data: data)),
+    );
+  }
 }

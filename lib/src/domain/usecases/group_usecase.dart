@@ -33,4 +33,16 @@ class GroupUsecase {
       },
     );
   }
+
+  Future<Either<Failure, DataResponseModel>> updateGroupe({required int id,required dynamic data}) async {
+    var res = await groupRepo.updateGroupe(id:id,data: data);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) {
+        return Right(success);
+      },
+    );
+  }
 }

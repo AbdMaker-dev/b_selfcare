@@ -5,13 +5,11 @@ import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/campagne/cubit/campagne_cubit.dart';
+import 'package:b_selfcare/src/views/pages/campagne/widgets/form_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_historique_campagne.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
-import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
-import 'package:b_selfcare/src/views/widgets/select_option/select_field.dart';
-import 'package:b_selfcare/src/views/widgets/select_option/select_option_model.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/title_table.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +26,6 @@ class CampagneScreen extends StatefulWidget {
 
 class _CampagneScreenState extends State<CampagneScreen> {
   final campagne = getIt<CampagneCubit>();
-  final TextEditingController _nameController = TextEditingController();
 
   int _currentPage = 1;
   DataCampaignResponseModel? _cachedData;
@@ -46,12 +43,6 @@ class _CampagneScreenState extends State<CampagneScreen> {
   void initState() {
     super.initState();
     campagne.getCampaigns(data: {'page': _currentPage});
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
   }
 
   void _fetchPage(int page) {
@@ -126,95 +117,11 @@ class _CampagneScreenState extends State<CampagneScreen> {
               ],
             ),
             SizedBox(height: 30.rh),
-            Container(
-              height: 370.rh,
-              padding: EdgeInsets.all(12.rw),
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12.rr),
-                border: Border.all(color: AppColors.gray),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText(
-                    'Créer une campagne',
-                    fontSize: 18.rsp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
-                  ),
-                  SizedBox(height: 20.rh),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: AppInput(
-                          labelText: s.nameCampagne,
-                          keyboardType: TextInputType.text,
-                          controller: _nameController,
-                          hintText: 'Ex: Dotation mensuelle Direction',
-                        ),
-                      ),
-                      SizedBox(width: 16.rw),
-                      Expanded(
-                        child: SelectField<String>(
-                          label: 'Fréquence',
-                          placeholder: 'Choisir une fréquence',
-                          options: const [
-                            SelectOptionModel(label: 'DAILY - Quotidien',     value: 'daily'),
-                            SelectOptionModel(label: 'WEEKLY - Hebdomadaire', value: 'weekly'),
-                            SelectOptionModel(label: 'MONTHLY - Mensuel',     value: 'monthly'),
-                          ],
-                          onChanged: (opt) {},
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.rh),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: SelectField<String>(
-                          label: 'Produit',
-                          placeholder: 'Choisir un produit',
-                          options: const [
-                            SelectOptionModel(label: 'DAILY - Quotidien',     value: 'daily'),
-                            SelectOptionModel(label: 'WEEKLY - Hebdomadaire', value: 'weekly'),
-                            SelectOptionModel(label: 'MONTHLY - Mensuel',     value: 'monthly'),
-                          ],
-                          onChanged: (opt) {},
-                        ),
-                      ),
-                      SizedBox(width: 16.rw),
-                      Expanded(
-                        child: SelectField<String>(
-                          label: 'Ciblage',
-                          placeholder: 'Choisir un ciblage',
-                          options: const [
-                            SelectOptionModel(label: 'DAILY - Quotidien',     value: 'daily'),
-                            SelectOptionModel(label: 'WEEKLY - Hebdomadaire', value: 'weekly'),
-                            SelectOptionModel(label: 'MONTHLY - Mensuel',     value: 'monthly'),
-                          ],
-                          onChanged: (opt) {},
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20.rh),
-                  SizedBox(
-                    width: 250.rw,
-                    child: AppButton(
-                      text: s.planingCampagne,
-                      type: AppButtonType.secondary,
-                      onPressed: () {},
-                    ),
-                  ),
-                ],
-              ),
+            /*FormCampagne(
+              campagneCubit: campagne,
+              onCreated: () => campagne.getCampaigns(data: {'page': _currentPage}),
             ),
-            SizedBox(height: 20.rh),
+            SizedBox(height: 20.rh),*/
             if (isLoading && campaigns.isEmpty)
               Center(
                 child: Padding(

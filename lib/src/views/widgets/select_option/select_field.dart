@@ -86,6 +86,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
               child: Material(
                 color: Colors.transparent,
                 child: Container(
+                  constraints: const BoxConstraints(maxHeight: 260),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.rr),
@@ -98,7 +99,8 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                       ),
                     ],
                   ),
-                  child: Column(
+                  child: SingleChildScrollView(
+                    child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: widget.options.map((opt) {
                       final isSelected = selected?.value == opt.value;
@@ -151,6 +153,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                         ),
                       );
                     }).toList(),
+                  ),
                   ),
                 ),
               ),

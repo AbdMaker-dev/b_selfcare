@@ -37,4 +37,17 @@ class GroupRepo {
       },
     );
   }
+
+  Future<Either<Failure, DataResponseModel>> updateGroupe({required int id,required dynamic data}) async {
+    var res = await htttHelper.handlePutRequest("fleet/groups/${id}", data,showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
 }

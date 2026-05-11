@@ -9,4 +9,7 @@ class GroupState with _$GroupState {
   const factory GroupState.createGroupeLoading() = CreateGroupeLoading;
   const factory GroupState.createGroupeLoaded({required DataResponseModel data}) = CreateGroupeLoaded;
   const factory GroupState.createGroupeFailed(String message) = CreateGroupeFailed;
+  const factory GroupState.updateGroupeLoading() = UpdateGroupeLoading;
+  const factory GroupState.updateGroupeLoaded({required DataResponseModel data}) = UpdateGroupeLoaded;
+  const factory GroupState.updateGroupeFailed(String message) = UpdateGroupeFailed;
 }
