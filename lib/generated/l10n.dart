@@ -294,9 +294,9 @@ class S {
     return Intl.message('campagnes', name: 'campagne', desc: '', args: []);
   }
 
-  /// `Flotte`
+  /// `flotte`
   String get flotte {
-    return Intl.message('Flotte', name: 'flotte', desc: '', args: []);
+    return Intl.message('flotte', name: 'flotte', desc: '', args: []);
   }
 
   /// `Historique`

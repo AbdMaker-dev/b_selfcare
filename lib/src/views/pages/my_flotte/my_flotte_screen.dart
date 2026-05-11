@@ -1,9 +1,11 @@
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/generated/l10n.dart';
+import 'package:b_selfcare/singleton.dart';
+import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
-import 'package:b_selfcare/src/views/pages/my_flotte/example_model/employe_model.dart';
-import 'package:b_selfcare/src/views/pages/my_flotte/example_model/source_employe.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/source_employe.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
@@ -12,6 +14,7 @@ import 'package:b_selfcare/src/views/widgets/info_flotte_card.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
 class MyFlotteScreen extends StatefulWidget {
@@ -22,162 +25,157 @@ class MyFlotteScreen extends StatefulWidget {
 }
 
 class _MyFlotteScreenState extends State<MyFlotteScreen> {
-  static final _employes = [
-    const EmployeModel(
-      name: 'Aminata NDIAYE',
-      group: 'DIRECTION',
-      phone: '+221 76 490 74 94',
-      product: 'Premium Fleet',
-      status: 'ACTIF',
-    ),
-    const EmployeModel(
-      name: 'Kana S. GUEYE',
-      group: 'RH',
-      phone: '+221 76 987 65 43',
-      product: 'Forfait Eco',
-      status: 'SUSPENDU',
-    ),
-    const EmployeModel(
-      name: 'Pape Samba NDOUR',
-      group: 'COMMERCIAL',
-      phone: '+221 76 123 45 67',
-      product: 'Forfait Standard',
-      status: 'ACTIF',
-    ),
-  ];
+  final myFlotte = getIt<MyFlotteCubit>();
+  int _currentPage = 1;
+  DataEmployeeResponseModel? _cachedData;
+
+  @override
+  void initState() {
+    super.initState();
+    myFlotte.getEmployees(data: {'page': _currentPage});
+  }
+
+  void _fetchPage(int page) {
+    setState(() => _currentPage = page);
+    myFlotte.getEmployees(data: {'page': page});
+  }
 
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return ListView(
-      padding: EdgeInsets.only(bottom: 50.rh),
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return BlocConsumer<MyFlotteCubit, MyFlotteState>(
+      bloc: myFlotte,
+      listener: (context, state) {
+        state.maybeWhen(
+          getEmployeesFailed: (message) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(message), backgroundColor: AppColors.error),
+          ),
+          orElse: () {},
+        );
+      },
+      builder: (context, state) {
+        if (state is GetEmployeesLoaded) {
+          _cachedData = state.data;
+        }
+
+        final isLoading = state is GetEmployeesLoading;
+        final employees = _cachedData?.data?.employees ?? [];
+        final meta = _cachedData?.data?.meta;
+        final total = meta?.total ?? 0;
+        final lastPage = meta?.lastPage ?? 1;
+
+        return ListView(
+          padding: EdgeInsets.only(bottom: 50.rh),
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AppText.textHighlight(
-                  s.myFlotte,
-                  highlight: s.flotte,
-                  fontSize: 22.rsp,
-                  highlightColor: Colors.green,
-                  fontFamily: FontFamily.syne,
-                ),
-                SizedBox(height: 8.rh),
-                AppText(
-                  "1 240 MSISDN . 8 GROUPES . 1 150 EMPLOYÉS",
-                  fontSize: 11.rsp,
-                  color: AppColors.textMuted,
-                ),
-              ],
-            ),
-            const Spacer(),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AppButton(
-                  text: s.simSwap,
-                  type: AppButtonType.outline,
-                  icon: Icons.swap_horiz,
-                  width: 130.rw,
-                  height: 38.rh,
-                  fontSize: 13.rsp,
-                  onPressed: () {},
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText.textHighlight(
+                      s.myFlotte,
+                      highlight: s.flotte,
+                      fontSize: 22.rsp,
+                      highlightColor: Colors.green,
+                      fontFamily: FontFamily.syne,
+                    ),
+                    SizedBox(height: 8.rh),
+                    AppText(
+                      total > 0 ? '$total EMPLOYÉS' : '...',
+                      fontSize: 11.rsp,
+                      color: AppColors.textMuted,
+                    ),
+                  ],
                 ),
-                SizedBox(width: 10.rw),
-                AppButton(
-                  text: "+ Employé",
-                  type: AppButtonType.secondary,
-                  width: 130.rw,
-                  height: 38.rh,
-                  fontSize: 13.rsp,
-                  onPressed: () {},
+                const Spacer(),
+                Row(
+                  children: [
+                    AppButton(
+                      text: s.simSwap,
+                      type: AppButtonType.outline,
+                      icon: Icons.swap_horiz,
+                      width: 130.rw,
+                      height: 38.rh,
+                      fontSize: 13.rsp,
+                      onPressed: () {},
+                    ),
+                    SizedBox(width: 10.rw),
+                    AppButton(
+                      text: '+ Employé',
+                      type: AppButtonType.secondary,
+                      width: 130.rw,
+                      height: 38.rh,
+                      fontSize: 13.rsp,
+                      onPressed: () {},
+                    ),
+                  ],
                 ),
               ],
             ),
+            SizedBox(height: 30.rh),
+            FilterTabsWidget(
+              tabs: [
+                FilterTab(label: 'Tous', count: total > 0 ? total : null),
+                const FilterTab(label: 'Actifs'),
+                const FilterTab(label: 'Groupes'),
+                const FilterTab(label: 'Sans produit'),
+              ],
+              onTabChanged: (model) {},
+            ),
+            SizedBox(height: 20.rh),
+            if (isLoading && employees.isEmpty)
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 60.rh),
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                ),
+              )
+            else ...[
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final totalWidth = constraints.maxWidth;
+                  final crossAxisCount = totalWidth > 900 ? 3 : totalWidth > 550 ? 2 : 1;
+                  final spacing = 12.rw;
+                  final cardWidth = (totalWidth - spacing * (crossAxisCount - 1)) / crossAxisCount;
+
+                  final cards = employees.take(6).map((e) {
+                    final name = '${e.firstName ?? ''} ${e.lastName ?? ''}'.trim();
+                    return InfoFlotteCard(
+                      name: name.isNotEmpty ? name : '-',
+                      department: e.position ?? '-',
+                      forfait: '${e.fleetNumbersCount ?? 0} numéros',
+                      phone: e.phone ?? '-',
+                      status: e.status == 'active' || e.status == 'ACTIVE',
+                    );
+                  }).toList();
+
+                  if (cards.isEmpty) return const SizedBox.shrink();
+
+                  return Wrap(
+                    spacing: spacing,
+                    runSpacing: 12.rh,
+                    children: cards
+                        .map((card) => SizedBox(width: cardWidth, child: card))
+                        .toList(),
+                  );
+                },
+              ),
+              SizedBox(height: 20.rh),
+              AppTable(
+                title: s.flotteComplete,
+                source: SourceEmployes(rows: employees),
+                currentPage: _currentPage,
+                totalCount: total,
+                activePreviousClicked: _currentPage > 1,
+                activeNextClicked: _currentPage < lastPage,
+                onPreviousClicked: _currentPage > 1 ? () => _fetchPage(_currentPage - 1) : null,
+                onNextClicked: _currentPage < lastPage ? () => _fetchPage(_currentPage + 1) : null,
+              ),
+            ],
           ],
-        ),
-        SizedBox(height: 30.rh),
-        FilterTabsWidget(
-          tabs: const [
-            FilterTab(label: 'Tous', count: 1240),
-            FilterTab(label: 'Actifs'),
-            FilterTab(label: 'Groupes'),
-            FilterTab(label: 'Sans produit'),
-          ],
-          onTabChanged: (model) {
-            // Filtrer la liste selon l'index
-            print('Tab sélectionné : $model');
-            print(model.label);
-          },
-        ),
-        SizedBox(height: 20.rh),
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final totalWidth = constraints.maxWidth;
-            final crossAxisCount = totalWidth > 900 ? 3 : totalWidth > 550 ? 2 : 1;
-            final spacing = 12.rw;
-            final cardWidth = (totalWidth - spacing * (crossAxisCount - 1)) / crossAxisCount;
-            final cards = [
-              InfoFlotteCard(
-                name: "Ousman Adda NAPAL",
-                department: "DIRECTION",
-                forfait: "Forfait Standard",
-                phone: "+221764203333",
-                status: true,
-              ),
-              InfoFlotteCard(
-                name: "Ousman Adda NAPAL",
-                department: "Commercial",
-                forfait: "Forfait Standard",
-                phone: "+221764203333",
-                status: true,
-              ),
-              InfoFlotteCard(
-                name: "Ousman ZARA",
-                department: "RH",
-                forfait: "Forfait Eco",
-                phone: "+221764203333",
-                status: false,
-              ),
-              InfoFlotteCard(
-                name: "Ousman Adda NAPAL",
-                department: "DIRECTION",
-                forfait: "Forfait Standard",
-                phone: "+221764203333",
-                status: true,
-              ),
-              InfoFlotteCard(
-                name: "Ousman Adda NAPAL",
-                department: "Commercial",
-                forfait: "Forfait Standard",
-                phone: "+221764203333",
-                status: true,
-              ),
-              InfoFlotteCard(
-                name: "Ousman ZARA",
-                department: "RH",
-                forfait: "Forfait Eco",
-                phone: "+221764203333",
-                status: false,
-              ),
-            ];
-            return Wrap(
-              spacing: spacing,
-              runSpacing: 12.rh,
-              children: cards
-                  .map((card) => SizedBox(width: cardWidth, child: card))
-                  .toList(),
-            );
-          },
-        ),
-        SizedBox(height: 20.rh),
-        AppTable(
-          title: s.flotteComplete,
-          source: SourceEmployes(rows: _employes),
-        ),
-      ],
+        );
+      },
     );
   }
 }

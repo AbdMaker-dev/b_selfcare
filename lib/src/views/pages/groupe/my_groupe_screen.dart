@@ -1,63 +1,50 @@
 import 'package:b_selfcare/gen/fonts.gen.dart';
-import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/singleton.dart';
-import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model.dart';
+import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
-import 'package:b_selfcare/src/views/pages/campagne/cubit/campagne_cubit.dart';
-import 'package:b_selfcare/src/views/pages/campagne/widgets/form_campagne.dart';
-import 'package:b_selfcare/src/views/pages/campagne/widgets/source_campagne.dart';
-import 'package:b_selfcare/src/views/pages/campagne/widgets/source_historique_campagne.dart';
+import 'package:b_selfcare/src/views/pages/groupe/widgets/form_groupe.dart';
+import 'package:b_selfcare/src/views/pages/groupe/widgets/source_groupe.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
-import 'package:b_selfcare/src/views/widgets/table/title_table.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
-class CampagneScreen extends StatefulWidget {
-  const CampagneScreen({super.key});
+class MyGroupeScreen extends StatefulWidget {
+  const MyGroupeScreen({super.key});
 
   @override
-  State<CampagneScreen> createState() => _CampagneScreenState();
+  State<MyGroupeScreen> createState() => _MyGroupeScreenState();
 }
 
-class _CampagneScreenState extends State<CampagneScreen> {
-  final campagne = getIt<CampagneCubit>();
+class _MyGroupeScreenState extends State<MyGroupeScreen> {
+  final groupCubit = getIt<GroupCubit>();
 
   int _currentPage = 1;
-  DataCampaignResponseModel? _cachedData;
-
-  static const _historiqueFilters = <TableFilter>[
-    (label: 'Tous',    value: 'tous'),
-    (label: 'Actifs',  value: 'active'),
-    (label: 'Inactifs',value: 'inactive'),
-    (label: 'En pause',value: 'paused'),
-  ];
-
-  String _selectedHistoriqueFilter = 'tous';
+  DataGroupResponseModel? _cachedData;
 
   @override
   void initState() {
     super.initState();
-    campagne.getCampaigns(data: {'page': _currentPage});
+    groupCubit.getGroups(data: {'page': _currentPage});
   }
 
   void _fetchPage(int page) {
     setState(() => _currentPage = page);
-    campagne.getCampaigns(data: {'page': page});
+    groupCubit.getGroups(data: {'page': page});
   }
 
   @override
   Widget build(BuildContext context) {
-    final s = S.of(context);
-    return BlocConsumer<CampagneCubit, CampagneState>(
-      bloc: campagne,
+    return BlocConsumer<GroupCubit, GroupState>(
+      bloc: groupCubit,
       listener: (context, state) {
         state.maybeWhen(
-          getCampaignsFailed: (message) =>
+          getGroupsFailed: (message) =>
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(message), backgroundColor: AppColors.error),
               ),
@@ -65,19 +52,15 @@ class _CampagneScreenState extends State<CampagneScreen> {
         );
       },
       builder: (context, state) {
-        if (state is GetCampaignsLoaded) {
+        if (state is GetGroupsLoaded) {
           _cachedData = state.data;
         }
 
-        final isLoading = state is GetCampaignsLoading;
-        final campaigns = _cachedData?.campaigns ?? [];
-        final meta = _cachedData?.meta;
+        final isLoading = state is GetGroupsLoading;
+        final groups = _cachedData?.data?.groups ?? [];
+        final meta = _cachedData?.data?.meta;
         final total = meta?.total ?? 0;
         final lastPage = meta?.lastPage ?? 1;
-
-        final filteredHistorique = _selectedHistoriqueFilter == 'tous'
-            ? campaigns
-            : campaigns.where((c) => c.status?.toLowerCase() == _selectedHistoriqueFilter).toList();
 
         return ListView(
           padding: EdgeInsets.only(bottom: 50.rh),
@@ -89,8 +72,8 @@ class _CampagneScreenState extends State<CampagneScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText.textHighlight(
-                      s.myCampagne,
-                      highlight: s.campagne,
+                      'Mes groupes',
+                      highlight: 'groupes',
                       fontSize: 22.rsp,
                       highlightColor: AppColors.warning,
                       fontFamily: FontFamily.syne,
@@ -98,8 +81,8 @@ class _CampagneScreenState extends State<CampagneScreen> {
                     SizedBox(height: 8.rh),
                     AppText(
                       total > 0
-                          ? '$total campagnes · Provisioning automatique CBS'
-                          : 'Provisioning automatique - CBS - DAILY / WEEKLY / MONTHLY',
+                          ? '$total groupes · Gestion des groupes d\'employés'
+                          : 'Organisez vos employés par groupes et produits',
                       fontSize: 11.rsp,
                       color: AppColors.textMuted,
                     ),
@@ -107,7 +90,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
                 ),
                 const Spacer(),
                 AppButton(
-                  text: '+ ${s.campagne}',
+                  text: '+ Groupe',
                   type: AppButtonType.secondary,
                   width: 130.rw,
                   height: 38.rh,
@@ -117,12 +100,12 @@ class _CampagneScreenState extends State<CampagneScreen> {
               ],
             ),
             SizedBox(height: 30.rh),
-            /*FormCampagne(
-              campagneCubit: campagne,
-              onCreated: () => campagne.getCampaigns(data: {'page': _currentPage}),
+            FormGroupe(
+              groupCubit: groupCubit,
+              onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
             ),
-            SizedBox(height: 20.rh),*/
-            if (isLoading && campaigns.isEmpty)
+            SizedBox(height: 20.rh),
+            if (isLoading && groups.isEmpty)
               Center(
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 60.rh),
@@ -131,8 +114,8 @@ class _CampagneScreenState extends State<CampagneScreen> {
               )
             else ...[
               AppTable(
-                title: s.myCampagne,
-                source: SourceCampagne(rows: campaigns),
+                title: 'Mes groupes',
+                source: SourceGroupe(rows: groups),
                 currentPage: _currentPage,
                 totalCount: total,
                 activePreviousClicked: _currentPage > 1,
@@ -140,15 +123,6 @@ class _CampagneScreenState extends State<CampagneScreen> {
                 onPreviousClicked: _currentPage > 1 ? () => _fetchPage(_currentPage - 1) : null,
                 onNextClicked: _currentPage < lastPage ? () => _fetchPage(_currentPage + 1) : null,
               ),
-/*              SizedBox(height: 30.rh),
-              AppTable(
-                title: s.historique,
-                source: SourceHistoriqueCampagne(rows: filteredHistorique),
-                hidePaginator: true,
-                filters: _historiqueFilters,
-                selectedFilter: _selectedHistoriqueFilter,
-                onFilterChanged: (value) => setState(() => _selectedHistoriqueFilter = value),
-              ),*/
             ],
           ],
         );

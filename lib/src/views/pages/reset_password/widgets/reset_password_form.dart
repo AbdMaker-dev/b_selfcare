@@ -3,6 +3,7 @@ import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:b_selfcare/src/utils/app_validators.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_cubit.dart';
 import 'package:b_selfcare/src/views/pages/reset_password/widgets/send_mail_message.dart';
@@ -78,6 +79,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     labelText: s.email,
                     keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
+                    validator: AppValidators.email(context),
                   ),
                   SizedBox(height: 50.0.rh),
                   AppButton(
