@@ -45,7 +45,7 @@ class Quotas {
   Quotas({this.walletId, this.quota, this.price, this.category, this.unit, this.name, this.code});
 
   Quotas.fromJson(Map<String, dynamic> json) {
-    walletId = json['wallet_id'];
+    walletId = json['wallet_id'] ?? json['wallet']?['id'];
     quota = json['quota'];
     price = json['price'];
     category = json['category']??json['wallet']?['category'];

@@ -34,7 +34,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> fetchWallets() async {
     if (wallets.isNotEmpty) return;
     emit(ProductsState.walletsLoading());
-    final response = await _httpHelper.handleGetRequest("wallets", showLoader: false);
+    final response = await _httpHelper.handleGetRequest("wallets", showLoader: true);
     response.fold(
       (left) => emit(ProductsState.walletsError(left.message)),
       (right) {

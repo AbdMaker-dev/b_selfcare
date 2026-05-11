@@ -28,6 +28,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   void initState() {
     super.initState();
     _cubit.fetchProducts();
+    _cubit.fetchWallets();
   }
 
   @override
