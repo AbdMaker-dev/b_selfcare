@@ -55,7 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "featureUnderDevelopment": MessageLookupByLibrary.simpleMessage(
       "Fonctionnalité en développement",
     ),
-    "flotte": MessageLookupByLibrary.simpleMessage("Flotte"),
+    "flotte": MessageLookupByLibrary.simpleMessage("flotte"),
     "flotteComplete": MessageLookupByLibrary.simpleMessage("Flotte complète"),
     "forgotPassword": MessageLookupByLibrary.simpleMessage(
       "Mot de passe oublié",
