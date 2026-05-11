@@ -4,9 +4,12 @@ import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart';
+import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_empty.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
 import 'package:b_selfcare/src/views/widgets/plan_card.dart';
+import 'package:b_selfcare/src/views/widgets/product_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,17 +37,46 @@ class _ProductsScreenState extends State<ProductsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppText.textHighlight(
-            "Mes produits",
-            highlight: "produits",
-            fontSize: 22.rsp,
-            fontFamily: FontFamily.syne,
-          ),
-          SizedBox(height: 8.rh),
-          AppText(
-            "FORFAITS PERSONNALISÉS · COMPUTED_COST AUTO",
-            fontSize: 11.rsp,
-            color: AppColors.textMuted,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AppText.textHighlight(
+                    "Mes produits",
+                    highlight: "produits",
+                    fontSize: 22.rsp,
+                    fontFamily: FontFamily.syne,
+                  ),
+                  SizedBox(height: 8.rh),
+                  AppText(
+                    "FORFAITS PERSONNALISÉS · COMPUTED_COST AUTO",
+                    fontSize: 11.rsp,
+                    color: AppColors.textMuted,
+                  )
+                ],
+              ),
+
+              AppButton(
+                text: 'Produit',
+                icon: Icons.add_circle_outline,
+                type: AppButtonType.secondary,
+                onPressed: (){
+                  AppDialogs.popup(
+                    context: context,
+                    width: 600.rw,
+                    height: 0.6,
+                    contents: ProductForm(),
+                  );
+                },
+                width: 120.rw,
+                height: 50.rh,
+                fontSize: 12.5.rsp,
+              ),
+
+
+            ],
           ),
           SizedBox(height: 30.rh),
           BlocSelector<ProductsCubit, ProductsState, ProductsLoaded?>(
