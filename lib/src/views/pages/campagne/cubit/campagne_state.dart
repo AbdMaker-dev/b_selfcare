@@ -6,4 +6,7 @@ class CampagneState with _$CampagneState {
   const factory CampagneState.getCampaignsLoading() = GetCampaignsLoading;
   const factory CampagneState.getCampaignsLoaded({required DataCampaignResponseModel data}) = GetCampaignsLoaded;
   const factory CampagneState.getCampaignsFailed(String message) = GetCampaignsFailed;
+  const factory CampagneState.executeCampaignsLoading() = ExecuteCampaignsLoading;
+  const factory CampagneState.executeCampaignsLoaded({required DataResponseModel data}) = ExecuteCampaignsLoaded;
+  const factory CampagneState.executeCampaignsFailed(String message) = ExecuteCampaignsFailed;
 }

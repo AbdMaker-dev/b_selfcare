@@ -203,7 +203,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
               ),
               SizedBox(height: 24.rh),
               SizedBox(
-                width: 450.rw,
+                width: 250.rw,
                 child: BlocBuilder<GroupCubit, GroupState>(
                   bloc: widget.groupCubit,
                   builder: (context, state) {
@@ -211,6 +211,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                     return AppButton(
                       text: isLoading ? 'Mise à jour...' : 'Enregistrer les modifications',
                       type: AppButtonType.secondary,
+                      fontSize: 12.rsp,
                       onPressed: isLoading ? null : _submit,
                     );
                   },

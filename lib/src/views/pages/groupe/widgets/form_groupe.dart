@@ -284,6 +284,7 @@ class _FormGroupeState extends State<FormGroupe> {
                     text: 'Créer le groupe',
                     type: AppButtonType.secondary,
                     onPressed: _submit,
+                    fontSize: 15.rsp,
                   ),
                 ),
               ],

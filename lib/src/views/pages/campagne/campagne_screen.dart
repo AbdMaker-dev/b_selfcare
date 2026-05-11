@@ -57,10 +57,12 @@ class _CampagneScreenState extends State<CampagneScreen> {
       bloc: campagne,
       listener: (context, state) {
         state.maybeWhen(
-          getCampaignsFailed: (message) =>
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message), backgroundColor: AppColors.error),
+          getCampaignsFailed: (message) {},
+          executeCampaignsLoaded: (_) =>
+              WidgetsBinding.instance.addPostFrameCallback(
+                (_) { if (mounted) campagne.getCampaigns(data: {'page': _currentPage}); },
               ),
+          executeCampaignsFailed: (message){},
           orElse: () {},
         );
       },
@@ -69,7 +71,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
           _cachedData = state.data;
         }
 
-        final isLoading = state is GetCampaignsLoading;
+        final isLoading = state is GetCampaignsLoading || state is ExecuteCampaignsLoading;
         final campaigns = _cachedData?.campaigns ?? [];
         final meta = _cachedData?.meta;
         final total = meta?.total ?? 0;
@@ -117,11 +119,6 @@ class _CampagneScreenState extends State<CampagneScreen> {
               ],
             ),
             SizedBox(height: 30.rh),
-            /*FormCampagne(
-              campagneCubit: campagne,
-              onCreated: () => campagne.getCampaigns(data: {'page': _currentPage}),
-            ),
-            SizedBox(height: 20.rh),*/
             if (isLoading && campaigns.isEmpty)
               Center(
                 child: Padding(
@@ -132,7 +129,13 @@ class _CampagneScreenState extends State<CampagneScreen> {
             else ...[
               AppTable(
                 title: s.myCampagne,
-                source: SourceCampagne(rows: campaigns),
+                source: SourceCampagne(
+                  rows: campaigns,
+                  onExecute: (campaign, execute) {
+                    if (campaign.id == null) return;
+                    campagne.executeCampaigns(id: campaign.id!, execute: execute);
+                  },
+                ),
                 currentPage: _currentPage,
                 totalCount: total,
                 activePreviousClicked: _currentPage > 1,
