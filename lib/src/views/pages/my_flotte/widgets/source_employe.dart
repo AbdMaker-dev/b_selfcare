@@ -8,8 +8,9 @@ import 'package:flutter/material.dart';
 class SourceEmployes extends AppTableSource<EmployeeModel> {
   @override
   final List<EmployeeModel> rows;
+  final void Function(EmployeeModel)? onEdit;
 
-  SourceEmployes({required this.rows});
+  SourceEmployes({required this.rows,this.onEdit});
 
   @override
   List<({String label, int flex})> get columns => [
@@ -34,7 +35,7 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     CellTextTable(text: e.group?.name ?? '-'),
     _statusBadge(e.status),
     CellActionsTable(actions: [
-      (label: 'Modifier', danger: false, onTap: () {}),
+      (label: 'Modifier', danger: false, onTap: () => onEdit?.call(e)),
       (label: 'Swap SIM', danger: true,  onTap: () {}),
     ]),
   ];

@@ -38,4 +38,17 @@ class EmployeeRepo {
       },
     );
   }
+
+  Future<Either<Failure, DataResponseModel>> updateEmployee({required int id, required dynamic data}) async {
+    var res = await htttHelper.handlePutRequest("fleet/employees/$id", data, showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async {
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
 }

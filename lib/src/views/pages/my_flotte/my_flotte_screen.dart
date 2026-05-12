@@ -5,8 +5,11 @@ import 'package:b_selfcare/src/data/models/employee/data_employee_response_model
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/source_employe.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
@@ -47,9 +50,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
       bloc: myFlotte,
       listener: (context, state) {
         state.maybeWhen(
-          getEmployeesFailed: (message) => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(message), backgroundColor: AppColors.error),
-          ),
+          getEmployeesFailed: (message) {},
           orElse: () {},
         );
       },
@@ -91,37 +92,56 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                 const Spacer(),
                 Row(
                   children: [
-                    AppButton(
-                      text: s.simSwap,
-                      type: AppButtonType.outline,
-                      icon: Icons.swap_horiz,
-                      width: 130.rw,
-                      height: 38.rh,
-                      fontSize: 13.rsp,
-                      onPressed: () {},
+                    SizedBox(
+                      width: 150.rw,
+                      height: 40.rh,
+                      child: AppButton(
+                        text: s.simSwap,
+                        type: AppButtonType.outline,
+                        icon: Icons.swap_horiz,
+                        fontSize: 15.rsp,
+                        onPressed: () {},
+                      ),
                     ),
                     SizedBox(width: 10.rw),
-                    AppButton(
-                      text: '+ Employé',
-                      type: AppButtonType.secondary,
-                      width: 130.rw,
-                      height: 38.rh,
-                      fontSize: 13.rsp,
-                      onPressed: () {},
+                    SizedBox(
+                      width: 150.rw,
+                      height: 40.rh,
+                      child: AppButton(
+                        text: '+ Employé',
+                        type: AppButtonType.secondary,
+                        fontSize: 15.rsp,
+                        onPressed: () => FormEmploye.show(
+                          context,
+                          myFlotteCubit: myFlotte,
+                          onCreated: () => myFlotte.getEmployees(
+                            data: {'page': _currentPage},
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
             SizedBox(height: 30.rh),
+            AppSearchInput(
+              onChanged: (value) {
+                myFlotte.getEmployees(data: {'search': value});
+              },
+            ),
+            SizedBox(height: 20.rh),
             FilterTabsWidget(
               tabs: [
                 FilterTab(label: 'Tous', count: total > 0 ? total : null),
-                const FilterTab(label: 'Actifs'),
-                const FilterTab(label: 'Groupes'),
-                const FilterTab(label: 'Sans produit'),
+                const FilterTab(label: 'Active'),
+                const FilterTab(label: 'Inactive'),
               ],
-              onTabChanged: (model) {},
+              onTabChanged: (model) {
+                model.label == "Tous" ?
+                myFlotte.getEmployees(data: {'page': _currentPage}):
+                myFlotte.getEmployees(data: {'status': model.label.toUpperCase()});
+              },
             ),
             SizedBox(height: 20.rh),
             if (isLoading && employees.isEmpty)
@@ -135,12 +155,19 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
               LayoutBuilder(
                 builder: (context, constraints) {
                   final totalWidth = constraints.maxWidth;
-                  final crossAxisCount = totalWidth > 900 ? 3 : totalWidth > 550 ? 2 : 1;
+                  final crossAxisCount = totalWidth > 900
+                      ? 3
+                      : totalWidth > 550
+                      ? 2
+                      : 1;
                   final spacing = 12.rw;
-                  final cardWidth = (totalWidth - spacing * (crossAxisCount - 1)) / crossAxisCount;
+                  final cardWidth =
+                      (totalWidth - spacing * (crossAxisCount - 1)) /
+                      crossAxisCount;
 
                   final cards = employees.take(6).map((e) {
-                    final name = '${e.firstName ?? ''} ${e.lastName ?? ''}'.trim();
+                    final name = '${e.firstName ?? ''} ${e.lastName ?? ''}'
+                        .trim();
                     return InfoFlotteCard(
                       name: name.isNotEmpty ? name : '-',
                       department: e.position ?? '-',
@@ -164,13 +191,25 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
               SizedBox(height: 20.rh),
               AppTable(
                 title: s.flotteComplete,
-                source: SourceEmployes(rows: employees),
+                source: SourceEmployes(
+                  rows: employees,
+                  onEdit: (e) => FormEditEmploye.show(
+                    context,
+                    employee: e,
+                    myFlotteCubit: myFlotte,
+                    onUpdated: () => myFlotte.getEmployees(data: {'page': _currentPage}),
+                  ),
+                ),
                 currentPage: _currentPage,
                 totalCount: total,
                 activePreviousClicked: _currentPage > 1,
                 activeNextClicked: _currentPage < lastPage,
-                onPreviousClicked: _currentPage > 1 ? () => _fetchPage(_currentPage - 1) : null,
-                onNextClicked: _currentPage < lastPage ? () => _fetchPage(_currentPage + 1) : null,
+                onPreviousClicked: _currentPage > 1
+                    ? () => _fetchPage(_currentPage - 1)
+                    : null,
+                onNextClicked: _currentPage < lastPage
+                    ? () => _fetchPage(_currentPage + 1)
+                    : null,
               ),
             ],
           ],
