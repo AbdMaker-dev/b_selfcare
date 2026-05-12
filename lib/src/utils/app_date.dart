@@ -40,6 +40,23 @@ class AppDate {
     return dt.isAfter(DateTime.now().toUtc());
   }
 
+  // "2026-05-02T14:13:47.000000Z" → "02/05 · 14h13"
+  static String dashboardFmt(String? iso, {String fallback = ''}) {
+    final dt = _parse(iso);
+    if (dt == null) return fallback;
+    final local = dt.toLocal();
+    final date = DateFormat('dd/MM').format(local);
+    final time = DateFormat("HH'h'mm").format(local);
+    return '$date · $time';
+  }
+
+  // "2026-05-12" (date seule) → "12/05"
+  static String dayMonth(String? date, {String fallback = ''}) {
+    if (date == null || date.isEmpty) return fallback;
+    final parts = date.split('-');
+    return parts.length == 3 ? '${parts[2]}/${parts[1]}' : fallback;
+  }
+
   static DateTime? _parse(String? iso) {
     if (iso == null || iso.isEmpty) return null;
     try {
@@ -55,18 +72,18 @@ class AppMoney {
 
   static final _formatter = NumberFormat.decimalPattern('fr');
 
-  // 1500000 → "1 500 000 FCFA"
-  static String format(num? amount, {String fallback = '-'}) {
+  // 1500000 → "1 500 000 FCFA"  |  suffix: 'Fcfa' → "1 500 000 Fcfa"
+  static String format(num? amount, {String suffix = 'FCFA', String fallback = '-'}) {
     if (amount == null) return fallback;
-    return '${_formatter.format(amount)} FCFA';
+    return '${_formatter.format(amount)} $suffix';
   }
 
   // "1500000" (String) → "1 500 000 FCFA"
-  static String formatString(String? amount, {String fallback = '-'}) {
+  static String formatString(String? amount, {String suffix = 'FCFA', String fallback = '-'}) {
     if (amount == null || amount.isEmpty) return fallback;
     final parsed = num.tryParse(amount);
     if (parsed == null) return fallback;
-    return '${_formatter.format(parsed)} FCFA';
+    return '${_formatter.format(parsed)} $suffix';
   }
 
   // 1500000 → "1 500 000 F CFA"  (variante longue)

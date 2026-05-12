@@ -44,7 +44,16 @@ class ActiviteRecenteCard extends StatelessWidget {
         children: [
           _buildHeader(),
           const Divider(height: 1, color: Color(0xFFEEF0F6)),
-          ...items.asMap().entries.map((e) => _ActivityRow(item: e.value, isLast: e.key == items.length - 1)),
+          Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: items.length,
+              itemBuilder: (_, i) => _ActivityRow(
+                item: items[i],
+                isLast: i == items.length - 1,
+              ),
+            ),
+          ),
         ],
       ),
     );
