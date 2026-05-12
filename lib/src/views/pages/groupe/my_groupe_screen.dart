@@ -3,10 +3,12 @@ import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/groupe/widgets/form_edit_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/source_groupe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,13 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
       listener: (context, state) {
         state.maybeWhen(
           getGroupsFailed: (message) =>
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(message), backgroundColor: AppColors.error),
+              ),
+          updateGroupeLoaded: (_) {
+            groupCubit.getGroups(data: {'page': _currentPage});
+          },
+          updateGroupeFailed: (message) =>
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(message), backgroundColor: AppColors.error),
               ),
@@ -89,13 +98,15 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                   ],
                 ),
                 const Spacer(),
-                AppButton(
-                  text: '+ Groupe',
-                  type: AppButtonType.secondary,
-                  width: 130.rw,
-                  height: 38.rh,
-                  fontSize: 13.rsp,
-                  onPressed: () {},
+                SizedBox(
+                  width: 150.rw,
+                  height: 40.rh,
+                  child: AppButton(
+                    text: '+ Groupe',
+                    type: AppButtonType.secondary,
+                    fontSize: 15.rsp,
+                    onPressed: () {},
+                  ),
                 ),
               ],
             ),
@@ -103,6 +114,12 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
             FormGroupe(
               groupCubit: groupCubit,
               onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
+            ),
+            SizedBox(height: 30.rh),
+            AppSearchInput(
+              onChanged: (value){
+                groupCubit.getGroups(data: {'search': value});
+              },
             ),
             SizedBox(height: 20.rh),
             if (isLoading && groups.isEmpty)
@@ -115,7 +132,14 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
             else ...[
               AppTable(
                 title: 'Mes groupes',
-                source: SourceGroupe(rows: groups),
+                source: SourceGroupe(
+                  rows: groups,
+                  onEdit: (groupe) => FormEditGroupe.show(
+                    context,
+                    groupe: groupe,
+                    groupCubit: groupCubit,
+                  ),
+                ),
                 currentPage: _currentPage,
                 totalCount: total,
                 activePreviousClicked: _currentPage > 1,

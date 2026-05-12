@@ -31,4 +31,13 @@ class MyFlotteCubit extends Cubit<MyFlotteState> {
       (data) => emit(MyFlotteState.createEmployeeLoaded(data: data)),
     );
   }
+
+  Future<void> updateEmployee({required int id, required dynamic data}) async {
+    emit(const MyFlotteState.updateEmployeeLoading());
+    final res = await employeeUsecase.updateEmployee(id: id, data: data);
+    res.fold(
+      (failure) => emit(MyFlotteState.updateEmployeeFailed(failure.message)),
+      (data) => emit(MyFlotteState.updateEmployeeLoaded(data: data)),
+    );
+  }
 }

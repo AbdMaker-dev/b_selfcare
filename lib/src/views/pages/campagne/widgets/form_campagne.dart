@@ -168,6 +168,7 @@ class _FormCampagneState extends State<FormCampagne> {
                 child: AppButton(
                   text: s.planingCampagne,
                   type: AppButtonType.secondary,
+                  fontSize: 15.rsp,
                   onPressed: _submit,
                 ),
               ),

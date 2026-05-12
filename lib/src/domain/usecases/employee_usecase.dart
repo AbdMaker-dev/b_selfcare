@@ -32,4 +32,16 @@ class EmployeeUsecase {
       },
     );
   }
+
+  Future<Either<Failure, DataResponseModel>> updateEmployee({required int id, required dynamic data}) async {
+    var res = await employeeRepo.updateEmployee(id: id, data: data);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) {
+        return Right(success);
+      },
+    );
+  }
 }

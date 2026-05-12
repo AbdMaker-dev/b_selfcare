@@ -143,7 +143,7 @@ class HttpHelper {
   Future<Either<Failure, Success>> handlePutRequest(
     String api,
     Map<String, dynamic> data, {
-    showSuccessToast = false,
+    showSuccessToast = true,
     showLoader = true,
   }) async {
     try {

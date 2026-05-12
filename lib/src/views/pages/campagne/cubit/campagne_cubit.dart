@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model.dart';
+import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/domain/usecases/campaign_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -19,6 +20,20 @@ class CampagneCubit extends Cubit<CampagneState> {
     res.fold(
       (failure) => emit(CampagneState.getCampaignsFailed(failure.message)),
       (data) => emit(CampagneState.getCampaignsLoaded(data: data)),
+    );
+  }
+
+  static const _postActions = {'execute', 'retrigger'};
+
+  Future<void> executeCampaigns({required int id, required String execute}) async {
+    emit(const CampagneState.executeCampaignsLoading());
+    final res = _postActions.contains(execute)
+        ? await campaignUsecase.triggerAndExecuteCampaigns(id: id, execute: execute)
+        : await campaignUsecase.pauseAndCancelAndReactivateCampaigns(id: id, execute: execute);
+
+    res.fold(
+          (failure) => emit(CampagneState.executeCampaignsFailed(failure.message)),
+          (data) => emit(CampagneState.executeCampaignsLoaded(data: data)),
     );
   }
 }

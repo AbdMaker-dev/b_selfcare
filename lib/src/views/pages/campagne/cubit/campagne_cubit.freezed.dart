@@ -55,14 +55,17 @@ extension CampagneStatePatterns on CampagneState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetCampaignsLoading value)?  getCampaignsLoading,TResult Function( GetCampaignsLoaded value)?  getCampaignsLoaded,TResult Function( GetCampaignsFailed value)?  getCampaignsFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetCampaignsLoading value)?  getCampaignsLoading,TResult Function( GetCampaignsLoaded value)?  getCampaignsLoaded,TResult Function( GetCampaignsFailed value)?  getCampaignsFailed,TResult Function( ExecuteCampaignsLoading value)?  executeCampaignsLoading,TResult Function( ExecuteCampaignsLoaded value)?  executeCampaignsLoaded,TResult Function( ExecuteCampaignsFailed value)?  executeCampaignsFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case GetCampaignsLoading() when getCampaignsLoading != null:
 return getCampaignsLoading(_that);case GetCampaignsLoaded() when getCampaignsLoaded != null:
 return getCampaignsLoaded(_that);case GetCampaignsFailed() when getCampaignsFailed != null:
-return getCampaignsFailed(_that);case _:
+return getCampaignsFailed(_that);case ExecuteCampaignsLoading() when executeCampaignsLoading != null:
+return executeCampaignsLoading(_that);case ExecuteCampaignsLoaded() when executeCampaignsLoaded != null:
+return executeCampaignsLoaded(_that);case ExecuteCampaignsFailed() when executeCampaignsFailed != null:
+return executeCampaignsFailed(_that);case _:
   return orElse();
 
 }
@@ -80,14 +83,17 @@ return getCampaignsFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetCampaignsLoading value)  getCampaignsLoading,required TResult Function( GetCampaignsLoaded value)  getCampaignsLoaded,required TResult Function( GetCampaignsFailed value)  getCampaignsFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetCampaignsLoading value)  getCampaignsLoading,required TResult Function( GetCampaignsLoaded value)  getCampaignsLoaded,required TResult Function( GetCampaignsFailed value)  getCampaignsFailed,required TResult Function( ExecuteCampaignsLoading value)  executeCampaignsLoading,required TResult Function( ExecuteCampaignsLoaded value)  executeCampaignsLoaded,required TResult Function( ExecuteCampaignsFailed value)  executeCampaignsFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
 return initial(_that);case GetCampaignsLoading():
 return getCampaignsLoading(_that);case GetCampaignsLoaded():
 return getCampaignsLoaded(_that);case GetCampaignsFailed():
-return getCampaignsFailed(_that);case _:
+return getCampaignsFailed(_that);case ExecuteCampaignsLoading():
+return executeCampaignsLoading(_that);case ExecuteCampaignsLoaded():
+return executeCampaignsLoaded(_that);case ExecuteCampaignsFailed():
+return executeCampaignsFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -104,14 +110,17 @@ return getCampaignsFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetCampaignsLoading value)?  getCampaignsLoading,TResult? Function( GetCampaignsLoaded value)?  getCampaignsLoaded,TResult? Function( GetCampaignsFailed value)?  getCampaignsFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetCampaignsLoading value)?  getCampaignsLoading,TResult? Function( GetCampaignsLoaded value)?  getCampaignsLoaded,TResult? Function( GetCampaignsFailed value)?  getCampaignsFailed,TResult? Function( ExecuteCampaignsLoading value)?  executeCampaignsLoading,TResult? Function( ExecuteCampaignsLoaded value)?  executeCampaignsLoaded,TResult? Function( ExecuteCampaignsFailed value)?  executeCampaignsFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial(_that);case GetCampaignsLoading() when getCampaignsLoading != null:
 return getCampaignsLoading(_that);case GetCampaignsLoaded() when getCampaignsLoaded != null:
 return getCampaignsLoaded(_that);case GetCampaignsFailed() when getCampaignsFailed != null:
-return getCampaignsFailed(_that);case _:
+return getCampaignsFailed(_that);case ExecuteCampaignsLoading() when executeCampaignsLoading != null:
+return executeCampaignsLoading(_that);case ExecuteCampaignsLoaded() when executeCampaignsLoaded != null:
+return executeCampaignsLoaded(_that);case ExecuteCampaignsFailed() when executeCampaignsFailed != null:
+return executeCampaignsFailed(_that);case _:
   return null;
 
 }
@@ -128,13 +137,16 @@ return getCampaignsFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getCampaignsLoading,TResult Function( DataCampaignResponseModel data)?  getCampaignsLoaded,TResult Function( String message)?  getCampaignsFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getCampaignsLoading,TResult Function( DataCampaignResponseModel data)?  getCampaignsLoaded,TResult Function( String message)?  getCampaignsFailed,TResult Function()?  executeCampaignsLoading,TResult Function( DataResponseModel data)?  executeCampaignsLoaded,TResult Function( String message)?  executeCampaignsFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetCampaignsLoading() when getCampaignsLoading != null:
 return getCampaignsLoading();case GetCampaignsLoaded() when getCampaignsLoaded != null:
 return getCampaignsLoaded(_that.data);case GetCampaignsFailed() when getCampaignsFailed != null:
-return getCampaignsFailed(_that.message);case _:
+return getCampaignsFailed(_that.message);case ExecuteCampaignsLoading() when executeCampaignsLoading != null:
+return executeCampaignsLoading();case ExecuteCampaignsLoaded() when executeCampaignsLoaded != null:
+return executeCampaignsLoaded(_that.data);case ExecuteCampaignsFailed() when executeCampaignsFailed != null:
+return executeCampaignsFailed(_that.message);case _:
   return orElse();
 
 }
@@ -152,13 +164,16 @@ return getCampaignsFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getCampaignsLoading,required TResult Function( DataCampaignResponseModel data)  getCampaignsLoaded,required TResult Function( String message)  getCampaignsFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getCampaignsLoading,required TResult Function( DataCampaignResponseModel data)  getCampaignsLoaded,required TResult Function( String message)  getCampaignsFailed,required TResult Function()  executeCampaignsLoading,required TResult Function( DataResponseModel data)  executeCampaignsLoaded,required TResult Function( String message)  executeCampaignsFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetCampaignsLoading():
 return getCampaignsLoading();case GetCampaignsLoaded():
 return getCampaignsLoaded(_that.data);case GetCampaignsFailed():
-return getCampaignsFailed(_that.message);case _:
+return getCampaignsFailed(_that.message);case ExecuteCampaignsLoading():
+return executeCampaignsLoading();case ExecuteCampaignsLoaded():
+return executeCampaignsLoaded(_that.data);case ExecuteCampaignsFailed():
+return executeCampaignsFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -175,13 +190,16 @@ return getCampaignsFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getCampaignsLoading,TResult? Function( DataCampaignResponseModel data)?  getCampaignsLoaded,TResult? Function( String message)?  getCampaignsFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getCampaignsLoading,TResult? Function( DataCampaignResponseModel data)?  getCampaignsLoaded,TResult? Function( String message)?  getCampaignsFailed,TResult? Function()?  executeCampaignsLoading,TResult? Function( DataResponseModel data)?  executeCampaignsLoaded,TResult? Function( String message)?  executeCampaignsFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetCampaignsLoading() when getCampaignsLoading != null:
 return getCampaignsLoading();case GetCampaignsLoaded() when getCampaignsLoaded != null:
 return getCampaignsLoaded(_that.data);case GetCampaignsFailed() when getCampaignsFailed != null:
-return getCampaignsFailed(_that.message);case _:
+return getCampaignsFailed(_that.message);case ExecuteCampaignsLoading() when executeCampaignsLoading != null:
+return executeCampaignsLoading();case ExecuteCampaignsLoaded() when executeCampaignsLoaded != null:
+return executeCampaignsLoaded(_that.data);case ExecuteCampaignsFailed() when executeCampaignsFailed != null:
+return executeCampaignsFailed(_that.message);case _:
   return null;
 
 }
@@ -377,6 +395,170 @@ class _$GetCampaignsFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(GetCampaignsFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ExecuteCampaignsLoading implements CampagneState {
+  const ExecuteCampaignsLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExecuteCampaignsLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'CampagneState.executeCampaignsLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ExecuteCampaignsLoaded implements CampagneState {
+  const ExecuteCampaignsLoaded({required this.data});
+  
+
+ final  DataResponseModel data;
+
+/// Create a copy of CampagneState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ExecuteCampaignsLoadedCopyWith<ExecuteCampaignsLoaded> get copyWith => _$ExecuteCampaignsLoadedCopyWithImpl<ExecuteCampaignsLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExecuteCampaignsLoaded&&const DeepCollectionEquality().equals(other.data, data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
+
+@override
+String toString() {
+  return 'CampagneState.executeCampaignsLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ExecuteCampaignsLoadedCopyWith<$Res> implements $CampagneStateCopyWith<$Res> {
+  factory $ExecuteCampaignsLoadedCopyWith(ExecuteCampaignsLoaded value, $Res Function(ExecuteCampaignsLoaded) _then) = _$ExecuteCampaignsLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$ExecuteCampaignsLoadedCopyWithImpl<$Res>
+    implements $ExecuteCampaignsLoadedCopyWith<$Res> {
+  _$ExecuteCampaignsLoadedCopyWithImpl(this._self, this._then);
+
+  final ExecuteCampaignsLoaded _self;
+  final $Res Function(ExecuteCampaignsLoaded) _then;
+
+/// Create a copy of CampagneState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = freezed,}) {
+  return _then(ExecuteCampaignsLoaded(
+data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ExecuteCampaignsFailed implements CampagneState {
+  const ExecuteCampaignsFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of CampagneState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ExecuteCampaignsFailedCopyWith<ExecuteCampaignsFailed> get copyWith => _$ExecuteCampaignsFailedCopyWithImpl<ExecuteCampaignsFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExecuteCampaignsFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'CampagneState.executeCampaignsFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ExecuteCampaignsFailedCopyWith<$Res> implements $CampagneStateCopyWith<$Res> {
+  factory $ExecuteCampaignsFailedCopyWith(ExecuteCampaignsFailed value, $Res Function(ExecuteCampaignsFailed) _then) = _$ExecuteCampaignsFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$ExecuteCampaignsFailedCopyWithImpl<$Res>
+    implements $ExecuteCampaignsFailedCopyWith<$Res> {
+  _$ExecuteCampaignsFailedCopyWithImpl(this._self, this._then);
+
+  final ExecuteCampaignsFailed _self;
+  final $Res Function(ExecuteCampaignsFailed) _then;
+
+/// Create a copy of CampagneState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(ExecuteCampaignsFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

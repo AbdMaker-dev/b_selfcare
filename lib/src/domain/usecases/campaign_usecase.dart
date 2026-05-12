@@ -1,4 +1,5 @@
 import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model.dart';
+import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:b_selfcare/src/data/repositories/campaign_repo.dart';
 import 'package:dartz/dartz.dart';
@@ -20,5 +21,19 @@ class CampaignUsecase {
       },
     );
   }
+  Future<Either<Failure, DataResponseModel>> triggerAndExecuteCampaigns({required int id, required String execute}) async {
+    var res = await campaignRepo.triggerAndExecuteCampaigns(id: id, execute: execute);
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(success),
+    );
+  }
 
+  Future<Either<Failure, DataResponseModel>> pauseAndCancelAndReactivateCampaigns({required int id, required String execute}) async {
+    var res = await campaignRepo.pauseAndCancelAndReactivateCampaigns(id: id, execute: execute);
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(success),
+    );
+  }
 }
