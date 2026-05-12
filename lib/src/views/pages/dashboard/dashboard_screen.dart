@@ -6,6 +6,7 @@ import 'package:b_selfcare/src/utils/app_date.dart';
 import 'package:b_selfcare/src/utils/dashboard_mapper.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/dashboard/cubit/dashboard_cubit.dart';
+import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/activite_recente_card.dart';
 import 'package:b_selfcare/src/views/widgets/alertes_seuils_card.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -46,10 +47,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           padding: EdgeInsets.only(bottom: 50.rh),
           children: [
             AppText.textHighlight(
-              "Bonjour, Alioune",
-              highlight: "Alioune",
+              "Bonjour, ${getIt<LayoutCubit>().currentUser?.firstName ?? ''}",
+              highlight: getIt<LayoutCubit>().currentUser?.firstName ?? '',
               fontSize: 22.rsp,
               fontFamily: FontFamily.syne,
+              highlightColor: AppColors.warning,
             ),
             SizedBox(height: 8.rh),
             AppText(

@@ -1,5 +1,6 @@
 import 'package:b_selfcare/src/data/models/user_profile_model.dart';
 import 'package:b_selfcare/src/data/services/http_helper.dart';
+import 'package:b_selfcare/src/data/services/local_helper.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -10,14 +11,26 @@ part 'layout_cubit.freezed.dart';
 @lazySingleton
 class LayoutCubit extends Cubit<LayoutState> {
   final HttpHelper _httpHelper;
+  final LocaHelper _localHelper;
 
   UserProfileModel? currentUser;
 
-  LayoutCubit(this._httpHelper) : super(LayoutState.initial());
+  LayoutCubit(this._httpHelper, this._localHelper) : super(LayoutState.initial());
 
   void onRouteChange({String? route, dynamic args}) {
     emit(LayoutState.initial());
     emit(LayoutState.routeChanged(route, args));
+  }
+
+  Future<void> logout() async {
+    await _httpHelper.handlePostRequest(
+      "auth/logout",
+      {},
+      showLoader: true,
+      showSuccessToast: true,
+      showErrorToast: true,
+    );
+    await _localHelper.logOut();
   }
 
   Future<bool> fetchCurrentUser() async {

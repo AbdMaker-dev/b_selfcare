@@ -49,6 +49,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     highlight: "produits",
                     fontSize: 22.rsp,
                     fontFamily: FontFamily.syne,
+                    highlightColor: AppColors.warning,
                   ),
                   SizedBox(height: 8.rh),
                   AppText(

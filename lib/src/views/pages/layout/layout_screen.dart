@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
-import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/dashboard_app_bar.dart';
 import 'package:b_selfcare/src/views/widgets/side_menu_list.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class LayoutScreen extends StatefulWidget {
 }
 
 class _LayoutScreenState extends State<LayoutScreen> {
+  final LayoutCubit _cubit = getIt<LayoutCubit>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,20 +44,12 @@ class _LayoutScreenState extends State<LayoutScreen> {
                         child: SingleChildScrollView(
                           padding: EdgeInsets.only(bottom: 100.rh),
                           child: BlocSelector<LayoutCubit, LayoutState, AppMainRouteChange?>(
-                            bloc: getIt<LayoutCubit>(),
-                            selector: (state){
-                              return state.map(
-                                initial: (value){
-                                  return null;
-                                },
-                                routeChanged: (value){
-                                  return value;
-                                },
-                              );
-                            },
-                            builder: (context, state){
-                              return SideMenuList();
-                            },
+                            bloc: _cubit,
+                            selector: (state) => state.map(
+                              initial: (_) => null,
+                              routeChanged: (v) => v,
+                            ),
+                            builder: (context, state) => SideMenuList(),
                           ),
                         ),
                       ),
@@ -64,10 +59,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                     bottom: 0,
                     left: 0,
                     right: 0,
-                    child: AppButton(
-                      text: "Se Deconnecter",
-                      type: AppButtonType.primary,
-                    ),
+                    child: _UserFooter(cubit: _cubit),
                   ),
                 ],
               ),
@@ -96,6 +88,63 @@ class _LayoutScreenState extends State<LayoutScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _UserFooter extends StatelessWidget {
+  final LayoutCubit cubit;
+  const _UserFooter({required this.cubit});
+
+  @override
+  Widget build(BuildContext context) {
+    final user = cubit.currentUser;
+    final fullName = user?.fullName ?? '—';
+    final role = user?.roles.firstOrNull?.displayName ?? user?.roles.firstOrNull?.name ?? '—';
+
+    return Container(
+      decoration: BoxDecoration(
+        // color: Colors.white.withValues(alpha: 0.07),
+        // border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.12))),
+        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.12))),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 12.rh),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppText(
+                  fullName,
+                  fontSize: 14.rsp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+                SizedBox(height: 2.rh),
+                AppText(
+                  role,
+                  fontSize: 12.rsp,
+                  color: Colors.white.withValues(alpha: 0.6),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () async {
+              await cubit.logout();
+              if (context.mounted) {
+                context.router.replaceAll([const LoginRoute()]);
+              }
+            },
+            icon: Icon(Icons.logout, color: AppColors.secondary, size: 20.rsp),
+            tooltip: 'Se déconnecter',
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
+        ],
       ),
     );
   }

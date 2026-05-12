@@ -257,6 +257,8 @@ class _ProductFormState extends State<ProductForm> {
                     text: _isEdit ? 'Enregistrer' : 'Créer le produit',
                     isLoading: isLoading,
                     onPressed: isLoading ? null : _submit,
+                    color: AppColors.secondary,
+                    textColor: AppColors.primary,
                   );
                 },
               ),

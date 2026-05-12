@@ -454,12 +454,12 @@ $ExecuteCampaignsLoadedCopyWith<ExecuteCampaignsLoaded> get copyWith => _$Execut
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExecuteCampaignsLoaded&&const DeepCollectionEquality().equals(other.data, data));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ExecuteCampaignsLoaded&&(identical(other.data, data) || other.data == data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
+int get hashCode => Object.hash(runtimeType,data);
 
 @override
 String toString() {
@@ -491,9 +491,9 @@ class _$ExecuteCampaignsLoadedCopyWithImpl<$Res>
 
 /// Create a copy of CampagneState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? data = freezed,}) {
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
   return _then(ExecuteCampaignsLoaded(
-data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as DataResponseModel,
   ));
 }

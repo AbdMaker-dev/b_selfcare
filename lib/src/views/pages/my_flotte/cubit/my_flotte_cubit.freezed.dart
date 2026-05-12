@@ -590,6 +590,9 @@ as String,
 
 class UpdateEmployeeLoading implements MyFlotteState {
   const UpdateEmployeeLoading();
+  
+
+
 
 
 
@@ -619,7 +622,7 @@ String toString() {
 
 class UpdateEmployeeLoaded implements MyFlotteState {
   const UpdateEmployeeLoaded({required this.data});
-
+  
 
  final  DataResponseModel data;
 
@@ -685,7 +688,7 @@ as DataResponseModel,
 
 class UpdateEmployeeFailed implements MyFlotteState {
   const UpdateEmployeeFailed(this.message);
-
+  
 
  final  String message;
 

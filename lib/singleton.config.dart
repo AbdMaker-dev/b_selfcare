@@ -57,6 +57,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i330.HttpHelper>(
       () => _i330.HttpHelper(gh<_i749.LocaHelper>()),
     );
+    gh.lazySingleton<_i100.LayoutCubit>(
+      () => _i100.LayoutCubit(gh<_i330.HttpHelper>(), gh<_i749.LocaHelper>()),
+    );
     gh.singleton<_i231.CampaignRepo>(
       () => _i231.CampaignRepo(gh<_i749.LocaHelper>(), gh<_i330.HttpHelper>()),
     );
@@ -79,9 +82,6 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i664.DashboardCubit>(
       () => _i664.DashboardCubit(gh<_i330.HttpHelper>()),
-    );
-    gh.lazySingleton<_i100.LayoutCubit>(
-      () => _i100.LayoutCubit(gh<_i330.HttpHelper>()),
     );
     gh.lazySingleton<_i822.ProductsCubit>(
       () => _i822.ProductsCubit(gh<_i330.HttpHelper>()),
