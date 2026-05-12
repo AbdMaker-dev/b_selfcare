@@ -7,6 +7,7 @@ import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/source_employe.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
@@ -114,6 +115,12 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
               ],
             ),
             SizedBox(height: 30.rh),
+            AppSearchInput(
+              onChanged: (value){
+                myFlotte.getEmployees(data: {'search': value});
+              },
+            ),
+            SizedBox(height: 20.rh),
             FilterTabsWidget(
               tabs: [
                 FilterTab(label: 'Tous', count: total > 0 ? total : null),

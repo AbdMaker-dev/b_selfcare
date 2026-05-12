@@ -9,6 +9,7 @@ import 'package:b_selfcare/src/views/pages/campagne/widgets/form_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_historique_campagne.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/title_table.dart';
@@ -119,6 +120,12 @@ class _CampagneScreenState extends State<CampagneScreen> {
               ],
             ),
             SizedBox(height: 30.rh),
+            AppSearchInput(
+              onChanged: (value){
+                //campagne.getCampaigns(data: {'page': _currentPage});
+              },
+            ),
+            SizedBox(height: 20.rh),
             if (isLoading && campaigns.isEmpty)
               Center(
                 child: Padding(

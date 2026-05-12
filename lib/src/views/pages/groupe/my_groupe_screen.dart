@@ -8,6 +8,7 @@ import 'package:b_selfcare/src/views/pages/groupe/widgets/form_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/source_groupe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +112,12 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
             FormGroupe(
               groupCubit: groupCubit,
               onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
+            ),
+            SizedBox(height: 30.rh),
+            AppSearchInput(
+              onChanged: (value){
+                groupCubit.getGroups(data: {'search': value});
+              },
             ),
             SizedBox(height: 20.rh),
             if (isLoading && groups.isEmpty)
