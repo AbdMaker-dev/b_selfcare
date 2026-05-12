@@ -110,10 +110,7 @@ class _FormGroupeState extends State<FormGroupe> {
             reset();
             widget.onCreated?.call();
           },
-          createGroupeFailed: (message) =>
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message), backgroundColor: AppColors.error),
-              ),
+          createGroupeFailed: (message){},
           orElse: () {},
         );
       },

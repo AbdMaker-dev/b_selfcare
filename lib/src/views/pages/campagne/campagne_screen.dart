@@ -108,7 +108,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
                     ),
                   ],
                 ),
-                const Spacer(),
+/*                const Spacer(),
                 AppButton(
                   text: '+ ${s.campagne}',
                   type: AppButtonType.secondary,
@@ -116,7 +116,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
                   height: 38.rh,
                   fontSize: 13.rsp,
                   onPressed: () {},
-                ),
+                ),*/
               ],
             ),
             SizedBox(height: 30.rh),

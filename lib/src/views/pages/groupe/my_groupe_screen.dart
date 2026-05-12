@@ -98,13 +98,15 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                   ],
                 ),
                 const Spacer(),
-                AppButton(
-                  text: '+ Groupe',
-                  type: AppButtonType.secondary,
-                  width: 130.rw,
-                  height: 38.rh,
-                  fontSize: 13.rsp,
-                  onPressed: () {},
+                SizedBox(
+                  width: 150.rw,
+                  height: 40.rh,
+                  child: AppButton(
+                    text: '+ Groupe',
+                    type: AppButtonType.secondary,
+                    fontSize: 15.rsp,
+                    onPressed: () {},
+                  ),
                 ),
               ],
             ),
