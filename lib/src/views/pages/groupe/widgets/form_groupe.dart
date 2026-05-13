@@ -132,7 +132,7 @@ class _FormGroupeState extends State<FormGroupe> {
                 AppText(
                   'Créer un groupe',
                   fontSize: 18.rsp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: AppColors.primary,
                 ),
                 SizedBox(height: 20.rh),

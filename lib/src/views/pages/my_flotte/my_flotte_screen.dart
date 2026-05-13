@@ -5,6 +5,7 @@ import 'package:b_selfcare/src/data/models/employee/data_employee_response_model
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_disable_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/source_employe.dart';
@@ -51,6 +52,8 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
       listener: (context, state) {
         state.maybeWhen(
           getEmployeesFailed: (message) {},
+          disableEmployeeLoaded: (_) => myFlotte.getEmployees(data: {'page': _currentPage}),
+          disableEmployeeFailed: (message) {},
           orElse: () {},
         );
       },
@@ -198,6 +201,11 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                     employee: e,
                     myFlotteCubit: myFlotte,
                     onUpdated: () => myFlotte.getEmployees(data: {'page': _currentPage}),
+                  ),
+                  onDisable: (e) => ConfirmDisableEmploye.show(
+                    context,
+                    employee: e,
+                    myFlotteCubit: myFlotte,
                   ),
                 ),
                 currentPage: _currentPage,

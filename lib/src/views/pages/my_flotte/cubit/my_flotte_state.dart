@@ -12,4 +12,7 @@ class MyFlotteState with _$MyFlotteState {
   const factory MyFlotteState.updateEmployeeLoading() = UpdateEmployeeLoading;
   const factory MyFlotteState.updateEmployeeLoaded({required DataResponseModel data}) = UpdateEmployeeLoaded;
   const factory MyFlotteState.updateEmployeeFailed(String message) = UpdateEmployeeFailed;
+  const factory MyFlotteState.disableEmployeeLoading() = DisableEmployeeLoading;
+  const factory MyFlotteState.disableEmployeeLoaded({required DataResponseModel data}) = DisableEmployeeLoaded;
+  const factory MyFlotteState.disableEmployeeFailed(String message) = DisableEmployeeFailed;
 }

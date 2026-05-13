@@ -50,4 +50,17 @@ class GroupRepo {
       },
     );
   }
+
+  Future<Either<Failure, DataResponseModel>> deleteGroupe({required int id}) async {
+    var res = await htttHelper.handleDeleteRequest("fleet/groups/${id}",{},showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
 }

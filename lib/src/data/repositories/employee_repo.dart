@@ -51,4 +51,18 @@ class EmployeeRepo {
       },
     );
   }
+
+  Future<Either<Failure, DataResponseModel>> disableEmployee({required int id}) async {
+    var res = await htttHelper.handlePostRequest("fleet/employees/${id}/deactivate", {},showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
 }

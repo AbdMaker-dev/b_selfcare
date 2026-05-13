@@ -55,7 +55,7 @@ extension GroupStatePatterns on GroupState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetGroupsLoading value)?  getGroupsLoading,TResult Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult Function( GetGroupsFailed value)?  getGroupsFailed,TResult Function( CreateGroupeLoading value)?  createGroupeLoading,TResult Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult Function( CreateGroupeFailed value)?  createGroupeFailed,TResult Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult Function( UpdateGroupeFailed value)?  updateGroupeFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetGroupsLoading value)?  getGroupsLoading,TResult Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult Function( GetGroupsFailed value)?  getGroupsFailed,TResult Function( CreateGroupeLoading value)?  createGroupeLoading,TResult Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult Function( CreateGroupeFailed value)?  createGroupeFailed,TResult Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult Function( UpdateGroupeFailed value)?  updateGroupeFailed,TResult Function( DeleteGroupeLoading value)?  deleteGroupeLoading,TResult Function( DeleteGroupeLoaded value)?  deleteGroupeLoaded,TResult Function( DeleteGroupeFailed value)?  deleteGroupeFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -68,7 +68,10 @@ return createGroupeLoaded(_that);case CreateGroupeFailed() when createGroupeFail
 return createGroupeFailed(_that);case UpdateGroupeLoading() when updateGroupeLoading != null:
 return updateGroupeLoading(_that);case UpdateGroupeLoaded() when updateGroupeLoaded != null:
 return updateGroupeLoaded(_that);case UpdateGroupeFailed() when updateGroupeFailed != null:
-return updateGroupeFailed(_that);case _:
+return updateGroupeFailed(_that);case DeleteGroupeLoading() when deleteGroupeLoading != null:
+return deleteGroupeLoading(_that);case DeleteGroupeLoaded() when deleteGroupeLoaded != null:
+return deleteGroupeLoaded(_that);case DeleteGroupeFailed() when deleteGroupeFailed != null:
+return deleteGroupeFailed(_that);case _:
   return orElse();
 
 }
@@ -86,7 +89,7 @@ return updateGroupeFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetGroupsLoading value)  getGroupsLoading,required TResult Function( GetGroupsLoaded value)  getGroupsLoaded,required TResult Function( GetGroupsFailed value)  getGroupsFailed,required TResult Function( CreateGroupeLoading value)  createGroupeLoading,required TResult Function( CreateGroupeLoaded value)  createGroupeLoaded,required TResult Function( CreateGroupeFailed value)  createGroupeFailed,required TResult Function( UpdateGroupeLoading value)  updateGroupeLoading,required TResult Function( UpdateGroupeLoaded value)  updateGroupeLoaded,required TResult Function( UpdateGroupeFailed value)  updateGroupeFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetGroupsLoading value)  getGroupsLoading,required TResult Function( GetGroupsLoaded value)  getGroupsLoaded,required TResult Function( GetGroupsFailed value)  getGroupsFailed,required TResult Function( CreateGroupeLoading value)  createGroupeLoading,required TResult Function( CreateGroupeLoaded value)  createGroupeLoaded,required TResult Function( CreateGroupeFailed value)  createGroupeFailed,required TResult Function( UpdateGroupeLoading value)  updateGroupeLoading,required TResult Function( UpdateGroupeLoaded value)  updateGroupeLoaded,required TResult Function( UpdateGroupeFailed value)  updateGroupeFailed,required TResult Function( DeleteGroupeLoading value)  deleteGroupeLoading,required TResult Function( DeleteGroupeLoaded value)  deleteGroupeLoaded,required TResult Function( DeleteGroupeFailed value)  deleteGroupeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -99,7 +102,10 @@ return createGroupeLoaded(_that);case CreateGroupeFailed():
 return createGroupeFailed(_that);case UpdateGroupeLoading():
 return updateGroupeLoading(_that);case UpdateGroupeLoaded():
 return updateGroupeLoaded(_that);case UpdateGroupeFailed():
-return updateGroupeFailed(_that);case _:
+return updateGroupeFailed(_that);case DeleteGroupeLoading():
+return deleteGroupeLoading(_that);case DeleteGroupeLoaded():
+return deleteGroupeLoaded(_that);case DeleteGroupeFailed():
+return deleteGroupeFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -116,7 +122,7 @@ return updateGroupeFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetGroupsLoading value)?  getGroupsLoading,TResult? Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult? Function( GetGroupsFailed value)?  getGroupsFailed,TResult? Function( CreateGroupeLoading value)?  createGroupeLoading,TResult? Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult? Function( CreateGroupeFailed value)?  createGroupeFailed,TResult? Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult? Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult? Function( UpdateGroupeFailed value)?  updateGroupeFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetGroupsLoading value)?  getGroupsLoading,TResult? Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult? Function( GetGroupsFailed value)?  getGroupsFailed,TResult? Function( CreateGroupeLoading value)?  createGroupeLoading,TResult? Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult? Function( CreateGroupeFailed value)?  createGroupeFailed,TResult? Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult? Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult? Function( UpdateGroupeFailed value)?  updateGroupeFailed,TResult? Function( DeleteGroupeLoading value)?  deleteGroupeLoading,TResult? Function( DeleteGroupeLoaded value)?  deleteGroupeLoaded,TResult? Function( DeleteGroupeFailed value)?  deleteGroupeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -129,7 +135,10 @@ return createGroupeLoaded(_that);case CreateGroupeFailed() when createGroupeFail
 return createGroupeFailed(_that);case UpdateGroupeLoading() when updateGroupeLoading != null:
 return updateGroupeLoading(_that);case UpdateGroupeLoaded() when updateGroupeLoaded != null:
 return updateGroupeLoaded(_that);case UpdateGroupeFailed() when updateGroupeFailed != null:
-return updateGroupeFailed(_that);case _:
+return updateGroupeFailed(_that);case DeleteGroupeLoading() when deleteGroupeLoading != null:
+return deleteGroupeLoading(_that);case DeleteGroupeLoaded() when deleteGroupeLoaded != null:
+return deleteGroupeLoaded(_that);case DeleteGroupeFailed() when deleteGroupeFailed != null:
+return deleteGroupeFailed(_that);case _:
   return null;
 
 }
@@ -146,7 +155,7 @@ return updateGroupeFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getGroupsLoading,TResult Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult Function( String message)?  getGroupsFailed,TResult Function()?  createGroupeLoading,TResult Function( DataResponseModel data)?  createGroupeLoaded,TResult Function( String message)?  createGroupeFailed,TResult Function()?  updateGroupeLoading,TResult Function( DataResponseModel data)?  updateGroupeLoaded,TResult Function( String message)?  updateGroupeFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getGroupsLoading,TResult Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult Function( String message)?  getGroupsFailed,TResult Function()?  createGroupeLoading,TResult Function( DataResponseModel data)?  createGroupeLoaded,TResult Function( String message)?  createGroupeFailed,TResult Function()?  updateGroupeLoading,TResult Function( DataResponseModel data)?  updateGroupeLoaded,TResult Function( String message)?  updateGroupeFailed,TResult Function()?  deleteGroupeLoading,TResult Function( DataResponseModel data)?  deleteGroupeLoaded,TResult Function( String message)?  deleteGroupeFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetGroupsLoading() when getGroupsLoading != null:
@@ -158,7 +167,10 @@ return createGroupeLoaded(_that.data);case CreateGroupeFailed() when createGroup
 return createGroupeFailed(_that.message);case UpdateGroupeLoading() when updateGroupeLoading != null:
 return updateGroupeLoading();case UpdateGroupeLoaded() when updateGroupeLoaded != null:
 return updateGroupeLoaded(_that.data);case UpdateGroupeFailed() when updateGroupeFailed != null:
-return updateGroupeFailed(_that.message);case _:
+return updateGroupeFailed(_that.message);case DeleteGroupeLoading() when deleteGroupeLoading != null:
+return deleteGroupeLoading();case DeleteGroupeLoaded() when deleteGroupeLoaded != null:
+return deleteGroupeLoaded(_that.data);case DeleteGroupeFailed() when deleteGroupeFailed != null:
+return deleteGroupeFailed(_that.message);case _:
   return orElse();
 
 }
@@ -176,7 +188,7 @@ return updateGroupeFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getGroupsLoading,required TResult Function( DataGroupResponseModel data)  getGroupsLoaded,required TResult Function( String message)  getGroupsFailed,required TResult Function()  createGroupeLoading,required TResult Function( DataResponseModel data)  createGroupeLoaded,required TResult Function( String message)  createGroupeFailed,required TResult Function()  updateGroupeLoading,required TResult Function( DataResponseModel data)  updateGroupeLoaded,required TResult Function( String message)  updateGroupeFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getGroupsLoading,required TResult Function( DataGroupResponseModel data)  getGroupsLoaded,required TResult Function( String message)  getGroupsFailed,required TResult Function()  createGroupeLoading,required TResult Function( DataResponseModel data)  createGroupeLoaded,required TResult Function( String message)  createGroupeFailed,required TResult Function()  updateGroupeLoading,required TResult Function( DataResponseModel data)  updateGroupeLoaded,required TResult Function( String message)  updateGroupeFailed,required TResult Function()  deleteGroupeLoading,required TResult Function( DataResponseModel data)  deleteGroupeLoaded,required TResult Function( String message)  deleteGroupeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetGroupsLoading():
@@ -188,7 +200,10 @@ return createGroupeLoaded(_that.data);case CreateGroupeFailed():
 return createGroupeFailed(_that.message);case UpdateGroupeLoading():
 return updateGroupeLoading();case UpdateGroupeLoaded():
 return updateGroupeLoaded(_that.data);case UpdateGroupeFailed():
-return updateGroupeFailed(_that.message);case _:
+return updateGroupeFailed(_that.message);case DeleteGroupeLoading():
+return deleteGroupeLoading();case DeleteGroupeLoaded():
+return deleteGroupeLoaded(_that.data);case DeleteGroupeFailed():
+return deleteGroupeFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,7 +220,7 @@ return updateGroupeFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getGroupsLoading,TResult? Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult? Function( String message)?  getGroupsFailed,TResult? Function()?  createGroupeLoading,TResult? Function( DataResponseModel data)?  createGroupeLoaded,TResult? Function( String message)?  createGroupeFailed,TResult? Function()?  updateGroupeLoading,TResult? Function( DataResponseModel data)?  updateGroupeLoaded,TResult? Function( String message)?  updateGroupeFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getGroupsLoading,TResult? Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult? Function( String message)?  getGroupsFailed,TResult? Function()?  createGroupeLoading,TResult? Function( DataResponseModel data)?  createGroupeLoaded,TResult? Function( String message)?  createGroupeFailed,TResult? Function()?  updateGroupeLoading,TResult? Function( DataResponseModel data)?  updateGroupeLoaded,TResult? Function( String message)?  updateGroupeFailed,TResult? Function()?  deleteGroupeLoading,TResult? Function( DataResponseModel data)?  deleteGroupeLoaded,TResult? Function( String message)?  deleteGroupeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetGroupsLoading() when getGroupsLoading != null:
@@ -217,7 +232,10 @@ return createGroupeLoaded(_that.data);case CreateGroupeFailed() when createGroup
 return createGroupeFailed(_that.message);case UpdateGroupeLoading() when updateGroupeLoading != null:
 return updateGroupeLoading();case UpdateGroupeLoaded() when updateGroupeLoaded != null:
 return updateGroupeLoaded(_that.data);case UpdateGroupeFailed() when updateGroupeFailed != null:
-return updateGroupeFailed(_that.message);case _:
+return updateGroupeFailed(_that.message);case DeleteGroupeLoading() when deleteGroupeLoading != null:
+return deleteGroupeLoading();case DeleteGroupeLoaded() when deleteGroupeLoaded != null:
+return deleteGroupeLoaded(_that.data);case DeleteGroupeFailed() when deleteGroupeFailed != null:
+return deleteGroupeFailed(_that.message);case _:
   return null;
 
 }
@@ -741,6 +759,167 @@ class _$UpdateGroupeFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(UpdateGroupeFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DeleteGroupeLoading implements GroupState {
+  const DeleteGroupeLoading();
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteGroupeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'GroupState.deleteGroupeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class DeleteGroupeLoaded implements GroupState {
+  const DeleteGroupeLoaded({required this.data});
+
+
+ final  DataResponseModel data;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DeleteGroupeLoadedCopyWith<DeleteGroupeLoaded> get copyWith => _$DeleteGroupeLoadedCopyWithImpl<DeleteGroupeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteGroupeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'GroupState.deleteGroupeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DeleteGroupeLoadedCopyWith<$Res> implements $GroupStateCopyWith<$Res> {
+  factory $DeleteGroupeLoadedCopyWith(DeleteGroupeLoaded value, $Res Function(DeleteGroupeLoaded) _then) = _$DeleteGroupeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$DeleteGroupeLoadedCopyWithImpl<$Res>
+    implements $DeleteGroupeLoadedCopyWith<$Res> {
+  _$DeleteGroupeLoadedCopyWithImpl(this._self, this._then);
+
+  final DeleteGroupeLoaded _self;
+  final $Res Function(DeleteGroupeLoaded) _then;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(DeleteGroupeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DeleteGroupeFailed implements GroupState {
+  const DeleteGroupeFailed(this.message);
+
+
+ final  String message;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DeleteGroupeFailedCopyWith<DeleteGroupeFailed> get copyWith => _$DeleteGroupeFailedCopyWithImpl<DeleteGroupeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteGroupeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'GroupState.deleteGroupeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DeleteGroupeFailedCopyWith<$Res> implements $GroupStateCopyWith<$Res> {
+  factory $DeleteGroupeFailedCopyWith(DeleteGroupeFailed value, $Res Function(DeleteGroupeFailed) _then) = _$DeleteGroupeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$DeleteGroupeFailedCopyWithImpl<$Res>
+    implements $DeleteGroupeFailedCopyWith<$Res> {
+  _$DeleteGroupeFailedCopyWithImpl(this._self, this._then);
+
+  final DeleteGroupeFailed _self;
+  final $Res Function(DeleteGroupeFailed) _then;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(DeleteGroupeFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

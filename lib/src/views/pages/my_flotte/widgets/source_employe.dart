@@ -9,8 +9,9 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
   @override
   final List<EmployeeModel> rows;
   final void Function(EmployeeModel)? onEdit;
+  final void Function(EmployeeModel)? onDisable;
 
-  SourceEmployes({required this.rows,this.onEdit});
+  SourceEmployes({required this.rows, this.onEdit, this.onDisable});
 
   @override
   List<({String label, int flex})> get columns => [
@@ -36,15 +37,16 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     _statusBadge(e.status),
     CellActionsTable(actions: [
       (label: 'Modifier', danger: false, onTap: () => onEdit?.call(e)),
-      (label: 'Swap SIM', danger: true,  onTap: () {}),
+      if (e.status?.toLowerCase() == 'active')
+        (label: 'Désactiver', danger: true, onTap: () => onDisable?.call(e)),
     ]),
   ];
   Widget _statusBadge(String? status) {
     return switch (status?.toLowerCase()) {
       'active'   => CellBadgeTable.actif(),
-      'inactive' => CellBadgeTable.inactif(),
+      'inactive' => CellBadgeTable.inactive(),
       'paused'   => CellBadgeTable.enAttente(),
-      _          => CellBadgeTable.inactif(),
+      _          => CellBadgeTable.inactive(),
     };
   }
 }

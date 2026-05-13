@@ -40,4 +40,13 @@ class GroupCubit extends Cubit<GroupState> {
       (data) => emit(GroupState.updateGroupeLoaded(data: data)),
     );
   }
+
+  Future<void> deleteGroupe({required int id}) async {
+    emit(const GroupState.deleteGroupeLoading());
+    final res = await groupUsecase.deleteGroupe(id: id);
+    res.fold(
+      (failure) => emit(GroupState.deleteGroupeFailed(failure.message)),
+      (data) => emit(GroupState.deleteGroupeLoaded(data: data)),
+    );
+  }
 }

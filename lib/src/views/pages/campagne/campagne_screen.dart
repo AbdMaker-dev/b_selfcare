@@ -11,6 +11,8 @@ import 'package:b_selfcare/src/views/pages/campagne/widgets/source_historique_ca
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
+import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/title_table.dart';
 import 'package:flutter/material.dart';
@@ -122,7 +124,23 @@ class _CampagneScreenState extends State<CampagneScreen> {
             SizedBox(height: 30.rh),
             AppSearchInput(
               onChanged: (value){
-                //campagne.getCampaigns(data: {'page': _currentPage});
+                campagne.getCampaigns(data: {'search': value});
+              },
+            ),
+            SizedBox(height: 20.rh),
+            FilterTabsWidget(
+              tabs: [
+                FilterTab(label: 'Tous'),
+                const FilterTab(label: 'ACTIVE'),
+                const FilterTab(label: 'BLOCKED'),
+                const FilterTab(label: 'PAUSED'),
+                const FilterTab(label: 'CANCELLED'),
+                const FilterTab(label: 'COMPLETED'),
+              ],
+              onTabChanged: (model) {
+                model.label == "Tous" ?
+                campagne.getCampaigns(data: {'page': _currentPage}):
+                campagne.getCampaigns(data: {'status': model.label.toUpperCase()});
               },
             ),
             SizedBox(height: 20.rh),
