@@ -67,6 +67,11 @@ class _LoginFormState extends State<LoginForm> {
                     contents: OtpForm(mfaToken: mfaToken),
                   );
                 },
+                otpSuccess: () {
+                  _emailController.clear();
+                  _passwordController.clear();
+                  _formKey.currentState?.reset();
+                },
               );
             },
             child: AppText.textHighlight(

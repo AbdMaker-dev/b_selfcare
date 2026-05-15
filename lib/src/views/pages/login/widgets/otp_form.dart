@@ -76,9 +76,9 @@ class _OtpFormState extends State<OtpForm> {
                   setState(() => currentStep = 2);
                   await Future.delayed(const Duration(seconds: 3), () {});
                   // ignore: use_build_context_synchronously
-                  context.router.pushPath('$routeApp/$routeAppDashbord');
-                  // context.router.replaceAll([DashboardRoute()]);
-
+                  if (context.mounted) context.router.pop();
+                  // ignore: use_build_context_synchronously
+                  if (context.mounted) context.router.pushPath('$routeApp/$routeAppDashbord');
                 },
               );
             },
@@ -149,7 +149,8 @@ class _OtpFormState extends State<OtpForm> {
             AppButton(
             width: 450.rw,
             text: s.verifyCode,
-            onPressed: (){
+            onPressed: () {
+              context.router.pop();
               context.router.replaceAll([DashboardRoute()]);
             },
             type: AppButtonType.primary,

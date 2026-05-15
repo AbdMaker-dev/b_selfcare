@@ -20,9 +20,16 @@ class LoginCubit extends Cubit<LoginState> {
   static const _refreshBeforeExpiry = Duration(minutes: 5);
   LoginCubit(this._httpHelper, this._localHelper, this._layoutCubit) : super(LoginState.initial());
 
+  void reset() {
+    _refreshTimer?.cancel();
+    emit(LoginState.initial());
+  }
+
   Future<bool> login(Map<String, dynamic> payload) async {
     emit(LoginState.submitting());
-    final response = await _httpHelper.handlePostRequest("auth/login", payload);
+    final response = await _httpHelper.handlePostRequest("auth/login", payload, showLoader: true,
+      showSuccessToast: true,
+      showErrorToast: true,);
     return response.fold(
       (left) {
         emit(LoginState.error(left.message));
@@ -37,7 +44,9 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<bool> verifyOtp(Map<String, dynamic> payload) async {
     emit(LoginState.otpSubmitting());
-    final response = await _httpHelper.handlePostRequest("auth/mfa/challenge", payload);
+    final response = await _httpHelper.handlePostRequest("auth/mfa/challenge", payload, showLoader: true,
+      showSuccessToast: true,
+      showErrorToast: true,);
 
     String? errorMessage;
     Map<String, dynamic>? data;
@@ -64,7 +73,9 @@ class LoginCubit extends Cubit<LoginState> {
 
   Future<bool> resendOtp(Map<String, dynamic> payload) async {
     emit(LoginState.resendOtpSubmitting());
-    final response = await _httpHelper.handlePostRequest("auth/mfa/send", payload);
+    final response = await _httpHelper.handlePostRequest("auth/mfa/send", payload, showLoader: true,
+      showSuccessToast: true,
+      showErrorToast: true,);
     return response.fold(
       (left) {
         emit(LoginState.resendOtpError(left.message));
