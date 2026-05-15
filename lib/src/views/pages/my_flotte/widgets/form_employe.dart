@@ -133,9 +133,7 @@ class _FormEmployeState extends State<FormEmploye> {
             _reset();
             widget.onCreated?.call();
           },
-          createEmployeeFailed: (message) {
-
-          },
+          createEmployeeFailed: (message) {},
           orElse: () {},
         );
       },
@@ -156,7 +154,7 @@ class _FormEmployeState extends State<FormEmploye> {
                 AppText(
                   'Ajouter un employé',
                   fontSize: 18.rsp,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   color: AppColors.primary,
                 ),
                 SizedBox(height: 20.rh),

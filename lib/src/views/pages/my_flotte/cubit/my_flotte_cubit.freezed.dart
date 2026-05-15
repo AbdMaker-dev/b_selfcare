@@ -55,7 +55,7 @@ extension MyFlotteStatePatterns on MyFlotteState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult Function( DisableEmployeeFailed value)?  disableEmployeeFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -68,7 +68,10 @@ return createEmployeeLoaded(_that);case CreateEmployeeFailed() when createEmploy
 return createEmployeeFailed(_that);case UpdateEmployeeLoading() when updateEmployeeLoading != null:
 return updateEmployeeLoading(_that);case UpdateEmployeeLoaded() when updateEmployeeLoaded != null:
 return updateEmployeeLoaded(_that);case UpdateEmployeeFailed() when updateEmployeeFailed != null:
-return updateEmployeeFailed(_that);case _:
+return updateEmployeeFailed(_that);case DisableEmployeeLoading() when disableEmployeeLoading != null:
+return disableEmployeeLoading(_that);case DisableEmployeeLoaded() when disableEmployeeLoaded != null:
+return disableEmployeeLoaded(_that);case DisableEmployeeFailed() when disableEmployeeFailed != null:
+return disableEmployeeFailed(_that);case _:
   return orElse();
 
 }
@@ -86,7 +89,7 @@ return updateEmployeeFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetEmployeesLoading value)  getEmployeesLoading,required TResult Function( GetEmployeesLoaded value)  getEmployeesLoaded,required TResult Function( GetEmployeesFailed value)  getEmployeesFailed,required TResult Function( CreateEmployeeLoading value)  createEmployeeLoading,required TResult Function( CreateEmployeeLoaded value)  createEmployeeLoaded,required TResult Function( CreateEmployeeFailed value)  createEmployeeFailed,required TResult Function( UpdateEmployeeLoading value)  updateEmployeeLoading,required TResult Function( UpdateEmployeeLoaded value)  updateEmployeeLoaded,required TResult Function( UpdateEmployeeFailed value)  updateEmployeeFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetEmployeesLoading value)  getEmployeesLoading,required TResult Function( GetEmployeesLoaded value)  getEmployeesLoaded,required TResult Function( GetEmployeesFailed value)  getEmployeesFailed,required TResult Function( CreateEmployeeLoading value)  createEmployeeLoading,required TResult Function( CreateEmployeeLoaded value)  createEmployeeLoaded,required TResult Function( CreateEmployeeFailed value)  createEmployeeFailed,required TResult Function( UpdateEmployeeLoading value)  updateEmployeeLoading,required TResult Function( UpdateEmployeeLoaded value)  updateEmployeeLoaded,required TResult Function( UpdateEmployeeFailed value)  updateEmployeeFailed,required TResult Function( DisableEmployeeLoading value)  disableEmployeeLoading,required TResult Function( DisableEmployeeLoaded value)  disableEmployeeLoaded,required TResult Function( DisableEmployeeFailed value)  disableEmployeeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -99,7 +102,10 @@ return createEmployeeLoaded(_that);case CreateEmployeeFailed():
 return createEmployeeFailed(_that);case UpdateEmployeeLoading():
 return updateEmployeeLoading(_that);case UpdateEmployeeLoaded():
 return updateEmployeeLoaded(_that);case UpdateEmployeeFailed():
-return updateEmployeeFailed(_that);case _:
+return updateEmployeeFailed(_that);case DisableEmployeeLoading():
+return disableEmployeeLoading(_that);case DisableEmployeeLoaded():
+return disableEmployeeLoaded(_that);case DisableEmployeeFailed():
+return disableEmployeeFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -116,7 +122,7 @@ return updateEmployeeFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult? Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult? Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult? Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult? Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult? Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult? Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult? Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult? Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult? Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult? Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult? Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult? Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult? Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult? Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult? Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult? Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult? Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult? Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult? Function( DisableEmployeeFailed value)?  disableEmployeeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -129,7 +135,10 @@ return createEmployeeLoaded(_that);case CreateEmployeeFailed() when createEmploy
 return createEmployeeFailed(_that);case UpdateEmployeeLoading() when updateEmployeeLoading != null:
 return updateEmployeeLoading(_that);case UpdateEmployeeLoaded() when updateEmployeeLoaded != null:
 return updateEmployeeLoaded(_that);case UpdateEmployeeFailed() when updateEmployeeFailed != null:
-return updateEmployeeFailed(_that);case _:
+return updateEmployeeFailed(_that);case DisableEmployeeLoading() when disableEmployeeLoading != null:
+return disableEmployeeLoading(_that);case DisableEmployeeLoaded() when disableEmployeeLoaded != null:
+return disableEmployeeLoaded(_that);case DisableEmployeeFailed() when disableEmployeeFailed != null:
+return disableEmployeeFailed(_that);case _:
   return null;
 
 }
@@ -146,7 +155,7 @@ return updateEmployeeFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getEmployeesLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult Function( String message)?  getEmployeesFailed,TResult Function()?  createEmployeeLoading,TResult Function( DataResponseModel data)?  createEmployeeLoaded,TResult Function( String message)?  createEmployeeFailed,TResult Function()?  updateEmployeeLoading,TResult Function( DataResponseModel data)?  updateEmployeeLoaded,TResult Function( String message)?  updateEmployeeFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getEmployeesLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult Function( String message)?  getEmployeesFailed,TResult Function()?  createEmployeeLoading,TResult Function( DataResponseModel data)?  createEmployeeLoaded,TResult Function( String message)?  createEmployeeFailed,TResult Function()?  updateEmployeeLoading,TResult Function( DataResponseModel data)?  updateEmployeeLoaded,TResult Function( String message)?  updateEmployeeFailed,TResult Function()?  disableEmployeeLoading,TResult Function( DataResponseModel data)?  disableEmployeeLoaded,TResult Function( String message)?  disableEmployeeFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetEmployeesLoading() when getEmployeesLoading != null:
@@ -158,7 +167,10 @@ return createEmployeeLoaded(_that.data);case CreateEmployeeFailed() when createE
 return createEmployeeFailed(_that.message);case UpdateEmployeeLoading() when updateEmployeeLoading != null:
 return updateEmployeeLoading();case UpdateEmployeeLoaded() when updateEmployeeLoaded != null:
 return updateEmployeeLoaded(_that.data);case UpdateEmployeeFailed() when updateEmployeeFailed != null:
-return updateEmployeeFailed(_that.message);case _:
+return updateEmployeeFailed(_that.message);case DisableEmployeeLoading() when disableEmployeeLoading != null:
+return disableEmployeeLoading();case DisableEmployeeLoaded() when disableEmployeeLoaded != null:
+return disableEmployeeLoaded(_that.data);case DisableEmployeeFailed() when disableEmployeeFailed != null:
+return disableEmployeeFailed(_that.message);case _:
   return orElse();
 
 }
@@ -176,7 +188,7 @@ return updateEmployeeFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getEmployeesLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesLoaded,required TResult Function( String message)  getEmployeesFailed,required TResult Function()  createEmployeeLoading,required TResult Function( DataResponseModel data)  createEmployeeLoaded,required TResult Function( String message)  createEmployeeFailed,required TResult Function()  updateEmployeeLoading,required TResult Function( DataResponseModel data)  updateEmployeeLoaded,required TResult Function( String message)  updateEmployeeFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getEmployeesLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesLoaded,required TResult Function( String message)  getEmployeesFailed,required TResult Function()  createEmployeeLoading,required TResult Function( DataResponseModel data)  createEmployeeLoaded,required TResult Function( String message)  createEmployeeFailed,required TResult Function()  updateEmployeeLoading,required TResult Function( DataResponseModel data)  updateEmployeeLoaded,required TResult Function( String message)  updateEmployeeFailed,required TResult Function()  disableEmployeeLoading,required TResult Function( DataResponseModel data)  disableEmployeeLoaded,required TResult Function( String message)  disableEmployeeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetEmployeesLoading():
@@ -188,7 +200,10 @@ return createEmployeeLoaded(_that.data);case CreateEmployeeFailed():
 return createEmployeeFailed(_that.message);case UpdateEmployeeLoading():
 return updateEmployeeLoading();case UpdateEmployeeLoaded():
 return updateEmployeeLoaded(_that.data);case UpdateEmployeeFailed():
-return updateEmployeeFailed(_that.message);case _:
+return updateEmployeeFailed(_that.message);case DisableEmployeeLoading():
+return disableEmployeeLoading();case DisableEmployeeLoaded():
+return disableEmployeeLoaded(_that.data);case DisableEmployeeFailed():
+return disableEmployeeFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,7 +220,7 @@ return updateEmployeeFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,TResult? Function()?  disableEmployeeLoading,TResult? Function( DataResponseModel data)?  disableEmployeeLoaded,TResult? Function( String message)?  disableEmployeeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetEmployeesLoading() when getEmployeesLoading != null:
@@ -217,7 +232,10 @@ return createEmployeeLoaded(_that.data);case CreateEmployeeFailed() when createE
 return createEmployeeFailed(_that.message);case UpdateEmployeeLoading() when updateEmployeeLoading != null:
 return updateEmployeeLoading();case UpdateEmployeeLoaded() when updateEmployeeLoaded != null:
 return updateEmployeeLoaded(_that.data);case UpdateEmployeeFailed() when updateEmployeeFailed != null:
-return updateEmployeeFailed(_that.message);case _:
+return updateEmployeeFailed(_that.message);case DisableEmployeeLoading() when disableEmployeeLoading != null:
+return disableEmployeeLoading();case DisableEmployeeLoaded() when disableEmployeeLoaded != null:
+return disableEmployeeLoaded(_that.data);case DisableEmployeeFailed() when disableEmployeeFailed != null:
+return disableEmployeeFailed(_that.message);case _:
   return null;
 
 }
@@ -741,6 +759,170 @@ class _$UpdateEmployeeFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(UpdateEmployeeFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DisableEmployeeLoading implements MyFlotteState {
+  const DisableEmployeeLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DisableEmployeeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MyFlotteState.disableEmployeeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class DisableEmployeeLoaded implements MyFlotteState {
+  const DisableEmployeeLoaded({required this.data});
+  
+
+ final  DataResponseModel data;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DisableEmployeeLoadedCopyWith<DisableEmployeeLoaded> get copyWith => _$DisableEmployeeLoadedCopyWithImpl<DisableEmployeeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DisableEmployeeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'MyFlotteState.disableEmployeeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DisableEmployeeLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $DisableEmployeeLoadedCopyWith(DisableEmployeeLoaded value, $Res Function(DisableEmployeeLoaded) _then) = _$DisableEmployeeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$DisableEmployeeLoadedCopyWithImpl<$Res>
+    implements $DisableEmployeeLoadedCopyWith<$Res> {
+  _$DisableEmployeeLoadedCopyWithImpl(this._self, this._then);
+
+  final DisableEmployeeLoaded _self;
+  final $Res Function(DisableEmployeeLoaded) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(DisableEmployeeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DisableEmployeeFailed implements MyFlotteState {
+  const DisableEmployeeFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DisableEmployeeFailedCopyWith<DisableEmployeeFailed> get copyWith => _$DisableEmployeeFailedCopyWithImpl<DisableEmployeeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DisableEmployeeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'MyFlotteState.disableEmployeeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DisableEmployeeFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $DisableEmployeeFailedCopyWith(DisableEmployeeFailed value, $Res Function(DisableEmployeeFailed) _then) = _$DisableEmployeeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$DisableEmployeeFailedCopyWithImpl<$Res>
+    implements $DisableEmployeeFailedCopyWith<$Res> {
+  _$DisableEmployeeFailedCopyWithImpl(this._self, this._then);
+
+  final DisableEmployeeFailed _self;
+  final $Res Function(DisableEmployeeFailed) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(DisableEmployeeFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

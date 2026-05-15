@@ -45,4 +45,16 @@ class GroupUsecase {
       },
     );
   }
+  Future<Either<Failure, DataResponseModel>> deleteGroupe({required int id}) async {
+    var res = await groupRepo.deleteGroupe(id:id);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) {
+        return Right(success);
+      },
+    );
+  }
+
 }

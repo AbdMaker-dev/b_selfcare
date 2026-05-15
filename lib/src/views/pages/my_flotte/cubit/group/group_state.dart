@@ -12,4 +12,7 @@ class GroupState with _$GroupState {
   const factory GroupState.updateGroupeLoading() = UpdateGroupeLoading;
   const factory GroupState.updateGroupeLoaded({required DataResponseModel data}) = UpdateGroupeLoaded;
   const factory GroupState.updateGroupeFailed(String message) = UpdateGroupeFailed;
+  const factory GroupState.deleteGroupeLoading() = DeleteGroupeLoading;
+  const factory GroupState.deleteGroupeLoaded({required DataResponseModel data}) = DeleteGroupeLoaded;
+  const factory GroupState.deleteGroupeFailed(String message) = DeleteGroupeFailed;
 }
