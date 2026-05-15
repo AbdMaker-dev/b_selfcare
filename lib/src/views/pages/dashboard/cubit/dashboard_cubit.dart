@@ -19,7 +19,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   String get companySubtitle {
     final c = companyStats?.company;
     if (c == null) return 'Chargement...';
-    return '${c.name} · ${c.cbsAccountId} · ${c.planName.toUpperCase()} · PRÉPAYÉ · Mise à jour ${AppDate.dashboardFmt(c.updatedAt)}';
+    return '${c.name ?? ''} · ${c.cbsAccountId ?? ''} · ${(c.planName ?? '').toUpperCase()} · PRÉPAYÉ · Mise à jour ${AppDate.dashboardFmt(c.updatedAt)}';
   }
 
   Future<void> fetchCompanyStats() async {

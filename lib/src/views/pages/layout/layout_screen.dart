@@ -5,6 +5,7 @@ import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/confirm_dialog.dart';
 import 'package:b_selfcare/src/views/widgets/dashboard_app_bar.dart';
 import 'package:b_selfcare/src/views/widgets/side_menu_list.dart';
 import 'package:flutter/material.dart';
@@ -133,12 +134,20 @@ class _UserFooter extends StatelessWidget {
             ),
           ),
           IconButton(
-            onPressed: () async {
-              await cubit.logout();
-              if (context.mounted) {
-                context.router.replaceAll([const LoginRoute()]);
-              }
-            },
+            onPressed: () => AppConfirmDialog.show(
+              context: context,
+              title: 'Se déconnecter',
+              message: 'Voulez-vous vraiment quitter votre session ?',
+              confirmLabel: 'Déconnecter',
+              cancelLabel: 'Annuler',
+              isDanger: true,
+              onConfirm: () async {
+                await cubit.logout();
+                if (context.mounted) {
+                  context.router.replaceAll([const LoginRoute()]);
+                }
+              },
+            ),
             icon: Icon(Icons.logout, color: AppColors.secondary, size: 20.rsp),
             tooltip: 'Se déconnecter',
             padding: EdgeInsets.zero,

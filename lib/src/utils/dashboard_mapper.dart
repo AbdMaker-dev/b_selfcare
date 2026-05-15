@@ -23,13 +23,13 @@ class DashboardMapper {
   static List<ActivityItem> activityItems(List<RecentActivityStats> list) {
     return list.map((a) => ActivityItem(
       type: _activityType(a.action),
-      title: a.label,
-      meta: a.description,
+      title: a.label ?? '',
+      meta: a.description ?? '',
       date: AppDate.dashboardFmt(a.createdAt),
     )).toList();
   }
 
-  static ActivityType _activityType(String action) => switch (action.toUpperCase()) {
+  static ActivityType _activityType(String? action) => switch (action?.toUpperCase()) {
     'JOB_STARTED' || 'JOB_COMPLETED'          => ActivityType.provisioning,
     'RECHARGE_CONFIRMED' || 'RECHARGE_PENDING' => ActivityType.recharge,
     'INVOICE_DOWNLOADED'                       => ActivityType.facture,
@@ -41,13 +41,13 @@ class DashboardMapper {
 
   static List<CampagneItem> campaignItems(List<RecentCampaignStats> list) {
     return list.map((c) => CampagneItem(
-      name: c.name,
-      meta: '${c.frequency} · ${c.targetCount} numéros',
+      name: c.name ?? '',
+      meta: '${c.frequency ?? ''} · ${c.targetCount} numéros',
       status: _campagneStatus(c.lastExecutionStatus),
     )).toList();
   }
 
-  static CampagneStatus _campagneStatus(String s) => switch (s.toUpperCase()) {
+  static CampagneStatus _campagneStatus(String? s) => switch (s?.toUpperCase()) {
     'SUCCESS'               => CampagneStatus.succes,
     'ERROR' || 'FAILED'    => CampagneStatus.erreur,
     'RUNNING' || 'STARTED' => CampagneStatus.enCours,
@@ -65,13 +65,13 @@ class DashboardMapper {
     )).toList();
   }
 
-  static RechargeProvider _rechargeProvider(String op) => switch (op.toUpperCase()) {
+  static RechargeProvider _rechargeProvider(String? op) => switch (op?.toUpperCase()) {
     'WAVE'         => RechargeProvider.wave,
     'ORANGE_MONEY' => RechargeProvider.orangeMoney,
     _              => RechargeProvider.mixx,
   };
 
-  static RechargeStatus _rechargeStatus(String s) => switch (s.toUpperCase()) {
+  static RechargeStatus _rechargeStatus(String? s) => switch (s?.toUpperCase()) {
     'CONFIRMED' => RechargeStatus.confirme,
     'PENDING'   => RechargeStatus.enAttente,
     _           => RechargeStatus.echoue,
@@ -89,12 +89,12 @@ class DashboardMapper {
     AlerteItem(
       title: 'Prochain provisioning',
       meta: 'Job CBS quotidien',
-      value: '${AppDate.dayMonth(a.nextProvisioningDate)} · ${a.nextProvisioningTime}',
+      value: '${AppDate.dayMonth(a.nextProvisioningDate)} · ${a.nextProvisioningTime ?? ''}',
       variant: AlerteVariant.blue,
     ),
     AlerteItem(
       title: 'Coût estimé prochain run',
-      meta: '${a.nextRunCampaignName} · ${a.nextRunNumbers} numéros',
+      meta: '${a.nextRunCampaignName ?? ''} · ${a.nextRunNumbers} numéros',
       value: AppMoney.format(a.estimatedNextRunCost, suffix: 'Fcfa'),
       variant: AlerteVariant.yellow,
     ),

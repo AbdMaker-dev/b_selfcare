@@ -58,33 +58,33 @@ class CompanyStatsModel {
 
 class CompanyInfo {
   final int id;
-  final String name;
-  final String cbsAccountId;
-  final String cbsNbAccount;
-  final String status;
+  final String? name;
+  final String? cbsAccountId;
+  final String? cbsNbAccount;
+  final String? status;
   final double currentBalance;
-  final String planName;
-  final String updatedAt;
+  final String? planName;
+  final String? updatedAt;
 
   CompanyInfo({
     required this.id,
-    required this.name,
-    required this.cbsAccountId,
-    required this.cbsNbAccount,
-    required this.status,
+    this.name,
+    this.cbsAccountId,
+    this.cbsNbAccount,
+    this.status,
     required this.currentBalance,
-    required this.planName,
-    required this.updatedAt,
+    this.planName,
+    this.updatedAt,
   });
 
   factory CompanyInfo.fromJson(Map<String, dynamic> json) {
     return CompanyInfo(
-      id: json['id'],
+      id: json['id'] ?? 0,
       name: json['name'],
       cbsAccountId: json['cbs_account_id'],
       cbsNbAccount: json['cbs_nb_account'],
       status: json['status'],
-      currentBalance: (json['current_balance'] as num).toDouble(),
+      currentBalance: (json['current_balance'] as num? ?? 0).toDouble(),
       planName: json['plan_name'],
       updatedAt: json['updated_at'],
     );
@@ -93,20 +93,20 @@ class CompanyInfo {
 
 class BalanceCardStats {
   final double currentBalance;
-  final String status;
-  final String lastRechargeDate;
-  final String lastRechargeOperator;
+  final String? status;
+  final String? lastRechargeDate;
+  final String? lastRechargeOperator;
 
   BalanceCardStats({
     required this.currentBalance,
-    required this.status,
-    required this.lastRechargeDate,
-    required this.lastRechargeOperator,
+    this.status,
+    this.lastRechargeDate,
+    this.lastRechargeOperator,
   });
 
   factory BalanceCardStats.fromJson(Map<String, dynamic> json) {
     return BalanceCardStats(
-      currentBalance: (json['current_balance'] as num).toDouble(),
+      currentBalance: (json['current_balance'] as num? ?? 0).toDouble(),
       status: json['status'],
       lastRechargeDate: json['last_recharge_date'],
       lastRechargeOperator: json['last_recharge_operator'],
@@ -129,10 +129,10 @@ class ActiveNumbersCardStats {
 
   factory ActiveNumbersCardStats.fromJson(Map<String, dynamic> json) {
     return ActiveNumbersCardStats(
-      total: json['total'],
-      active: json['active'],
-      suspended: json['suspended'],
-      activePercentage: (json['active_percentage'] as num).toDouble(),
+      total: json['total'] ?? 0,
+      active: json['active'] ?? 0,
+      suspended: json['suspended'] ?? 0,
+      activePercentage: (json['active_percentage'] as num? ?? 0).toDouble(),
     );
   }
 }
@@ -150,9 +150,9 @@ class MonthlySpendCardStats {
 
   factory MonthlySpendCardStats.fromJson(Map<String, dynamic> json) {
     return MonthlySpendCardStats(
-      amount: (json['amount'] as num).toDouble(),
-      estimatedBudget: (json['estimated_budget'] as num).toDouble(),
-      withinBudget: json['within_budget'],
+      amount: (json['amount'] as num? ?? 0).toDouble(),
+      estimatedBudget: (json['estimated_budget'] as num? ?? 0).toDouble(),
+      withinBudget: json['within_budget'] ?? false,
     );
   }
 }
@@ -170,9 +170,9 @@ class ActiveCampaignsCardStats {
 
   factory ActiveCampaignsCardStats.fromJson(Map<String, dynamic> json) {
     return ActiveCampaignsCardStats(
-      totalActive: json['total_active'],
-      plannedCount: json['planned_count'],
-      errorCount: json['error_count'],
+      totalActive: json['total_active'] ?? 0,
+      plannedCount: json['planned_count'] ?? 0,
+      errorCount: json['error_count'] ?? 0,
     );
   }
 }
@@ -196,64 +196,64 @@ class FleetSummaryStats {
 
   factory FleetSummaryStats.fromJson(Map<String, dynamic> json) {
     return FleetSummaryStats(
-      active: json['active'],
-      suspended: json['suspended'],
-      activePercentage: (json['active_percentage'] as num).toDouble(),
-      groupsCount: json['groups_count'],
-      employeesCount: json['employees_count'],
-      simStockCount: json['sim_stock_count'],
+      active: json['active'] ?? 0,
+      suspended: json['suspended'] ?? 0,
+      activePercentage: (json['active_percentage'] as num? ?? 0).toDouble(),
+      groupsCount: json['groups_count'] ?? 0,
+      employeesCount: json['employees_count'] ?? 0,
+      simStockCount: json['sim_stock_count'] ?? 0,
     );
   }
 }
 
 class RecentCampaignStats {
   final int id;
-  final String name;
-  final String frequency;
-  final String lastExecutionStatus;
+  final String? name;
+  final String? frequency;
+  final String? lastExecutionStatus;
   final int targetCount;
 
   RecentCampaignStats({
     required this.id,
-    required this.name,
-    required this.frequency,
-    required this.lastExecutionStatus,
+    this.name,
+    this.frequency,
+    this.lastExecutionStatus,
     required this.targetCount,
   });
 
   factory RecentCampaignStats.fromJson(Map<String, dynamic> json) {
     return RecentCampaignStats(
-      id: json['id'],
+      id: json['id'] ?? 0,
       name: json['name'],
       frequency: json['frequency'],
       lastExecutionStatus: json['last_execution_status'],
-      targetCount: json['target_count'],
+      targetCount: json['target_count'] ?? 0,
     );
   }
 }
 
 class RecentRechargeStats {
   final int id;
-  final String operator;
+  final String? operator;
   final double amount;
-  final String status;
-  final String confirmedAt;
-  final String createdAt;
+  final String? status;
+  final String? confirmedAt;
+  final String? createdAt;
 
   RecentRechargeStats({
     required this.id,
-    required this.operator,
+    this.operator,
     required this.amount,
-    required this.status,
-    required this.confirmedAt,
-    required this.createdAt,
+    this.status,
+    this.confirmedAt,
+    this.createdAt,
   });
 
   factory RecentRechargeStats.fromJson(Map<String, dynamic> json) {
     return RecentRechargeStats(
-      id: json['id'],
+      id: json['id'] ?? 0,
       operator: json['operator'],
-      amount: (json['amount'] as num).toDouble(),
+      amount: (json['amount'] as num? ?? 0).toDouble(),
       status: json['status'],
       confirmedAt: json['confirmed_at'],
       createdAt: json['created_at'],
@@ -262,16 +262,16 @@ class RecentRechargeStats {
 }
 
 class RecentActivityStats {
-  final String action;
-  final String label;
-  final String description;
-  final String createdAt;
+  final String? action;
+  final String? label;
+  final String? description;
+  final String? createdAt;
 
   RecentActivityStats({
-    required this.action,
-    required this.label,
-    required this.description,
-    required this.createdAt,
+    this.action,
+    this.label,
+    this.description,
+    this.createdAt,
   });
 
   factory RecentActivityStats.fromJson(Map<String, dynamic> json) {
@@ -286,29 +286,29 @@ class RecentActivityStats {
 
 class AlertsStats {
   final double balanceAlertThreshold;
-  final String nextProvisioningDate;
-  final String nextProvisioningTime;
+  final String? nextProvisioningDate;
+  final String? nextProvisioningTime;
   final double estimatedNextRunCost;
-  final String nextRunCampaignName;
+  final String? nextRunCampaignName;
   final int nextRunNumbers;
 
   AlertsStats({
     required this.balanceAlertThreshold,
-    required this.nextProvisioningDate,
-    required this.nextProvisioningTime,
+    this.nextProvisioningDate,
+    this.nextProvisioningTime,
     required this.estimatedNextRunCost,
-    required this.nextRunCampaignName,
+    this.nextRunCampaignName,
     required this.nextRunNumbers,
   });
 
   factory AlertsStats.fromJson(Map<String, dynamic> json) {
     return AlertsStats(
-      balanceAlertThreshold: (json['balance_alert_threshold'] as num).toDouble(),
+      balanceAlertThreshold: (json['balance_alert_threshold'] as num? ?? 0).toDouble(),
       nextProvisioningDate: json['next_provisioning_date'],
       nextProvisioningTime: json['next_provisioning_time'],
-      estimatedNextRunCost: (json['estimated_next_run_cost'] as num).toDouble(),
+      estimatedNextRunCost: (json['estimated_next_run_cost'] as num? ?? 0).toDouble(),
       nextRunCampaignName: json['next_run_campaign_name'],
-      nextRunNumbers: json['next_run_numbers'],
+      nextRunNumbers: json['next_run_numbers'] ?? 0,
     );
   }
 }
@@ -328,19 +328,19 @@ class ServiceStatusStats {
 
   factory ServiceStatusStats.fromJson(Map<String, dynamic> json) {
     return ServiceStatusStats(
-      provisioningCbs: ServiceEntry.fromJson(json['provisioning_cbs']),
-      mobileMoney: ServiceEntry.fromJson(json['mobile_money']),
-      waf: ServiceEntry.fromJson(json['waf']),
-      smsGateway: ServiceEntry.fromJson(json['sms_gateway']),
+      provisioningCbs: ServiceEntry.fromJson(json['provisioning_cbs'] ?? {}),
+      mobileMoney: ServiceEntry.fromJson(json['mobile_money'] ?? {}),
+      waf: ServiceEntry.fromJson(json['waf'] ?? {}),
+      smsGateway: ServiceEntry.fromJson(json['sms_gateway'] ?? {}),
     );
   }
 }
 
 class ServiceEntry {
-  final String status;
+  final String? status;
   final String? lastAt;
 
-  ServiceEntry({required this.status, this.lastAt});
+  ServiceEntry({this.status, this.lastAt});
 
   factory ServiceEntry.fromJson(Map<String, dynamic> json) {
     return ServiceEntry(
@@ -351,10 +351,10 @@ class ServiceEntry {
 }
 
 class ProvisioningChartStats {
-  final String period;
+  final String? period;
   final List<ProvisioningChartPoint> data;
 
-  ProvisioningChartStats({required this.period, required this.data});
+  ProvisioningChartStats({this.period, required this.data});
 
   factory ProvisioningChartStats.fromJson(Map<String, dynamic> json) {
     return ProvisioningChartStats(
@@ -368,13 +368,13 @@ class ProvisioningChartStats {
 }
 
 class ProvisioningChartPoint {
-  final String date;
+  final String? date;
   final int success;
   final int error;
   final int blocked;
 
   ProvisioningChartPoint({
-    required this.date,
+    this.date,
     required this.success,
     required this.error,
     required this.blocked,
@@ -383,9 +383,9 @@ class ProvisioningChartPoint {
   factory ProvisioningChartPoint.fromJson(Map<String, dynamic> json) {
     return ProvisioningChartPoint(
       date: json['date'],
-      success: json['success'],
-      error: json['error'],
-      blocked: json['blocked'],
+      success: json['success'] ?? 0,
+      error: json['error'] ?? 0,
+      blocked: json['blocked'] ?? 0,
     );
   }
 }

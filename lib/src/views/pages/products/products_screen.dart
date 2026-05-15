@@ -7,6 +7,7 @@ import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_empty.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/confirm_dialog.dart';
 import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
 import 'package:b_selfcare/src/views/widgets/plan_card.dart';
 import 'package:b_selfcare/src/views/widgets/product_form.dart';
@@ -115,8 +116,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       contents: ProductForm(product: product),
                     ),
                     onArchive: product.id != null
-                        ? () => _cubit.archiveProduct(product.id!)
-                        : null,
+                    ? () => AppConfirmDialog.show(
+                        context: context,
+                        title: 'Archiver le produit',
+                        message: 'Le produit "${product.name ?? ''}" sera archivé et ne sera plus disponible. Cette action est irréversible.',
+                        confirmLabel: 'Archiver',
+                        cancelLabel: 'Annuler',
+                        isDanger: true,
+                        onConfirm: () => _cubit.archiveProduct(product.id!),
+                      )
+                    : null,
                   );
                 },
               );
