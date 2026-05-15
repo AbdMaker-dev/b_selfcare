@@ -9,8 +9,9 @@ class SourceGroupe extends AppTableSource<GroupModel> {
   @override
   final List<GroupModel> rows;
   final void Function(GroupModel)? onEdit;
+  final void Function(GroupModel)? onDelete;
 
-  SourceGroupe({required this.rows, this.onEdit});
+  SourceGroupe({required this.rows, this.onEdit, this.onDelete});
 
   @override
   List<({String label, int flex})> get columns => [
@@ -29,7 +30,7 @@ class SourceGroupe extends AppTableSource<GroupModel> {
     CellTextTable(text: e.createdAt != null ? AppDate.formatShort(e.createdAt!) : '---'),
     CellActionsTable(actions: [
       (label: 'Modifier',  danger: false, onTap: () => onEdit?.call(e)),
-      (label: 'Supprimer', danger: true,  onTap: () {}),
+      (label: 'Supprimer', danger: true,  onTap: () => onDelete?.call(e)),
     ]),
   ];
 }

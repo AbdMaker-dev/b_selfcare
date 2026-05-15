@@ -140,7 +140,7 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
               AppText(
                 'Modifier l\'employé',
                 fontSize: 18.rsp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 color: AppColors.primary,
               ),
               SizedBox(height: 20.rh),

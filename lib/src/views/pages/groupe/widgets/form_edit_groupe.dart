@@ -124,7 +124,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
               AppText(
                 'Modifier le groupe',
                 fontSize: 18.rsp,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
                 color: AppColors.primary,
               ),
               SizedBox(height: 20.rh),
