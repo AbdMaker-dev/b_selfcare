@@ -12,6 +12,7 @@
 import 'package:b_selfcare/src/data/repositories/campaign_repo.dart' as _i231;
 import 'package:b_selfcare/src/data/repositories/employee_repo.dart' as _i419;
 import 'package:b_selfcare/src/data/repositories/group_repo.dart' as _i206;
+import 'package:b_selfcare/src/data/repositories/numero_repo.dart' as _i914;
 import 'package:b_selfcare/src/data/repositories/reset_password_repo.dart'
     as _i991;
 import 'package:b_selfcare/src/data/services/http_helper.dart' as _i330;
@@ -19,6 +20,7 @@ import 'package:b_selfcare/src/data/services/local_helper.dart' as _i749;
 import 'package:b_selfcare/src/domain/usecases/campaign_usecase.dart' as _i868;
 import 'package:b_selfcare/src/domain/usecases/employee_usecase.dart' as _i908;
 import 'package:b_selfcare/src/domain/usecases/group_usecase.dart' as _i784;
+import 'package:b_selfcare/src/domain/usecases/number_usecase.dart' as _i937;
 import 'package:b_selfcare/src/domain/usecases/reset_password_usecase.dart'
     as _i322;
 import 'package:b_selfcare/src/views/pages/campagne/cubit/campagne_cubit.dart'
@@ -29,6 +31,8 @@ import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart'
     as _i100;
 import 'package:b_selfcare/src/views/pages/login/cubit/login_cubit.dart'
     as _i48;
+import 'package:b_selfcare/src/views/pages/my_flotte/cubit/flotte_number/flotte_number_cubit.dart'
+    as _i1057;
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart'
     as _i37;
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart'
@@ -69,6 +73,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i206.GroupRepo>(
       () => _i206.GroupRepo(gh<_i749.LocaHelper>(), gh<_i330.HttpHelper>()),
     );
+    gh.singleton<_i914.NumeroRepo>(
+      () => _i914.NumeroRepo(gh<_i749.LocaHelper>(), gh<_i330.HttpHelper>()),
+    );
     gh.singleton<_i991.ResetPasswordRepo>(
       () => _i991.ResetPasswordRepo(
         gh<_i749.LocaHelper>(),
@@ -86,11 +93,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i822.ProductsCubit>(
       () => _i822.ProductsCubit(gh<_i330.HttpHelper>()),
     );
+    gh.lazySingleton<_i937.NumberUsecase>(
+      () => _i937.NumberUsecase(numeroRepo: gh<_i914.NumeroRepo>()),
+    );
     gh.lazySingleton<_i784.GroupUsecase>(
       () => _i784.GroupUsecase(groupRepo: gh<_i206.GroupRepo>()),
     );
     gh.lazySingleton<_i37.GroupCubit>(
       () => _i37.GroupCubit(gh<_i784.GroupUsecase>()),
+    );
+    gh.lazySingleton<_i1057.FlotteNumberCubit>(
+      () => _i1057.FlotteNumberCubit(gh<_i937.NumberUsecase>()),
     );
     gh.lazySingleton<_i865.ResetPasswordCubit>(
       () => _i865.ResetPasswordCubit(gh<_i322.ResetPasswordUsecase>()),

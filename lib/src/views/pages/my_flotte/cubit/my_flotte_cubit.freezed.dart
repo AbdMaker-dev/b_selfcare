@@ -220,7 +220,7 @@ return disableEmployeeFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,TResult? Function()?  disableEmployeeLoading,TResult? Function( DataResponseModel data)?  disableEmployeeLoaded,TResult? Function( String message)?  disableEmployeeFailed,TResult? Function()?  deleteEmployeeLoading,TResult? Function( DataResponseModel data)?  deleteEmployeeLoaded,TResult? Function( String message)?  deleteEmployeeFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,TResult? Function()?  disableEmployeeLoading,TResult? Function( DataResponseModel data)?  disableEmployeeLoaded,TResult? Function( String message)?  disableEmployeeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetEmployeesLoading() when getEmployeesLoading != null:
@@ -235,10 +235,7 @@ return updateEmployeeLoaded(_that.data);case UpdateEmployeeFailed() when updateE
 return updateEmployeeFailed(_that.message);case DisableEmployeeLoading() when disableEmployeeLoading != null:
 return disableEmployeeLoading();case DisableEmployeeLoaded() when disableEmployeeLoaded != null:
 return disableEmployeeLoaded(_that.data);case DisableEmployeeFailed() when disableEmployeeFailed != null:
-return disableEmployeeFailed(_that.message);case DeleteEmployeeLoading() when deleteEmployeeLoading != null:
-return deleteEmployeeLoading();case DeleteEmployeeLoaded() when deleteEmployeeLoaded != null:
-return deleteEmployeeLoaded(_that.data);case DeleteEmployeeFailed() when deleteEmployeeFailed != null:
-return deleteEmployeeFailed(_that.message);case _:
+return disableEmployeeFailed(_that.message);case _:
   return null;
 
 }
@@ -775,11 +772,18 @@ as String,
 
 class DisableEmployeeLoading implements MyFlotteState {
   const DisableEmployeeLoading();
+  
+
+
+
+
+
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is DisableEmployeeLoading);
 }
+
 
 @override
 int get hashCode => runtimeType.hashCode;
@@ -788,6 +792,7 @@ int get hashCode => runtimeType.hashCode;
 String toString() {
   return 'MyFlotteState.disableEmployeeLoading()';
 }
+
 
 }
 
@@ -799,17 +804,23 @@ String toString() {
 
 class DisableEmployeeLoaded implements MyFlotteState {
   const DisableEmployeeLoaded({required this.data});
+  
 
  final  DataResponseModel data;
 
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $DisableEmployeeLoadedCopyWith<DisableEmployeeLoaded> get copyWith => _$DisableEmployeeLoadedCopyWithImpl<DisableEmployeeLoaded>(this, _$identity);
+
+
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is DisableEmployeeLoaded&&(identical(other.data, data) || other.data == data));
 }
+
 
 @override
 int get hashCode => Object.hash(runtimeType,data);
@@ -819,26 +830,39 @@ String toString() {
   return 'MyFlotteState.disableEmployeeLoaded(data: $data)';
 }
 
+
 }
 
 /// @nodoc
 abstract mixin class $DisableEmployeeLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
   factory $DisableEmployeeLoadedCopyWith(DisableEmployeeLoaded value, $Res Function(DisableEmployeeLoaded) _then) = _$DisableEmployeeLoadedCopyWithImpl;
 @useResult
-$Res call({ DataResponseModel data });
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
 }
 /// @nodoc
 class _$DisableEmployeeLoadedCopyWithImpl<$Res>
     implements $DisableEmployeeLoadedCopyWith<$Res> {
   _$DisableEmployeeLoadedCopyWithImpl(this._self, this._then);
+
   final DisableEmployeeLoaded _self;
   final $Res Function(DisableEmployeeLoaded) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
   return _then(DisableEmployeeLoaded(
 data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as DataResponseModel,
   ));
 }
+
+
 }
 
 /// @nodoc
@@ -846,17 +870,23 @@ as DataResponseModel,
 
 class DisableEmployeeFailed implements MyFlotteState {
   const DisableEmployeeFailed(this.message);
+  
 
  final  String message;
 
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
 $DisableEmployeeFailedCopyWith<DisableEmployeeFailed> get copyWith => _$DisableEmployeeFailedCopyWithImpl<DisableEmployeeFailed>(this, _$identity);
+
+
 
 @override
 bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is DisableEmployeeFailed&&(identical(other.message, message) || other.message == message));
 }
+
 
 @override
 int get hashCode => Object.hash(runtimeType,message);
@@ -866,144 +896,39 @@ String toString() {
   return 'MyFlotteState.disableEmployeeFailed(message: $message)';
 }
 
+
 }
 
 /// @nodoc
 abstract mixin class $DisableEmployeeFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
   factory $DisableEmployeeFailedCopyWith(DisableEmployeeFailed value, $Res Function(DisableEmployeeFailed) _then) = _$DisableEmployeeFailedCopyWithImpl;
 @useResult
-$Res call({ String message });
+$Res call({
+ String message
+});
+
+
+
+
 }
 /// @nodoc
 class _$DisableEmployeeFailedCopyWithImpl<$Res>
     implements $DisableEmployeeFailedCopyWith<$Res> {
   _$DisableEmployeeFailedCopyWithImpl(this._self, this._then);
+
   final DisableEmployeeFailed _self;
   final $Res Function(DisableEmployeeFailed) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(DisableEmployeeFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
-}
-
-/// @nodoc
 
 
-class DeleteEmployeeLoading implements MyFlotteState {
-  const DeleteEmployeeLoading();
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteEmployeeLoading);
-}
-
-@override
-int get hashCode => runtimeType.hashCode;
-
-@override
-String toString() {
-  return 'MyFlotteState.deleteEmployeeLoading()';
-}
-
-}
-
-
-
-
-/// @nodoc
-
-
-class DeleteEmployeeLoaded implements MyFlotteState {
-  const DeleteEmployeeLoaded({required this.data});
-
- final  DataResponseModel data;
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DeleteEmployeeLoadedCopyWith<DeleteEmployeeLoaded> get copyWith => _$DeleteEmployeeLoadedCopyWithImpl<DeleteEmployeeLoaded>(this, _$identity);
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteEmployeeLoaded&&(identical(other.data, data) || other.data == data));
-}
-
-@override
-int get hashCode => Object.hash(runtimeType,data);
-
-@override
-String toString() {
-  return 'MyFlotteState.deleteEmployeeLoaded(data: $data)';
-}
-
-}
-
-/// @nodoc
-abstract mixin class $DeleteEmployeeLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
-  factory $DeleteEmployeeLoadedCopyWith(DeleteEmployeeLoaded value, $Res Function(DeleteEmployeeLoaded) _then) = _$DeleteEmployeeLoadedCopyWithImpl;
-@useResult
-$Res call({ DataResponseModel data });
-}
-/// @nodoc
-class _$DeleteEmployeeLoadedCopyWithImpl<$Res>
-    implements $DeleteEmployeeLoadedCopyWith<$Res> {
-  _$DeleteEmployeeLoadedCopyWithImpl(this._self, this._then);
-  final DeleteEmployeeLoaded _self;
-  final $Res Function(DeleteEmployeeLoaded) _then;
-@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
-  return _then(DeleteEmployeeLoaded(
-data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
-as DataResponseModel,
-  ));
-}
-}
-
-/// @nodoc
-
-
-class DeleteEmployeeFailed implements MyFlotteState {
-  const DeleteEmployeeFailed(this.message);
-
- final  String message;
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DeleteEmployeeFailedCopyWith<DeleteEmployeeFailed> get copyWith => _$DeleteEmployeeFailedCopyWithImpl<DeleteEmployeeFailed>(this, _$identity);
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeleteEmployeeFailed&&(identical(other.message, message) || other.message == message));
-}
-
-@override
-int get hashCode => Object.hash(runtimeType,message);
-
-@override
-String toString() {
-  return 'MyFlotteState.deleteEmployeeFailed(message: $message)';
-}
-
-}
-
-/// @nodoc
-abstract mixin class $DeleteEmployeeFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
-  factory $DeleteEmployeeFailedCopyWith(DeleteEmployeeFailed value, $Res Function(DeleteEmployeeFailed) _then) = _$DeleteEmployeeFailedCopyWithImpl;
-@useResult
-$Res call({ String message });
-}
-/// @nodoc
-class _$DeleteEmployeeFailedCopyWithImpl<$Res>
-    implements $DeleteEmployeeFailedCopyWith<$Res> {
-  _$DeleteEmployeeFailedCopyWithImpl(this._self, this._then);
-  final DeleteEmployeeFailed _self;
-  final $Res Function(DeleteEmployeeFailed) _then;
-@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
-  return _then(DeleteEmployeeFailed(
-null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,
-  ));
-}
 }
 
 // dart format on

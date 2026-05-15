@@ -14,8 +14,8 @@ class CellBadgeTable extends StatelessWidget {
   factory CellBadgeTable.suspendu()  =>  CellBadgeTable(label: 'Suspendu',   bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
   factory CellBadgeTable.cancelled()  =>  CellBadgeTable(label: 'cancelled',   bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
   factory CellBadgeTable.enAttente() =>  CellBadgeTable(label: 'En attente', bg: AppColors.amberCream, fg: AppColors.amberBrown, dot: AppColors.amberGold);
-  factory CellBadgeTable.inactif()   =>  CellBadgeTable(label: 'Inactif',    bg: AppColors.beigeIvory, fg: AppColors.beigeMole, dot: AppColors.beigeSmoke);
-  factory CellBadgeTable.inactive()   =>  CellBadgeTable(label: 'INACTIVE',    bg: AppColors.beigeIvory, fg: AppColors.beigeMole, dot: AppColors.beigeSmoke);
+  factory CellBadgeTable.inactif()   =>  CellBadgeTable(label: 'Inactif',    bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
+  factory CellBadgeTable.inactive()   =>  CellBadgeTable(label: 'INACTIVE',    bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
   factory CellBadgeTable.echec()   =>  CellBadgeTable(label: 'Echec',    bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
 
   @override
@@ -28,7 +28,7 @@ class CellBadgeTable extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(width: 5.rw, height: 5.rh, decoration: BoxDecoration(color: dot, shape: BoxShape.circle)),
-           SizedBox(width: 5.rw),
+          SizedBox(width: 5.rw),
           AppText(
             label,
             fontSize: 11.rsp,

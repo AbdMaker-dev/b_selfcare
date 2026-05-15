@@ -772,6 +772,9 @@ as String,
 
 class DeleteGroupeLoading implements GroupState {
   const DeleteGroupeLoading();
+  
+
+
 
 
 
@@ -801,7 +804,7 @@ String toString() {
 
 class DeleteGroupeLoaded implements GroupState {
   const DeleteGroupeLoaded({required this.data});
-
+  
 
  final  DataResponseModel data;
 
@@ -867,7 +870,7 @@ as DataResponseModel,
 
 class DeleteGroupeFailed implements GroupState {
   const DeleteGroupeFailed(this.message);
-
+  
 
  final  String message;
 
