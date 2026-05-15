@@ -45,17 +45,17 @@ class PlanCard extends StatelessWidget {
 
   Color get _badgeBg => switch (status) {
     PlanStatus.active  => const Color(0xFFF0FBF7),
-    PlanStatus.archive => const Color(0xFFF1F5FF),
+    PlanStatus.archive => const Color(0xFFFFF4F4),
   };
 
   Color get _badgeBorder => switch (status) {
     PlanStatus.active  => const Color(0xFF9FE1CB),
-    PlanStatus.archive => AppColors.inputBorderLight,
+    PlanStatus.archive => const Color(0xFFFFCDD2),
   };
 
   Color get _badgeText => switch (status) {
     PlanStatus.active  => AppColors.success,
-    PlanStatus.archive => AppColors.textMuted,
+    PlanStatus.archive => AppColors.error,
   };
 
   @override

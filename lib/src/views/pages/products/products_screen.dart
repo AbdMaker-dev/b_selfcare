@@ -115,7 +115,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                       height: 0.6,
                       contents: ProductForm(product: product),
                     ),
-                    onArchive: product.id != null
+                    onArchive: product.id != null && product.isActive == true
                     ? () => AppConfirmDialog.show(
                         context: context,
                         title: 'Archiver le produit',
