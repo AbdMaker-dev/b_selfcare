@@ -30,7 +30,7 @@ class FormEditEmploye extends StatefulWidget {
     required MyFlotteCubit myFlotteCubit,
     VoidCallback? onUpdated,
   }) {
-    showDialog<void>(
+    showDialog<bool>(
       context: context,
       useRootNavigator: true,
       barrierDismissible: true,
@@ -50,7 +50,7 @@ class FormEditEmploye extends StatefulWidget {
           ),
         ),
       ),
-    ).then((_) => onUpdated?.call());
+    ).then((updated) { if (updated == true) onUpdated?.call(); });
   }
 
   @override
@@ -119,7 +119,7 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
       bloc: widget.myFlotteCubit,
       listener: (context, state) {
         state.maybeWhen(
-          updateEmployeeLoaded: (_) => Navigator.of(context, rootNavigator: true).pop(),
+          updateEmployeeLoaded: (_) => Navigator.of(context, rootNavigator: true).pop(true),
           updateEmployeeFailed: (message) {},
           orElse: () {},
         );

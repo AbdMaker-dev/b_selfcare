@@ -133,9 +133,7 @@ class _FormEmployeState extends State<FormEmploye> {
             _reset();
             widget.onCreated?.call();
           },
-          createEmployeeFailed: (message) {
-
-          },
+          createEmployeeFailed: (message) {},
           orElse: () {},
         );
       },
