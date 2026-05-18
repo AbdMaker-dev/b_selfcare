@@ -75,8 +75,8 @@ class _CampagneScreenState extends State<CampagneScreen> {
         }
 
         final isLoading = state is GetCampaignsLoading || state is ExecuteCampaignsLoading;
-        final campaigns = _cachedData?.campaigns ?? [];
-        final meta = _cachedData?.meta;
+        final campaigns = _cachedData?.data?.campaigns ?? [];
+        final meta = _cachedData?.data?.meta;
         final total = meta?.total ?? 0;
         final lastPage = meta?.lastPage ?? 1;
 
