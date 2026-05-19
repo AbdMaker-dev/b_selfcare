@@ -61,6 +61,9 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _triggerKey = GlobalKey();
   OverlayEntry? _overlayEntry;
+  final TextEditingController _searchController = TextEditingController();
+
+  bool get _isSearchable => widget.options.length > 7;
 
   double get _triggerWidth {
     final box = _triggerKey.currentContext?.findRenderObject() as RenderBox?;
@@ -71,6 +74,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
     _removeOverlay();
     final cubit = context.read<SelectCubit>();
     final width = _triggerWidth;
+    final searchable = _isSearchable;
 
     _overlayEntry = OverlayEntry(
       builder: (_) => Stack(
@@ -92,7 +96,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  constraints: const BoxConstraints(maxHeight: 260),
+                  constraints: const BoxConstraints(maxHeight: 300),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.rr),
@@ -105,61 +109,132 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                       ),
                     ],
                   ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: widget.options.map((opt) {
-                      final isSelected = selected?.value == opt.value;
-                      return GestureDetector(
-                        onTap: () {
-                          cubit.select(opt);
-                          widget.onChanged?.call(opt);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 14.rw,
-                            vertical: 10.rh,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.grayGh
-                                : Colors.transparent,
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AppText(
-                                      opt.label,
-                                      fontSize: 14.rsp,
-                                      fontWeight: isSelected
-                                          ? FontWeight.w600
-                                          : FontWeight.normal,
-                                      color: AppColors.textHeading,
-                                    ),
-                                    if (opt.subtitle != null)
-                                      AppText(
-                                        opt.subtitle!,
-                                        fontSize: 12.rsp,
-                                        color: AppColors.grayAsh,
-                                      ),
-                                  ],
+                  child: StatefulBuilder(
+                    builder: (_, setOverlayState) {
+                      final query = _searchController.text.toLowerCase();
+                      final filtered = searchable
+                          ? widget.options
+                              .where((o) => o.label.toLowerCase().contains(query))
+                              .toList()
+                          : widget.options;
+
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (searchable)
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(10.rw, 10.rh, 10.rw, 4.rh),
+                              child: TextField(
+                                controller: _searchController,
+                                autofocus: true,
+                                onChanged: (_) => setOverlayState(() {}),
+                                style: TextStyle(fontSize: 14.rsp),
+                                decoration: InputDecoration(
+                                  hintText: 'Rechercher...',
+                                  hintStyle: TextStyle(
+                                    fontSize: 13.rsp,
+                                    color: AppColors.grayAsh,
+                                  ),
+                                  prefixIcon: Icon(
+                                    Icons.search_rounded,
+                                    size: 18,
+                                    color: AppColors.grayAsh,
+                                  ),
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10.rw,
+                                    vertical: 10.rh,
+                                  ),
+                                  filled: true,
+                                  fillColor: AppColors.grayWh,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.rr),
+                                    borderSide: BorderSide(color: AppColors.gray),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.rr),
+                                    borderSide: BorderSide(color: AppColors.gray),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.rr),
+                                    borderSide: BorderSide(color: AppColors.greyCharcoal),
+                                  ),
                                 ),
                               ),
-                              if (isSelected)
-                                Icon(
-                                  Icons.check_rounded,
-                                  size: 18,
-                                  color: AppColors.greyCharcoal,
-                                ),
-                            ],
+                            ),
+                          Flexible(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: filtered.isEmpty
+                                    ? [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 16.rh),
+                                          child: AppText(
+                                            'Aucun résultat',
+                                            fontSize: 13.rsp,
+                                            color: AppColors.grayAsh,
+                                          ),
+                                        ),
+                                      ]
+                                    : filtered.map((opt) {
+                                        final isSelected = selected?.value == opt.value;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            cubit.select(opt);
+                                            widget.onChanged?.call(opt);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 14.rw,
+                                              vertical: 10.rh,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? AppColors.grayGh
+                                                  : Colors.transparent,
+                                            ),
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                    children: [
+                                                      AppText(
+                                                        opt.label,
+                                                        fontSize: 14.rsp,
+                                                        fontWeight: isSelected
+                                                            ? FontWeight.w600
+                                                            : FontWeight.normal,
+                                                        color: AppColors.textHeading,
+                                                      ),
+                                                      if (opt.subtitle != null)
+                                                        AppText(
+                                                          opt.subtitle!,
+                                                          fontSize: 12.rsp,
+                                                          color: AppColors.grayAsh,
+                                                        ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                if (isSelected)
+                                                  Icon(
+                                                    Icons.check_rounded,
+                                                    size: 18,
+                                                    color: AppColors.greyCharcoal,
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }).toList(),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       );
-                    }).toList(),
-                  ),
+                    },
                   ),
                 ),
               ),
@@ -175,11 +250,13 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
+    _searchController.clear();
   }
 
   @override
   void dispose() {
     _removeOverlay();
+    _searchController.dispose();
     super.dispose();
   }
 

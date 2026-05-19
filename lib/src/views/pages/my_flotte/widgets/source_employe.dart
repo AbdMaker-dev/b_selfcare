@@ -20,7 +20,7 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     (label: 'Téléphone', flex: 4),
     (label: 'Numéros',   flex: 4),
     (label: 'Groupe',   flex: 4),
-    (label: 'Statut',    flex: 2),
+    (label: 'Statut',    flex: 3),
     (label: 'Actions',   flex: 4),
   ];
 

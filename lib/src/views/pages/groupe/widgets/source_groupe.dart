@@ -15,7 +15,7 @@ class SourceGroupe extends AppTableSource<GroupModel> {
 
   @override
   List<({String label, int flex})> get columns => [
-    (label: 'Groupe',          flex: 4),
+    (label: 'Groupe',          flex: 5),
     (label: 'Produit',         flex: 3),
     (label: 'Nombre employés', flex: 3),
     (label: 'Début création',  flex: 2),
@@ -30,7 +30,7 @@ class SourceGroupe extends AppTableSource<GroupModel> {
     CellTextTable(text: e.createdAt != null ? AppDate.formatShort(e.createdAt!) : '---'),
     CellActionsTable(actions: [
       (label: 'Modifier',  danger: false, onTap: () => onEdit?.call(e)),
-      (label: 'Supprimer', danger: true,  onTap: () => onDelete?.call(e)),
+      //(label: 'Supprimer', danger: true,  onTap: () => onDelete?.call(e)),
     ]),
   ];
 }

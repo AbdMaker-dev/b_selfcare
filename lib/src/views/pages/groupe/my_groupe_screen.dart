@@ -47,24 +47,15 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
       bloc: groupCubit,
       listener: (context, state) {
         state.maybeWhen(
-          getGroupsFailed: (message) =>
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message), backgroundColor: AppColors.error),
-              ),
+          getGroupsFailed: (message){},
           updateGroupeLoaded: (_) {
             groupCubit.getGroups(data: {'page': _currentPage});
           },
-          updateGroupeFailed: (message) =>
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message), backgroundColor: AppColors.error),
-              ),
+          updateGroupeFailed: (message) {},
           deleteGroupeLoaded: (_) {
             groupCubit.getGroups(data: {'page': _currentPage});
           },
-          deleteGroupeFailed: (message) =>
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(message), backgroundColor: AppColors.error),
-              ),
+          deleteGroupeFailed: (message) {},
           orElse: () {},
         );
       },
@@ -113,15 +104,14 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                     text: '+ Groupe',
                     type: AppButtonType.secondary,
                     fontSize: 15.rsp,
-                    onPressed: () {},
+                    onPressed: () => FormGroupe.show(
+                      context,
+                      groupCubit: groupCubit,
+                      onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
+                    ),
                   ),
                 ),
               ],
-            ),
-            SizedBox(height: 30.rh),
-            FormGroupe(
-              groupCubit: groupCubit,
-              onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
             ),
             SizedBox(height: 30.rh),
             AppSearchInput(
