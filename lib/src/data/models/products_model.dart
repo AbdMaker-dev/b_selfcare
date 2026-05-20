@@ -3,15 +3,17 @@ class ProductsModel {
   String? name;
   String? description;
   bool? isActive;
+  num ? price;
   List<Quotas>? quotas;
 
-  ProductsModel({this.id, this.name, this.description, this.isActive, this.quotas});
+  ProductsModel({this.id, this.name, this.description, this.isActive, this.price, this.quotas});
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     description = json['description'];
     isActive = json['is_active'];
+    price = json['price'];
     if (json['quotas'] != null) {
       quotas = <Quotas>[];
       json['quotas'].forEach((v) {
@@ -26,6 +28,7 @@ class ProductsModel {
     data['name'] = this.name;
     data['description'] = this.description;
     data['is_active'] = this.isActive;
+    data['price'] = this.price;
     if (this.quotas != null) {
       data['quotas'] = this.quotas!.map((v) => v.toJson()).toList();
     }

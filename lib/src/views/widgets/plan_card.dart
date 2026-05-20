@@ -24,8 +24,10 @@ class PlanCard extends StatelessWidget {
   final String name;
   final PlanStatus status;
   final List<PlanFeature> features;
+  final num? price;
   final VoidCallback? onTap;
   final VoidCallback? onEdit;
+  final VoidCallback? onDuplicate;
   final VoidCallback? onArchive;
 
   const PlanCard({
@@ -33,8 +35,10 @@ class PlanCard extends StatelessWidget {
     required this.name,
     required this.features,
     this.status = PlanStatus.active,
+    this.price,
     this.onTap,
     this.onEdit,
+    this.onDuplicate,
     this.onArchive,
   });
 
@@ -112,12 +116,37 @@ class PlanCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
-          child: AppText(
-            name,
-            fontSize: 15.rsp,
-            fontWeight: FontWeight.w500,
-            color: AppColors.primary,
-            overflow: TextOverflow.ellipsis,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText(
+                name,
+                fontSize: 15.rsp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.primary,
+                overflow: TextOverflow.ellipsis,
+              ),
+              if (price != null) ...[
+                SizedBox(height: 2.rh),
+                Row(
+                  children: [
+                    AppText(
+                      '$price',
+                      fontSize: 13.rsp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.warning,
+                    ),
+                    SizedBox(width: 3.rw),
+                    AppText(
+                      'FCFA',
+                      fontSize: 10.rsp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.textMuted,
+                    ),
+                  ],
+                ),
+              ],
+            ],
           ),
         ),
         Row(
@@ -137,6 +166,21 @@ class PlanCard extends StatelessWidget {
                 color: _badgeText,
               ),
             ),
+            if (onDuplicate != null) ...[
+              SizedBox(width: 8.rw),
+              GestureDetector(
+                onTap: onDuplicate,
+                child: Container(
+                  padding: EdgeInsets.all(6.rw),
+                  decoration: BoxDecoration(
+                    color: AppColors.background,
+                    borderRadius: BorderRadius.circular(8.rr),
+                    border: Border.all(color: AppColors.inputBorder),
+                  ),
+                  child: Icon(Icons.copy_outlined, size: 14.rsp, color: AppColors.textMuted),
+                ),
+              ),
+            ],
             if (onEdit != null) ...[
               SizedBox(width: 8.rw),
               GestureDetector(

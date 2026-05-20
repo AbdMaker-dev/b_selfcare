@@ -132,13 +132,13 @@ class _LoginFormState extends State<LoginForm> {
           ],
         ),
 
-        SizedBox(height: 30.0.rh),
-        AppButton(
-          text: s.ssoLogin,
-          onPressed: () {},
-          type: AppButtonType.outline,
-          icon: Icons.corporate_fare,
-        ),
+        // SizedBox(height: 30.0.rh),
+        // AppButton(
+        //   text: s.ssoLogin,
+        //   onPressed: () {},
+        //   type: AppButtonType.outline,
+        //   icon: Icons.corporate_fare,
+        // ),
 
         SizedBox(height: 20.0.rh),
         Row(

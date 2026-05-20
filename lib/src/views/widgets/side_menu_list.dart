@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/gen/assets.gen.dart';
 import 'package:b_selfcare/routers/app_router.dart';
+import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,6 +41,50 @@ class _SideMenuListState extends State<SideMenuList> {
           endIndent: 10.rw,
           height: 0.rh,
         ),
+        SizedBox(height: 20.rh),
+
+        Container(
+          height: 40.rh,
+          margin: EdgeInsets.symmetric(horizontal: 10.rw),
+          padding: EdgeInsets.symmetric(horizontal: 15.rw),
+          decoration: BoxDecoration(
+            color: AppColors.white.withValues(alpha: 0.09),
+            borderRadius: BorderRadius.circular(6.rw),
+          ),
+          child: Row(
+            spacing: 10.rw,
+            children: [
+              Container(
+                width: 10.rw,
+                height: 10.rh,
+                decoration: BoxDecoration(
+                  color: AppColors.greenDull,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.greenDull.withValues(alpha: 0.9),
+                      blurRadius: 8,
+                      spreadRadius: 2,
+                    ),
+                    BoxShadow(
+                      color: AppColors.greenDull.withValues(alpha: 0.4),
+                      blurRadius: 16,
+                      spreadRadius: 5,
+                    ),
+                  ],
+                ),
+              ),
+              AppText(
+                getIt<LayoutCubit>().currentUser?.company?.name ?? "My Company",
+                color: AppColors.white,
+                fontSize: 14.rsp,
+                fontWeight: FontWeight.w500,
+                onClick: () => context.router.pushPath('$routeApp/$routeAppDashbord'),
+              ),
+            ],
+          ),
+        ),
+
         SizedBox(height: 20.rh),
 
         const MenuSeparator(title: 'MON ESPACE'),

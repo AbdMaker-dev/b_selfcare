@@ -17,11 +17,11 @@ class _QuotaRow {
   final TextEditingController quotaController;
 
   _QuotaRow({int? initialWalletId, double? initialQuota})
-      : walletId = initialWalletId,
-        quota = initialQuota,
-        quotaController = TextEditingController(
-          text: initialQuota != null ? initialQuota.toString() : '',
-        );
+  : walletId = initialWalletId,
+    quota = initialQuota,
+    quotaController = TextEditingController(
+      text: initialQuota != null ? initialQuota.toString() : '',
+    );
 
   void dispose() => quotaController.dispose();
 }
@@ -42,7 +42,7 @@ class _ProductFormState extends State<ProductForm> {
   late final TextEditingController _descController;
   late final List<_QuotaRow> _quotas;
 
-  bool get _isEdit => widget.product != null;
+  bool get _isEdit => widget.product?.id != null;
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _ProductFormState extends State<ProductForm> {
     _nameController = TextEditingController(text: p?.name ?? '');
     _descController = TextEditingController(text: p?.description ?? '');
 
-    if (_isEdit && (p!.quotas ?? []).isNotEmpty) {
+    if (p != null && (p.quotas ?? []).isNotEmpty) {
       _quotas = p.quotas!
           .map((q) => _QuotaRow(
                 initialWalletId: q.walletId,
@@ -82,6 +82,15 @@ class _ProductFormState extends State<ProductForm> {
     if (invalidQuota) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Veuillez sélectionner un wallet pour chaque quota.')),
+      );
+      return;
+    }
+
+    final selectedIds = _quotas.map((q) => q.walletId).toList();
+    final hasDuplicates = selectedIds.length != selectedIds.toSet().length;
+    if (hasDuplicates) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Un même wallet ne peut pas être sélectionné deux fois.')),
       );
       return;
     }
@@ -181,6 +190,15 @@ class _ProductFormState extends State<ProductForm> {
                     separatorBuilder: (_, _) => SizedBox(height: 12.rh),
                     itemBuilder: (_, index) {
                       final row = _quotas[index];
+
+                      final takenIds = _quotas
+                          .where((q) => q != row && q.walletId != null)
+                          .map((q) => q.walletId!)
+                          .toSet();
+                      final availableOptions = walletOptions
+                          .where((o) => !takenIds.contains(o.value))
+                          .toList();
+
                       final initialOption = row.walletId != null
                           ? walletOptions.firstWhere(
                               (o) => o.value == row.walletId,
@@ -207,7 +225,7 @@ class _ProductFormState extends State<ProductForm> {
                             SizedBox(height: 10.rh),
                             SelectField<int>(
                               label: 'Wallet',
-                              options: walletOptions,
+                              options: availableOptions,
                               placeholder: 'Sélectionner un wallet...',
                               initialValue: initialOption,
                               onChanged: (opt) => setState(() => row.walletId = opt.value),

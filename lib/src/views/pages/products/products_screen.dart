@@ -3,12 +3,15 @@ import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/data/models/products_model.dart';
 import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_empty.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/confirm_dialog.dart';
 import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
+import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
+import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
 import 'package:b_selfcare/src/views/widgets/plan_card.dart';
 import 'package:b_selfcare/src/views/widgets/product_form.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +27,7 @@ class ProductsScreen extends StatefulWidget {
 
 class _ProductsScreenState extends State<ProductsScreen> {
   final _cubit = getIt<ProductsCubit>();
+  String _activeFilter = 'tous';
 
   @override
   void initState() {
@@ -81,12 +85,26 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
             ],
           ),
-          SizedBox(height: 30.rh),
+          SizedBox(height: 20.rh),
+          FilterTabsWidget(
+            tabs: const [
+              FilterTab(label: 'Tous'),
+              FilterTab(label: 'Actifs'),
+              FilterTab(label: 'Archivés'),
+            ],
+            onTabChanged: (tab) => setState(() => _activeFilter = tab.label),
+          ),
+          SizedBox(height: 20.rh),
           BlocSelector<ProductsCubit, ProductsState, ProductsLoaded?>(
             bloc: _cubit,
             selector: (state) => state is ProductsLoaded ? ProductsLoaded() : null,
-            builder: (context, state){ 
-              if (_cubit.products.isEmpty) {
+            builder: (context, state){
+              final products = switch (_activeFilter) {
+                'Actifs'   => _cubit.products.where((p) => p.isActive == true).toList(),
+                'Archivés' => _cubit.products.where((p) => p.isActive != true).toList(),
+                _          => _cubit.products,
+              };
+              if (products.isEmpty) {
                 return const AppEmpty(
                   icon: Icons.inventory_2_outlined,
                   title: 'Aucun produit',
@@ -102,19 +120,44 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   mainAxisSpacing: 16.rh,
                   childAspectRatio: 470 / 179,
                 ),
-                itemCount: _cubit.products.length,
+                itemCount: products.length,
                 itemBuilder: (_, i) {
-                  final product = _cubit.products[i];
+                  final product = products[i];
                   return PlanCard(
                     name: product.name ?? '—',
                     status: product.isActive == true ? PlanStatus.active : PlanStatus.archive,
+                    price: product.price??00,
                     features: (product.quotas??[]).map((q)=> PlanFeature(label: q.name??"---", unit: q.unit??"---", value: '${q.quota??0}', price: q.price)).toList(),
-                    onEdit: () => AppDialogs.popup(
+                    onDuplicate: () => AppDialogs.popup(
                       context: context,
                       width: 600.rw,
                       height: 0.6,
-                      contents: ProductForm(product: product),
+                      contents: ProductForm(
+                        product: ProductsModel(
+                          name: '${product.name ?? ''} (copie)',
+                          description: product.description,
+                          quotas: product.quotas
+                              ?.map((q) => Quotas(
+                                    walletId: q.walletId,
+                                    quota: q.quota,
+                                    price: q.price,
+                                    category: q.category,
+                                    unit: q.unit,
+                                    name: q.name,
+                                    code: q.code,
+                                  ))
+                              .toList(),
+                        ),
+                      ),
                     ),
+                    onEdit: product.isActive == true
+                    ? () => AppDialogs.popup(
+                        context: context,
+                        width: 600.rw,
+                        height: 0.6,
+                        contents: ProductForm(product: product),
+                      )
+                    : null,
                     onArchive: product.id != null && product.isActive == true
                     ? () => AppConfirmDialog.show(
                         context: context,

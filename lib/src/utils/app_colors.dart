@@ -22,11 +22,12 @@ class AppColors {
 
   // Accents
   static const Color inputBorder = Color(0x24133273); // 14.12% opacity
-  static const Color inputBorderLight = Color(0xFF8090B8); // 14.12% opacity
+  static const Color inputBorderLight = Color(0xFF8090B8); // 14.12% opacity #3DBCAB
   static const Color error = Color(0xFFEF4444);
   static const Color success = Color(0xFF5DCAA5);
   static const Color greenMint = Color(0xFFEAF3DE);
   static const Color green = Color(0xFF3B6D11);
+  static const Color greenDull = Color(0xFF3DBCAB);
   static const Color greenOlive = Color(0xFF639922);
   static const Color orangePeach = Color(0xFFFAECE7);
   static const Color orangeBurnt = Color(0xFF993C1D);
