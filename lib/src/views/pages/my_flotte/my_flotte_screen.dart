@@ -175,7 +175,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                       name: name.isNotEmpty ? name : '-',
                       department: e.position ?? '-',
                       forfait: '${e.fleetNumbersCount ?? 0} numéros',
-                      phone: e.phone ?? '-',
+                      fleetNumbers: e.fleetNumbers?.map((f) => f.msisdn ?? '').toList() ?? [],
                       status: e.status == 'active' || e.status == 'ACTIVE',
                     );
                   }).toList();
