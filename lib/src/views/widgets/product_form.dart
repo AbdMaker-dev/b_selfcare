@@ -86,9 +86,7 @@ class _ProductFormState extends State<ProductForm> {
       return;
     }
 
-    final quotas = _quotas
-        .map((q) => {'wallet_id': q.walletId!, 'quota': q.quota!})
-        .toList();
+    final quotas = _quotas.map((q) => {'wallet_id': q.walletId!, 'quota': q.quota!}).toList();
 
     if (_isEdit) {
       await _cubit.updateProduct(
