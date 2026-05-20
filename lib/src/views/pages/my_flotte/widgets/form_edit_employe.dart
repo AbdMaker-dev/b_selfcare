@@ -9,6 +9,7 @@ import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart'
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/phone_number_widget.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_field.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_option_model.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,6 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
   late final TextEditingController _emailController;
-  late final TextEditingController _phoneController;
   late final TextEditingController _positionController;
 
   int? _selectedGroupId;
@@ -76,7 +76,6 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
     _firstNameController = TextEditingController(text: widget.employee.firstName ?? '');
     _lastNameController  = TextEditingController(text: widget.employee.lastName ?? '');
     _emailController     = TextEditingController(text: widget.employee.email ?? '');
-    _phoneController     = TextEditingController(text: widget.employee.phone ?? '');
     _positionController  = TextEditingController(text: widget.employee.position ?? '');
     _selectedGroupId     = widget.employee.group?.id;
     groupCubit.getGroups(data: {'page': 1});
@@ -87,7 +86,6 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
     _positionController.dispose();
     super.dispose();
   }
@@ -105,7 +103,6 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
         'first_name': _firstNameController.text.trim(),
         'last_name': _lastNameController.text.trim(),
         'email': _emailController.text.trim(),
-        'phone': _phoneController.text.trim(),
         'position': _positionController.text.trim(),
         if (!_removeGroup && _selectedGroupId != null) 'group_id': _selectedGroupId,
         'remove_group': _removeGroup,
@@ -185,13 +182,12 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
                   ),
                   SizedBox(width: 16.rw),
                   Expanded(
-                    child: AppInput(
-                      labelText: 'Téléphone',
-                      keyboardType: TextInputType.phone,
-                      controller: _phoneController,
-                      hintText: 'Ex: +221 76 000 00 00',
-                      validator: (v) =>
-                          (v == null || v.trim().isEmpty) ? 'Le téléphone est obligatoire' : null,
+                    child: _FleetNumbersReadOnly(
+                      fleetNumbers: widget.employee.fleetNumbers
+                              ?.map((f) => f.msisdn ?? '')
+                              .where((m) => m.isNotEmpty)
+                              .toList() ??
+                          [],
                     ),
                   ),
                 ],
@@ -273,6 +269,50 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _FleetNumbersReadOnly extends StatelessWidget {
+  final List<String> fleetNumbers;
+
+  const _FleetNumbersReadOnly({required this.fleetNumbers});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppText(
+          'NUMÉROS DE TÉLÉPHONE',
+          color: AppColors.grayAsh,
+          fontWeight: FontWeight.w600,
+          fontSize: 10.rsp,
+        ),
+        SizedBox(height: 6.rh),
+        Container(
+          width: double.infinity,
+          constraints: const BoxConstraints(minHeight: kMinInteractiveDimension),
+          padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 10.rh),
+          decoration: BoxDecoration(
+            color: AppColors.grayWh,
+            borderRadius: BorderRadius.circular(10.rr),
+            border: Border.all(color: AppColors.gray),
+          ),
+          child: fleetNumbers.isEmpty
+              ? AppText('-', fontSize: 14.rsp, color: AppColors.grayAsh)
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: fleetNumbers
+                      .map((msisdn) => Padding(
+                            padding: EdgeInsets.only(bottom: 4.rh),
+                            child: PhoneNumberWidget(phone: msisdn),
+                          ))
+                      .toList(),
+                ),
+        ),
+      ],
     );
   }
 }

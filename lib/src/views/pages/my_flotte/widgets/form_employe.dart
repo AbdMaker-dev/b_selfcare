@@ -1,13 +1,16 @@
 import 'package:b_selfcare/singleton.dart';
+import 'package:b_selfcare/src/data/models/flotte_number/flotte_number_model.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_validators.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/cubit/flotte_number/flotte_number_cubit.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/select_option/multi_select_field.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_field.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_option_model.dart';
 import 'package:flutter/material.dart';
@@ -60,14 +63,15 @@ class FormEmploye extends StatefulWidget {
 
 class _FormEmployeState extends State<FormEmploye> {
   final groupCubit = getIt<GroupCubit>();
+  final flotteNumberCubit = getIt<FlotteNumberCubit>();
 
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _positionController = TextEditingController();
 
   int? _selectedGroupId;
+  List<int> _selectedFleetNumberIds = [];
   final _formKey = GlobalKey<FormState>();
   int _formSectionKey = 0;
 
@@ -75,6 +79,7 @@ class _FormEmployeState extends State<FormEmploye> {
   void initState() {
     super.initState();
     groupCubit.getGroups(data: {'page': 1});
+    flotteNumberCubit.getNumbers(data: {"status":"UNASSIGNED"});
   }
 
   @override
@@ -82,7 +87,6 @@ class _FormEmployeState extends State<FormEmploye> {
     _firstNameController.dispose();
     _lastNameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
     _positionController.dispose();
     super.dispose();
   }
@@ -92,21 +96,27 @@ class _FormEmployeState extends State<FormEmploye> {
     _firstNameController.clear();
     _lastNameController.clear();
     _emailController.clear();
-    _phoneController.clear();
     _positionController.clear();
     setState(() {
       _selectedGroupId = null;
+      _selectedFleetNumberIds = [];
       _formSectionKey++;
     });
   }
 
   void _submit() {
     final formValid = _formKey.currentState?.validate() ?? false;
+    final missing = <String>[];
+    if (_selectedFleetNumberIds.isEmpty) missing.add('Numéros de téléphone');
 
-    if (!formValid) {
+    if (!formValid || missing.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Veuillez corriger les erreurs du formulaire'),
+          content: Text(
+            missing.isNotEmpty
+                ? 'Champs obligatoires manquants : ${missing.join(', ')}'
+                : 'Veuillez corriger les erreurs du formulaire',
+          ),
           backgroundColor: AppColors.error,
         ),
       );
@@ -117,7 +127,7 @@ class _FormEmployeState extends State<FormEmploye> {
       'first_name': _firstNameController.text.trim(),
       'last_name': _lastNameController.text.trim(),
       'email': _emailController.text.trim(),
-      'phone': _phoneController.text.trim(),
+      'fleet_number_ids': _selectedFleetNumberIds,
       'position': _positionController.text.trim(),
       if (_selectedGroupId != null) 'group_id': _selectedGroupId,
     });
@@ -199,13 +209,30 @@ class _FormEmployeState extends State<FormEmploye> {
                     ),
                     SizedBox(width: 16.rw),
                     Expanded(
-                      child: AppInput(
-                        labelText: 'Téléphone',
-                        keyboardType: TextInputType.phone,
-                        controller: _phoneController,
-                        hintText: 'Ex: +221 76 000 00 00',
-                        validator: (v) =>
-                            (v == null || v.trim().isEmpty) ? 'Le téléphone est obligatoire' : null,
+                      child: BlocBuilder<FlotteNumberCubit, FlotteNumberState>(
+                        bloc: flotteNumberCubit,
+                        builder: (context, numberState) {
+                          List<FlotteNumberModel> numbers = [];
+                          if (numberState is GetNumbersLoaded) {
+                            numbers = numberState.data.data?.numbers ?? [];
+                          }
+                          final options = numbers
+                              .map((n) => SelectOptionModel<int>(
+                                    label: n.msisdn ?? '---',
+                                    value: n.id ?? 0,
+                                  ))
+                              .toList();
+                          return MultiSelectField<int>(
+                            label: 'Numéros de téléphone',
+                            placeholder: numberState is GetNumbersLoading
+                                ? 'Chargement...'
+                                : 'Choisir des numéros',
+                            options: options,
+                            onChanged: (selected) => setState(() =>
+                                _selectedFleetNumberIds =
+                                    selected.map((o) => o.value).toList()),
+                          );
+                        },
                       ),
                     ),
                   ],

@@ -12,7 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class InfoFlotteCard extends StatelessWidget {
   final String name;
   final String department;
-  final String phone;
+  final List<String> fleetNumbers;
   final String forfait;
   final bool status;
 
@@ -20,7 +20,7 @@ class InfoFlotteCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.department,
-    required this.phone,
+    required this.fleetNumbers,
     required this.forfait,
     required this.status,
   });
@@ -72,7 +72,9 @@ class InfoFlotteCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 16.rh),
-            PhoneNumberWidget(phone: phone),
+            PhoneNumberWidget(
+              phone: fleetNumbers.isEmpty ? '-' : fleetNumbers.join(' | '),
+            ),
              SizedBox(height: 16.rh),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

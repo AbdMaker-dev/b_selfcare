@@ -5,36 +5,44 @@ import 'package:flutter/material.dart';
 
 class CellBadgeTable extends StatelessWidget {
   final String label;
-  final Color bg, fg, dot;
-  const CellBadgeTable({super.key, required this.label, required this.bg, required this.fg, required this.dot});
+  final Color color;
 
-  factory CellBadgeTable.actif()     =>  CellBadgeTable(label: 'Actif',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
-  factory CellBadgeTable.active()     =>  CellBadgeTable(label: 'ACTIVE',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
-  factory CellBadgeTable.success()     =>  CellBadgeTable(label: 'Succès',      bg: AppColors.greenMint, fg: AppColors.green, dot: AppColors.greenOlive);
-  factory CellBadgeTable.suspendu()  =>  CellBadgeTable(label: 'Suspendu',   bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
-  factory CellBadgeTable.cancelled()  =>  CellBadgeTable(label: 'cancelled',   bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
-  factory CellBadgeTable.enAttente() =>  CellBadgeTable(label: 'En attente', bg: AppColors.amberCream, fg: AppColors.amberBrown, dot: AppColors.amberGold);
-  factory CellBadgeTable.inactif()   =>  CellBadgeTable(label: 'Inactif',    bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
-  factory CellBadgeTable.inactive()   =>  CellBadgeTable(label: 'INACTIVE',    bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
-  factory CellBadgeTable.echec()   =>  CellBadgeTable(label: 'Echec',    bg: AppColors.orangePeach, fg: AppColors.orangeBurnt, dot: AppColors.orangeFire);
+  const CellBadgeTable({super.key, required this.label, required this.color});
+
+  factory CellBadgeTable.actif()     => CellBadgeTable(label: 'Actif',      color: AppColors.success);
+  factory CellBadgeTable.active()    => CellBadgeTable(label: 'ACTIVE',     color: AppColors.success);
+  factory CellBadgeTable.success()   => CellBadgeTable(label: 'Succès',     color: AppColors.success);
+  factory CellBadgeTable.suspendu()  => CellBadgeTable(label: 'Suspendu',   color: AppColors.error);
+  factory CellBadgeTable.cancelled() => CellBadgeTable(label: 'Annulé',     color: AppColors.error);
+  factory CellBadgeTable.enAttente() => CellBadgeTable(label: 'En attente', color: AppColors.warning);
+  factory CellBadgeTable.inactif()   => CellBadgeTable(label: 'Inactif',    color: AppColors.error);
+  factory CellBadgeTable.inactive()  => CellBadgeTable(label: 'INACTIVE',   color: AppColors.error);
+  factory CellBadgeTable.echec()     => CellBadgeTable(label: 'Echec',      color: AppColors.error);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding:  EdgeInsets.symmetric(horizontal: 8.rw, vertical: 3.rh),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(99.rr)),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withOpacity(0.25)),
+      ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(width: 5.rw, height: 5.rh, decoration: BoxDecoration(color: dot, shape: BoxShape.circle)),
+          Container(
+            width: 5.rw,
+            height: 5.rh,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
           SizedBox(width: 5.rw),
           AppText(
             label,
-            fontSize: 11.rsp,
-            fontWeight: FontWeight.w600,
-            color: fg,
-            type: AppTextType.heading,
+            fontSize: 10.5.rsp,
+            fontWeight: FontWeight.w700,
+            color: color,
           ),
         ],
       ),

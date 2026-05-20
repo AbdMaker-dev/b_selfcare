@@ -22,6 +22,34 @@ class FormGroupe extends StatefulWidget {
     this.onCreated,
   });
 
+  static void show(
+    BuildContext context, {
+    required GroupCubit groupCubit,
+    VoidCallback? onCreated,
+  }) {
+    showDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      builder: (_) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.rr),
+        ),
+        child: SizedBox(
+          width: 700,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.all(24.rw),
+            child: FormGroupe(
+              groupCubit: groupCubit,
+              onCreated: onCreated,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   State<FormGroupe> createState() => _FormGroupeState();
 }
@@ -107,7 +135,7 @@ class _FormGroupeState extends State<FormGroupe> {
       listener: (context, state) {
         state.maybeWhen(
           createGroupeLoaded: (_) {
-            reset();
+            Navigator.of(context, rootNavigator: true).pop();
             widget.onCreated?.call();
           },
           createGroupeFailed: (message){},

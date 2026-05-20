@@ -1,78 +1,74 @@
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
-import 'package:b_selfcare/src/views/widgets/select_option/cubit/select_option_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_option_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SelectField<T> extends StatelessWidget {
+class MultiSelectField<T> extends StatefulWidget {
   final String label;
   final List<SelectOptionModel<T>> options;
   final String placeholder;
-  final ValueChanged<SelectOptionModel<T>>? onChanged;
-  final SelectOptionModel<T>? initialValue;
+  final List<T> initialValues;
+  final ValueChanged<List<SelectOptionModel<T>>>? onChanged;
 
-  const SelectField({
+  const MultiSelectField({
     super.key,
     required this.label,
     required this.options,
     this.placeholder = 'Sélectionner...',
-    this.onChanged,
-    this.initialValue,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) {
-        final cubit = SelectCubit();
-        if (initialValue != null) cubit.select(initialValue!);
-        return cubit;
-      },
-      child: _SelectFieldView<T>(
-        label: label,
-        options: options,
-        placeholder: placeholder,
-        onChanged: onChanged,
-      ),
-    );
-  }
-}
-
-class _SelectFieldView<T> extends StatefulWidget {
-  final String label;
-  final List<SelectOptionModel<T>> options;
-  final String placeholder;
-  final ValueChanged<SelectOptionModel<T>>? onChanged;
-
-  const _SelectFieldView({
-    required this.label,
-    required this.options,
-    required this.placeholder,
+    this.initialValues = const [],
     this.onChanged,
   });
 
   @override
-  State<_SelectFieldView<T>> createState() => _SelectFieldViewState<T>();
+  State<MultiSelectField<T>> createState() => _MultiSelectFieldState<T>();
 }
 
-class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
+class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _triggerKey = GlobalKey();
-  OverlayEntry? _overlayEntry;
   final TextEditingController _searchController = TextEditingController();
+  OverlayEntry? _overlayEntry;
+
+  late List<T> _selected;
+  bool _isOpen = false;
 
   bool get _isSearchable => widget.options.length > 7;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = List<T>.from(widget.initialValues);
+  }
+
+  @override
+  void dispose() {
+    _removeOverlay();
+    _searchController.dispose();
+    super.dispose();
+  }
 
   double get _triggerWidth {
     final box = _triggerKey.currentContext?.findRenderObject() as RenderBox?;
     return box?.size.width ?? 200;
   }
 
-  void _showOverlay(SelectOptionModel? selected) {
+  void _toggleOption(SelectOptionModel<T> opt) {
+    setState(() {
+      if (_selected.contains(opt.value)) {
+        _selected.remove(opt.value);
+      } else {
+        _selected.add(opt.value);
+      }
+    });
+    final selectedOpts =
+        widget.options.where((o) => _selected.contains(o.value)).toList();
+    widget.onChanged?.call(selectedOpts);
+    _rebuildOverlay();
+  }
+
+  void _showOverlay() {
     _removeOverlay();
-    final cubit = context.read<SelectCubit>();
     final width = _triggerWidth;
     final searchable = _isSearchable;
 
@@ -82,7 +78,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
           Positioned.fill(
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
-              onTap: cubit.dismiss,
+              onTap: _closeOverlay,
             ),
           ),
           CompositedTransformFollower(
@@ -114,7 +110,8 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                       final query = _searchController.text.toLowerCase();
                       final filtered = searchable
                           ? widget.options
-                              .where((o) => o.label.toLowerCase().contains(query))
+                              .where(
+                                  (o) => o.label.toLowerCase().contains(query))
                               .toList()
                           : widget.options;
 
@@ -123,7 +120,8 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                         children: [
                           if (searchable)
                             Padding(
-                              padding: EdgeInsets.fromLTRB(10.rw, 10.rh, 10.rw, 4.rh),
+                              padding:
+                                  EdgeInsets.fromLTRB(10.rw, 10.rh, 10.rw, 4.rh),
                               child: TextField(
                                 controller: _searchController,
                                 autofocus: true,
@@ -149,15 +147,18 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                                   fillColor: AppColors.grayWh,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.rr),
-                                    borderSide: BorderSide(color: AppColors.gray),
+                                    borderSide:
+                                        BorderSide(color: AppColors.gray),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.rr),
-                                    borderSide: BorderSide(color: AppColors.gray),
+                                    borderSide:
+                                        BorderSide(color: AppColors.gray),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.rr),
-                                    borderSide: BorderSide(color: AppColors.greyCharcoal),
+                                    borderSide: BorderSide(
+                                        color: AppColors.greyCharcoal),
                                   ),
                                 ),
                               ),
@@ -169,7 +170,8 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                                 children: filtered.isEmpty
                                     ? [
                                         Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 16.rh),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 16.rh),
                                           child: AppText(
                                             'Aucun résultat',
                                             fontSize: 13.rsp,
@@ -178,11 +180,12 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                                         ),
                                       ]
                                     : filtered.map((opt) {
-                                        final isSelected = selected?.value == opt.value;
+                                        final isChecked =
+                                            _selected.contains(opt.value);
                                         return GestureDetector(
                                           onTap: () {
-                                            cubit.select(opt);
-                                            widget.onChanged?.call(opt);
+                                            _toggleOption(opt);
+                                            setOverlayState(() {});
                                           },
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
@@ -190,7 +193,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                                               vertical: 10.rh,
                                             ),
                                             decoration: BoxDecoration(
-                                              color: isSelected
+                                              color: isChecked
                                                   ? AppColors.grayGh
                                                   : Colors.transparent,
                                             ),
@@ -199,31 +202,50 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                                                 Expanded(
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       AppText(
                                                         opt.label,
                                                         fontSize: 14.rsp,
-                                                        fontWeight: isSelected
+                                                        fontWeight: isChecked
                                                             ? FontWeight.w600
                                                             : FontWeight.normal,
-                                                        color: AppColors.textHeading,
+                                                        color:
+                                                            AppColors.textHeading,
                                                       ),
                                                       if (opt.subtitle != null)
                                                         AppText(
                                                           opt.subtitle!,
                                                           fontSize: 12.rsp,
-                                                          color: AppColors.grayAsh,
+                                                          color:
+                                                              AppColors.grayAsh,
                                                         ),
                                                     ],
                                                   ),
                                                 ),
-                                                if (isSelected)
-                                                  Icon(
-                                                    Icons.check_rounded,
-                                                    size: 18,
-                                                    color: AppColors.greyCharcoal,
-                                                  ),
+                                                AnimatedSwitcher(
+                                                  duration: const Duration(
+                                                      milliseconds: 150),
+                                                  child: isChecked
+                                                      ? Icon(
+                                                          Icons.check_box_rounded,
+                                                          key: const ValueKey(
+                                                              true),
+                                                          size: 18,
+                                                          color: AppColors
+                                                              .greyCharcoal,
+                                                        )
+                                                      : Icon(
+                                                          Icons
+                                                              .check_box_outline_blank_rounded,
+                                                          key: const ValueKey(
+                                                              false),
+                                                          size: 18,
+                                                          color:
+                                                              AppColors.grayAsh,
+                                                        ),
+                                                ),
                                               ],
                                             ),
                                           ),
@@ -247,101 +269,104 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
     Overlay.of(context).insert(_overlayEntry!);
   }
 
+  void _rebuildOverlay() {
+    if (_isOpen) {
+      _overlayEntry?.markNeedsBuild();
+    }
+  }
+
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
     _searchController.clear();
   }
 
-  @override
-  void dispose() {
+  void _closeOverlay() {
     _removeOverlay();
-    _searchController.dispose();
-    super.dispose();
+    setState(() => _isOpen = false);
+  }
+
+  void _toggle() {
+    if (_isOpen) {
+      _closeOverlay();
+    } else {
+      setState(() => _isOpen = true);
+      _showOverlay();
+    }
+  }
+
+  String get _triggerLabel {
+    if (_selected.isEmpty) return widget.placeholder;
+    if (_selected.length == 1) {
+      return widget.options
+              .firstWhere(
+                (o) => o.value == _selected.first,
+                orElse: () => SelectOptionModel(
+                    label: _selected.first.toString(),
+                    value: _selected.first),
+              )
+              .label;
+    }
+    return '${_selected.length} numéros sélectionnés';
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SelectCubit, SelectState>(
-      listener: (ctx, state) {
-        final isOpen = state.mapOrNull(open: (_) => true) ?? false;
-        final selected = state.mapOrNull(
-          open: (s) => s.selected,
-          chosen: (s) => s.option,
-        );
-        if (isOpen) {
-          _showOverlay(selected);
-        } else {
-          _removeOverlay();
-        }
-      },
-      child: BlocBuilder<SelectCubit, SelectState>(
-        builder: (ctx, state) {
-          final isOpen = state.mapOrNull(open: (_) => true) ?? false;
-          final selected = state.mapOrNull(
-            open: (s) => s.selected,
-            chosen: (s) => s.option,
-          );
+    final hasSelection = _selected.isNotEmpty;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppText(
-                widget.label.toUpperCase(),
-                color: AppColors.grayAsh,
-                fontWeight: FontWeight.w600,
-                fontSize: 10.rsp,
-              ),
-              SizedBox(height: 6.rh),
-              CompositedTransformTarget(
-                link: _layerLink,
-                child: GestureDetector(
-                  onTap: () => ctx.read<SelectCubit>().toggleOpen(),
-                  child: AnimatedContainer(
-                    key: _triggerKey,
-                    duration: const Duration(milliseconds: 200),
-                    constraints: const BoxConstraints(
-                        minHeight: kMinInteractiveDimension),
-                    padding: EdgeInsets.symmetric(horizontal: 14.rw),
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      color: AppColors.grayWh,
-                      borderRadius: BorderRadius.circular(10.rr),
-                      border: Border.all(
-                        color: isOpen
-                            ? AppColors.greyCharcoal
-                            : AppColors.gray,
-                      ),
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: AppText(
-                            selected?.label ?? widget.placeholder,
-                            fontSize: 14.rsp,
-                            color: selected != null
-                                ? AppColors.textHeading
-                                : AppColors.grayAsh,
-                          ),
-                        ),
-                        AnimatedRotation(
-                          turns: isOpen ? 0.5 : 0,
-                          duration: const Duration(milliseconds: 200),
-                          child: Icon(
-                            Icons.keyboard_arrow_down_rounded,
-                            color: AppColors.grayAsh,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AppText(
+          widget.label.toUpperCase(),
+          color: AppColors.grayAsh,
+          fontWeight: FontWeight.w600,
+          fontSize: 10.rsp,
+        ),
+        SizedBox(height: 6.rh),
+        CompositedTransformTarget(
+          link: _layerLink,
+          child: GestureDetector(
+            onTap: _toggle,
+            child: AnimatedContainer(
+              key: _triggerKey,
+              duration: const Duration(milliseconds: 200),
+              constraints:
+                  const BoxConstraints(minHeight: kMinInteractiveDimension),
+              padding: EdgeInsets.symmetric(horizontal: 14.rw),
+              alignment: Alignment.centerLeft,
+              decoration: BoxDecoration(
+                color: AppColors.grayWh,
+                borderRadius: BorderRadius.circular(10.rr),
+                border: Border.all(
+                  color: _isOpen ? AppColors.greyCharcoal : AppColors.gray,
                 ),
               ),
-            ],
-          );
-        },
-      ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: AppText(
+                      _triggerLabel,
+                      fontSize: 14.rsp,
+                      color:
+                          hasSelection ? AppColors.textHeading : AppColors.grayAsh,
+                    ),
+                  ),
+                  AnimatedRotation(
+                    turns: _isOpen ? 0.5 : 0,
+                    duration: const Duration(milliseconds: 200),
+                    child: Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: AppColors.grayAsh,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -17,10 +17,10 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
   List<({String label, int flex})> get columns => [
     (label: 'Employé',   flex: 5),
     (label: 'Poste',     flex: 4),
-    (label: 'Téléphone', flex: 4),
+    (label: 'Lignes',    flex: 4),
     (label: 'Numéros',   flex: 4),
     (label: 'Groupe',   flex: 4),
-    (label: 'Statut',    flex: 2),
+    (label: 'Statut',    flex: 3),
     (label: 'Actions',   flex: 4),
   ];
 
@@ -31,7 +31,11 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
       sub: e.position,
     ),
     CellTextTable(text: e.position ?? '-'),
-    CellTextTable(text: e.phone ?? '-'),
+    CellTextTable(
+      text: (e.fleetNumbers?.isNotEmpty == true)
+          ? e.fleetNumbers!.map((f) => f.msisdn ?? '').join('\n')
+          : '-',
+    ),
     CellTextTable(text: '${e.fleetNumbersCount ?? 0} numéros'),
     CellTextTable(text: e.group?.name ?? '-'),
     _statusBadge(e.status),
