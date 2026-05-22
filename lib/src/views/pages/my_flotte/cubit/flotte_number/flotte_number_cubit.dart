@@ -32,7 +32,7 @@ class FlotteNumberCubit extends Cubit<FlotteNumberState> {
     );
   }
 
-  Future<void> suspendNumber({required int id, required dynamic data}) async {
+  Future<void> suspendNumber({required int id, dynamic data}) async {
     emit(const FlotteNumberState.suspendNumberLoading());
     final res = await numberUsecase.suspendNumber(id: id, data: data);
     res.fold(
@@ -41,7 +41,7 @@ class FlotteNumberCubit extends Cubit<FlotteNumberState> {
     );
   }
 
-  Future<void> reactivateNumber({required int id, required dynamic data}) async {
+  Future<void> reactivateNumber({required int id, dynamic data}) async {
     emit(const FlotteNumberState.reactivateNumberLoading());
     final res = await numberUsecase.reactivateNumber(id: id, data: data);
     res.fold(

@@ -5,6 +5,7 @@ import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/campagne/cubit/campagne_cubit.dart';
+import 'package:b_selfcare/src/views/pages/campagne/widgets/detail_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/form_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_campagne.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_historique_campagne.dart';
@@ -156,6 +157,11 @@ class _CampagneScreenState extends State<CampagneScreen> {
                 title: s.myCampagne,
                 source: SourceCampagne(
                   rows: campaigns,
+                  onDetail: (campaign) => DetailCampagne.show(
+                    context,
+                    campaign: campaign,
+                    campagneCubit: campagne,
+                  ),
                   onExecute: (campaign, execute) {
                     if (campaign.id == null) return;
                     campagne.executeCampaigns(id: campaign.id!, execute: execute);

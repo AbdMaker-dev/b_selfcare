@@ -5,6 +5,7 @@ import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/app_date_field.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_field.dart';
@@ -37,7 +38,7 @@ class FormEditGroupe extends StatefulWidget {
           borderRadius: BorderRadius.circular(12.rr),
         ),
         child: SizedBox(
-          width: 700,
+          width: 700.rw,
           child: SingleChildScrollView(
             padding: EdgeInsets.all(24.rw),
             child: FormEditGroupe(
@@ -61,6 +62,13 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
 
   String? _selectedProductId;
   bool _removeProduct = false;
+
+  String? _selectedFrequency;
+  String? _selectedDayWeek;
+  String? _selectedDayMonth;
+  DateTime? _selectedStartDate;
+  DateTime? _selectedEndDate;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -69,7 +77,21 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
     _nameController = TextEditingController(text: widget.groupe.name ?? '');
     _descriptionController = TextEditingController(text: widget.groupe.description ?? '');
     _selectedProductId = widget.groupe.productId?.toString();
+    _selectedFrequency = widget.groupe.campaign?.frequency;
+    _selectedDayWeek = widget.groupe.campaign?.dayOfWeek?.toString();
+    _selectedDayMonth = widget.groupe.campaign?.dayOfMonth?.toString();
+    _selectedStartDate = _parseDate(widget.groupe.campaign?.startDate);
+    _selectedEndDate = _parseDate(widget.groupe.campaign?.endDate);
     productsCubit.fetchProducts();
+  }
+
+  DateTime? _parseDate(String? iso) {
+    if (iso == null || iso.isEmpty) return null;
+    try {
+      return DateTime.parse(iso);
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
@@ -94,6 +116,13 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
         if (!_removeProduct && _selectedProductId != null)
           'product_id': int.tryParse(_selectedProductId!),
         'remove_product': _removeProduct,
+        if (_selectedFrequency != null) 'frequency': _selectedFrequency,
+        if (_selectedFrequency == 'WEEKLY' && _selectedDayWeek != null)
+          'day_of_week': int.tryParse(_selectedDayWeek!),
+        if (_selectedFrequency == 'MONTHLY' && _selectedDayMonth != null)
+          'day_of_month': int.tryParse(_selectedDayMonth!),
+        if (_selectedStartDate != null) 'start_date': _selectedStartDate!.toIso8601String(),
+        if (_selectedEndDate != null) 'end_date': _selectedEndDate!.toIso8601String(),
       },
     );
   }
@@ -128,6 +157,8 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                 color: AppColors.primary,
               ),
               SizedBox(height: 20.rh),
+
+              // Nom + Description
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -153,6 +184,8 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                 ],
               ),
               SizedBox(height: 20.rh),
+
+              // Produit + toggle retrait
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -167,8 +200,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                                 ))
                             .toList();
 
-                        final currentProduct = widget.groupe.product;
-                        final initialLabel = currentProduct?.name;
+                        final initialLabel = widget.groupe.product?.name;
 
                         return Opacity(
                           opacity: _removeProduct ? 0.4 : 1.0,
@@ -201,7 +233,110 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                   ),
                 ],
               ),
+              SizedBox(height: 20.rh),
+
+              // Fréquence
+              Row(
+                children: [
+                  Expanded(
+                    child: SelectField<String>(
+                      label: 'Fréquence',
+                      placeholder: _selectedFrequency != null
+                          ? _frequencyLabel(_selectedFrequency!)
+                          : 'Choisir une fréquence',
+                      options: const [
+                        SelectOptionModel(label: 'DAILY - Quotidien',     value: 'DAILY'),
+                        SelectOptionModel(label: 'WEEKLY - Hebdomadaire', value: 'WEEKLY'),
+                        SelectOptionModel(label: 'MONTHLY - Mensuel',     value: 'MONTHLY'),
+                      ],
+                      onChanged: (opt) => setState(() {
+                        _selectedFrequency = opt.value;
+                        _selectedDayWeek = null;
+                        _selectedDayMonth = null;
+                      }),
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                ],
+              ),
+
+              // Jour semaine (WEEKLY)
+              if (_selectedFrequency == 'WEEKLY') ...[
+                SizedBox(height: 20.rh),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SelectField<String>(
+                        label: 'Jour de la semaine',
+                        placeholder: _selectedDayWeek != null
+                            ? _dayWeekLabel(_selectedDayWeek!)
+                            : 'Choisir un jour',
+                        options: const [
+                          SelectOptionModel(label: 'Lundi',    value: '1'),
+                          SelectOptionModel(label: 'Mardi',    value: '2'),
+                          SelectOptionModel(label: 'Mercredi', value: '3'),
+                          SelectOptionModel(label: 'Jeudi',    value: '4'),
+                          SelectOptionModel(label: 'Vendredi', value: '5'),
+                          SelectOptionModel(label: 'Samedi',   value: '6'),
+                          SelectOptionModel(label: 'Dimanche', value: '7'),
+                        ],
+                        onChanged: (opt) => setState(() => _selectedDayWeek = opt.value),
+                      ),
+                    ),
+                    const Expanded(child: SizedBox()),
+                  ],
+                ),
+              ],
+
+              // Jour du mois (MONTHLY)
+              if (_selectedFrequency == 'MONTHLY') ...[
+                SizedBox(height: 20.rh),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SelectField<String>(
+                        label: 'Jour du mois',
+                        placeholder: _selectedDayMonth != null
+                            ? _selectedDayMonth!
+                            : 'Choisir un jour (1–31)',
+                        options: List.generate(
+                          31,
+                          (i) => SelectOptionModel(label: '${i + 1}', value: '${i + 1}'),
+                        ),
+                        onChanged: (opt) => setState(() => _selectedDayMonth = opt.value),
+                      ),
+                    ),
+                    const Expanded(child: SizedBox()),
+                  ],
+                ),
+              ],
+
+              SizedBox(height: 20.rh),
+
+              // Dates
+              Row(
+                children: [
+                  Expanded(
+                    child: AppDateField(
+                      label: 'Date de début',
+                      required: false,
+                      initialDate: _selectedStartDate,
+                      onChanged: (date) => setState(() => _selectedStartDate = date),
+                    ),
+                  ),
+                  SizedBox(width: 16.rw),
+                  Expanded(
+                    child: AppDateField(
+                      label: 'Date de fin',
+                      optional: true,
+                      initialDate: _selectedEndDate,
+                      onChanged: (date) => setState(() => _selectedEndDate = date),
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(height: 24.rh),
+
               SizedBox(
                 width: 250.rw,
                 child: BlocBuilder<GroupCubit, GroupState>(
@@ -222,6 +357,23 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
         ),
       ),
     );
+  }
+
+  String _frequencyLabel(String value) {
+    switch (value) {
+      case 'DAILY':   return 'DAILY - Quotidien';
+      case 'WEEKLY':  return 'WEEKLY - Hebdomadaire';
+      case 'MONTHLY': return 'MONTHLY - Mensuel';
+      default:        return value;
+    }
+  }
+
+  String _dayWeekLabel(String value) {
+    const labels = {
+      '1': 'Lundi', '2': 'Mardi', '3': 'Mercredi',
+      '4': 'Jeudi', '5': 'Vendredi', '6': 'Samedi', '7': 'Dimanche',
+    };
+    return labels[value] ?? value;
   }
 }
 
@@ -262,7 +414,8 @@ class _RemoveProductToggle extends StatelessWidget {
                 Switch(
                   value: value,
                   onChanged: onChanged,
-                  activeColor: AppColors.error,
+                  activeThumbColor: AppColors.error,
+                  activeTrackColor: AppColors.error.withValues(alpha: 0.3),
                 ),
                 SizedBox(width: 8.rw),
                 AppText(

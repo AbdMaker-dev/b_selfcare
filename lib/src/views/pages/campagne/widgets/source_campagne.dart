@@ -9,9 +9,13 @@ import 'package:flutter/material.dart';
 class SourceCampagne extends AppTableSource<CampaignModel> {
   @override
   final List<CampaignModel> rows;
+  final void Function(CampaignModel)? onDetail;
   final void Function(CampaignModel, String execute)? onExecute;
 
-  SourceCampagne({required this.rows, this.onExecute});
+  SourceCampagne({required this.rows, this.onDetail, this.onExecute});
+
+  @override
+  void onRowTap(BuildContext context, CampaignModel item) => onDetail?.call(item);
 
   @override
   List<({String label, int flex})> get columns => [

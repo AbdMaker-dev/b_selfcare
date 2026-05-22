@@ -4,6 +4,7 @@ import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart'
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/confirm_delete_groupe.dart';
+import 'package:b_selfcare/src/views/pages/groupe/widgets/detail_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_edit_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/source_groupe.dart';
@@ -132,6 +133,11 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                 title: 'Mes groupes',
                 source: SourceGroupe(
                   rows: groups,
+                  onDetail: (groupe) => DetailGroupe.show(
+                    context,
+                    groupe: groupe,
+                    groupCubit: groupCubit,
+                  ),
                   onEdit: (groupe) => FormEditGroupe.show(
                     context,
                     groupe: groupe,
