@@ -6,6 +6,7 @@ import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_disable_employe.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/detail_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/source_employe.dart';
@@ -196,6 +197,11 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                 title: s.flotteComplete,
                 source: SourceEmployes(
                   rows: employees,
+                  onDetail: (e) => DetailEmploye.show(
+                    context,
+                    employee: e,
+                    myFlotteCubit: myFlotte,
+                  ),
                   onEdit: (e) => FormEditEmploye.show(
                     context,
                     employee: e,

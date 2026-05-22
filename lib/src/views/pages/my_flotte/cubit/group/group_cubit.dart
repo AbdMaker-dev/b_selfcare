@@ -1,6 +1,8 @@
+import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
+import 'package:b_selfcare/src/data/models/group/data_import_response_model.dart';
 import 'package:b_selfcare/src/domain/usecases/group_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -47,6 +49,19 @@ class GroupCubit extends Cubit<GroupState> {
     res.fold(
       (failure) => emit(GroupState.deleteGroupeFailed(failure.message)),
       (data) => emit(GroupState.deleteGroupeLoaded(data: data)),
+    );
+  }
+
+  Future<void> importEmployeInGroupe({
+    required int id,
+    required Uint8List file,
+    required String fileName,
+  }) async {
+    emit(const GroupState.importEmployeLoading());
+    final res = await groupUsecase.importEmployeInGroupe(id: id, file: file, fileName: fileName);
+    res.fold(
+      (failure) => emit(GroupState.importEmployeFailed(failure.message)),
+      (data) => emit(GroupState.importEmployeLoaded(data: data)),
     );
   }
 }

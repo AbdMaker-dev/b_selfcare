@@ -15,4 +15,7 @@ class GroupState with _$GroupState {
   const factory GroupState.deleteGroupeLoading() = DeleteGroupeLoading;
   const factory GroupState.deleteGroupeLoaded({required DataResponseModel data}) = DeleteGroupeLoaded;
   const factory GroupState.deleteGroupeFailed(String message) = DeleteGroupeFailed;
+  const factory GroupState.importEmployeLoading() = ImportEmployeLoading;
+  const factory GroupState.importEmployeLoaded({required DataImportResponseModel data}) = ImportEmployeLoaded;
+  const factory GroupState.importEmployeFailed(String message) = ImportEmployeFailed;
 }

@@ -107,6 +107,12 @@ class _SideMenuListState extends State<SideMenuList> {
           onSelect: () => context.router.pushPath('$routeApp/$routeAppGroups'),
         ),
         CustomItemMenu(
+          title: "Mes tels",
+          icon: Icons.numbers,
+          isActive: context.router.currentUrl.contains("tels"),
+          onSelect: () => context.router.pushPath('$routeApp/$routeAppNumbers'),
+        ),
+        CustomItemMenu(
           title: "Mes campagnes",
           icon: Icons.dashboard,
           isActive: context.router.currentUrl.contains("campagnes"),

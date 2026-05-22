@@ -1,9 +1,12 @@
+import 'dart:typed_data';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
+import 'package:b_selfcare/src/data/models/group/data_import_response_model.dart';
 import 'package:b_selfcare/src/data/services/http_helper.dart';
 import 'package:b_selfcare/src/data/services/local_helper.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -59,6 +62,35 @@ class GroupRepo {
       },
           (success) async{
         var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
+  Future<Either<Failure, DataImportResponseModel>> importEmployeInGroupe({
+    required int id,
+    required Uint8List file,
+    required String fileName,
+  }) async {
+    FormData formData = FormData.fromMap({
+      "file": MultipartFile.fromBytes(
+        file,
+        filename: fileName,
+      ),
+    });
+
+    var res = await htttHelper.handleFormDataPostRequest(
+      "fleet/groups/$id/employees/import",
+      formData,
+      showLoader: true,
+    );
+
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async {
+        var data = DataImportResponseModel.fromJson(success.response);
         return Right(data);
       },
     );
