@@ -8,10 +8,14 @@ import 'package:flutter/material.dart';
 class SourceEmployes extends AppTableSource<EmployeeModel> {
   @override
   final List<EmployeeModel> rows;
+  final void Function(EmployeeModel)? onDetail;
   final void Function(EmployeeModel)? onEdit;
   final void Function(EmployeeModel)? onDisable;
 
-  SourceEmployes({required this.rows, this.onEdit, this.onDisable});
+  SourceEmployes({required this.rows, this.onDetail, this.onEdit, this.onDisable});
+
+  @override
+  void onRowTap(BuildContext context, EmployeeModel item) => onDetail?.call(item);
 
   @override
   List<({String label, int flex})> get columns => [

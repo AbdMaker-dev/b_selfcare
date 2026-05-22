@@ -46,7 +46,7 @@ class NumberUsecase {
     );
   }
 
-  Future<Either<Failure, DataResponseModel>> reactivateNumber({required int id,required dynamic data}) async {
+  Future<Either<Failure, DataResponseModel>> reactivateNumber({required int id, required dynamic data}) async {
     var res = await numeroRepo.reactivateNumber(data: data, id: id);
     return res.fold(
           (error) {

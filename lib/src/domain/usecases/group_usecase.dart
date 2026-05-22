@@ -1,6 +1,8 @@
+import 'dart:typed_data';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
+import 'package:b_selfcare/src/data/models/group/data_import_response_model.dart';
 import 'package:b_selfcare/src/data/repositories/group_repo.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -54,6 +56,18 @@ class GroupUsecase {
           (success) {
         return Right(success);
       },
+    );
+  }
+
+  Future<Either<Failure, DataImportResponseModel>> importEmployeInGroupe({
+    required int id,
+    required Uint8List file,
+    required String fileName,
+  }) async {
+    var res = await groupRepo.importEmployeInGroupe(id: id, file: file, fileName: fileName);
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(success),
     );
   }
 

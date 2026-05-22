@@ -39,7 +39,7 @@ class NumeroRepo {
   }
 
   Future<Either<Failure, DataResponseModel>> suspendNumber({required int id,required dynamic data}) async {
-    var res = await htttHelper.handlePostRequest("fleet/numbers/${id}/suspend",data,showLoader: true);
+    var res = await htttHelper.handlePostRequest("fleet/numbers/${id}/suspend",data ?? {},showLoader: true);
     return res.fold(
           (error) {
         return Left(error);
@@ -51,8 +51,8 @@ class NumeroRepo {
     );
   }
 
-  Future<Either<Failure, DataResponseModel>> reactivateNumber({required int id,required dynamic data}) async {
-    var res = await htttHelper.handlePostRequest("fleet/numbers/${id}/reactivate",data,showLoader: true);
+  Future<Either<Failure, DataResponseModel>> reactivateNumber({required int id, required dynamic data}) async {
+    var res = await htttHelper.handlePostRequest("fleet/numbers/${id}/reactivate",data ?? {}, showLoader: true);
     return res.fold(
           (error) {
         return Left(error);
