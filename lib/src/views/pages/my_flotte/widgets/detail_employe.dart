@@ -5,11 +5,14 @@ import 'package:b_selfcare/src/utils/app_date.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_disable_employe.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_remove_number.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_assign_employe_numbers.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/detail_components.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailEmploye extends StatelessWidget {
   final EmployeeModel employee;
@@ -27,35 +30,47 @@ class DetailEmploye extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DetailContainer(children: [
-      _Header(employee: employee),
-      SizedBox(height: 20.rh),
-      const DetailDivider(),
-      SizedBox(height: 20.rh),
-      _SectionInfos(employee: employee),
-      if (employee.group != null) ...[
+    return BlocListener<MyFlotteCubit, MyFlotteState>(
+      bloc: myFlotteCubit,
+      listener: (context, state) {
+        state.maybeWhen(
+          assignNumbersLoaded: (_) => Navigator.of(context, rootNavigator: true).pop(),
+          removeNumbersLoaded: (_) => Navigator.of(context, rootNavigator: true).pop(),
+          orElse: () {},
+        );
+      },
+      child: DetailContainer(children: [
+        _Header(employee: employee),
         SizedBox(height: 20.rh),
         const DetailDivider(),
         SizedBox(height: 20.rh),
-        _SectionGroupe(employee: employee),
-      ],
-      if (employee.group?.product != null) ...[
+        _SectionInfos(employee: employee),
+        if (employee.group != null) ...[
+          SizedBox(height: 20.rh),
+          const DetailDivider(),
+          SizedBox(height: 20.rh),
+          _SectionGroupe(employee: employee),
+        ],
+        if (employee.group?.product != null) ...[
+          SizedBox(height: 20.rh),
+          const DetailDivider(),
+          SizedBox(height: 20.rh),
+          DetailProductSection(product: employee.group!.product!),
+        ],
         SizedBox(height: 20.rh),
         const DetailDivider(),
         SizedBox(height: 20.rh),
-        DetailProductSection(product: employee.group!.product!),
-      ],
-      if (employee.fleetNumbers?.isNotEmpty == true) ...[
-        SizedBox(height: 20.rh),
+        _SectionNumeros(
+          fleetNumbers: employee.fleetNumbers ?? [],
+          employee: employee,
+          myFlotteCubit: myFlotteCubit,
+        ),
+        SizedBox(height: 24.rh),
         const DetailDivider(),
         SizedBox(height: 20.rh),
-        _SectionNumeros(fleetNumbers: employee.fleetNumbers!),
-      ],
-      SizedBox(height: 24.rh),
-      const DetailDivider(),
-      SizedBox(height: 20.rh),
-      _Actions(employee: employee, myFlotteCubit: myFlotteCubit),
-    ]);
+        _Actions(employee: employee, myFlotteCubit: myFlotteCubit),
+      ]),
+    );
   }
 }
 
@@ -222,20 +237,66 @@ class _SectionGroupe extends StatelessWidget {
 
 class _SectionNumeros extends StatelessWidget {
   final List<FleetNumberModel> fleetNumbers;
-  const _SectionNumeros({required this.fleetNumbers});
+  final EmployeeModel employee;
+  final MyFlotteCubit myFlotteCubit;
+  const _SectionNumeros({
+    required this.fleetNumbers,
+    required this.employee,
+    required this.myFlotteCubit,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DetailSectionTitle(label: 'Numéros fleet (${fleetNumbers.length})', icon: Icons.sim_card_outlined),
-        SizedBox(height: 10.rh),
-        Wrap(
-          spacing: 10.rw,
-          runSpacing: 8.rh,
-          children: fleetNumbers.map((f) => _NumeroBadge(fleet: f)).toList(),
+        Row(
+          children: [
+            Expanded(
+              child: DetailSectionTitle(
+                label: 'Numéros fleet (${fleetNumbers.length})',
+                icon: Icons.sim_card_outlined,
+              ),
+            ),
+            GestureDetector(
+              onTap: () => FormAssignEmployeNumbers.show(
+                context,
+                employee: employee,
+                myFlotteCubit: myFlotteCubit,
+              ),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 4.rh),
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.08),
+                  borderRadius: BorderRadius.circular(6.rr),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add, size: 14.rsp, color: AppColors.primary),
+                    SizedBox(width: 4.rw),
+                    AppText('Assigner', fontSize: 12.rsp, color: AppColors.primary, fontWeight: FontWeight.w600),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
+        SizedBox(height: 10.rh),
+        if (fleetNumbers.isEmpty)
+          AppText('Aucun numéro assigné', fontSize: 13.rsp, color: AppColors.textMuted)
+        else
+          Wrap(
+            spacing: 10.rw,
+            runSpacing: 8.rh,
+            children: fleetNumbers
+                .map((f) => _NumeroBadge(
+                      fleet: f,
+                      employee: employee,
+                      myFlotteCubit: myFlotteCubit,
+                    ))
+                .toList(),
+          ),
       ],
     );
   }
@@ -243,7 +304,13 @@ class _SectionNumeros extends StatelessWidget {
 
 class _NumeroBadge extends StatelessWidget {
   final FleetNumberModel fleet;
-  const _NumeroBadge({required this.fleet});
+  final EmployeeModel employee;
+  final MyFlotteCubit myFlotteCubit;
+  const _NumeroBadge({
+    required this.fleet,
+    required this.employee,
+    required this.myFlotteCubit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -251,7 +318,7 @@ class _NumeroBadge extends StatelessWidget {
     final color = isActive ? AppColors.success : AppColors.grayAsh;
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 8.rh),
+      padding: EdgeInsets.only(left: 12.rw, top: 6.rh, bottom: 6.rh, right: 6.rw),
       decoration: BoxDecoration(
         color: AppColors.grayWh,
         borderRadius: BorderRadius.circular(8.rr),
@@ -266,6 +333,16 @@ class _NumeroBadge extends StatelessWidget {
           ),
           SizedBox(width: 7.rw),
           AppText(fleet.msisdn ?? '---', fontSize: 13.rsp, fontWeight: FontWeight.w600, color: AppColors.textHeading),
+          SizedBox(width: 6.rw),
+          GestureDetector(
+            onTap: () => ConfirmRemoveNumber.show(
+              context,
+              employee: employee,
+              fleetNumber: fleet,
+              myFlotteCubit: myFlotteCubit,
+            ),
+            child: Icon(Icons.close, size: 15.rsp, color: AppColors.textMuted),
+          ),
         ],
       ),
     );

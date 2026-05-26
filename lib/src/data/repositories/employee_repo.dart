@@ -65,4 +65,41 @@ class EmployeeRepo {
     );
   }
 
+  Future<Either<Failure, DataResponseModel>> removeNumbersForEmploye({required int id,required dynamic data}) async {
+    var res = await htttHelper.handlePostRequest("fleet/employees/${id}/unassign-numbers", data,showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
+  Future<Either<Failure, DataResponseModel>> assignNumbersForEmploye({required int id,required dynamic data}) async {
+    var res = await htttHelper.handlePostRequest("fleet/employees/${id}/assign-numbers", data,showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
+  Future<Either<Failure, bool>> downloadFileEmployes() async {
+    var res = await htttHelper.handleGetExcelFileRequest(
+      "fleet/employees/import/template",
+      "import-employees-exemple",
+      showLoader: true,
+    );
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(true),
+    );
+  }
 }

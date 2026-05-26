@@ -342,6 +342,41 @@ class HttpHelper {
     }
   }
 
+  Future<Either<Failure, Success>> handleGetExcelFileRequest(
+    String api,
+    String ref, {
+    params,
+    data,
+    showLoader = false,
+  }) async {
+    try {
+      showL = showLoader;
+      isGet = true;
+      if (showLoader) _showLoader();
+      var res = await _dio.get(
+        '${AppConfig.shared.baseUrl}/$api',
+        data: data,
+        queryParameters: params,
+        options: Options(
+          responseType: ResponseType.bytes,
+          headers: {'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'},
+        ),
+      );
+      if (res.statusCode == 200) {
+        Uint8List bytes = Uint8List.fromList(res.data);
+        var blob = html.Blob([bytes], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        var blobUrl = html.Url.createObjectUrlFromBlob(blob);
+        var anchorElement = html.AnchorElement(href: blobUrl);
+        anchorElement.download = '$ref.xlsx';
+        anchorElement.click();
+        html.Url.revokeObjectUrl(blobUrl);
+      }
+      return Right(Success(res.data));
+    } on DioException catch (e) {
+      return Left(Failure(e.response?.statusCode ?? 0, _extractMessage(e)));
+    }
+  }
+
   Future<Either<Failure, Success>> handleGetFileRequest2(
     String api,
     String ref, {

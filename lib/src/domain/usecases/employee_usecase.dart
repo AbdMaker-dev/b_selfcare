@@ -45,6 +45,30 @@ class EmployeeUsecase {
     );
   }
 
+  Future<Either<Failure, DataResponseModel>> removeNumbersForEmploye({required int id, required dynamic data}) async {
+    var res = await employeeRepo.removeNumbersForEmploye(id: id, data: data);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) {
+        return Right(success);
+      },
+    );
+  }
+
+  Future<Either<Failure, DataResponseModel>> assignNumbersForEmploye({required int id, required dynamic data}) async {
+    var res = await employeeRepo.assignNumbersForEmploye(id: id, data: data);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) {
+        return Right(success);
+      },
+    );
+  }
+
   Future<Either<Failure, DataResponseModel>> disableEmployee({required int id}) async {
     var res = await employeeRepo.disableEmployee(id: id);
     return res.fold(
@@ -54,6 +78,14 @@ class EmployeeUsecase {
           (success) {
         return Right(success);
       },
+    );
+  }
+
+  Future<Either<Failure, bool>> downloadFileEmployes() async {
+    var res = await employeeRepo.downloadFileEmployes();
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(success),
     );
   }
 
