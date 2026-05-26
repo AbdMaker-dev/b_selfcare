@@ -124,6 +124,15 @@ class _SideMenuListState extends State<SideMenuList> {
           isActive: context.router.currentUrl.contains("products"),
           onSelect: () => context.router.pushPath('$routeApp/$routeAppProducts'),
         ),
+
+        SizedBox(height: 20.rh),
+        const MenuSeparator(title: 'ADMINISTRATION'),
+        CustomItemMenu(
+          title: "Utilisateurs",
+          icon: Icons.manage_accounts,
+          isActive: context.router.currentUrl.contains("users"),
+          onSelect: () => context.router.pushPath('$routeApp/$routeAppUsers'),
+        ),
       ],
     );
   }

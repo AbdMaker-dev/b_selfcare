@@ -22,10 +22,10 @@ class CellBadgeTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 5.rh),
       decoration: BoxDecoration(
         color: color.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.rr),
         border: Border.all(color: color.withOpacity(0.25)),
       ),
       child: Row(

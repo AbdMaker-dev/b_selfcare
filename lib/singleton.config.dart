@@ -27,6 +27,8 @@ import 'package:b_selfcare/src/views/pages/campagne/cubit/campagne_cubit.dart'
     as _i215;
 import 'package:b_selfcare/src/views/pages/dashboard/cubit/dashboard_cubit.dart'
     as _i664;
+import 'package:b_selfcare/src/views/pages/invitation/cubit/invitation_cubit.dart'
+    as _i723;
 import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart'
     as _i100;
 import 'package:b_selfcare/src/views/pages/login/cubit/login_cubit.dart'
@@ -41,6 +43,8 @@ import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart'
     as _i822;
 import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_cubit.dart'
     as _i865;
+import 'package:b_selfcare/src/views/pages/users/cubit/users_cubit.dart'
+    as _i88;
 import 'package:b_selfcare/src/views/widgets/filter_tab/cubit/filter_tab_cubit.dart'
     as _i222;
 import 'package:b_selfcare/src/views/widgets/select_option/cubit/select_option_cubit.dart'
@@ -93,6 +97,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i822.ProductsCubit>(
       () => _i822.ProductsCubit(gh<_i330.HttpHelper>()),
     );
+    gh.lazySingleton<_i88.UsersCubit>(
+      () => _i88.UsersCubit(gh<_i330.HttpHelper>()),
+    );
     gh.lazySingleton<_i937.NumberUsecase>(
       () => _i937.NumberUsecase(numeroRepo: gh<_i914.NumeroRepo>()),
     );
@@ -123,6 +130,14 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i595.MyFlotteCubit>(
       () => _i595.MyFlotteCubit(gh<_i908.EmployeeUsecase>()),
+    );
+    gh.lazySingleton<_i723.InvitationCubit>(
+      () => _i723.InvitationCubit(
+        gh<_i330.HttpHelper>(),
+        gh<_i749.LocaHelper>(),
+        gh<_i100.LayoutCubit>(),
+        gh<_i48.LoginCubit>(),
+      ),
     );
     gh.lazySingleton<_i215.CampagneCubit>(
       () => _i215.CampagneCubit(gh<_i868.CampaignUsecase>()),

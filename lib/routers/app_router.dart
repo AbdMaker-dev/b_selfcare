@@ -12,6 +12,7 @@ const String routeLogin = '/login';
 const String routeLoginOtp = '$routeLogin/otp';
 const String routeResetPwd = '/forgot-password';
 const String routeChangePwd = '/reset-password';
+const String routeInvitation = '/invitation';
 
 // 2. APP MAIN
 const String routeApp = '/app';
@@ -21,6 +22,7 @@ const String routeAppMyCampagnes = 'campagnes';
 const String routeAppProducts = 'products';
 const String routeAppGroups = 'groupes';
 const String routeAppNumbers = 'tels';
+const String routeAppUsers   = 'users';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -43,6 +45,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(path: routeLoginOtp, page: LoginOtpRoute.page),
     AutoRoute(path: routeResetPwd, page: ResetPasswordRoute.page),
     AutoRoute(path: routeChangePwd, page: ChangePasswordRoute.page),
+    AutoRoute(path: '/invitation/:token', page: InvitationRoute.page),
 
     // APP MAIN
     AutoRoute(
@@ -56,6 +59,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(path: routeAppMyCampagnes, page: CampagneRoute.page),
         AutoRoute(path: routeAppNumbers, page: NumerosRoute.page),
         AutoRoute(path: routeAppProducts, page: ProductsRoute.page),
+        AutoRoute(path: routeAppUsers,    page: UsersRoute.page),
       ],
     ),
   ];

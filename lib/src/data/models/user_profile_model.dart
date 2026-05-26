@@ -5,12 +5,14 @@ class UserProfileModel {
   final String? lastName;
   final String? email;
   final String? phone;
+  final String? msisdn;
   final String? status;
   final String? language;
   final String? avatar;
   final bool? mfaEnabled;
   final String? emailVerifiedAt;
   final String? lastLoginAt;
+  final String? invitedAt;
   final int? companyId;
   final UserCompanyModel? company;
   final List<UserRoleModel> roles;
@@ -23,12 +25,14 @@ class UserProfileModel {
     this.lastName,
     this.email,
     this.phone,
+    this.msisdn,
     this.status,
     this.language,
     this.avatar,
     this.mfaEnabled,
     this.emailVerifiedAt,
     this.lastLoginAt,
+    this.invitedAt,
     this.companyId,
     this.company,
     this.roles = const [],
@@ -48,12 +52,14 @@ class UserProfileModel {
       lastName: json['last_name'],
       email: json['email'],
       phone: json['phone'],
+      msisdn: json['msisdn'],
       status: json['status'],
       language: json['language'],
       avatar: json['avatar'],
       mfaEnabled: json['mfa_enabled'],
       emailVerifiedAt: json['email_verified_at'],
       lastLoginAt: json['last_login_at'],
+      invitedAt: json['invited_at'],
       companyId: json['company_id'],
       company: json['company'] != null ? UserCompanyModel.fromJson(json['company']) : null,
       roles: (json['roles'] as List<dynamic>?)
@@ -72,12 +78,14 @@ class UserProfileModel {
         'last_name': lastName,
         'email': email,
         'phone': phone,
+        'msisdn': msisdn,
         'status': status,
         'language': language,
         'avatar': avatar,
         'mfa_enabled': mfaEnabled,
         'email_verified_at': emailVerifiedAt,
         'last_login_at': lastLoginAt,
+        'invited_at': invitedAt,
         'company_id': companyId,
         'company': company?.toJson(),
         'roles': roles.map((r) => r.toJson()).toList(),

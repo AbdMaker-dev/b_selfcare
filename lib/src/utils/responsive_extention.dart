@@ -7,8 +7,8 @@ extension ResponsiveExtension on num {
   double get rw => kIsWeb ? w : w;
   
   // Texte & Icons - maintenir la lisibilité
-  double get rsp => kIsWeb ? sp * 1.025  : sp; // Pas de modification
+  double get rsp => kIsWeb ? sp   : sp; // Pas de modification * 1.025
   
   // Radius - proportionnel aux dimensions
-  double get rr => kIsWeb ? r * 0.8 : r;
+  double get rr => kIsWeb ? r : r; // * 0.8
 }
