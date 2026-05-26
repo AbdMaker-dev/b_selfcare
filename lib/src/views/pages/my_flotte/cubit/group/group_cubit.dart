@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
+import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/data/models/group/data_import_response_model.dart';
 import 'package:b_selfcare/src/domain/usecases/group_usecase.dart';
@@ -62,6 +63,15 @@ class GroupCubit extends Cubit<GroupState> {
     res.fold(
       (failure) => emit(GroupState.importEmployeFailed(failure.message)),
       (data) => emit(GroupState.importEmployeLoaded(data: data)),
+    );
+  }
+
+  Future<void> getEmployeesGroup({required int id, required dynamic data}) async {
+    emit(const GroupState.getEmployeesGroupLoading());
+    final res = await groupUsecase.getEmployeesGroup(id: id, data: data);
+    res.fold(
+      (failure) => emit(GroupState.getEmployeesGroupFailed(failure.message)),
+      (data) => emit(GroupState.getEmployeesGroupLoaded(data: data)),
     );
   }
 }
