@@ -4,6 +4,7 @@ import 'package:b_selfcare/src/utils/app_date.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_edit_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_import_employe.dart';
+import 'package:b_selfcare/src/views/pages/groupe/widgets/group_employees_dialog.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -19,7 +20,7 @@ class DetailGroupe extends StatelessWidget {
   static void show(BuildContext context, {required GroupModel groupe, required GroupCubit groupCubit}) {
     showDetailDialog(
       context,
-      width: 680.rw,
+      width: 680,
       child: DetailGroupe(groupe: groupe, groupCubit: groupCubit),
     );
   }
@@ -47,6 +48,8 @@ class DetailGroupe extends StatelessWidget {
     ]);
   }
 }
+
+// ─── Header ──────────────────────────────────────────────────────────────────
 
 class _Header extends StatelessWidget {
   final GroupModel groupe;
@@ -107,6 +110,8 @@ class _EmployeeBadge extends StatelessWidget {
   }
 }
 
+// ─── Section infos générales ─────────────────────────────────────────────────
+
 class _SectionInfos extends StatelessWidget {
   final GroupModel groupe;
   const _SectionInfos({required this.groupe});
@@ -136,6 +141,8 @@ class _SectionInfos extends StatelessWidget {
   }
 }
 
+// ─── Actions ─────────────────────────────────────────────────────────────────
+
 class _Actions extends StatelessWidget {
   final GroupModel groupe;
   final GroupCubit groupCubit;
@@ -152,16 +159,17 @@ class _Actions extends StatelessWidget {
           width: 130.rw,
           onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
         ),
-        /*SizedBox(width: 10.rw),
+        SizedBox(width: 10.rw),
         DetailActionBtn(
-          label: 'Supprimer',
+          label: 'Employés',
+          icon: Icons.people_outline,
           type: AppButtonType.outline,
-          color: AppColors.error,
+          width: 140.rw,
           onPressed: () {
             Navigator.of(context, rootNavigator: true).pop();
-            ConfirmDeleteGroupe.show(context, groupe: groupe, groupCubit: groupCubit);
+            GroupEmployeesDialog.show(context, groupe: groupe, groupCubit: groupCubit);
           },
-        ),*/
+        ),
         SizedBox(width: 10.rw),
         DetailActionBtn(
           label: 'Importer',
