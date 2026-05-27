@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
+import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/data/models/group/data_import_response_model.dart';
@@ -63,6 +64,19 @@ class GroupRepo {
           (success) async{
         var data = DataResponseModel.fromJson(success.response);
         return Right(data);
+      },
+    );
+  }
+
+  Future<Either<Failure, DataEmployeeResponseModel>> getEmployeesGroup({required int id,required dynamic data}) async {
+    var res = await htttHelper.handleGetRequest("fleet/groups/${id}/employees", params: data,showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var forgetPasswordData = DataEmployeeResponseModel.fromJson(success.response);
+        return Right(forgetPasswordData);
       },
     );
   }

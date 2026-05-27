@@ -55,6 +55,11 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
           getEmployeesFailed: (message) {},
           disableEmployeeLoaded: (_) => myFlotte.getEmployees(data: {'page': _currentPage}),
           disableEmployeeFailed: (message) {},
+          removeNumbersLoaded: (_) => myFlotte.getEmployees(data: {'page': _currentPage}),
+          removeNumbersFailed: (message) {},
+          assignNumbersLoaded: (_) => myFlotte.getEmployees(data: {'page': _currentPage}),
+          assignNumbersFailed: (message) {},
+          downloadFileEmployesFailed: (message) {},
           orElse: () {},
         );
       },
@@ -97,14 +102,14 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                 Row(
                   children: [
                     SizedBox(
-                      width: 150.rw,
+                      width: 180.rw,
                       height: 40.rh,
                       child: AppButton(
-                        text: s.simSwap,
+                        text: 'Fichier exemple',
                         type: AppButtonType.outline,
-                        icon: Icons.swap_horiz,
+                        icon: Icons.download,
                         fontSize: 15.rsp,
-                        onPressed: () {},
+                        onPressed: () => myFlotte.downloadFileEmployes(),
                       ),
                     ),
                     SizedBox(width: 10.rw),

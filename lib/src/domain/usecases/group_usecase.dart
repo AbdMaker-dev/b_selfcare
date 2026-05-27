@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
+import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/data/models/group/data_import_response_model.dart';
@@ -58,6 +59,19 @@ class GroupUsecase {
       },
     );
   }
+
+  Future<Either<Failure, DataEmployeeResponseModel>> getEmployeesGroup({required int id,required dynamic data}) async {
+    var res = await groupRepo.getEmployeesGroup(id:id,data: data);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) {
+        return Right(success);
+      },
+    );
+  }
+
 
   Future<Either<Failure, DataImportResponseModel>> importEmployeInGroupe({
     required int id,

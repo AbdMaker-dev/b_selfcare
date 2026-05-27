@@ -15,4 +15,13 @@ class MyFlotteState with _$MyFlotteState {
   const factory MyFlotteState.disableEmployeeLoading() = DisableEmployeeLoading;
   const factory MyFlotteState.disableEmployeeLoaded({required DataResponseModel data}) = DisableEmployeeLoaded;
   const factory MyFlotteState.disableEmployeeFailed(String message) = DisableEmployeeFailed;
+  const factory MyFlotteState.removeNumbersLoading() = RemoveNumbersLoading;
+  const factory MyFlotteState.removeNumbersLoaded({required DataResponseModel data}) = RemoveNumbersLoaded;
+  const factory MyFlotteState.removeNumbersFailed(String message) = RemoveNumbersFailed;
+  const factory MyFlotteState.assignNumbersLoading() = AssignNumbersLoading;
+  const factory MyFlotteState.assignNumbersLoaded({required DataResponseModel data}) = AssignNumbersLoaded;
+  const factory MyFlotteState.assignNumbersFailed(String message) = AssignNumbersFailed;
+  const factory MyFlotteState.downloadFileEmployesLoading() = DownloadFileEmployesLoading;
+  const factory MyFlotteState.downloadFileEmployesLoaded() = DownloadFileEmployesLoaded;
+  const factory MyFlotteState.downloadFileEmployesFailed(String message) = DownloadFileEmployesFailed;
 }

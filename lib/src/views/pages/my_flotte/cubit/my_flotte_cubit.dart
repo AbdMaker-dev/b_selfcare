@@ -50,4 +50,31 @@ class MyFlotteCubit extends Cubit<MyFlotteState> {
     );
   }
 
+  Future<void> removeNumbersForEmploye({required int id, required dynamic data}) async {
+    emit(const MyFlotteState.removeNumbersLoading());
+    final res = await employeeUsecase.removeNumbersForEmploye(id: id, data: data);
+    res.fold(
+      (failure) => emit(MyFlotteState.removeNumbersFailed(failure.message)),
+      (data) => emit(MyFlotteState.removeNumbersLoaded(data: data)),
+    );
+  }
+
+  Future<void> assignNumbersForEmploye({required int id, required dynamic data}) async {
+    emit(const MyFlotteState.assignNumbersLoading());
+    final res = await employeeUsecase.assignNumbersForEmploye(id: id, data: data);
+    res.fold(
+      (failure) => emit(MyFlotteState.assignNumbersFailed(failure.message)),
+      (data) => emit(MyFlotteState.assignNumbersLoaded(data: data)),
+    );
+  }
+
+  Future<void> downloadFileEmployes() async {
+    emit(const MyFlotteState.downloadFileEmployesLoading());
+    final res = await employeeUsecase.downloadFileEmployes();
+    res.fold(
+      (failure) => emit(MyFlotteState.downloadFileEmployesFailed(failure.message)),
+      (_) => emit(const MyFlotteState.downloadFileEmployesLoaded()),
+    );
+  }
+
 }

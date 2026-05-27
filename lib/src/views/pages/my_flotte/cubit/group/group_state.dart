@@ -18,4 +18,7 @@ class GroupState with _$GroupState {
   const factory GroupState.importEmployeLoading() = ImportEmployeLoading;
   const factory GroupState.importEmployeLoaded({required DataImportResponseModel data}) = ImportEmployeLoaded;
   const factory GroupState.importEmployeFailed(String message) = ImportEmployeFailed;
+  const factory GroupState.getEmployeesGroupLoading() = GetEmployeesGroupLoading;
+  const factory GroupState.getEmployeesGroupLoaded({required DataEmployeeResponseModel data}) = GetEmployeesGroupLoaded;
+  const factory GroupState.getEmployeesGroupFailed(String message) = GetEmployeesGroupFailed;
 }
