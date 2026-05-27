@@ -27,7 +27,7 @@ class AuthLeftPanel extends StatelessWidget {
         children: [
           Center(
             child: SvgPicture.asset(
-              Assets.images.logoWithLabel,
+              Assets.logo.logo,
               width: 366.rw,
               height: 109.33.rh,
               fit: BoxFit.cover,
