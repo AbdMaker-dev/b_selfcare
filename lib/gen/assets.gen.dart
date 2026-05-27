@@ -33,6 +33,10 @@ class $AssetsImagesGen {
   AssetGenImage get smileyManWithOldPhone1 =>
       const AssetGenImage('assets/images/smiley-man-with-old-phone 1.png');
 
+  /// File path: assets/images/splash_logo.png
+  AssetGenImage get splashLogo =>
+      const AssetGenImage('assets/images/splash_logo.png');
+
   /// List of all assets
   List<dynamic> get values => [
     decoYelow,
@@ -40,6 +44,7 @@ class $AssetsImagesGen {
     logoWithLabel,
     person,
     smileyManWithOldPhone1,
+    splashLogo,
   ];
 }
 

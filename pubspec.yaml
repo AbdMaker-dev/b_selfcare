@@ -38,7 +38,10 @@ dependencies:
   freezed: ^3.2.5
   freezed_annotation: ^3.1.0
 
+  flutter_native_splash: ^2.4.4
+
 dev_dependencies:
+  flutter_native_splash: ^2.4.4
   build_runner: ^2.13.1
   flutter_gen_runner: ^5.13.0+1
   injectable_generator: ^2.12.1
@@ -122,6 +125,18 @@ flutter:
 
 
 
+
+flutter_native_splash:
+  color: "#033377"
+  image: assets/images/splash_logo.png
+  color_dark: "#033377"
+  image_dark: assets/images/splash_logo.png
+  android: true
+  ios: true
+  web: true
+  android_12:
+    color: "#033377"
+    image: assets/images/splash_logo.png
 
 flutter_intl:
   main_locale: fr  # Changé en français pour que les valeurs par défaut soient en français

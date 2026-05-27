@@ -3,10 +3,8 @@ import 'package:b_selfcare/src/data/models/role_model.dart';
 import 'package:b_selfcare/src/data/models/user_profile_model.dart';
 import 'package:b_selfcare/src/data/services/http_helper.dart';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-
 part 'users_state.dart';
 part 'users_cubit.freezed.dart';
 
@@ -76,7 +74,7 @@ class UsersCubit extends Cubit<UsersState> {
   Future<void> fetchRoles() async {
     final response = await _httpHelper.handleGetRequest('roles');
     response.fold(
-      (left) => debugPrint('ROLES ERROR: ${left.message}'),
+      (left) => print('ROLES ERROR: ${left.message}'),
       (right) {
         final list = right.response?['data'] as List<dynamic>? ?? [];
         roles = list.whereType<Map<String, dynamic>>().map(RoleModel.fromJson).toList();
