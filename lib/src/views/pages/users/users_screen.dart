@@ -51,8 +51,8 @@ class _UsersScreenState extends State<UsersScreen> {
   void _showEdit(UserProfileModel? user) {
     AppDialogs.popup(
       context: context,
-      width: 650.rw,
-      height: 0.65,
+      width: 600,
+      height: 0.47,
       contents: UserForm(user: user),
     );
   }

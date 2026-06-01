@@ -6,6 +6,7 @@ import 'package:b_selfcare/src/views/pages/users/cubit/users_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/detail_components.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_field.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_option_model.dart';
 import 'package:flutter/material.dart';
@@ -135,8 +136,7 @@ class _UserFormState extends State<UserForm> {
         key: _formKey,
         child: Container(
           padding: EdgeInsets.all(24.rw),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: DetailContainer(
             children: [
               AppText(
                 _isEdit ? 'Modifier l\'utilisateur' : 'Créer un utilisateur',
@@ -247,8 +247,16 @@ class _UserFormState extends State<UserForm> {
               ),
             ],
           ),
+        
         ),
       ),
     );
   }
 }
+
+          // padding: EdgeInsets.all(12.rw),
+          // decoration: BoxDecoration(
+          //   color: AppColors.white,
+          //   borderRadius: BorderRadius.circular(12.rr),
+          //   border: Border.all(color: AppColors.gray),
+          // ),

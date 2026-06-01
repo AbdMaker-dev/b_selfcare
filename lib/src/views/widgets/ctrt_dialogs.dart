@@ -55,8 +55,8 @@ class AppDialogs {
   required BuildContext context,
   required Widget contents,
   bool isDis = true,
-  double height = 0.95,
-  double width = 300,
+  double? height,
+  double? width = 300,
   double? bottomPad
 }) {
   showDialog(
@@ -70,7 +70,7 @@ class AppDialogs {
         ),
         child: Container(
           width: width,
-          height: MediaQuery.of(context).size.height * height,
+          height: height != null ? MediaQuery.of(context).size.height * height : null,
           decoration: BoxDecoration(
             color: AppColors.background,
             borderRadius: BorderRadius.circular(20.rr),

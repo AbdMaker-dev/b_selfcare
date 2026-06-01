@@ -46,8 +46,8 @@ class _MyAppState extends State<MyApp> {
       onTap: () => WidgetsBinding.instance.focusManager.primaryFocus?.unfocus(),
       child: ScreenUtilInit(
         designSize: const Size(1728, 1117),
-        minTextAdapt: true,
-        splitScreenMode: true,
+        minTextAdapt: false,
+        splitScreenMode: false,
         useInheritedMediaQuery: true,
         ensureScreenSize: true,
         child: ToastificationWrapper(
@@ -73,15 +73,20 @@ class _MyAppState extends State<MyApp> {
             supportedLocales: S.delegate.supportedLocales,
             locale: const Locale('fr', 'FR'),
             builder: (context, child) {
-            return GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                FocusScopeNode currentFocus = FocusScope.of(context);
-                if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-                  currentFocus.unfocus();
-                }
-              },
-              child: EasyLoading.init()(context, child),
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaler: TextScaler.noScaling,
+              ),
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+                    currentFocus.unfocus();
+                  }
+                },
+                child: EasyLoading.init()(context, child),
+              ),
             );
           },
           ),

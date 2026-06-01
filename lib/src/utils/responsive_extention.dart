@@ -2,13 +2,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/foundation.dart';
 
 extension ResponsiveExtension on num {
-  // Dimensions - avec facteur web
-  double get rh => kIsWeb ? h : h;
-  double get rw => kIsWeb ? w : w;
-  
-  // Texte & Icons - maintenir la lisibilité
-  double get rsp => kIsWeb ? sp : sp; // Pas de modification * 1.025
-  
-  // Radius - proportionnel aux dimensions
-  double get rr => kIsWeb ? r : r; // * 0.8
+  double get rh => h;
+  double get rw => w;
+  double get rr => r;
+
+  // Sur web, on clamp le scale entre 0.8 et 1.2 pour éviter que
+  // le zoom navigateur (qui change la viewport) ne réduise les textes.
+  double get rsp {
+    if (kIsWeb) {
+      final scale = ScreenUtil().scaleWidth.clamp(0.8, 1.2);
+      return toDouble() * scale;
+    }
+    return sp;
+  }
 }
