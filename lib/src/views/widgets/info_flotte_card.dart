@@ -15,6 +15,7 @@ class InfoFlotteCard extends StatelessWidget {
   final List<String> fleetNumbers;
   final String forfait;
   final bool status;
+  final VoidCallback? onTap;
 
   const InfoFlotteCard({
     super.key,
@@ -23,67 +24,76 @@ class InfoFlotteCard extends StatelessWidget {
     required this.fleetNumbers,
     required this.forfait,
     required this.status,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(10.rr),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 16.r,
-            offset: const Offset(0, 4),
+    return MouseRegion(
+      cursor: onTap != null ? SystemMouseCursors.click : MouseCursor.defer,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(10.rr),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.06),
+                blurRadius: 16.r,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(20.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+          child: Padding(
+            padding: EdgeInsets.all(20.r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SubscriberAvatar(colorAvatar: Colors.blue, initial: AppUtilitaire().getInitials(name)),
-                SizedBox(width: 12.rw),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AppText(
-                        '${name}',
-                        fontSize: 18.rsp,
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w600,
-                        type: AppTextType.heading,
+                Row(
+                  children: [
+                    SubscriberAvatar(
+                      colorAvatar: Colors.blue,
+                      initial: AppUtilitaire().getInitials(name),
+                    ),
+                    SizedBox(width: 12.rw),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText(
+                            name,
+                            fontSize: 18.rsp,
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.w600,
+                            type: AppTextType.heading,
+                          ),
+                          AppText(
+                            department.toUpperCase(),
+                            fontSize: 15.rsp,
+                            color: AppColors.textHeading,
+                          ),
+                        ],
                       ),
-                      //SizedBox(height: 2.rh),
-                      AppText(
-                        '${department}'.toUpperCase(),
-                        fontSize: 15.rsp,
-                        color: AppColors.textHeading,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.rh),
+                PhoneNumberWidget(
+                  phone: fleetNumbers.isEmpty ? '-' : fleetNumbers.join(' | '),
+                ),
+                SizedBox(height: 16.rh),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    PlanBadge(plan: forfait),
+                    StatusBadge(isActive: status),
+                  ],
                 ),
               ],
             ),
-            SizedBox(height: 16.rh),
-            PhoneNumberWidget(
-              phone: fleetNumbers.isEmpty ? '-' : fleetNumbers.join(' | '),
-            ),
-             SizedBox(height: 16.rh),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                PlanBadge(plan: forfait),
-                StatusBadge(isActive: status),
-              ],
-            ),
-          ],
+          ),
         ),
       ),
     );
