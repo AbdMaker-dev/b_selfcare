@@ -102,7 +102,8 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                   width: 150.rw,
                   height: 40.rh,
                   child: AppButton(
-                    text: '+ Groupe',
+                    text: 'Groupe',
+                    icon: Icons.add_circle_outline,
                     type: AppButtonType.secondary,
                     fontSize: 15.rsp,
                     onPressed: () => FormGroupe.show(

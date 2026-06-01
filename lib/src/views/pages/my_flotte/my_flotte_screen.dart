@@ -117,7 +117,8 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                       width: 150.rw,
                       height: 40.rh,
                       child: AppButton(
-                        text: '+ Employé',
+                        text: 'Employé',
+                        icon: Icons.add_circle_outline,
                         type: AppButtonType.secondary,
                         fontSize: 15.rsp,
                         onPressed: () => FormEmploye.show(
@@ -183,6 +184,11 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                       forfait: '${e.fleetNumbersCount ?? 0} numéros',
                       fleetNumbers: e.fleetNumbers?.map((f) => f.msisdn ?? '').toList() ?? [],
                       status: e.status == 'active' || e.status == 'ACTIVE',
+                      onTap: () => DetailEmploye.show(
+                        context,
+                        employee: e,
+                        myFlotteCubit: myFlotte,
+                      ),
                     );
                   }).toList();
 
