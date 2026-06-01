@@ -4,6 +4,7 @@ import 'package:b_selfcare/src/data/models/flotte_number/flotte_number_model.dar
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/flotte_number/flotte_number_cubit.dart';
+import 'package:b_selfcare/src/domain/usecases/employee_usecase.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -41,6 +42,7 @@ class FormAssignNumero extends StatefulWidget {
 
 class _FormAssignNumeroState extends State<FormAssignNumero> {
   final _myFlotteCubit = getIt<MyFlotteCubit>();
+  final _employeeUsecase = getIt<EmployeeUsecase>();
   EmployeeModel? _selectedEmployee;
   List<EmployeeModel> _employees = [];
 
@@ -131,6 +133,22 @@ class _FormAssignNumeroState extends State<FormAssignNumero> {
                     options: options,
                     placeholder: 'Sélectionner un employé...',
                     onChanged: (opt) => setState(() => _selectedEmployee = opt.value),
+                    searchMode: SelectSearchMode.api,
+                    onSearch: (query) async {
+                      final result = await _employeeUsecase.getEmployees(
+                        data: {'status': 'ACTIVE', 'search': query},
+                      );
+                      return result.fold(
+                        (_) => [],
+                        (data) => (data.data?.employees ?? [])
+                            .map((e) => SelectOptionModel<EmployeeModel>(
+                                  label: '${e.firstName ?? ''} ${e.lastName ?? ''}'.trim(),
+                                  value: e,
+                                  subtitle: e.position,
+                                ))
+                            .toList(),
+                      );
+                    },
                   ),
 
                 SizedBox(height: 24.rh),

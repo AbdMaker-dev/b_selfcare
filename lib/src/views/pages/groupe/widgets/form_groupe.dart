@@ -266,6 +266,7 @@ class _FormGroupeState extends State<FormGroupe> {
                         child: SelectField<String>(
                           label: 'Jour du mois',
                           placeholder: 'Choisir un jour (1–31)',
+                          searchMode: SelectSearchMode.local,
                           options: List.generate(
                             31,
                             (i) => SelectOptionModel(

@@ -41,11 +41,19 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
   final _flotteNumberCubit = getIt<FlotteNumberCubit>();
   List<FlotteNumberModel> _availableNumbers = [];
   final Set<int> _selectedIds = {};
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
   @override
   void initState() {
     super.initState();
     _flotteNumberCubit.getNumbers(data: {'status': 'UNASSIGNED'});
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void _toggle(int id) {
@@ -104,6 +112,14 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
               final isSubmitting = myFlotteState is AssignNumbersLoading;
               final isLoadingNumbers = numberState is GetNumbersLoading;
 
+              final filtered = _searchQuery.isEmpty
+                  ? _availableNumbers
+                  : _availableNumbers
+                      .where((n) =>
+                          (n.msisdn ?? '').contains(_searchQuery) ||
+                          (n.iccid ?? '').toLowerCase().contains(_searchQuery))
+                      .toList();
+
               return DetailContainer(children: [
                 // Header
                 Row(children: [
@@ -135,6 +151,38 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
                 const DetailDivider(),
                 SizedBox(height: 16.rh),
 
+                // Recherche
+                if (!isLoadingNumbers && _availableNumbers.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 12.rh),
+                    child: TextField(
+                      controller: _searchController,
+                      onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+                      style: TextStyle(fontSize: 14.rsp),
+                      decoration: InputDecoration(
+                        hintText: 'Rechercher un numéro...',
+                        hintStyle: TextStyle(fontSize: 13.rsp, color: AppColors.grayAsh),
+                        prefixIcon: Icon(Icons.search_rounded, size: 18, color: AppColors.grayAsh),
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 10.rh),
+                        filled: true,
+                        fillColor: AppColors.grayWh,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.rr),
+                          borderSide: BorderSide(color: AppColors.gray),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.rr),
+                          borderSide: BorderSide(color: AppColors.gray),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.rr),
+                          borderSide: BorderSide(color: AppColors.greyCharcoal),
+                        ),
+                      ),
+                    ),
+                  ),
+
                 // Liste des numéros
                 if (isLoadingNumbers)
                   Center(
@@ -143,12 +191,12 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
                       child: CircularProgressIndicator(color: AppColors.primary),
                     ),
                   )
-                else if (_availableNumbers.isEmpty)
+                else if (filtered.isEmpty)
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 24.rh),
                     child: Center(
                       child: AppText(
-                        'Aucun numéro disponible',
+                        _searchQuery.isEmpty ? 'Aucun numéro disponible' : 'Aucun résultat',
                         fontSize: 14.rsp,
                         color: AppColors.textMuted,
                       ),
@@ -159,10 +207,10 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
                     constraints: BoxConstraints(maxHeight: 300.rh),
                     child: ListView.separated(
                       shrinkWrap: true,
-                      itemCount: _availableNumbers.length,
+                      itemCount: filtered.length,
                       separatorBuilder: (_, __) => Divider(height: 1, color: AppColors.gray),
                       itemBuilder: (context, i) {
-                        final n = _availableNumbers[i];
+                        final n = filtered[i];
                         final selected = _selectedIds.contains(n.id);
                         return InkWell(
                           onTap: n.id != null ? () => _toggle(n.id!) : null,
