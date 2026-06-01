@@ -1,27 +1,68 @@
 # =============================================================================
 # .gitlab-ci.yml -- Pipeline Flutter Web
-# Le CI se connecte en SSH et lance deploy.sh sur le serveur
+# Le CI se connecte en SSH et lance deploy.sh sur le serveur cible
 # =============================================================================
 
 stages:
   - deploy
 
-deploy:production:
-  stage: deploy
+# =============================================================================
+# TEMPLATE COMMUN
+# =============================================================================
+.deploy_template: &deploy_template
   image: alpine:latest
   before_script:
     - apk add --no-cache openssh-client
     - mkdir -p ~/.ssh
-    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-keyscan -H "${DEPLOY_HOST}" >> ~/.ssh/known_hosts 2>/dev/null
+
+# =============================================================================
+# DEPLOY TEST -- branche main, declenchement manuel
+# =============================================================================
+deploy:test:
+  <<: *deploy_template
+  stage: deploy
+  before_script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - echo "${SSH_PRIVATE_KEY_TEST}" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-keyscan -H "${DEPLOY_HOST_TEST}" >> ~/.ssh/known_hosts 2>/dev/null
   script:
     - |
       ssh -i ~/.ssh/id_ed25519 \
           -o StrictHostKeyChecking=no \
-          root@${DEPLOY_HOST} \
+          root@${DEPLOY_HOST_TEST} \
+          "GIT_BRANCH=${CI_COMMIT_BRANCH} bash /var/www/b2b-css-front/deploy.sh"
+  environment:
+    name: test
+    url: https://test.votre-app.com
+  only:
+    - main
+  when: manual   # Declenchement manuel pour eviter un deploy test a chaque push
+
+# =============================================================================
+# DEPLOY PRODUCTION -- branche main, declenchement manuel apres test
+# =============================================================================
+deploy:production:
+  <<: *deploy_template
+  stage: deploy
+  before_script:
+    - apk add --no-cache openssh-client
+    - mkdir -p ~/.ssh
+    - echo "${SSH_PRIVATE_KEY_PROD}" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-keyscan -H "${DEPLOY_HOST_PROD}" >> ~/.ssh/known_hosts 2>/dev/null
+  script:
+    - |
+      ssh -i ~/.ssh/id_ed25519 \
+          -o StrictHostKeyChecking=no \
+          root@${DEPLOY_HOST_PROD} \
           "GIT_BRANCH=${CI_COMMIT_BRANCH} bash /var/www/b2b-css-front/deploy.sh"
   environment:
     name: production
+    url: https://votre-app.com
   only:
     - main
+  when: manual
