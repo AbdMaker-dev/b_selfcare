@@ -178,6 +178,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Prénom',
                         keyboardType: TextInputType.text,
                         controller: _firstNameController,
+                        isRequired: true,
                         hintText: 'Ex: Ousman',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le prénom est obligatoire' : null,
@@ -189,6 +190,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Nom',
                         keyboardType: TextInputType.text,
                         controller: _lastNameController,
+                        isRequired: true,
                         hintText: 'Ex: Diallo',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le nom est obligatoire' : null,
@@ -205,6 +207,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Email',
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
+                        isRequired: true,
                         hintText: 'Ex: ousman@example.com',
                         validator: AppValidators.email(context),
                       ),
@@ -263,6 +266,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Poste',
                         keyboardType: TextInputType.text,
                         controller: _positionController,
+                        isRequired: true,
                         hintText: 'Ex: Directeur Commercial',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le poste est obligatoire' : null,

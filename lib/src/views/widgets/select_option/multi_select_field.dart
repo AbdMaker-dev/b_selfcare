@@ -365,12 +365,13 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
       mainAxisSize: MainAxisSize.min,
       children: [
         AppText(
-          widget.label.toUpperCase(),
-          color: AppColors.grayAsh,
-          fontWeight: FontWeight.w600,
-          fontSize: 10.rsp,
+          widget.label,
+          type: AppTextType.label,
+          fontSize: 14.rsp,
+          color: AppColors.primary,
+          fontWeight: FontWeight.w400,
         ),
-        SizedBox(height: 6.rh),
+        SizedBox(height: 8.0.rh),
         CompositedTransformTarget(
           link: _layerLink,
           child: GestureDetector(
@@ -378,8 +379,7 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
             child: AnimatedContainer(
               key: _triggerKey,
               duration: const Duration(milliseconds: 200),
-              constraints:
-                  const BoxConstraints(minHeight: kMinInteractiveDimension),
+              constraints: const BoxConstraints(minHeight: kMinInteractiveDimension),
               padding: EdgeInsets.symmetric(horizontal: 14.rw),
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(

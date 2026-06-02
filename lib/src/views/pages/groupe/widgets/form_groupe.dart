@@ -172,6 +172,7 @@ class _FormGroupeState extends State<FormGroupe> {
                         labelText: 'Nom du groupe',
                         keyboardType: TextInputType.text,
                         controller: _nameController,
+                        isRequired: true,
                         hintText: 'Ex: Direction Générale',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le nom est obligatoire' : null,

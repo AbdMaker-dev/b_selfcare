@@ -22,6 +22,7 @@ class AppInput extends StatefulWidget {
   final TextInputAction? textInputAction;
   final void Function(String)? onFieldSubmitted;
   final Iterable<String>? autofillHints;
+  final bool isRequired;
 
   const AppInput({
     super.key,
@@ -30,6 +31,7 @@ class AppInput extends StatefulWidget {
     this.labelText,
     this.labelActionText,
     this.isPassword = false,
+    this.isRequired = false,
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
     this.suffixIcon,
@@ -65,13 +67,29 @@ class _AppInputState extends State<AppInput> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText(
-                  widget.labelText!,
-                  type: AppTextType.label,
-                  fontSize: 14.rsp,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w400,
-                  textAlign: TextAlign.start,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppText(
+                      widget.labelText!,
+                      type: AppTextType.label,
+                      fontSize: 14.rsp,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w400,
+                      textAlign: TextAlign.start,
+                    ),
+                    if (widget.isRequired)
+                      Text(
+                        ' *',
+                        style: TextStyle(
+                          color: AppColors.error,
+                          fontSize: 14.rsp,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Montserrat',
+                          height: 1.0.rh,
+                        ),
+                      ),
+                  ],
                 ),
                 if (widget.labelActionText != null)
                   AppText(
