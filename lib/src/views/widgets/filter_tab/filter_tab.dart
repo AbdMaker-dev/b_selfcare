@@ -4,6 +4,7 @@
 
 class FilterTab {
   final String label;
+  final String? value;
   final int? count;
-  const FilterTab({required this.label, this.count});
+  const FilterTab({required this.label, this.value, this.count});
 }

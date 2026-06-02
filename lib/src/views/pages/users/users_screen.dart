@@ -30,6 +30,8 @@ class UsersScreen extends StatefulWidget {
 class _UsersScreenState extends State<UsersScreen> {
   final _cubit = getIt<UsersCubit>();
   int _currentPage = 1;
+  String? _statusFilter;
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -39,9 +41,16 @@ class _UsersScreenState extends State<UsersScreen> {
     // _cubit.fetchRoles();
   }
 
+  Map<String, dynamic> _buildParams({int? page}) {
+    final params = <String, dynamic>{'page': page ?? _currentPage};
+    if (_searchQuery.isNotEmpty) params['search'] = _searchQuery;
+    if (_statusFilter != null) params['status'] = _statusFilter;
+    return params;
+  }
+
   void _fetchPage(int page) {
     setState(() => _currentPage = page);
-    _cubit.getUsers(data: {'page': page});
+    _cubit.getUsers(data: _buildParams(page: page));
   }
 
   void _showDetail(UserProfileModel user) {
@@ -67,9 +76,9 @@ class _UsersScreenState extends State<UsersScreen> {
       bloc: _cubit,
       listener: (context, state) {
         state.maybeWhen(
-          disableUserLoaded: () => _cubit.getUsers(data: {'page': _currentPage}),
-          createUserLoaded:  () => _cubit.getUsers(data: {'page': _currentPage}),
-          updateUserLoaded:  () => _cubit.getUsers(data: {'page': _currentPage}),
+          disableUserLoaded: () => _cubit.getUsers(data: _buildParams()),
+          createUserLoaded:  () => _cubit.getUsers(data: _buildParams()),
+          updateUserLoaded:  () => _cubit.getUsers(data: _buildParams()),
           orElse: () {},
         );
       },
@@ -117,17 +126,23 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             SizedBox(height: 24.rh),
             AppSearchInput(
-              onChanged: (value) => _cubit.getUsers(data: {'search': value}),
+              onChanged: (value) {
+                setState(() { _searchQuery = value; _currentPage = 1; });
+                _cubit.getUsers(data: _buildParams(page: 1));
+              },
             ),
             SizedBox(height: 16.rh),
             FilterTabsWidget(
               tabs: const [
                 FilterTab(label: 'Tous'),
-                FilterTab(label: 'Actifs'),
-                FilterTab(label: 'Inactifs'),
+                FilterTab(label: 'Actif',     value: 'ACTIVE'),
+                FilterTab(label: 'Suspendu',  value: 'SUSPENDED'),
+                FilterTab(label: 'Invité',    value: 'INVITED'),
+                FilterTab(label: 'Inactif',   value: 'INACTIVE'),
               ],
               onTabChanged: (tab) {
-                tab.label == 'Tous' ? _cubit.getUsers(data: {'page': _currentPage}) : _cubit.getUsers(data: {'status': tab.label.toLowerCase()});
+                setState(() { _statusFilter = tab.value; _currentPage = 1; });
+                _cubit.getUsers(data: _buildParams(page: 1));
               },
             ),
             SizedBox(height: 20.rh),

@@ -104,3 +104,5 @@ class _MyAppState extends State<MyApp> {
 // flutter run -d chrom -t lib/main_prod.dart
 
 // flutter build web --release -t lib/main_dev.dart --no-tree-shake-icons --no-wasm-dry-run
+
+

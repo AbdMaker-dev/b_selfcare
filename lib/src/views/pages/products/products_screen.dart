@@ -73,7 +73,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   AppDialogs.popup(
                     context: context,
                     width: 600.rw,
-                    height: 0.6,
+                    height: 0.75,
                     contents: ProductForm(),
                   );
                 },
@@ -131,7 +131,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     onDuplicate: () => AppDialogs.popup(
                       context: context,
                       width: 600.rw,
-                      height: 0.6,
+                      height: 0.75,
                       contents: ProductForm(
                         product: ProductsModel(
                           name: '${product.name ?? ''} (copie)',
@@ -154,7 +154,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     ? () => AppDialogs.popup(
                         context: context,
                         width: 600.rw,
-                        height: 0.6,
+                        height: 0.75,
                         contents: ProductForm(product: product),
                       )
                     : null,

@@ -151,7 +151,7 @@ class _ProductFormState extends State<ProductForm> {
               ),
               SizedBox(height: 20.rh),
               AppText(
-                'Quotas',
+                'Wallets',
                 fontSize: 14.rsp,
                 fontWeight: FontWeight.w600,
                 color: AppColors.textHeading,
@@ -217,7 +217,7 @@ class _ProductFormState extends State<ProductForm> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AppText(
-                              'Quota ${index + 1}',
+                              'Wallete ${index + 1}',
                               fontSize: 13.rsp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textMuted,
@@ -228,6 +228,7 @@ class _ProductFormState extends State<ProductForm> {
                               options: availableOptions,
                               placeholder: 'Sélectionner un wallet...',
                               initialValue: initialOption,
+                              searchMode: SelectSearchMode.local,
                               onChanged: (opt) => setState(() => row.walletId = opt.value),
                             ),
                             SizedBox(height: 10.rh),
