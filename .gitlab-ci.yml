@@ -7,68 +7,27 @@ variables:
   DEPLOY_SCRIPT: "/var/www/b2b-css-front/deploy.sh"
   SMS_API_URL: "https://192.168.41.45:9040/services/SendNotifications.aspx"
   SMS_API_SENDER: "Yas"
-  SMS_RECIPIENTS: "768095469"  # Destinataires par defaut, separes par virgule
+  SMS_RECIPIENTS: "768095469"
 
 stages:
   - deploy
 
 # =============================================================================
-# FONCTION SMS -- snippet reutilisable
-# =============================================================================
-.send_sms: &send_sms |
-  if [ "$CI_JOB_STATUS" = "success" ]; then
-    MESSAGE="[Flutter Web] Deploy TEST OK - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
-    SENDER="$SMS_API_SENDER"
-  else
-    MESSAGE="[Flutter Web] Deploy TEST FAILED - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
-    SENDER="$SMS_API_SENDER"
-  fi
-
-  RESOLVED_PHONE=""
-  if [ -n "${USER_PHONE_MAP:-}" ]; then
-    for ENTRY in $(echo "$USER_PHONE_MAP" | tr ',' ' '); do
-      MAP_USER=$(echo "$ENTRY" | cut -d':' -f1)
-      MAP_PHONE=$(echo "$ENTRY" | cut -d':' -f2)
-      if [ "$MAP_USER" = "$GITLAB_USER_LOGIN" ]; then
-        RESOLVED_PHONE="$MAP_PHONE"
-        break
-      fi
-    done
-  fi
-
-  RECIPIENTS="${RESOLVED_PHONE:-$SMS_RECIPIENTS}"
-  echo "Envoi SMS a : $RECIPIENTS (declenche par $GITLAB_USER_LOGIN)"
-  for PHONE in $(echo "$RECIPIENTS" | tr ',' ' '); do
-    curl -sk -X POST "$SMS_API_URL" \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}"
-  done
-
-# =============================================================================
-# TEMPLATE SSH COMMUN
-# =============================================================================
-.ssh_setup: &ssh_setup
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache openssh-client bash curl
-
-# =============================================================================
 # DEPLOY TEST -- branche main, declenchement manuel
 # =============================================================================
 deploy:test:
-  <<: *ssh_setup
   stage: deploy
+  image: alpine:latest
   before_script:
     - apk add --no-cache openssh-client bash curl
     - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - chmod 600 "$SSH_PRIVATE_KEY_TEST"
     - ssh-add "$SSH_PRIVATE_KEY_TEST"
-    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - ssh-keyscan -H "$DEPLOY_HOST_TEST" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur TEST ($DEPLOY_HOST_TEST)..."
-    - ssh "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
     - echo "Deploy TEST termine avec succes !"
   environment:
     name: test
@@ -109,18 +68,18 @@ deploy:test:
 # DEPLOY PRODUCTION -- branche main, declenchement manuel apres test
 # =============================================================================
 deploy:production:
-  <<: *ssh_setup
   stage: deploy
+  image: alpine:latest
   before_script:
     - apk add --no-cache openssh-client bash curl
     - eval $(ssh-agent -s)
-    - chmod 600 "$SSH_PRIVATE_KEY_TEST"
-    - ssh-add "$SSH_PRIVATE_KEY_TEST"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - chmod 600 "$SSH_PRIVATE_KEY_PROD"
+    - ssh-add "$SSH_PRIVATE_KEY_PROD"
     - ssh-keyscan -H "$DEPLOY_HOST_PROD" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur PROD ($DEPLOY_HOST_PROD)..."
-    - ssh "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
     - echo "Deploy PROD termine avec succes !"
   environment:
     name: production
