@@ -1,3 +1,5 @@
+enum SelectSearchMode { local, api }
+
 class SelectOptionModel<T> {
   final String label;
   final T value;

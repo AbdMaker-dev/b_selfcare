@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -12,6 +14,8 @@ class SelectField<T> extends StatelessWidget {
   final String placeholder;
   final ValueChanged<SelectOptionModel<T>>? onChanged;
   final SelectOptionModel<T>? initialValue;
+  final SelectSearchMode? searchMode;
+  final Future<List<SelectOptionModel<T>>> Function(String query)? onSearch;
 
   const SelectField({
     super.key,
@@ -20,7 +24,12 @@ class SelectField<T> extends StatelessWidget {
     this.placeholder = 'Sélectionner...',
     this.onChanged,
     this.initialValue,
-  });
+    this.searchMode,
+    this.onSearch,
+  }) : assert(
+          searchMode != SelectSearchMode.api || onSearch != null,
+          'onSearch est requis quand searchMode est api',
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +44,8 @@ class SelectField<T> extends StatelessWidget {
         options: options,
         placeholder: placeholder,
         onChanged: onChanged,
+        searchMode: searchMode,
+        onSearch: onSearch,
       ),
     );
   }
@@ -45,12 +56,16 @@ class _SelectFieldView<T> extends StatefulWidget {
   final List<SelectOptionModel<T>> options;
   final String placeholder;
   final ValueChanged<SelectOptionModel<T>>? onChanged;
+  final SelectSearchMode? searchMode;
+  final Future<List<SelectOptionModel<T>>> Function(String query)? onSearch;
 
   const _SelectFieldView({
     required this.label,
     required this.options,
     required this.placeholder,
     this.onChanged,
+    this.searchMode,
+    this.onSearch,
   });
 
   @override
@@ -63,18 +78,43 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
   OverlayEntry? _overlayEntry;
   final TextEditingController _searchController = TextEditingController();
 
-  bool get _isSearchable => widget.options.length > 7;
+  List<SelectOptionModel<T>> _apiResults = [];
+  bool _isLoadingSearch = false;
+  Timer? _debounceTimer;
+  StateSetter? _setOverlayState;
+
+  bool get _isSearchable => widget.searchMode != null;
 
   double get _triggerWidth {
     final box = _triggerKey.currentContext?.findRenderObject() as RenderBox?;
     return box?.size.width ?? 200;
   }
 
+  void _onQueryChanged(String query) {
+    if (widget.searchMode == SelectSearchMode.api) {
+      _debounceTimer?.cancel();
+      _debounceTimer = Timer(const Duration(milliseconds: 350), () async {
+        _setOverlayState?.call(() => _isLoadingSearch = true);
+        final results = await widget.onSearch!(query);
+        _setOverlayState?.call(() {
+          _apiResults = results;
+          _isLoadingSearch = false;
+        });
+      });
+    } else {
+      _setOverlayState?.call(() {});
+    }
+  }
+
   void _showOverlay(SelectOptionModel? selected) {
     _removeOverlay();
+
+    if (widget.searchMode == SelectSearchMode.api) {
+      _apiResults = widget.options;
+    }
+
     final cubit = context.read<SelectCubit>();
     final width = _triggerWidth;
-    final searchable = _isSearchable;
 
     _overlayEntry = OverlayEntry(
       builder: (_) => Stack(
@@ -96,7 +136,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  constraints: const BoxConstraints(maxHeight: 300),
+                  constraints: BoxConstraints(maxHeight: 300.rsp),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.rr),
@@ -111,23 +151,30 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                   ),
                   child: StatefulBuilder(
                     builder: (_, setOverlayState) {
+                      _setOverlayState = setOverlayState;
                       final query = _searchController.text.toLowerCase();
-                      final filtered = searchable
-                          ? widget.options
-                              .where((o) => o.label.toLowerCase().contains(query))
-                              .toList()
-                          : widget.options;
+
+                      final List<SelectOptionModel<T>> filtered;
+                      if (!_isSearchable) {
+                        filtered = widget.options;
+                      } else if (widget.searchMode == SelectSearchMode.local) {
+                        filtered = widget.options
+                            .where((o) => o.label.toLowerCase().contains(query))
+                            .toList();
+                      } else {
+                        filtered = _apiResults;
+                      }
 
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (searchable)
+                          if (_isSearchable)
                             Padding(
                               padding: EdgeInsets.fromLTRB(10.rw, 10.rh, 10.rw, 4.rh),
                               child: TextField(
                                 controller: _searchController,
                                 autofocus: true,
-                                onChanged: (_) => setOverlayState(() {}),
+                                onChanged: _onQueryChanged,
                                 style: TextStyle(fontSize: 14.rsp),
                                 decoration: InputDecoration(
                                   hintText: 'Rechercher...',
@@ -135,11 +182,23 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                                     fontSize: 13.rsp,
                                     color: AppColors.grayAsh,
                                   ),
-                                  prefixIcon: Icon(
-                                    Icons.search_rounded,
-                                    size: 18,
-                                    color: AppColors.grayAsh,
-                                  ),
+                                  prefixIcon: _isLoadingSearch
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              color: AppColors.grayAsh,
+                                            ),
+                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.search_rounded,
+                                          size: 18,
+                                          color: AppColors.grayAsh,
+                                        ),
                                   isDense: true,
                                   contentPadding: EdgeInsets.symmetric(
                                     horizontal: 10.rw,
@@ -166,7 +225,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                             child: SingleChildScrollView(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                children: filtered.isEmpty
+                                children: filtered.isEmpty && !_isLoadingSearch
                                     ? [
                                         Padding(
                                           padding: EdgeInsets.symmetric(vertical: 16.rh),
@@ -221,7 +280,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                                                 if (isSelected)
                                                   Icon(
                                                     Icons.check_rounded,
-                                                    size: 18,
+                                                    size: 18.rsp,
                                                     color: AppColors.greyCharcoal,
                                                   ),
                                               ],
@@ -251,12 +310,15 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
     _overlayEntry?.remove();
     _overlayEntry = null;
     _searchController.clear();
+    _setOverlayState = null;
+    _debounceTimer?.cancel();
   }
 
   @override
   void dispose() {
     _removeOverlay();
     _searchController.dispose();
+    _debounceTimer?.cancel();
     super.dispose();
   }
 
@@ -288,12 +350,13 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppText(
-                widget.label.toUpperCase(),
-                color: AppColors.grayAsh,
-                fontWeight: FontWeight.w600,
-                fontSize: 10.rsp,
+                widget.label,
+                type: AppTextType.label,
+                fontSize: 14.rsp,
+                color: AppColors.primary,
+                fontWeight: FontWeight.w400,
               ),
-              SizedBox(height: 6.rh),
+              SizedBox(height: 8.0.rh),
               CompositedTransformTarget(
                 link: _layerLink,
                 child: GestureDetector(
@@ -301,8 +364,7 @@ class _SelectFieldViewState<T> extends State<_SelectFieldView<T>> {
                   child: AnimatedContainer(
                     key: _triggerKey,
                     duration: const Duration(milliseconds: 200),
-                    constraints: const BoxConstraints(
-                        minHeight: kMinInteractiveDimension),
+                    constraints: const BoxConstraints(minHeight: kMinInteractiveDimension),
                     padding: EdgeInsets.symmetric(horizontal: 14.rw),
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(

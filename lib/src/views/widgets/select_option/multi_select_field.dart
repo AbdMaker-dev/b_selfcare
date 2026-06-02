@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -10,6 +12,8 @@ class MultiSelectField<T> extends StatefulWidget {
   final String placeholder;
   final List<T> initialValues;
   final ValueChanged<List<SelectOptionModel<T>>>? onChanged;
+  final SelectSearchMode? searchMode;
+  final Future<List<SelectOptionModel<T>>> Function(String query)? onSearch;
 
   const MultiSelectField({
     super.key,
@@ -18,7 +22,12 @@ class MultiSelectField<T> extends StatefulWidget {
     this.placeholder = 'Sélectionner...',
     this.initialValues = const [],
     this.onChanged,
-  });
+    this.searchMode,
+    this.onSearch,
+  }) : assert(
+          searchMode != SelectSearchMode.api || onSearch != null,
+          'onSearch est requis quand searchMode est api',
+        );
 
   @override
   State<MultiSelectField<T>> createState() => _MultiSelectFieldState<T>();
@@ -33,7 +42,12 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
   late List<T> _selected;
   bool _isOpen = false;
 
-  bool get _isSearchable => widget.options.length > 7;
+  List<SelectOptionModel<T>> _apiResults = [];
+  bool _isLoadingSearch = false;
+  Timer? _debounceTimer;
+  StateSetter? _setOverlayState;
+
+  bool get _isSearchable => widget.searchMode != null;
 
   @override
   void initState() {
@@ -45,12 +59,29 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
   void dispose() {
     _removeOverlay();
     _searchController.dispose();
+    _debounceTimer?.cancel();
     super.dispose();
   }
 
   double get _triggerWidth {
     final box = _triggerKey.currentContext?.findRenderObject() as RenderBox?;
     return box?.size.width ?? 200;
+  }
+
+  void _onQueryChanged(String query) {
+    if (widget.searchMode == SelectSearchMode.api) {
+      _debounceTimer?.cancel();
+      _debounceTimer = Timer(const Duration(milliseconds: 350), () async {
+        _setOverlayState?.call(() => _isLoadingSearch = true);
+        final results = await widget.onSearch!(query);
+        _setOverlayState?.call(() {
+          _apiResults = results;
+          _isLoadingSearch = false;
+        });
+      });
+    } else {
+      _setOverlayState?.call(() {});
+    }
   }
 
   void _toggleOption(SelectOptionModel<T> opt) {
@@ -69,8 +100,12 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
 
   void _showOverlay() {
     _removeOverlay();
+
+    if (widget.searchMode == SelectSearchMode.api) {
+      _apiResults = widget.options;
+    }
+
     final width = _triggerWidth;
-    final searchable = _isSearchable;
 
     _overlayEntry = OverlayEntry(
       builder: (_) => Stack(
@@ -107,25 +142,31 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                   ),
                   child: StatefulBuilder(
                     builder: (_, setOverlayState) {
+                      _setOverlayState = setOverlayState;
                       final query = _searchController.text.toLowerCase();
-                      final filtered = searchable
-                          ? widget.options
-                              .where(
-                                  (o) => o.label.toLowerCase().contains(query))
-                              .toList()
-                          : widget.options;
+
+                      final List<SelectOptionModel<T>> filtered;
+                      if (!_isSearchable) {
+                        filtered = widget.options;
+                      } else if (widget.searchMode == SelectSearchMode.local) {
+                        filtered = widget.options
+                            .where((o) => o.label.toLowerCase().contains(query))
+                            .toList();
+                      } else {
+                        filtered = _apiResults;
+                      }
 
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          if (searchable)
+                          if (_isSearchable)
                             Padding(
                               padding:
                                   EdgeInsets.fromLTRB(10.rw, 10.rh, 10.rw, 4.rh),
                               child: TextField(
                                 controller: _searchController,
                                 autofocus: true,
-                                onChanged: (_) => setOverlayState(() {}),
+                                onChanged: _onQueryChanged,
                                 style: TextStyle(fontSize: 14.rsp),
                                 decoration: InputDecoration(
                                   hintText: 'Rechercher...',
@@ -133,11 +174,23 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                                     fontSize: 13.rsp,
                                     color: AppColors.grayAsh,
                                   ),
-                                  prefixIcon: Icon(
-                                    Icons.search_rounded,
-                                    size: 18,
-                                    color: AppColors.grayAsh,
-                                  ),
+                                  prefixIcon: _isLoadingSearch
+                                      ? Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: SizedBox(
+                                            width: 18,
+                                            height: 18,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              color: AppColors.grayAsh,
+                                            ),
+                                          ),
+                                        )
+                                      : Icon(
+                                          Icons.search_rounded,
+                                          size: 18,
+                                          color: AppColors.grayAsh,
+                                        ),
                                   isDense: true,
                                   contentPadding: EdgeInsets.symmetric(
                                     horizontal: 10.rw,
@@ -147,18 +200,16 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                                   fillColor: AppColors.grayWh,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.rr),
-                                    borderSide:
-                                        BorderSide(color: AppColors.gray),
+                                    borderSide: BorderSide(color: AppColors.gray),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.rr),
-                                    borderSide:
-                                        BorderSide(color: AppColors.gray),
+                                    borderSide: BorderSide(color: AppColors.gray),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(8.rr),
-                                    borderSide: BorderSide(
-                                        color: AppColors.greyCharcoal),
+                                    borderSide:
+                                        BorderSide(color: AppColors.greyCharcoal),
                                   ),
                                 ),
                               ),
@@ -167,7 +218,7 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                             child: SingleChildScrollView(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                children: filtered.isEmpty
+                                children: filtered.isEmpty && !_isLoadingSearch
                                     ? [
                                         Padding(
                                           padding: EdgeInsets.symmetric(
@@ -202,8 +253,7 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                                                 Expanded(
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                        CrossAxisAlignment.start,
                                                     children: [
                                                       AppText(
                                                         opt.label,
@@ -211,15 +261,13 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                                                         fontWeight: isChecked
                                                             ? FontWeight.w600
                                                             : FontWeight.normal,
-                                                        color:
-                                                            AppColors.textHeading,
+                                                        color: AppColors.textHeading,
                                                       ),
                                                       if (opt.subtitle != null)
                                                         AppText(
                                                           opt.subtitle!,
                                                           fontSize: 12.rsp,
-                                                          color:
-                                                              AppColors.grayAsh,
+                                                          color: AppColors.grayAsh,
                                                         ),
                                                     ],
                                                   ),
@@ -230,20 +278,17 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                                                   child: isChecked
                                                       ? Icon(
                                                           Icons.check_box_rounded,
-                                                          key: const ValueKey(
-                                                              true),
+                                                          key: const ValueKey(true),
                                                           size: 18,
-                                                          color: AppColors
-                                                              .greyCharcoal,
+                                                          color:
+                                                              AppColors.greyCharcoal,
                                                         )
                                                       : Icon(
                                                           Icons
                                                               .check_box_outline_blank_rounded,
-                                                          key: const ValueKey(
-                                                              false),
+                                                          key: const ValueKey(false),
                                                           size: 18,
-                                                          color:
-                                                              AppColors.grayAsh,
+                                                          color: AppColors.grayAsh,
                                                         ),
                                                 ),
                                               ],
@@ -279,6 +324,8 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
     _overlayEntry?.remove();
     _overlayEntry = null;
     _searchController.clear();
+    _setOverlayState = null;
+    _debounceTimer?.cancel();
   }
 
   void _closeOverlay() {
@@ -299,13 +346,12 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
     if (_selected.isEmpty) return widget.placeholder;
     if (_selected.length == 1) {
       return widget.options
-              .firstWhere(
-                (o) => o.value == _selected.first,
-                orElse: () => SelectOptionModel(
-                    label: _selected.first.toString(),
-                    value: _selected.first),
-              )
-              .label;
+          .firstWhere(
+            (o) => o.value == _selected.first,
+            orElse: () => SelectOptionModel(
+                label: _selected.first.toString(), value: _selected.first),
+          )
+          .label;
     }
     return '${_selected.length} numéros sélectionnés';
   }
@@ -319,12 +365,13 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
       mainAxisSize: MainAxisSize.min,
       children: [
         AppText(
-          widget.label.toUpperCase(),
-          color: AppColors.grayAsh,
-          fontWeight: FontWeight.w600,
-          fontSize: 10.rsp,
+          widget.label,
+          type: AppTextType.label,
+          fontSize: 14.rsp,
+          color: AppColors.primary,
+          fontWeight: FontWeight.w400,
         ),
-        SizedBox(height: 6.rh),
+        SizedBox(height: 8.0.rh),
         CompositedTransformTarget(
           link: _layerLink,
           child: GestureDetector(
@@ -332,8 +379,7 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
             child: AnimatedContainer(
               key: _triggerKey,
               duration: const Duration(milliseconds: 200),
-              constraints:
-                  const BoxConstraints(minHeight: kMinInteractiveDimension),
+              constraints: const BoxConstraints(minHeight: kMinInteractiveDimension),
               padding: EdgeInsets.symmetric(horizontal: 14.rw),
               alignment: Alignment.centerLeft,
               decoration: BoxDecoration(
@@ -349,8 +395,9 @@ class _MultiSelectFieldState<T> extends State<MultiSelectField<T>> {
                     child: AppText(
                       _triggerLabel,
                       fontSize: 14.rsp,
-                      color:
-                          hasSelection ? AppColors.textHeading : AppColors.grayAsh,
+                      color: hasSelection
+                          ? AppColors.textHeading
+                          : AppColors.grayAsh,
                     ),
                   ),
                   AnimatedRotation(

@@ -4,6 +4,7 @@ import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart'
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_validators.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/domain/usecases/number_usecase.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/flotte_number/flotte_number_cubit.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
@@ -64,6 +65,7 @@ class FormEmploye extends StatefulWidget {
 class _FormEmployeState extends State<FormEmploye> {
   final groupCubit = getIt<GroupCubit>();
   final flotteNumberCubit = getIt<FlotteNumberCubit>();
+  final numberUsecase = getIt<NumberUsecase>();
 
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
@@ -176,6 +178,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Prénom',
                         keyboardType: TextInputType.text,
                         controller: _firstNameController,
+                        isRequired: true,
                         hintText: 'Ex: Ousman',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le prénom est obligatoire' : null,
@@ -187,6 +190,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Nom',
                         keyboardType: TextInputType.text,
                         controller: _lastNameController,
+                        isRequired: true,
                         hintText: 'Ex: Diallo',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le nom est obligatoire' : null,
@@ -203,6 +207,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Email',
                         keyboardType: TextInputType.emailAddress,
                         controller: _emailController,
+                        isRequired: true,
                         hintText: 'Ex: ousman@example.com',
                         validator: AppValidators.email(context),
                       ),
@@ -228,6 +233,21 @@ class _FormEmployeState extends State<FormEmploye> {
                                 ? 'Chargement...'
                                 : 'Choisir des numéros',
                             options: options,
+                            searchMode: SelectSearchMode.api,
+                            onSearch: (query) async {
+                              final result = await numberUsecase.getNumbers(
+                                data: {'status': 'UNASSIGNED', 'search': query},
+                              );
+                              return result.fold(
+                                (_) => [],
+                                (data) => (data.data?.numbers ?? [])
+                                    .map((n) => SelectOptionModel<int>(
+                                          label: n.msisdn ?? '---',
+                                          value: n.id ?? 0,
+                                        ))
+                                    .toList(),
+                              );
+                            },
                             onChanged: (selected) => setState(() =>
                                 _selectedFleetNumberIds =
                                     selected.map((o) => o.value).toList()),
@@ -246,6 +266,7 @@ class _FormEmployeState extends State<FormEmploye> {
                         labelText: 'Poste',
                         keyboardType: TextInputType.text,
                         controller: _positionController,
+                        isRequired: true,
                         hintText: 'Ex: Directeur Commercial',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le poste est obligatoire' : null,

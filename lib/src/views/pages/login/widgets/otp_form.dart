@@ -116,6 +116,7 @@ class _OtpFormState extends State<OtpForm> {
             onCompleted: (value) {
               _code = value;
               setState(() => _isComplete = true);
+              _submit();
             },
           ),
           ),

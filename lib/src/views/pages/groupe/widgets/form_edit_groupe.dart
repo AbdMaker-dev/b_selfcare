@@ -299,6 +299,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                         placeholder: _selectedDayMonth != null
                             ? _selectedDayMonth!
                             : 'Choisir un jour (1–31)',
+                        searchMode: SelectSearchMode.local,
                         options: List.generate(
                           31,
                           (i) => SelectOptionModel(label: '${i + 1}', value: '${i + 1}'),

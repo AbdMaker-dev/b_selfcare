@@ -17,6 +17,12 @@ class AppInput extends StatefulWidget {
   final bool readOnly;
   final VoidCallback? onTap, labelActionOnTap;
   final double? width;
+  final FocusNode? focusNode;
+  final FocusNode? nextFocusNode;
+  final TextInputAction? textInputAction;
+  final void Function(String)? onFieldSubmitted;
+  final Iterable<String>? autofillHints;
+  final bool isRequired;
 
   const AppInput({
     super.key,
@@ -25,6 +31,7 @@ class AppInput extends StatefulWidget {
     this.labelText,
     this.labelActionText,
     this.isPassword = false,
+    this.isRequired = false,
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
     this.suffixIcon,
@@ -33,7 +40,12 @@ class AppInput extends StatefulWidget {
     this.readOnly = false,
     this.onTap,
     this.labelActionOnTap,
-    this.width
+    this.width,
+    this.focusNode,
+    this.nextFocusNode,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.autofillHints,
   });
 
   @override
@@ -55,13 +67,29 @@ class _AppInputState extends State<AppInput> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText(
-                  widget.labelText!,
-                  type: AppTextType.label,
-                  fontSize: 14.rsp,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w400,
-                  textAlign: TextAlign.start,
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AppText(
+                      widget.labelText!,
+                      type: AppTextType.label,
+                      fontSize: 14.rsp,
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w400,
+                      textAlign: TextAlign.start,
+                    ),
+                    if (widget.isRequired)
+                      Text(
+                        ' *',
+                        style: TextStyle(
+                          color: AppColors.error,
+                          fontSize: 14.rsp,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'Montserrat',
+                          height: 1.0.rh,
+                        ),
+                      ),
+                  ],
                 ),
                 if (widget.labelActionText != null)
                   AppText(
@@ -79,12 +107,26 @@ class _AppInputState extends State<AppInput> {
           ],
           TextFormField(
             controller: widget.controller,
+            focusNode: widget.focusNode,
             obscureText: widget.isPassword ? _obscureText : false,
             keyboardType: widget.keyboardType,
             validator: widget.validator,
             onChanged: widget.onChanged,
             readOnly: widget.readOnly,
             onTap: widget.onTap,
+            textInputAction: widget.textInputAction ??
+                (widget.nextFocusNode != null
+                    ? TextInputAction.next
+                    : widget.onFieldSubmitted != null
+                        ? TextInputAction.done
+                        : null),
+            autofillHints: widget.autofillHints,
+            onFieldSubmitted: (value) {
+              if (widget.nextFocusNode != null) {
+                FocusScope.of(context).requestFocus(widget.nextFocusNode);
+              }
+              widget.onFieldSubmitted?.call(value);
+            },
             style: TextStyle(
               fontFamily: 'Montserrat',
               fontSize: 16.rsp,

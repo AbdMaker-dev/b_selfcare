@@ -172,6 +172,7 @@ class _FormGroupeState extends State<FormGroupe> {
                         labelText: 'Nom du groupe',
                         keyboardType: TextInputType.text,
                         controller: _nameController,
+                        isRequired: true,
                         hintText: 'Ex: Direction Générale',
                         validator: (v) =>
                             (v == null || v.trim().isEmpty) ? 'Le nom est obligatoire' : null,
@@ -266,6 +267,7 @@ class _FormGroupeState extends State<FormGroupe> {
                         child: SelectField<String>(
                           label: 'Jour du mois',
                           placeholder: 'Choisir un jour (1–31)',
+                          searchMode: SelectSearchMode.local,
                           options: List.generate(
                             31,
                             (i) => SelectOptionModel(

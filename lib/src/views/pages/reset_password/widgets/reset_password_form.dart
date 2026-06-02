@@ -9,6 +9,7 @@ import 'package:b_selfcare/src/views/pages/reset_password/cubit/reset_password_c
 import 'package:b_selfcare/src/views/pages/reset_password/widgets/send_mail_message.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
+import 'package:b_selfcare/src/views/widgets/app_keyboard_form.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,8 +40,9 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
-    return Form(
-      key: _formKey,
+    return AppKeyboardForm(
+      formKey: _formKey,
+      onSubmit: _submit,
       child: BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
         bloc: getIt<ResetPasswordCubit>(),
         listener: (context, state) {
@@ -80,6 +82,7 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
                     keyboardType: TextInputType.emailAddress,
                     controller: _emailController,
                     validator: AppValidators.email(context),
+                    onFieldSubmitted: (_) => _submit(),
                   ),
                   SizedBox(height: 50.0.rh),
                   AppButton(
@@ -104,3 +107,4 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
     );
   }
 }
+
