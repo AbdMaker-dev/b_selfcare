@@ -30,6 +30,9 @@ deploy:test:
     - echo "Deploiement sur serveur TEST ($DEPLOY_HOST_TEST)..."
     - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
     - echo "Deploy TEST termine avec succes !"
+    - echo "HOST TEST = $DEPLOY_HOST_TEST"
+    - echo "SCRIPT = $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
   environment:
     name: test
     url: https://test.votre-app.com
@@ -83,6 +86,9 @@ deploy:production:
     - echo "Deploiement sur serveur PROD ($DEPLOY_HOST_PROD)..."
     - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
     - echo "Deploy PROD termine avec succes !"
+    - echo "HOST PROD = $DEPLOY_HOST_PROD"
+    - echo "SCRIPT = $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
   environment:
     name: production
     url: https://votre-app.com
