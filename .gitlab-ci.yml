@@ -62,7 +62,8 @@ deploy:test:
   before_script:
     - apk add --no-cache openssh-client bash curl
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY_TEST" | tr -d '\r' | ssh-add -
+    - chmod 600 "$SSH_PRIVATE_KEY_TEST"
+    - ssh-add "$SSH_PRIVATE_KEY_TEST"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - ssh-keyscan -H "$DEPLOY_HOST_TEST" >> ~/.ssh/known_hosts
   script:
@@ -113,7 +114,8 @@ deploy:production:
   before_script:
     - apk add --no-cache openssh-client bash curl
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY_PROD" | tr -d '\r' | ssh-add -
+    - chmod 600 "$SSH_PRIVATE_KEY_TEST"
+    - ssh-add "$SSH_PRIVATE_KEY_TEST"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
     - ssh-keyscan -H "$DEPLOY_HOST_PROD" >> ~/.ssh/known_hosts
   script:
