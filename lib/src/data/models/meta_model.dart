@@ -5,6 +5,8 @@ class MetaModel {
   int? lastPage;
   int? from;
   int? to;
+  List<StatusOption>? availableStatuses;
+  List<StatusOption>? availableStatusesOptions;
 
   MetaModel(
       {this.currentPage,
@@ -12,7 +14,9 @@ class MetaModel {
         this.total,
         this.lastPage,
         this.from,
-        this.to
+        this.to,
+        this.availableStatuses,
+        this.availableStatusesOptions,
       });
 
   MetaModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +26,17 @@ class MetaModel {
     lastPage = json['last_page'];
     from = json['from'];
     to = json['to'];
+    availableStatuses = json['available_statuses'] != null
+        ? (json['available_statuses'] as List).map((e) {
+            if (e is String) return StatusOption(value: e);
+            return StatusOption.fromJson(e);
+          }).toList()
+        : null;
+    availableStatusesOptions = json['available_statuses_options'] != null
+        ? (json['available_statuses_options'] as List)
+            .map((e) => StatusOption.fromJson(e))
+            .toList()
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +47,33 @@ class MetaModel {
     data['last_page'] = this.lastPage;
     data['to'] = this.to;
     data['from'] = this.from;
+    if (availableStatuses != null) {
+      data['available_statuses'] =
+          this.availableStatuses!.map((e) => e.toJson()).toList();
+    }
+    if (availableStatusesOptions != null) {
+      data['available_statuses_options'] =
+          this.availableStatusesOptions!.map((e) => e.toJson()).toList();
+    }
     return data;
+  }
+}
+
+class StatusOption {
+  String? value;
+  String? label;
+
+  StatusOption({this.value, this.label});
+
+  StatusOption.fromJson(Map<String, dynamic> json) {
+    value = json['value'];
+    label = json['label'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'value': this.value,
+      'label': this.label,
+    };
   }
 }
