@@ -25,7 +25,6 @@ deploy:test:
     - echo "$SSH_PRIVATE_KEY_TEST" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-add ~/.ssh/id_ed25519
-    - echo "DEPLOY_HOST_TEST=$DEPLOY_HOST_TEST"
     - ssh-keyscan -H "$DEPLOY_HOST_TEST" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur TEST ($DEPLOY_HOST_TEST)..."
@@ -63,7 +62,7 @@ deploy:test:
         curl -sk -X POST "$SMS_API_URL" \
           -H "Content-Type: application/json" \
           -H "Accept: application/json" \
-          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}"
+          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}" || true
       done
 
 # =============================================================================
@@ -79,15 +78,11 @@ deploy:production:
     - echo "$SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-add ~/.ssh/id_ed25519
-    - echo "DEPLOY_HOST_PROD=$DEPLOY_HOST_PROD"
     - ssh-keyscan -H "$DEPLOY_HOST_PROD" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur PROD ($DEPLOY_HOST_PROD)..."
     - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
     - echo "Deploy PROD termine avec succes !"
-    - echo "HOST PROD = $DEPLOY_HOST_PROD"
-    - echo "SCRIPT = $DEPLOY_SCRIPT"
-    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
   environment:
     name: production
     url: https://votre-app.com
@@ -120,5 +115,5 @@ deploy:production:
         curl -sk -X POST "$SMS_API_URL" \
           -H "Content-Type: application/json" \
           -H "Accept: application/json" \
-          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}"
+          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}" || true
       done
