@@ -25,6 +25,7 @@ deploy:test:
     - echo "$SSH_PRIVATE_KEY_TEST" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-add ~/.ssh/id_ed25519
+    - echo "DEPLOY_HOST_TEST=$DEPLOY_HOST_TEST"
     - ssh-keyscan -H "$DEPLOY_HOST_TEST" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur TEST ($DEPLOY_HOST_TEST)..."
@@ -81,6 +82,7 @@ deploy:production:
     - echo "$SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
     - ssh-add ~/.ssh/id_ed25519
+    - echo "DEPLOY_HOST_PROD=$DEPLOY_HOST_PROD"
     - ssh-keyscan -H "$DEPLOY_HOST_PROD" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur PROD ($DEPLOY_HOST_PROD)..."
