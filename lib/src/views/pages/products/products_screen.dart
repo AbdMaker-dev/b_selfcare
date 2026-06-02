@@ -59,7 +59,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   SizedBox(height: 8.rh),
                   AppText(
                     "FORFAITS PERSONNALISÉS · COMPUTED_COST AUTO",
-                    fontSize: 11.rsp,
+                    fontSize: 14.rsp,
                     color: AppColors.textMuted,
                   )
                 ],
@@ -77,9 +77,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     contents: ProductForm(),
                   );
                 },
-                width: 120.rw,
-                height: 50.rh,
-                fontSize: 12.5.rsp,
+                width: 130.rw,
+                height: 60.rh,
+                fontSize: 15.rsp,
               ),
 
 
@@ -137,16 +137,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                           name: '${product.name ?? ''} (copie)',
                           description: product.description,
                           quotas: product.quotas
-                              ?.map((q) => Quotas(
-                                    walletId: q.walletId,
-                                    quota: q.quota,
-                                    price: q.price,
-                                    category: q.category,
-                                    unit: q.unit,
-                                    name: q.name,
-                                    code: q.code,
-                                  ))
-                              .toList(),
+                          ?.map((q) => Quotas(
+                                walletId: q.walletId,
+                                quota: q.quota,
+                                price: q.price,
+                                category: q.category,
+                                unit: q.unit,
+                                name: q.name,
+                                code: q.code,
+                              ))
+                          .toList(),
                         ),
                       ),
                     ),

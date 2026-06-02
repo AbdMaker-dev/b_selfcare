@@ -105,7 +105,7 @@ class _NumerosScreenState extends State<NumerosScreen> {
                     SizedBox(height: 8.rh),
                     AppText(
                       total > 0 ? '$total NUMÉROS' : '...',
-                      fontSize: 11.rsp,
+                      fontSize: 14.rsp,
                       color: AppColors.textMuted,
                     ),
                   ],

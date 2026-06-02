@@ -121,7 +121,7 @@ class PlanCard extends StatelessWidget {
             children: [
               AppText(
                 name,
-                fontSize: 15.rsp,
+                fontSize: 17.rsp,
                 fontWeight: FontWeight.w500,
                 color: AppColors.primary,
                 overflow: TextOverflow.ellipsis,
@@ -132,14 +132,14 @@ class PlanCard extends StatelessWidget {
                   children: [
                     AppText(
                       '$price',
-                      fontSize: 13.rsp,
+                      fontSize: 15.rsp,
                       fontWeight: FontWeight.w700,
                       color: AppColors.warning,
                     ),
                     SizedBox(width: 3.rw),
                     AppText(
                       'FCFA',
-                      fontSize: 10.rsp,
+                      fontSize: 12.rsp,
                       fontWeight: FontWeight.w400,
                       color: AppColors.textMuted,
                     ),
@@ -161,7 +161,7 @@ class PlanCard extends StatelessWidget {
               child: AppText(
                 _statusLabel,
                 type: AppTextType.small,
-                fontSize: 11.rsp,
+                fontSize: 12.rsp,
                 fontWeight: FontWeight.w700,
                 color: _badgeText,
               ),
@@ -267,14 +267,14 @@ class _FeatureBox extends StatelessWidget {
               AppText(
                 feature.label,
                 type: AppTextType.small,
-                fontSize: 10.rsp,
+                fontSize: 12.rsp,
                 color: AppColors.textMuted,
                 fontWeight: FontWeight.w400,
               ),
               if (feature.price != null)
                 AppText(
                   '${feature.price} F',
-                  fontSize: 10.rsp,
+                  fontSize: 11.rsp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.success,
                 ),

@@ -120,14 +120,14 @@ class _UserFooter extends StatelessWidget {
               children: [
                 AppText(
                   fullName,
-                  fontSize: 14.rsp,
+                  fontSize: 16.rsp,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
                 SizedBox(height: 2.rh),
                 AppText(
                   role,
-                  fontSize: 12.rsp,
+                  fontSize: 14.rsp,
                   color: Colors.white.withValues(alpha: 0.6),
                 ),
               ],

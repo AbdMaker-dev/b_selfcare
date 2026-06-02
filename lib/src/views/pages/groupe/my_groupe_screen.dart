@@ -90,27 +90,25 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                     SizedBox(height: 8.rh),
                     AppText(
                       total > 0
-                          ? '$total groupes · Gestion des groupes d\'employés'
-                          : 'Organisez vos employés par groupes et produits',
-                      fontSize: 11.rsp,
+                      ? '$total groupes · Gestion des groupes d\'employés'
+                      : 'Organisez vos employés par groupes et produits',
+                      fontSize: 14.rsp,
                       color: AppColors.textMuted,
                     ),
                   ],
                 ),
                 const Spacer(),
-                SizedBox(
-                  width: 150.rw,
-                  height: 40.rh,
-                  child: AppButton(
-                    text: 'Groupe',
-                    icon: Icons.add_circle_outline,
-                    type: AppButtonType.secondary,
-                    fontSize: 15.rsp,
-                    onPressed: () => FormGroupe.show(
-                      context,
-                      groupCubit: groupCubit,
-                      onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
-                    ),
+                AppButton(
+                  text: 'Groupe',
+                  icon: Icons.add_circle_outline,
+                  type: AppButtonType.secondary,
+                  width: 140.rw,
+                  height: 60.rh,
+                  fontSize: 15.rsp,
+                  onPressed: () => FormGroupe.show(
+                    context,
+                    groupCubit: groupCubit,
+                    onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
                   ),
                 ),
               ],

@@ -77,7 +77,7 @@ class _SideMenuListState extends State<SideMenuList> {
               AppText(
                 getIt<LayoutCubit>().currentUser?.company?.name ?? "My Company",
                 color: AppColors.white,
-                fontSize: 14.rsp,
+                fontSize: 16.rsp,
                 fontWeight: FontWeight.w500,
                 onClick: () => context.router.pushPath('$routeApp/$routeAppDashbord'),
               ),
@@ -148,7 +148,7 @@ class MenuSeparator extends StatelessWidget {
       padding: EdgeInsets.only(left: 10.rw, bottom: 5.rh),
       child: Row(
         spacing: 2.rw,
-        children: [AppText(title, fontSize: 12.5.rsp, color: AppColors.white)],
+        children: [AppText(title, fontSize: 15.rsp, color: AppColors.white)],
       ),
     );
   }
@@ -173,7 +173,7 @@ class CustomItemMenu extends StatelessWidget {
       onTap: onSelect,
       child: Container(
         width: double.infinity,
-        height: 42.rh,
+        height: 45.rh,
         padding: EdgeInsets.symmetric(horizontal: 20.rw),
         decoration: BoxDecoration(
           color: isActive ? AppColors.secondary.withValues(alpha: 0.1) : null,
@@ -190,12 +190,12 @@ class CustomItemMenu extends StatelessWidget {
             Icon(
               icon,
               color: isActive ? AppColors.secondary : AppColors.white,
-              size: 14.rsp,
+              size: 16.rsp,
             ),
             AppText(
               title,
               color: isActive ? AppColors.secondary : AppColors.white,
-              fontSize: 14.rsp,
+              fontSize: 17.rsp,
               onClick: onSelect,
             ),
           ],

@@ -104,9 +104,9 @@ class _CampagneScreenState extends State<CampagneScreen> {
                     SizedBox(height: 8.rh),
                     AppText(
                       total > 0
-                          ? '$total campagnes · Provisioning automatique CBS'
-                          : 'Provisioning automatique - CBS - DAILY / WEEKLY / MONTHLY',
-                      fontSize: 11.rsp,
+                      ? '$total campagnes · Provisioning automatique CBS'
+                      : 'Provisioning automatique - CBS - DAILY / WEEKLY / MONTHLY',
+                      fontSize: 14.rsp,
                       color: AppColors.textMuted,
                     ),
                   ],

@@ -86,8 +86,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           type: AppButtonType.outline,
           onPressed: onActualiser,
           width: 110.rw,
-          height: 50.rh,
-          fontSize: 11.5.rsp,
+          height: 60.rh,
+          fontSize: 15.rsp,
         ),
         SizedBox(width: 8.rw),
         AppButton(
@@ -96,8 +96,8 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           type: AppButtonType.secondary,
           onPressed: onRecharger,
           width: 120.rw,
-          height: 50.rh,
-          fontSize: 12.5.rsp,
+          height: 60.rh,
+          fontSize: 15.rsp,
         ),
       ],
     );
@@ -112,8 +112,8 @@ class _BadgeActif extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 75.rw,
-      height: 30.rh,
+      width: 80.rw,
+      height: 35.rh,
       padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 5.rh),
       decoration: BoxDecoration(
         color: isActif ? AppColors.success.withValues(alpha: 0.1) : AppColors.error.withValues(alpha: 0.1),
@@ -139,7 +139,7 @@ class _BadgeActif extends StatelessWidget {
           AppText(
             isActif ? 'Actif' : 'Inactif',
             type: AppTextType.small,
-            fontSize: 9.5.rsp,
+            fontSize: 13.rsp,
             fontWeight: FontWeight.w500,
             color: isActif ? AppColors.success : AppColors.error,
           ),
@@ -158,7 +158,7 @@ class _BadgeSolde extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 120.rw,
-      height: 30.rh,
+      height: 35.rh,
       padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 5.rh),
       decoration: BoxDecoration(
         color: AppColors.warning.withValues(alpha: 0.1),
@@ -182,7 +182,7 @@ class _BadgeSolde extends StatelessWidget {
           AppText(
             solde,
             type: AppTextType.small,
-            fontSize: 9.5.rsp,
+            fontSize: 13.rsp,
             fontWeight: FontWeight.w500,
             color: AppColors.warning,
             fontFamily: 'monospace',

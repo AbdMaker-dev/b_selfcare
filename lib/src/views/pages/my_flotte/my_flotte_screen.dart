@@ -93,7 +93,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                     SizedBox(height: 8.rh),
                     AppText(
                       total > 0 ? '$total EMPLOYÉS' : '...',
-                      fontSize: 11.rsp,
+                      fontSize: 14.rsp,
                       color: AppColors.textMuted,
                     ),
                   ],
@@ -101,32 +101,28 @@ class _MyFlotteScreenState extends State<MyFlotteScreen> {
                 const Spacer(),
                 Row(
                   children: [
-                    SizedBox(
+                    AppButton(
+                      text: 'Fichier exemple',
+                      type: AppButtonType.outline,
+                      icon: Icons.download,
                       width: 180.rw,
-                      height: 40.rh,
-                      child: AppButton(
-                        text: 'Fichier exemple',
-                        type: AppButtonType.outline,
-                        icon: Icons.download,
-                        fontSize: 15.rsp,
-                        onPressed: () => myFlotte.downloadFileEmployes(),
-                      ),
+                      height: 60.rh,
+                      fontSize: 15.rsp,
+                      onPressed: () => myFlotte.downloadFileEmployes(),
                     ),
                     SizedBox(width: 10.rw),
-                    SizedBox(
-                      width: 150.rw,
-                      height: 40.rh,
-                      child: AppButton(
-                        text: 'Employé',
-                        icon: Icons.add_circle_outline,
-                        type: AppButtonType.secondary,
-                        fontSize: 15.rsp,
-                        onPressed: () => FormEmploye.show(
-                          context,
-                          myFlotteCubit: myFlotte,
-                          onCreated: () => myFlotte.getEmployees(
-                            data: {'page': _currentPage},
-                          ),
+                    AppButton(
+                      text: 'Employé',
+                      icon: Icons.add_circle_outline,
+                      type: AppButtonType.secondary,
+                      width: 140.rw,
+                      height: 60.rh,
+                      fontSize: 15.rsp,
+                      onPressed: () => FormEmploye.show(
+                        context,
+                        myFlotteCubit: myFlotte,
+                        onCreated: () => myFlotte.getEmployees(
+                          data: {'page': _currentPage},
                         ),
                       ),
                     ),
