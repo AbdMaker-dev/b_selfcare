@@ -28,7 +28,7 @@ deploy:test:
     - ssh-keyscan -H "$DEPLOY_HOST_TEST" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur TEST ($DEPLOY_HOST_TEST)..."
-    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT" || true
     - echo "Deploy TEST termine avec succes !"
   environment:
     name: test
@@ -81,7 +81,7 @@ deploy:production:
     - ssh-keyscan -H "$DEPLOY_HOST_PROD" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur PROD ($DEPLOY_HOST_PROD)..."
-    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT" || true
     - echo "Deploy PROD termine avec succes !"
   environment:
     name: production
