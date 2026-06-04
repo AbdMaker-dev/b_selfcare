@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/src/data/models/user_profile_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_date.dart';
@@ -21,10 +22,23 @@ class DetailUser extends StatefulWidget {
     required UserProfileModel userPreview,
     required UsersCubit usersCubit,
   }) {
-    showDetailDialog(
-      context,
-      width: 660,
-      child: DetailUser(userPreview: userPreview, usersCubit: usersCubit),
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      pageBuilder: (_, __, ___) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 650.rw,
+            height: double.infinity,
+            child: DetailUser(userPreview: userPreview, usersCubit: usersCubit),
+          ),
+        ),
+      ),
     );
   }
 
@@ -46,77 +60,152 @@ class _DetailUserState extends State<DetailUser> {
 
   @override
   Widget build(BuildContext context) {
-    if (_loading) {
-      return SizedBox(
-        height: 200.rh,
-        child: Center(child: CircularProgressIndicator(color: AppColors.primary)),
-      );
-    }
+    final user = _user ?? widget.userPreview;
 
-    final user = _user!;
+    return Container(
+      height: double.infinity,
+      decoration: BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.rr),
+          bottomLeft: Radius.circular(12.rr),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // HEADER
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              border: Border(bottom: BorderSide(color: AppColors.gray)),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText.textHighlight(
+                        'Détail utilisateur',
+                        fontSize: 20.rsp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.grayAsh,
+                        highlight: 'utilisateur',
+                        fontFamily: FontFamily.syne,
+                        highlightColor: AppColors.primary,
+                        highlightFontSize: 20.rsp,
+                      ),
+                      SizedBox(height: 4.rh),
+                      AppText(
+                        '${user.name ?? '---'} · ${user.email ?? '---'} · ${user.status ?? '---'}',
+                        fontSize: 10.rsp,
+                        color: AppColors.textMuted,
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                  borderRadius: BorderRadius.circular(6),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 6.rh),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: AppColors.graySilver),
+                    ),
+                    child: AppText(
+                      'X',
+                      fontSize: 13.rsp,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-    return DetailContainer(children: [
-      _Header(user: user),
-      SizedBox(height: 20.rh),
-      const DetailDivider(),
-      SizedBox(height: 20.rh),
-      _SectionInfos(user: user),
-      if (user.roles.isNotEmpty) ...[
-        SizedBox(height: 20.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _SectionRoles(user: user),
-      ],
-      SizedBox(height: 24.rh),
-      const DetailDivider(),
-      SizedBox(height: 20.rh),
-      _Actions(user: user, usersCubit: widget.usersCubit),
-    ]);
+          // SCROLLABLE BODY
+          Expanded(
+            child: _loading
+                ? Center(child: CircularProgressIndicator(color: AppColors.primary))
+                : SingleChildScrollView(
+                    padding: EdgeInsets.all(16.rw),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _HeaderCard(user: user),
+                        SizedBox(height: 16.rh),
+                        _SectionInfos(user: user),
+                        if (user.roles.isNotEmpty) ...[
+                          SizedBox(height: 16.rh),
+                          const DetailDivider(),
+                          SizedBox(height: 16.rh),
+                          _SectionRoles(user: user),
+                        ],
+                        SizedBox(height: 16.rh),
+                      ],
+                    ),
+                  ),
+          ),
+
+          // FOOTER
+          _Actions(user: user, usersCubit: widget.usersCubit),
+        ],
+      ),
+    );
   }
 }
 
-// ─── Header ───────────────────────────────────────────────────────────────────
+// ─── Header card ─────────────────────────────────────────────────────────────
 
-class _Header extends StatelessWidget {
+class _HeaderCard extends StatelessWidget {
   final UserProfileModel user;
-  const _Header({required this.user});
+  const _HeaderCard({required this.user});
 
   @override
   Widget build(BuildContext context) {
     final initials = _initials(user.firstName, user.lastName);
     final isActive = user.status?.toUpperCase() == 'ACTIVE';
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _Avatar(initials: initials, isActive: isActive),
-        SizedBox(width: 14.rw),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(user.name ?? '---', fontSize: 18.rsp, fontWeight: FontWeight.w700, color: AppColors.primary),
-              if (user.email != null) ...[
-                SizedBox(height: 4.rh),
-                Row(children: [
-                  Icon(Icons.email_outlined, size: 13.rsp, color: AppColors.textMuted),
-                  SizedBox(width: 4.rw),
-                  AppText(user.email!, fontSize: 12.rsp, color: AppColors.textMuted),
-                ]),
+    return Container(
+      padding: EdgeInsets.all(16.rw),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10.rr),
+        border: Border.all(color: AppColors.gray),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Avatar(initials: initials, isActive: isActive),
+          SizedBox(width: 14.rw),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(
+                  user.name ?? '---',
+                  fontSize: 16.rsp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+                if (user.email != null) ...[
+                  SizedBox(height: 4.rh),
+                  AppText(user.email!, fontSize: 13.rsp, color: AppColors.textMuted),
+                ],
+                if (user.msisdn != null) ...[
+                  SizedBox(height: 3.rh),
+                  AppText(user.msisdn!, fontSize: 13.rsp, color: AppColors.textMuted),
+                ],
               ],
-              if (user.msisdn != null) ...[
-                SizedBox(height: 3.rh),
-                Row(children: [
-                  Icon(Icons.phone_outlined, size: 13.rsp, color: AppColors.textMuted),
-                  SizedBox(width: 4.rw),
-                  AppText(user.msisdn!, fontSize: 12.rsp, color: AppColors.textMuted),
-                ]),
-              ],
-            ],
+            ),
           ),
-        ),
-        DetailStatusBadge.fromStatus(user.status),
-      ],
+          DetailStatusBadge.fromStatus(user.status),
+        ],
+      ),
     );
   }
 
@@ -178,12 +267,12 @@ class _SectionInfos extends StatelessWidget {
         DetailSectionTitle(label: 'Informations personnelles', icon: Icons.person_outline),
         SizedBox(height: 14.rh),
         DetailInfoRow(
-          left: DetailInfoItem(label: 'Prénom',  value: user.firstName ?? '---', icon: Icons.badge_outlined),
+          left:  DetailInfoItem(label: 'Prénom', value: user.firstName ?? '---', icon: Icons.badge_outlined),
           right: DetailInfoItem(label: 'Nom',    value: user.lastName  ?? '---', icon: Icons.badge_outlined),
         ),
         SizedBox(height: 12.rh),
         DetailInfoRow(
-          left:  DetailInfoItem(label: 'Email',    value: user.email  ?? '---', icon: Icons.email_outlined),
+          left:  DetailInfoItem(label: 'Email',     value: user.email  ?? '---', icon: Icons.email_outlined),
           right: DetailInfoItem(label: 'Téléphone', value: user.msisdn ?? '---', icon: Icons.phone_outlined),
         ),
         SizedBox(height: 12.rh),
@@ -244,7 +333,7 @@ class _RoleBadge extends StatelessWidget {
   }
 }
 
-// ─── Actions ──────────────────────────────────────────────────────────────────
+// ─── Footer actions ───────────────────────────────────────────────────────────
 
 class _Actions extends StatelessWidget {
   final UserProfileModel user;
@@ -253,41 +342,51 @@ class _Actions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        DetailActionBtn(
-          label: 'Fermer',
-          type: AppButtonType.outline,
-          width: 120,
-          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-        ),
-        SizedBox(width: 10.rw),
-        DetailActionBtn(
-          label: 'Supprimer',
-          type: AppButtonType.primary,
-          color: AppColors.error,
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-            ConfirmDeleteUser.show(context, user: user, usersCubit: usersCubit);
-          },
-        ),
-        SizedBox(width: 10.rw),
-        DetailActionBtn(
-          label: 'Modifier',
-          type: AppButtonType.secondary,
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-            if (context.mounted) {
-              showDetailDialog(
-                context,
-                width: 650,
-                child: UserForm(user: user),
-              );
-            }
-          },
-        ),
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        border: Border(top: BorderSide(color: AppColors.gray)),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: AppButton(
+              text: 'Fermer',
+              type: AppButtonType.outline,
+              fontSize: 14.rsp,
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            ),
+          ),
+          SizedBox(width: 12.rw),
+          Expanded(
+            child: AppButton(
+              text: 'Supprimer',
+              type: AppButtonType.primary,
+              color: AppColors.error,
+              fontSize: 14.rsp,
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+                ConfirmDeleteUser.show(context, user: user, usersCubit: usersCubit);
+              },
+            ),
+          ),
+          SizedBox(width: 12.rw),
+          Expanded(
+            child: AppButton(
+              text: 'Modifier',
+              type: AppButtonType.secondary,
+              fontSize: 14.rsp,
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pop();
+                if (context.mounted) {
+                  showDetailDialog(context, width: 650, child: UserForm(user: user));
+                }
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

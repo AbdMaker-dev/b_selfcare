@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
@@ -34,6 +35,8 @@ class _MyFlotteScreenState extends State<MyFlotteScreen>
     with TickerProviderStateMixin {
   final myFlotte = getIt<MyFlotteCubit>();
   late final TabController _tabController;
+  final _employeesTotal = ValueNotifier<int>(0);
+  final _numerosTotal = ValueNotifier<int>(0);
 
   @override
   void initState() {
@@ -44,6 +47,8 @@ class _MyFlotteScreenState extends State<MyFlotteScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    _employeesTotal.dispose();
+    _numerosTotal.dispose();
     super.dispose();
   }
 
@@ -53,6 +58,38 @@ class _MyFlotteScreenState extends State<MyFlotteScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // ─── Header dynamique ────────────────────────────────────────────
+        ListenableBuilder(
+          listenable: Listenable.merge([_tabController, _employeesTotal, _numerosTotal]),
+          builder: (context, _) {
+            final current = _tabController.index;
+            final total = current == 0 ? _employeesTotal.value : _numerosTotal.value;
+            final title = current == 0 ? s.myFlotte : 'Mes Numéros';
+            final highlight = current == 0 ? s.flotte : 'Numéros';
+            final label = current == 0 ? 'EMPLOYÉS' : 'NUMÉROS';
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText.textHighlight(
+                  title,
+                  highlight: highlight,
+                  fontSize: 22.rsp,
+                  highlightColor: Colors.green,
+                  fontFamily: FontFamily.fraunces,
+                  fontStyle: FontStyle.italic,
+                ),
+                SizedBox(height: 8.rh),
+                AppText(
+                  total > 0 ? '$total $label' : '...',
+                  fontSize: 14.5.rsp,
+                  color: AppColors.textMuted,
+                ),
+              ],
+            );
+          },
+        ),
+        SizedBox(height: 16.rh),
+
         // ─── Onglets pilules ─────────────────────────────────────────────
         AnimatedBuilder(
           animation: _tabController,
@@ -85,8 +122,14 @@ class _MyFlotteScreenState extends State<MyFlotteScreen>
             controller: _tabController,
             physics: const NeverScrollableScrollPhysics(),
             children: [
-              _EmployesTab(myFlotte: myFlotte, s: s),
-              const NumerosContent(),
+              _EmployesTab(
+                myFlotte: myFlotte,
+                s: s,
+                onTotalChanged: (v) => _employeesTotal.value = v,
+              ),
+              NumerosContent(
+                onTotalChanged: (v) => _numerosTotal.value = v,
+              ),
             ],
           ),
         ),
@@ -100,7 +143,8 @@ class _MyFlotteScreenState extends State<MyFlotteScreen>
 class _EmployesTab extends StatefulWidget {
   final MyFlotteCubit myFlotte;
   final S s;
-  const _EmployesTab({required this.myFlotte, required this.s});
+  final void Function(int) onTotalChanged;
+  const _EmployesTab({required this.myFlotte, required this.s, required this.onTotalChanged});
 
   @override
   State<_EmployesTab> createState() => _EmployesTabState();
@@ -147,31 +191,14 @@ class _EmployesTabState extends State<_EmployesTab> {
         final total = meta?.total ?? 0;
         final lastPage = meta?.lastPage ?? 1;
 
+        WidgetsBinding.instance.addPostFrameCallback((_) => widget.onTotalChanged(total));
+
         return ListView(
           padding: EdgeInsets.only(bottom: 50.rh),
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                /*Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText.textHighlight(
-                      widget.s.myFlotte,
-                      highlight: widget.s.flotte,
-                      fontSize: 22.rsp,
-                      highlightColor: Colors.green,
-                      fontFamily: FontFamily.fraunces,
-                      fontStyle: FontStyle.italic,
-                    ),
-                    SizedBox(height: 8.rh),
-                    AppText(
-                      total > 0 ? '$total EMPLOYÉS' : '...',
-                      fontSize: 14.5.rsp,
-                      color: AppColors.textMuted,
-                    ),
-                  ],
-                ),*/
                 const Spacer(),
                 Row(
                   children: [

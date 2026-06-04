@@ -15,7 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NumerosContent extends StatefulWidget {
-  const NumerosContent({super.key});
+  final void Function(int)? onTotalChanged;
+  const NumerosContent({super.key, this.onTotalChanged});
 
   @override
   State<NumerosContent> createState() => _NumerosContentState();
@@ -82,23 +83,11 @@ class _NumerosContentState extends State<NumerosContent> {
         final total = meta?.total ?? 0;
         final lastPage = meta?.lastPage ?? 1;
 
+        WidgetsBinding.instance.addPostFrameCallback((_) => widget.onTotalChanged?.call(total));
+
         return ListView(
           padding: EdgeInsets.only(bottom: 50.rh),
           children: [
-            /*Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(
-                      total > 0 ? '$total NUMÉROS' : '...',
-                      fontSize: 14.rsp,
-                      color: AppColors.textMuted,
-                    ),
-                  ],
-                ),
-              ],
-            ),*/
             SizedBox(height: 20.rh),
             AppSearchInput(onChanged: (value) => _fetch(search: value)),
             SizedBox(height: 20.rh),

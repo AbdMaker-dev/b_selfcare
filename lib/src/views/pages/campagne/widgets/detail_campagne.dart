@@ -360,7 +360,7 @@ class _Actions extends StatelessWidget {
         children: [
           Icon(icon, color: color, size: 18.rsp),
            SizedBox(width: 10.rw),
-          Text(label, style: TextStyle(color: color, fontWeight: FontWeight.w500)),
+          AppText(label, color: color, fontWeight: FontWeight.w500),
         ],
       ),
     );
