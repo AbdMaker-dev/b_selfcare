@@ -85,7 +85,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icons.refresh_rounded,
           type: AppButtonType.outline,
           onPressed: onActualiser,
-          width: 110.rw,
+          // width: 110.rw,
           height: 60.rh,
           fontSize: 15.rsp,
         ),
@@ -95,7 +95,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           icon: Icons.add_circle_outline,
           type: AppButtonType.secondary,
           onPressed: onRecharger,
-          width: 120.rw,
+          // width: 120.rw,
           height: 60.rh,
           fontSize: 15.rsp,
         ),
@@ -112,9 +112,9 @@ class _BadgeActif extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 80.rw,
+      // width: 80.rw,
       height: 35.rh,
-      padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 5.rh),
+      padding: EdgeInsets.symmetric(horizontal: 20.rw, vertical: 5.rh),
       decoration: BoxDecoration(
         color: isActif ? AppColors.success.withValues(alpha: 0.1) : AppColors.error.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(15.5.rr),
@@ -157,9 +157,9 @@ class _BadgeSolde extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120.rw,
+      // width: 120.rw,
       height: 35.rh,
-      padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 5.rh),
+      padding: EdgeInsets.symmetric(horizontal: 20.rw, vertical: 5.rh),
       decoration: BoxDecoration(
         color: AppColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(15.5.rr),

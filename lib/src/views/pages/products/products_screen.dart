@@ -53,13 +53,14 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     "Mes produits",
                     highlight: "produits",
                     fontSize: 22.rsp,
-                    fontFamily: FontFamily.syne,
+                    fontFamily: FontFamily.fraunces,
+                    fontStyle: FontStyle.italic,
                     highlightColor: AppColors.warning,
                   ),
                   SizedBox(height: 8.rh),
                   AppText(
                     "FORFAITS PERSONNALISÉS · COMPUTED_COST AUTO",
-                    fontSize: 14.rsp,
+                    fontSize: 14.5.rsp,
                     color: AppColors.textMuted,
                   )
                 ],

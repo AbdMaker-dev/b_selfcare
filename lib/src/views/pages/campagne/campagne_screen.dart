@@ -106,14 +106,15 @@ class _CampagneScreenState extends State<CampagneScreen> {
           highlight: s.campagne,
           fontSize: 22.rsp,
           highlightColor: AppColors.warning,
-          fontFamily: FontFamily.syne,
+          fontFamily: FontFamily.fraunces,
+          fontStyle: FontStyle.italic,
         ),
         SizedBox(height: 8.rh),
         AppText(
           total > 0
-              ? '$total campagnes · Provisioning automatique CBS'
-              : 'Provisioning automatique - CBS - DAILY / WEEKLY / MONTHLY',
-          fontSize: 14.rsp,
+          ? '$total campagnes · Provisioning automatique CBS'
+          : 'Provisioning automatique - CBS - DAILY / WEEKLY / MONTHLY',
+          fontSize: 14.5.rsp,
           color: AppColors.textMuted,
         ),
       ],

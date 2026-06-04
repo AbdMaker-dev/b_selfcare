@@ -97,15 +97,47 @@ class UserCompanyModel {
   final int? id;
   final String? name;
   final String? slug;
+  final String? logoUrl;
+  final String? status;
+  final String? currentBalance;
+  final String? formattedBalance;
+  final String? cbsAccountId;
+  final String? cbsNbAccount;
+  final String? email;
+  final String? phone;
+  final String? address;
   final PricePlanCategoryModel? pricePlanCategory;
 
-  UserCompanyModel({this.id, this.name, this.slug, this.pricePlanCategory});
+  UserCompanyModel({
+    this.id,
+    this.name,
+    this.slug,
+    this.logoUrl,
+    this.status,
+    this.currentBalance,
+    this.formattedBalance,
+    this.cbsAccountId,
+    this.cbsNbAccount,
+    this.email,
+    this.phone,
+    this.address,
+    this.pricePlanCategory,
+  });
 
   factory UserCompanyModel.fromJson(Map<String, dynamic> json) {
     return UserCompanyModel(
       id: json['id'],
       name: json['name'],
       slug: json['slug'],
+      logoUrl: json['logo_url'],
+      status: json['status'],
+      currentBalance: json['current_balance']?.toString(),
+      formattedBalance: json['formatted_balance'],
+      cbsAccountId: json['cbs_account_id'],
+      cbsNbAccount: json['cbs_nb_account'],
+      email: json['email'],
+      phone: json['phone'],
+      address: json['address'],
       pricePlanCategory: json['pricePlanCategory'] != null
           ? PricePlanCategoryModel.fromJson(json['pricePlanCategory'])
           : null,
@@ -116,6 +148,15 @@ class UserCompanyModel {
         'id': id,
         'name': name,
         'slug': slug,
+        'logo_url': logoUrl,
+        'status': status,
+        'current_balance': currentBalance,
+        'formatted_balance': formattedBalance,
+        'cbs_account_id': cbsAccountId,
+        'cbs_nb_account': cbsNbAccount,
+        'email': email,
+        'phone': phone,
+        'address': address,
         'pricePlanCategory': pricePlanCategory?.toJson(),
       };
 }

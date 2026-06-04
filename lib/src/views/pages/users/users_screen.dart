@@ -83,10 +83,16 @@ class _UsersScreenState extends State<UsersScreen> {
         );
       },
       builder: (context, state) {
-        final users     = _cubit.users;
-        final total     = _cubit.totalCount;
-        final lastPage  = _cubit.lastPage;
-        final isLoading = state is GetUsersLoading;
+        final users      = _cubit.users;
+        final total      = _cubit.totalCount;
+        final lastPage   = _cubit.lastPage;
+        final isLoading  = state is GetUsersLoading;
+        final filterTabs = [
+          const FilterTab(label: 'Tous'),
+          ..._cubit.availableStatuses
+              .where((s) => s.label != null && s.value != null)
+              .map((s) => FilterTab(label: s.label!, value: s.value)),
+        ];
 
         return ListView(
           padding: EdgeInsets.only(bottom: 50.rh),
@@ -101,13 +107,14 @@ class _UsersScreenState extends State<UsersScreen> {
                       'Gestion des utilisateurs',
                       highlight: 'utilisateurs',
                       fontSize: 22.rsp,
-                      fontFamily: FontFamily.syne,
+                      fontFamily: FontFamily.fraunces,
+                      fontStyle: FontStyle.italic,
                       highlightColor: AppColors.warning,
                     ),
                     SizedBox(height: 8.rh),
                     AppText(
                       total > 0 ? '$total utilisateurs enregistrés' : 'Gestion des accès et des rôles',
-                      fontSize: 14.rsp,
+                      fontSize: 14.5.rsp,
                       color: AppColors.textMuted,
                     ),
                   ],
@@ -133,13 +140,8 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             SizedBox(height: 16.rh),
             FilterTabsWidget(
-              tabs: const [
-                FilterTab(label: 'Tous'),
-                FilterTab(label: 'Actif',     value: 'ACTIVE'),
-                FilterTab(label: 'Suspendu',  value: 'SUSPENDED'),
-                FilterTab(label: 'Invité',    value: 'INVITED'),
-                FilterTab(label: 'Inactif',   value: 'INACTIVE'),
-              ],
+              key: ValueKey(filterTabs.map((t) => t.value).join(',')),
+              tabs: filterTabs,
               onTabChanged: (tab) {
                 setState(() { _statusFilter = tab.value; _currentPage = 1; });
                 _cubit.getUsers(data: _buildParams(page: 1));
