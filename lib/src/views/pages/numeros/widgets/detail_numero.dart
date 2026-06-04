@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/src/data/models/flotte_number/flotte_number_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_date.dart';
@@ -22,10 +23,23 @@ class DetailNumero extends StatelessWidget {
     required FlotteNumberModel numero,
     required FlotteNumberCubit flotteNumberCubit,
   }) {
-    showDetailDialog(
-      context,
-      width: 620.rw,
-      child: DetailNumero(numero: numero, flotteNumberCubit: flotteNumberCubit),
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      pageBuilder: (_, __, ___) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 600.rw,
+            height: double.infinity.rh,
+            child: DetailNumero(numero: numero, flotteNumberCubit: flotteNumberCubit),
+          ),
+        ),
+      ),
     );
   }
 
@@ -41,64 +55,149 @@ class DetailNumero extends StatelessWidget {
           orElse: () {},
         );
       },
-      child: DetailContainer(children: [
-        _Header(numero: numero),
-        SizedBox(height: 20.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _SectionNumero(numero: numero),
-        if (numero.employee != null) ...[
-          SizedBox(height: 20.rh),
-          const DetailDivider(),
-          SizedBox(height: 20.rh),
-          _SectionEmploye(numero: numero),
-        ],
-        SizedBox(height: 24.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _Actions(numero: numero, flotteNumberCubit: flotteNumberCubit),
-      ]),
+      child: Container(
+        height: double.infinity.rh,
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12.rr),
+            bottomLeft: Radius.circular(12.rr),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // HEADER
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                border: Border(bottom: BorderSide(color: AppColors.gray)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText.textHighlight(
+                          'Détail numéro',
+                          fontSize: 20.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grayAsh,
+                          highlight: 'numéro',
+                          fontFamily: FontFamily.syne,
+                          highlightColor: AppColors.primary,
+                          highlightFontSize: 20.rsp,
+                        ),
+                        SizedBox(height: 4.rh),
+                        AppText(
+                          '${numero.msisdn ?? '---'} · ${numero.status ?? '---'}',
+                          fontSize: 10.rsp,
+                          color: AppColors.textMuted,
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                    borderRadius: BorderRadius.circular(6),
+                    child: Container(
+                      padding:  EdgeInsets.symmetric(horizontal: 10.rw, vertical: 6.rh),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: AppColors.graySilver),
+                      ),
+                      child: AppText(
+                        'X',
+                        fontSize: 13.rsp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // SCROLLABLE BODY
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.rw),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _HeaderCard(numero: numero),
+                    SizedBox(height: 16.rh),
+                    _SectionNumero(numero: numero),
+                    if (numero.employee != null) ...[
+                      SizedBox(height: 16.rh),
+                      const DetailDivider(),
+                      SizedBox(height: 16.rh),
+                      _SectionEmploye(numero: numero),
+                    ],
+                    SizedBox(height: 16.rh),
+                  ],
+                ),
+              ),
+            ),
+
+            // FOOTER
+            _Actions(numero: numero, flotteNumberCubit: flotteNumberCubit),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class _Header extends StatelessWidget {
+// ─── Header card ─────────────────────────────────────────────────────────────
+
+class _HeaderCard extends StatelessWidget {
   final FlotteNumberModel numero;
-  const _Header({required this.numero});
+  const _HeaderCard({required this.numero});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DetailIconBox(icon: Icons.sim_card_outlined),
-        SizedBox(width: 14.rw),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(
-                numero.msisdn ?? '---',
-                fontSize: 20.rsp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-              ),
-              if (numero.iccid != null) ...[
-                SizedBox(height: 4.rh),
-                Row(children: [
-                  Icon(Icons.credit_card_outlined, size: 13.rsp, color: AppColors.textMuted),
-                  SizedBox(width: 4.rw),
-                  AppText('ICCID : ${numero.iccid!}', fontSize: 12.rsp, color: AppColors.textMuted),
-                ]),
+    return Container(
+      padding: EdgeInsets.all(16.rw),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10.rr),
+        border: Border.all(color: AppColors.gray),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DetailIconBox(icon: Icons.sim_card_outlined),
+          SizedBox(width: 14.rw),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(
+                  numero.msisdn ?? '---',
+                  fontSize: 18.rsp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+                if (numero.iccid != null) ...[
+                  SizedBox(height: 4.rh),
+                  Row(children: [
+                    Icon(Icons.credit_card_outlined, size: 13.rsp, color: AppColors.textMuted),
+                    SizedBox(width: 4.rw),
+                    AppText('ICCID : ${numero.iccid!}', fontSize: 12.rsp, color: AppColors.textMuted),
+                  ]),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        DetailStatusBadge.fromStatus(numero.status == 'UNASSIGNED' ? null : numero.status),
-        if (numero.status?.toUpperCase() == 'UNASSIGNED') ...[
-          _UnassignedBadge(),
+          if (numero.status?.toUpperCase() == 'UNASSIGNED')
+            _UnassignedBadge()
+          else
+            DetailStatusBadge.fromStatus(numero.status),
         ],
-      ],
+      ),
     );
   }
 }
@@ -129,6 +228,8 @@ class _UnassignedBadge extends StatelessWidget {
   }
 }
 
+// ─── Section numéro ───────────────────────────────────────────────────────────
+
 class _SectionNumero extends StatelessWidget {
   final FlotteNumberModel numero;
   const _SectionNumero({required this.numero});
@@ -153,6 +254,8 @@ class _SectionNumero extends StatelessWidget {
     );
   }
 }
+
+// ─── Section employé ─────────────────────────────────────────────────────────
 
 class _SectionEmploye extends StatelessWidget {
   final FlotteNumberModel numero;
@@ -185,6 +288,8 @@ class _SectionEmploye extends StatelessWidget {
   }
 }
 
+// ─── Footer actions ───────────────────────────────────────────────────────────
+
 class _Actions extends StatelessWidget {
   final FlotteNumberModel numero;
   final FlotteNumberCubit flotteNumberCubit;
@@ -203,7 +308,7 @@ class _Actions extends StatelessWidget {
   void _reactivate(BuildContext context) {
     if (numero.id == null) return;
     Navigator.of(context, rootNavigator: true).pop();
-    flotteNumberCubit.reactivateNumber(id: numero.id!, data: {"reason":""});
+    flotteNumberCubit.reactivateNumber(id: numero.id!, data: {'reason': ''});
   }
 
   @override
@@ -213,44 +318,65 @@ class _Actions extends StatelessWidget {
     return BlocBuilder<FlotteNumberCubit, FlotteNumberState>(
       bloc: flotteNumberCubit,
       builder: (context, state) {
-        final isLoading = state is AssignNumberLoading || state is SuspendNumberLoading || state is ReactivateNumberLoading;
+        final isLoading = state is AssignNumberLoading ||
+            state is SuspendNumberLoading ||
+            state is ReactivateNumberLoading;
 
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            DetailActionBtn(
-              label: 'Fermer',
-              type: AppButtonType.outline,
-              width: 120,
-              onPressed: isLoading ? null : () => Navigator.of(context, rootNavigator: true).pop(),
-            ),
-            if (status == 'UNASSIGNED') ...[
-              SizedBox(width: 10.rw),
-              DetailActionBtn(
-                label: 'Assigner',
-                icon: Icons.person_add_outlined,
-                onPressed: isLoading ? null : () => _assign(context),
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            border: Border(top: BorderSide(color: AppColors.gray)),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: AppButton(
+                  text: 'Fermer',
+                  type: AppButtonType.outline,
+                  fontSize: 13.rsp,
+                  onPressed: isLoading
+                      ? null
+                      : () => Navigator.of(context, rootNavigator: true).pop(),
+                ),
               ),
+              if (status == 'UNASSIGNED') ...[
+                SizedBox(width: 10.rw),
+                Expanded(
+                  child: AppButton(
+                    text: 'Assigner',
+                    type: AppButtonType.primary,
+                    fontSize: 13.rsp,
+                    onPressed: isLoading ? null : () => _assign(context),
+                  ),
+                ),
+              ],
+              if (status == 'ACTIVE') ...[
+                SizedBox(width: 10.rw),
+                Expanded(
+                  child: AppButton(
+                    text: 'Suspendre',
+                    type: AppButtonType.primary,
+                    color: AppColors.warning,
+                    fontSize: 13.rsp,
+                    onPressed: isLoading ? null : () => _suspend(context),
+                  ),
+                ),
+              ],
+              if (status == 'SUSPENDED' || status == 'INACTIVE') ...[
+                SizedBox(width: 10.rw),
+                Expanded(
+                  child: AppButton(
+                    text: 'Réactiver',
+                    type: AppButtonType.primary,
+                    color: AppColors.primary,
+                    fontSize: 13.rsp,
+                    onPressed: isLoading ? null : () => _reactivate(context),
+                  ),
+                ),
+              ],
             ],
-            if (status == 'ACTIVE') ...[
-              SizedBox(width: 10.rw),
-              DetailActionBtn(
-                label: 'Suspendre',
-                icon: Icons.pause_circle_outline,
-                color: AppColors.warning,
-                onPressed: isLoading ? null : () => _suspend(context),
-              ),
-            ],
-            if (status == 'SUSPENDED' || status == 'INACTIVE') ...[
-              SizedBox(width: 10.rw),
-              DetailActionBtn(
-                label: 'Réactiver',
-                icon: Icons.replay_rounded,
-                color: AppColors.success,
-                onPressed: isLoading ? null : () => _reactivate(context),
-              ),
-            ],
-          ],
+          ),
         );
       },
     );

@@ -55,6 +55,19 @@ class GroupRepo {
     );
   }
 
+  Future<Either<Failure, DataResponseModel>> configurationNotificationGroupe({required int id,required dynamic data}) async {
+    var res = await htttHelper.handlePutRequest("fleet/groups/${id}/sms-notification", data,showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
   Future<Either<Failure, DataResponseModel>> deleteGroupe({required int id}) async {
     var res = await htttHelper.handleDeleteRequest("fleet/groups/${id}",{},showLoader: true);
     return res.fold(

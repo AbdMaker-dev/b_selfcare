@@ -107,12 +107,6 @@ class _SideMenuListState extends State<SideMenuList> {
           onSelect: () => context.router.pushPath('$routeApp/$routeAppGroups'),
         ),
         CustomItemMenu(
-          title: "Mes tels",
-          icon: Icons.numbers,
-          isActive: context.router.currentUrl.contains("tels"),
-          onSelect: () => context.router.pushPath('$routeApp/$routeAppNumbers'),
-        ),
-        CustomItemMenu(
           title: "Mes campagnes",
           icon: Icons.dashboard,
           isActive: context.router.currentUrl.contains("campagnes"),
@@ -128,7 +122,7 @@ class _SideMenuListState extends State<SideMenuList> {
         SizedBox(height: 20.rh),
         const MenuSeparator(title: 'ADMINISTRATION'),
         CustomItemMenu(
-          title: "Utilisateurs",
+          title: "Comptes",
           icon: Icons.manage_accounts,
           isActive: context.router.currentUrl.contains("users"),
           onSelect: () => context.router.pushPath('$routeApp/$routeAppUsers'),

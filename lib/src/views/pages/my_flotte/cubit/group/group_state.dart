@@ -21,4 +21,7 @@ class GroupState with _$GroupState {
   const factory GroupState.getEmployeesGroupLoading() = GetEmployeesGroupLoading;
   const factory GroupState.getEmployeesGroupLoaded({required DataEmployeeResponseModel data}) = GetEmployeesGroupLoaded;
   const factory GroupState.getEmployeesGroupFailed(String message) = GetEmployeesGroupFailed;
+  const factory GroupState.configNotifGroupeLoading() = ConfigNotifGroupeLoading;
+  const factory GroupState.configNotifGroupeLoaded({required DataResponseModel data}) = ConfigNotifGroupeLoaded;
+  const factory GroupState.configNotifGroupeFailed(String message) = ConfigNotifGroupeFailed;
 }

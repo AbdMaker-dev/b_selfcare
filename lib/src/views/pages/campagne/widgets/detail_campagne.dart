@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/src/data/models/campaign/campaign_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_date.dart';
@@ -16,10 +17,23 @@ class DetailCampagne extends StatelessWidget {
   const DetailCampagne({super.key, required this.campaign, required this.campagneCubit});
 
   static void show(BuildContext context, {required CampaignModel campaign, required CampagneCubit campagneCubit}) {
-    showDetailDialog(
-      context,
-      width: 700.rw,
-      child: DetailCampagne(campaign: campaign, campagneCubit: campagneCubit),
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      pageBuilder: (_, __, ___) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 650.rw,
+            height: double.infinity,
+            child: DetailCampagne(campaign: campaign, campagneCubit: campagneCubit),
+          ),
+        ),
+      ),
     );
   }
 
@@ -33,59 +47,151 @@ class DetailCampagne extends StatelessWidget {
           orElse: () {},
         );
       },
-      child: DetailContainer(children: [
-        _Header(campaign: campaign),
-        SizedBox(height: 20.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _SectionInfos(campaign: campaign),
-        SizedBox(height: 20.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _SectionPlanification(campaign: campaign),
-        if (campaign.product != null) ...[
-          SizedBox(height: 20.rh),
-          const DetailDivider(),
-          SizedBox(height: 20.rh),
-          DetailProductSection(product: campaign.product!),
-        ],
-        SizedBox(height: 24.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _Actions(campaign: campaign, campagneCubit: campagneCubit),
-      ]),
+      child: Container(
+        height: double.infinity.rh,
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12.rr),
+            bottomLeft: Radius.circular(12.rr),
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // HEADER
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                border: Border(bottom: BorderSide(color: AppColors.gray)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText.textHighlight(
+                          'Détail campagne',
+                          fontSize: 20.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grayAsh,
+                          highlight: 'campagne',
+                          fontFamily: FontFamily.syne,
+                          highlightColor: AppColors.primary,
+                          highlightFontSize: 20.rsp,
+                        ),
+                        SizedBox(height: 4.rh),
+                        AppText(
+                          '${campaign.name ?? '---'} · ${campaign.frequency ?? '---'} · ${campaign.status ?? '---'}',
+                          fontSize: 10.rsp,
+                          color: AppColors.textMuted,
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                    borderRadius: BorderRadius.circular(6),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 6.rh),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: AppColors.graySilver),
+                      ),
+                      child: AppText(
+                        'X',
+                        fontSize: 13.rsp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // SCROLLABLE BODY
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.rw),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _HeaderCard(campaign: campaign),
+                    SizedBox(height: 16.rh),
+                    _SectionInfos(campaign: campaign),
+                    SizedBox(height: 16.rh),
+                    const DetailDivider(),
+                    SizedBox(height: 16.rh),
+                    _SectionPlanification(campaign: campaign),
+                    if (campaign.product != null) ...[
+                      SizedBox(height: 16.rh),
+                      const DetailDivider(),
+                      SizedBox(height: 16.rh),
+                      DetailProductSection(product: campaign.product!),
+                    ],
+                    SizedBox(height: 16.rh),
+                  ],
+                ),
+              ),
+            ),
+
+            // FOOTER
+            _Actions(campaign: campaign, campagneCubit: campagneCubit),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class _Header extends StatelessWidget {
+// ─── Header card ─────────────────────────────────────────────────────────────
+
+class _HeaderCard extends StatelessWidget {
   final CampaignModel campaign;
-  const _Header({required this.campaign});
+  const _HeaderCard({required this.campaign});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DetailIconBox(icon: Icons.campaign_outlined),
-        SizedBox(width: 14.rw),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(campaign.name ?? '---', fontSize: 18.rsp, fontWeight: FontWeight.w700, color: AppColors.primary),
-              if (campaign.description?.isNotEmpty == true) ...[
-                SizedBox(height: 4.rh),
-                AppText(campaign.description!, fontSize: 13.rsp, color: AppColors.textMuted),
+    return Container(
+      padding: EdgeInsets.all(16.rw),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10.rr),
+        border: Border.all(color: AppColors.gray),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DetailIconBox(icon: Icons.campaign_outlined),
+          SizedBox(width: 14.rw),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(
+                  campaign.name ?? '---',
+                  fontSize: 16.rsp,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+                if (campaign.description?.isNotEmpty == true) ...[
+                  SizedBox(height: 4.rh),
+                  AppText(campaign.description!, fontSize: 13.rsp, color: AppColors.textMuted),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-        DetailStatusBadge.fromStatus(campaign.status),
-      ],
+          DetailStatusBadge.fromStatus(campaign.status),
+        ],
+      ),
     );
   }
 }
+
+// ─── Section infos générales ─────────────────────────────────────────────────
 
 class _SectionInfos extends StatelessWidget {
   final CampaignModel campaign;
@@ -114,6 +220,8 @@ class _SectionInfos extends StatelessWidget {
     );
   }
 }
+
+// ─── Section planification ───────────────────────────────────────────────────
 
 class _SectionPlanification extends StatelessWidget {
   final CampaignModel campaign;
@@ -159,6 +267,8 @@ class _SectionPlanification extends StatelessWidget {
   }
 }
 
+// ─── Footer actions ───────────────────────────────────────────────────────────
+
 class _Actions extends StatelessWidget {
   final CampaignModel campaign;
   final CampagneCubit campagneCubit;
@@ -176,38 +286,83 @@ class _Actions extends StatelessWidget {
       bloc: campagneCubit,
       builder: (context, state) {
         final isLoading = state is ExecuteCampaignsLoading;
-        return Wrap(
-          spacing: 10.rw,
-          runSpacing: 10.rh,
-          alignment: WrapAlignment.end,
-          children: [
-            DetailActionBtn(
-              label: 'Fermer', icon: Icons.close, type: AppButtonType.outline, width: 130,
-              onPressed: isLoading ? null : () => Navigator.of(context, rootNavigator: true).pop(),
-            ),
-            DetailActionBtn(
-              label: 'Exécuter', icon: Icons.play_arrow_rounded, color: AppColors.success,
-              onPressed: isLoading ? null : () => _execute(context, 'execute'),
-            ),
-            DetailActionBtn(
-              label: 'Pause', icon: Icons.pause_rounded, color: AppColors.warning,
-              onPressed: isLoading ? null : () => _execute(context, 'pause'),
-            ),
-            DetailActionBtn(
-              label: 'Réactiver', icon: Icons.replay_rounded, color: AppColors.greenDull,
-              onPressed: isLoading ? null : () => _execute(context, 'reactivate'),
-            ),
-            DetailActionBtn(
-              label: 'Redéclencher', icon: Icons.restart_alt_rounded, color: AppColors.primary, width: 155,
-              onPressed: isLoading ? null : () => _execute(context, 'retrigger'),
-            ),
-            DetailActionBtn(
-              label: 'Annuler', icon: Icons.cancel_outlined, color: AppColors.error,
-              onPressed: isLoading ? null : () => _execute(context, 'cancel'),
-            ),
-          ],
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            border: Border(top: BorderSide(color: AppColors.gray)),
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: AppButton(
+                  text: 'Fermer',
+                  type: AppButtonType.outline,
+                  fontSize: 14.rsp,
+                  onPressed: isLoading
+                      ? null
+                      : () => Navigator.of(context, rootNavigator: true).pop(),
+                ),
+              ),
+              SizedBox(width: 12.rw),
+              Expanded(
+                child: PopupMenuButton<String>(
+                  enabled: !isLoading,
+                  offset: const Offset(0, -220),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(color: AppColors.gray),
+                  ),
+                  color: AppColors.white,
+                  onSelected: (action) => _execute(context, action),
+                  itemBuilder: (_) => [
+                    _menuItem('execute',   'Exécuter',     Icons.play_arrow_rounded,  AppColors.success),
+                    _menuItem('pause',     'Pause',         Icons.pause_rounded,        AppColors.warning),
+                    _menuItem('reactivate','Réactiver',    Icons.replay_rounded,       AppColors.greenDull),
+                    _menuItem('retrigger', 'Redéclencher', Icons.restart_alt_rounded,  AppColors.primary),
+                    _menuItem('cancel',    'Annuler',       Icons.cancel_outlined,      AppColors.error),
+                  ],
+                  child: Container(
+                    height: 62.rh,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(10.rr),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppText(
+                          'Actions',
+                          fontSize: 14.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.white,
+                        ),
+                        SizedBox(width: 6.rw),
+                        Icon(Icons.keyboard_arrow_up_rounded,
+                            color: AppColors.white, size: 18.rsp),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         );
       },
+    );
+  }
+
+  PopupMenuItem<String> _menuItem(String value, String label, IconData icon, Color color) {
+    return PopupMenuItem<String>(
+      value: value,
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 18.rsp),
+           SizedBox(width: 10.rw),
+          Text(label, style: TextStyle(color: color, fontWeight: FontWeight.w500)),
+        ],
+      ),
     );
   }
 }

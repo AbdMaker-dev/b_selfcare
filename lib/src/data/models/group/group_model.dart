@@ -6,6 +6,8 @@ class GroupModel {
   String? name;
   String? description;
   int? productId;
+  bool? smsNotificationEnabled;
+  String? smsNotificationTemplate;
   ProductsModel? product;
   GroupScheduleModel? campaign;
   int? employeesCount;
@@ -22,6 +24,8 @@ class GroupModel {
     this.name,
     this.description,
     this.productId,
+    this.smsNotificationEnabled,
+    this.smsNotificationTemplate,
     this.product,
     this.campaign,
     this.employeesCount,
@@ -40,6 +44,8 @@ class GroupModel {
     description = json['description'];
     productId = json['product_id'];
     employeesCount = json['employees_count'];
+    smsNotificationEnabled = json['sms_notification_enabled'];
+    smsNotificationTemplate = json['sms_notification_template'];
     product = json['product'] != null ? ProductsModel.fromJson(json['product']) : null;
     campaign = json['campaign'] != null ? GroupScheduleModel.fromJson(json['campaign']) : null;
     frequency = json['frequency'];
@@ -57,6 +63,8 @@ class GroupModel {
     data['name'] = name;
     data['description'] = description;
     data['product_id'] = productId;
+    data['sms_notification_enabled'] = smsNotificationEnabled;
+    data['sms_notification_template'] = smsNotificationTemplate;
     data['employees_count'] = employeesCount;
     data['frequency'] = frequency;
     data['day_of_week'] = dayOfWeek;

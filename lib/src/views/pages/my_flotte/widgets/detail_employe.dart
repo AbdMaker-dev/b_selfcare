@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/src/data/models/employee/employee_model.dart';
 import 'package:b_selfcare/src/data/models/employee/fleet_number_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
@@ -21,15 +22,31 @@ class DetailEmploye extends StatelessWidget {
   const DetailEmploye({super.key, required this.employee, required this.myFlotteCubit});
 
   static void show(BuildContext context, {required EmployeeModel employee, required MyFlotteCubit myFlotteCubit}) {
-    showDetailDialog(
-      context,
-      width: 680.rw,
-      child: DetailEmploye(employee: employee, myFlotteCubit: myFlotteCubit),
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      pageBuilder: (_, __, ___) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 650.rw,
+            height: double.infinity,
+            child: DetailEmploye(employee: employee, myFlotteCubit: myFlotteCubit),
+          ),
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final fullName = '${employee.firstName ?? ''} ${employee.lastName ?? ''}'.trim();
+    final isActive = employee.status?.toUpperCase() == 'ACTIVE';
+
     return BlocListener<MyFlotteCubit, MyFlotteState>(
       bloc: myFlotteCubit,
       listener: (context, state) {
@@ -39,44 +56,161 @@ class DetailEmploye extends StatelessWidget {
           orElse: () {},
         );
       },
-      child: DetailContainer(children: [
-        _Header(employee: employee),
-        SizedBox(height: 20.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _SectionInfos(employee: employee),
-        if (employee.group != null) ...[
-          SizedBox(height: 20.rh),
-          const DetailDivider(),
-          SizedBox(height: 20.rh),
-          _SectionGroupe(employee: employee),
-        ],
-        if (employee.group?.product != null) ...[
-          SizedBox(height: 20.rh),
-          const DetailDivider(),
-          SizedBox(height: 20.rh),
-          DetailProductSection(product: employee.group!.product!),
-        ],
-        SizedBox(height: 20.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _SectionNumeros(
-          fleetNumbers: employee.fleetNumbers ?? [],
-          employee: employee,
-          myFlotteCubit: myFlotteCubit,
+      child: Container(
+        height: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(12.rr),
+            bottomLeft: Radius.circular(12.rr),
+          ),
         ),
-        SizedBox(height: 24.rh),
-        const DetailDivider(),
-        SizedBox(height: 20.rh),
-        _Actions(employee: employee, myFlotteCubit: myFlotteCubit),
-      ]),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // HEADER
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                border: Border(bottom: BorderSide(color: AppColors.gray)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText.textHighlight(
+                          'Détail employé',
+                          fontSize: 20.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.grayAsh,
+                          highlight: 'employé',
+                          fontFamily: FontFamily.syne,
+                          highlightColor: AppColors.primary,
+                          highlightFontSize: 20.rsp,
+                        ),
+                        SizedBox(height: 4.rh),
+                        AppText(
+                          '${fullName.isNotEmpty ? fullName : '---'} · ${employee.position ?? '---'}',
+                          fontSize: 10.rsp,
+                          color: AppColors.textMuted,
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                    borderRadius: BorderRadius.circular(6),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: AppColors.graySilver),
+                      ),
+                      child: AppText('X', fontSize: 13.rsp, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // SCROLLABLE BODY
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.rw),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _HeaderCard(employee: employee),
+                    SizedBox(height: 16.rh),
+                    _SectionInfos(employee: employee),
+                    if (employee.group != null) ...[
+                      SizedBox(height: 16.rh),
+                      const DetailDivider(),
+                      SizedBox(height: 16.rh),
+                      _SectionGroupe(employee: employee),
+                    ],
+                    if (employee.group?.product != null) ...[
+                      SizedBox(height: 16.rh),
+                      const DetailDivider(),
+                      SizedBox(height: 16.rh),
+                      DetailProductSection(product: employee.group!.product!),
+                    ],
+                    SizedBox(height: 16.rh),
+                    const DetailDivider(),
+                    SizedBox(height: 16.rh),
+                    _SectionNumeros(
+                      fleetNumbers: employee.fleetNumbers ?? [],
+                      employee: employee,
+                      myFlotteCubit: myFlotteCubit,
+                    ),
+                    SizedBox(height: 16.rh),
+                  ],
+                ),
+              ),
+            ),
+
+            // FOOTER
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                border: Border(top: BorderSide(color: AppColors.gray)),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: AppButton(
+                      text: 'Fermer',
+                      type: AppButtonType.outline,
+                      fontSize: 13.rsp,
+                      onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                    ),
+                  ),
+                  if (isActive) ...[
+                    SizedBox(width: 8.rw),
+                    Expanded(
+                      child: AppButton(
+                        text: 'Désactiver',
+                        type: AppButtonType.primary,
+                        color: AppColors.error,
+                        fontSize: 13.rsp,
+                        onPressed: () {
+                          Navigator.of(context, rootNavigator: true).pop();
+                          ConfirmDisableEmploye.show(context, employee: employee, myFlotteCubit: myFlotteCubit);
+                        },
+                      ),
+                    ),
+                  ],
+                  SizedBox(width: 8.rw),
+                  Expanded(
+                    child: AppButton(
+                      text: 'Modifier',
+                      type: AppButtonType.secondary,
+                      fontSize: 13.rsp,
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        FormEditEmploye.show(context, employee: employee, myFlotteCubit: myFlotteCubit);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
-class _Header extends StatelessWidget {
+// ─── Header card ─────────────────────────────────────────────────────────────
+
+class _HeaderCard extends StatelessWidget {
   final EmployeeModel employee;
-  const _Header({required this.employee});
+  const _HeaderCard({required this.employee});
 
   @override
   Widget build(BuildContext context) {
@@ -84,37 +218,45 @@ class _Header extends StatelessWidget {
     final initials = _initials(employee.firstName, employee.lastName);
     final isActive = employee.status?.toUpperCase() == 'ACTIVE';
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _Avatar(initials: initials, isActive: isActive),
-        SizedBox(width: 14.rw),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(fullName.isNotEmpty ? fullName : '---', fontSize: 18.rsp, fontWeight: FontWeight.w700, color: AppColors.primary),
-              if (employee.email != null) ...[
-                SizedBox(height: 4.rh),
-                Row(children: [
-                  Icon(Icons.email_outlined, size: 13.rsp, color: AppColors.textMuted),
-                  SizedBox(width: 4.rw),
-                  AppText(employee.email!, fontSize: 12.rsp, color: AppColors.textMuted),
-                ]),
+    return Container(
+      padding: EdgeInsets.all(16.rw),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10.rr),
+        border: Border.all(color: AppColors.gray),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _Avatar(initials: initials, isActive: isActive),
+          SizedBox(width: 14.rw),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AppText(fullName.isNotEmpty ? fullName : '---', fontSize: 16.rsp, fontWeight: FontWeight.w700, color: AppColors.primary),
+                if (employee.email != null) ...[
+                  SizedBox(height: 4.rh),
+                  Row(children: [
+                    Icon(Icons.email_outlined, size: 13.rsp, color: AppColors.textMuted),
+                    SizedBox(width: 4.rw),
+                    AppText(employee.email!, fontSize: 12.rsp, color: AppColors.textMuted),
+                  ]),
+                ],
+                if (employee.position != null) ...[
+                  SizedBox(height: 3.rh),
+                  Row(children: [
+                    Icon(Icons.work_outline, size: 13.rsp, color: AppColors.textMuted),
+                    SizedBox(width: 4.rw),
+                    AppText(employee.position!, fontSize: 12.rsp, color: AppColors.textMuted),
+                  ]),
+                ],
               ],
-              if (employee.position != null) ...[
-                SizedBox(height: 3.rh),
-                Row(children: [
-                  Icon(Icons.work_outline, size: 13.rsp, color: AppColors.textMuted),
-                  SizedBox(width: 4.rw),
-                  AppText(employee.position!, fontSize: 12.rsp, color: AppColors.textMuted),
-                ]),
-              ],
-            ],
+            ),
           ),
-        ),
-        DetailStatusBadge.fromStatus(employee.status),
-      ],
+          DetailStatusBadge.fromStatus(employee.status),
+        ],
+      ),
     );
   }
 
@@ -162,6 +304,8 @@ class _Avatar extends StatelessWidget {
   }
 }
 
+// ─── Section infos ────────────────────────────────────────────────────────────
+
 class _SectionInfos extends StatelessWidget {
   final EmployeeModel employee;
   const _SectionInfos({required this.employee});
@@ -201,6 +345,8 @@ class _SectionInfos extends StatelessWidget {
   }
 }
 
+// ─── Section groupe ───────────────────────────────────────────────────────────
+
 class _SectionGroupe extends StatelessWidget {
   final EmployeeModel employee;
   const _SectionGroupe({required this.employee});
@@ -235,15 +381,13 @@ class _SectionGroupe extends StatelessWidget {
   }
 }
 
+// ─── Section numéros ─────────────────────────────────────────────────────────
+
 class _SectionNumeros extends StatelessWidget {
   final List<FleetNumberModel> fleetNumbers;
   final EmployeeModel employee;
   final MyFlotteCubit myFlotteCubit;
-  const _SectionNumeros({
-    required this.fleetNumbers,
-    required this.employee,
-    required this.myFlotteCubit,
-  });
+  const _SectionNumeros({required this.fleetNumbers, required this.employee, required this.myFlotteCubit});
 
   @override
   Widget build(BuildContext context) {
@@ -253,17 +397,10 @@ class _SectionNumeros extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: DetailSectionTitle(
-                label: 'Numéros fleet (${fleetNumbers.length})',
-                icon: Icons.sim_card_outlined,
-              ),
+              child: DetailSectionTitle(label: 'Numéros fleet (${fleetNumbers.length})', icon: Icons.sim_card_outlined),
             ),
             GestureDetector(
-              onTap: () => FormAssignEmployeNumbers.show(
-                context,
-                employee: employee,
-                myFlotteCubit: myFlotteCubit,
-              ),
+              onTap: () => FormAssignEmployeNumbers.show(context, employee: employee, myFlotteCubit: myFlotteCubit),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 4.rh),
                 decoration: BoxDecoration(
@@ -290,11 +427,7 @@ class _SectionNumeros extends StatelessWidget {
             spacing: 10.rw,
             runSpacing: 8.rh,
             children: fleetNumbers
-                .map((f) => _NumeroBadge(
-                      fleet: f,
-                      employee: employee,
-                      myFlotteCubit: myFlotteCubit,
-                    ))
+                .map((f) => _NumeroBadge(fleet: f, employee: employee, myFlotteCubit: myFlotteCubit))
                 .toList(),
           ),
       ],
@@ -306,11 +439,7 @@ class _NumeroBadge extends StatelessWidget {
   final FleetNumberModel fleet;
   final EmployeeModel employee;
   final MyFlotteCubit myFlotteCubit;
-  const _NumeroBadge({
-    required this.fleet,
-    required this.employee,
-    required this.myFlotteCubit,
-  });
+  const _NumeroBadge({required this.fleet, required this.employee, required this.myFlotteCubit});
 
   @override
   Widget build(BuildContext context) {
@@ -327,63 +456,16 @@ class _NumeroBadge extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 6.rw, height: 6.rh,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          ),
+          Container(width: 6.rw, height: 6.rh, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
           SizedBox(width: 7.rw),
           AppText(fleet.msisdn ?? '---', fontSize: 13.rsp, fontWeight: FontWeight.w600, color: AppColors.textHeading),
           SizedBox(width: 6.rw),
           GestureDetector(
-            onTap: () => ConfirmRemoveNumber.show(
-              context,
-              employee: employee,
-              fleetNumber: fleet,
-              myFlotteCubit: myFlotteCubit,
-            ),
+            onTap: () => ConfirmRemoveNumber.show(context, employee: employee, fleetNumber: fleet, myFlotteCubit: myFlotteCubit),
             child: Icon(Icons.close, size: 15.rsp, color: AppColors.textMuted),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _Actions extends StatelessWidget {
-  final EmployeeModel employee;
-  final MyFlotteCubit myFlotteCubit;
-  const _Actions({required this.employee, required this.myFlotteCubit});
-
-  @override
-  Widget build(BuildContext context) {
-    final isActive = employee.status?.toUpperCase() == 'ACTIVE';
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        DetailActionBtn(
-          label: 'Fermer', type: AppButtonType.outline, width: 120.rw,
-          onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-        ),
-        if (isActive) ...[
-          SizedBox(width: 10.rw),
-          DetailActionBtn(
-            label: 'Désactiver', type: AppButtonType.primary, color: AppColors.error,
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).pop();
-              ConfirmDisableEmploye.show(context, employee: employee, myFlotteCubit: myFlotteCubit);
-            },
-          ),
-        ],
-        SizedBox(width: 10.rw),
-        DetailActionBtn(
-          label: 'Modifier', type: AppButtonType.secondary,
-          onPressed: () {
-            Navigator.of(context, rootNavigator: true).pop();
-            FormEditEmploye.show(context, employee: employee, myFlotteCubit: myFlotteCubit);
-          },
-        ),
-      ],
     );
   }
 }

@@ -1,7 +1,9 @@
 import 'package:b_selfcare/src/data/models/group/group_model.dart';
+import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_date.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_actions_table.dart';
+import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_text_table.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +20,11 @@ class SourceGroupe extends AppTableSource<GroupModel> {
   List<({String label, int flex})> get columns => [
     (label: 'Groupe',          flex: 5),
     (label: 'Produit',         flex: 3),
-    (label: 'Fréquence',         flex: 3),
-    (label: 'Date début',         flex: 2),
-    (label: 'Nombre employés', flex: 3),
-    (label: 'Début création',  flex: 2),
+    (label: 'Fréquence',       flex: 3),
+    (label: 'Date début',      flex: 2),
+    (label: 'Employés',        flex: 2),
+    (label: 'Notif. SMS',      flex: 2),
+    (label: 'Date création',   flex: 2),
     (label: 'Actions',         flex: 2),
   ];
 
@@ -35,10 +38,12 @@ class SourceGroupe extends AppTableSource<GroupModel> {
     CellTextTable(text: e.campaign?.frequency ?? '---'),
     CellTextTable(text: AppDate.formatShort(e.campaign?.startDate)),
     CellTextTable(text: e.employeesCount?.toString() ?? '---'),
+    e.smsNotificationEnabled == true
+        ? CellBadgeTable(label: 'Activée', color: AppColors.greenOlive)
+        : CellBadgeTable(label: 'Désactivée', color: AppColors.grayAsh),
     CellTextTable(text: e.createdAt != null ? AppDate.formatShort(e.createdAt!) : '---'),
     CellActionsTable(actions: [
-      (label: 'Modifier',  danger: false, onTap: () => onEdit?.call(e)),
-      //(label: 'Supprimer', danger: true,  onTap: () => onDelete?.call(e)),
+      (label: 'Modifier', danger: false, onTap: () => onEdit?.call(e)),
     ]),
   ];
 }

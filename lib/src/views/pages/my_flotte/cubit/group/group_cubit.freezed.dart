@@ -55,7 +55,7 @@ extension GroupStatePatterns on GroupState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetGroupsLoading value)?  getGroupsLoading,TResult Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult Function( GetGroupsFailed value)?  getGroupsFailed,TResult Function( CreateGroupeLoading value)?  createGroupeLoading,TResult Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult Function( CreateGroupeFailed value)?  createGroupeFailed,TResult Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult Function( UpdateGroupeFailed value)?  updateGroupeFailed,TResult Function( DeleteGroupeLoading value)?  deleteGroupeLoading,TResult Function( DeleteGroupeLoaded value)?  deleteGroupeLoaded,TResult Function( DeleteGroupeFailed value)?  deleteGroupeFailed,TResult Function( ImportEmployeLoading value)?  importEmployeLoading,TResult Function( ImportEmployeLoaded value)?  importEmployeLoaded,TResult Function( ImportEmployeFailed value)?  importEmployeFailed,TResult Function( GetEmployeesGroupLoading value)?  getEmployeesGroupLoading,TResult Function( GetEmployeesGroupLoaded value)?  getEmployeesGroupLoaded,TResult Function( GetEmployeesGroupFailed value)?  getEmployeesGroupFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetGroupsLoading value)?  getGroupsLoading,TResult Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult Function( GetGroupsFailed value)?  getGroupsFailed,TResult Function( CreateGroupeLoading value)?  createGroupeLoading,TResult Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult Function( CreateGroupeFailed value)?  createGroupeFailed,TResult Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult Function( UpdateGroupeFailed value)?  updateGroupeFailed,TResult Function( DeleteGroupeLoading value)?  deleteGroupeLoading,TResult Function( DeleteGroupeLoaded value)?  deleteGroupeLoaded,TResult Function( DeleteGroupeFailed value)?  deleteGroupeFailed,TResult Function( ImportEmployeLoading value)?  importEmployeLoading,TResult Function( ImportEmployeLoaded value)?  importEmployeLoaded,TResult Function( ImportEmployeFailed value)?  importEmployeFailed,TResult Function( GetEmployeesGroupLoading value)?  getEmployeesGroupLoading,TResult Function( GetEmployeesGroupLoaded value)?  getEmployeesGroupLoaded,TResult Function( GetEmployeesGroupFailed value)?  getEmployeesGroupFailed,TResult Function( ConfigNotifGroupeLoading value)?  configNotifGroupeLoading,TResult Function( ConfigNotifGroupeLoaded value)?  configNotifGroupeLoaded,TResult Function( ConfigNotifGroupeFailed value)?  configNotifGroupeFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -77,7 +77,10 @@ return importEmployeLoaded(_that);case ImportEmployeFailed() when importEmployeF
 return importEmployeFailed(_that);case GetEmployeesGroupLoading() when getEmployeesGroupLoading != null:
 return getEmployeesGroupLoading(_that);case GetEmployeesGroupLoaded() when getEmployeesGroupLoaded != null:
 return getEmployeesGroupLoaded(_that);case GetEmployeesGroupFailed() when getEmployeesGroupFailed != null:
-return getEmployeesGroupFailed(_that);case _:
+return getEmployeesGroupFailed(_that);case ConfigNotifGroupeLoading() when configNotifGroupeLoading != null:
+return configNotifGroupeLoading(_that);case ConfigNotifGroupeLoaded() when configNotifGroupeLoaded != null:
+return configNotifGroupeLoaded(_that);case ConfigNotifGroupeFailed() when configNotifGroupeFailed != null:
+return configNotifGroupeFailed(_that);case _:
   return orElse();
 
 }
@@ -95,7 +98,7 @@ return getEmployeesGroupFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetGroupsLoading value)  getGroupsLoading,required TResult Function( GetGroupsLoaded value)  getGroupsLoaded,required TResult Function( GetGroupsFailed value)  getGroupsFailed,required TResult Function( CreateGroupeLoading value)  createGroupeLoading,required TResult Function( CreateGroupeLoaded value)  createGroupeLoaded,required TResult Function( CreateGroupeFailed value)  createGroupeFailed,required TResult Function( UpdateGroupeLoading value)  updateGroupeLoading,required TResult Function( UpdateGroupeLoaded value)  updateGroupeLoaded,required TResult Function( UpdateGroupeFailed value)  updateGroupeFailed,required TResult Function( DeleteGroupeLoading value)  deleteGroupeLoading,required TResult Function( DeleteGroupeLoaded value)  deleteGroupeLoaded,required TResult Function( DeleteGroupeFailed value)  deleteGroupeFailed,required TResult Function( ImportEmployeLoading value)  importEmployeLoading,required TResult Function( ImportEmployeLoaded value)  importEmployeLoaded,required TResult Function( ImportEmployeFailed value)  importEmployeFailed,required TResult Function( GetEmployeesGroupLoading value)  getEmployeesGroupLoading,required TResult Function( GetEmployeesGroupLoaded value)  getEmployeesGroupLoaded,required TResult Function( GetEmployeesGroupFailed value)  getEmployeesGroupFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetGroupsLoading value)  getGroupsLoading,required TResult Function( GetGroupsLoaded value)  getGroupsLoaded,required TResult Function( GetGroupsFailed value)  getGroupsFailed,required TResult Function( CreateGroupeLoading value)  createGroupeLoading,required TResult Function( CreateGroupeLoaded value)  createGroupeLoaded,required TResult Function( CreateGroupeFailed value)  createGroupeFailed,required TResult Function( UpdateGroupeLoading value)  updateGroupeLoading,required TResult Function( UpdateGroupeLoaded value)  updateGroupeLoaded,required TResult Function( UpdateGroupeFailed value)  updateGroupeFailed,required TResult Function( DeleteGroupeLoading value)  deleteGroupeLoading,required TResult Function( DeleteGroupeLoaded value)  deleteGroupeLoaded,required TResult Function( DeleteGroupeFailed value)  deleteGroupeFailed,required TResult Function( ImportEmployeLoading value)  importEmployeLoading,required TResult Function( ImportEmployeLoaded value)  importEmployeLoaded,required TResult Function( ImportEmployeFailed value)  importEmployeFailed,required TResult Function( GetEmployeesGroupLoading value)  getEmployeesGroupLoading,required TResult Function( GetEmployeesGroupLoaded value)  getEmployeesGroupLoaded,required TResult Function( GetEmployeesGroupFailed value)  getEmployeesGroupFailed,required TResult Function( ConfigNotifGroupeLoading value)  configNotifGroupeLoading,required TResult Function( ConfigNotifGroupeLoaded value)  configNotifGroupeLoaded,required TResult Function( ConfigNotifGroupeFailed value)  configNotifGroupeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -117,7 +120,10 @@ return importEmployeLoaded(_that);case ImportEmployeFailed():
 return importEmployeFailed(_that);case GetEmployeesGroupLoading():
 return getEmployeesGroupLoading(_that);case GetEmployeesGroupLoaded():
 return getEmployeesGroupLoaded(_that);case GetEmployeesGroupFailed():
-return getEmployeesGroupFailed(_that);case _:
+return getEmployeesGroupFailed(_that);case ConfigNotifGroupeLoading():
+return configNotifGroupeLoading(_that);case ConfigNotifGroupeLoaded():
+return configNotifGroupeLoaded(_that);case ConfigNotifGroupeFailed():
+return configNotifGroupeFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -134,7 +140,7 @@ return getEmployeesGroupFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetGroupsLoading value)?  getGroupsLoading,TResult? Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult? Function( GetGroupsFailed value)?  getGroupsFailed,TResult? Function( CreateGroupeLoading value)?  createGroupeLoading,TResult? Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult? Function( CreateGroupeFailed value)?  createGroupeFailed,TResult? Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult? Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult? Function( UpdateGroupeFailed value)?  updateGroupeFailed,TResult? Function( DeleteGroupeLoading value)?  deleteGroupeLoading,TResult? Function( DeleteGroupeLoaded value)?  deleteGroupeLoaded,TResult? Function( DeleteGroupeFailed value)?  deleteGroupeFailed,TResult? Function( ImportEmployeLoading value)?  importEmployeLoading,TResult? Function( ImportEmployeLoaded value)?  importEmployeLoaded,TResult? Function( ImportEmployeFailed value)?  importEmployeFailed,TResult? Function( GetEmployeesGroupLoading value)?  getEmployeesGroupLoading,TResult? Function( GetEmployeesGroupLoaded value)?  getEmployeesGroupLoaded,TResult? Function( GetEmployeesGroupFailed value)?  getEmployeesGroupFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetGroupsLoading value)?  getGroupsLoading,TResult? Function( GetGroupsLoaded value)?  getGroupsLoaded,TResult? Function( GetGroupsFailed value)?  getGroupsFailed,TResult? Function( CreateGroupeLoading value)?  createGroupeLoading,TResult? Function( CreateGroupeLoaded value)?  createGroupeLoaded,TResult? Function( CreateGroupeFailed value)?  createGroupeFailed,TResult? Function( UpdateGroupeLoading value)?  updateGroupeLoading,TResult? Function( UpdateGroupeLoaded value)?  updateGroupeLoaded,TResult? Function( UpdateGroupeFailed value)?  updateGroupeFailed,TResult? Function( DeleteGroupeLoading value)?  deleteGroupeLoading,TResult? Function( DeleteGroupeLoaded value)?  deleteGroupeLoaded,TResult? Function( DeleteGroupeFailed value)?  deleteGroupeFailed,TResult? Function( ImportEmployeLoading value)?  importEmployeLoading,TResult? Function( ImportEmployeLoaded value)?  importEmployeLoaded,TResult? Function( ImportEmployeFailed value)?  importEmployeFailed,TResult? Function( GetEmployeesGroupLoading value)?  getEmployeesGroupLoading,TResult? Function( GetEmployeesGroupLoaded value)?  getEmployeesGroupLoaded,TResult? Function( GetEmployeesGroupFailed value)?  getEmployeesGroupFailed,TResult? Function( ConfigNotifGroupeLoading value)?  configNotifGroupeLoading,TResult? Function( ConfigNotifGroupeLoaded value)?  configNotifGroupeLoaded,TResult? Function( ConfigNotifGroupeFailed value)?  configNotifGroupeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -156,7 +162,10 @@ return importEmployeLoaded(_that);case ImportEmployeFailed() when importEmployeF
 return importEmployeFailed(_that);case GetEmployeesGroupLoading() when getEmployeesGroupLoading != null:
 return getEmployeesGroupLoading(_that);case GetEmployeesGroupLoaded() when getEmployeesGroupLoaded != null:
 return getEmployeesGroupLoaded(_that);case GetEmployeesGroupFailed() when getEmployeesGroupFailed != null:
-return getEmployeesGroupFailed(_that);case _:
+return getEmployeesGroupFailed(_that);case ConfigNotifGroupeLoading() when configNotifGroupeLoading != null:
+return configNotifGroupeLoading(_that);case ConfigNotifGroupeLoaded() when configNotifGroupeLoaded != null:
+return configNotifGroupeLoaded(_that);case ConfigNotifGroupeFailed() when configNotifGroupeFailed != null:
+return configNotifGroupeFailed(_that);case _:
   return null;
 
 }
@@ -173,7 +182,7 @@ return getEmployeesGroupFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getGroupsLoading,TResult Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult Function( String message)?  getGroupsFailed,TResult Function()?  createGroupeLoading,TResult Function( DataResponseModel data)?  createGroupeLoaded,TResult Function( String message)?  createGroupeFailed,TResult Function()?  updateGroupeLoading,TResult Function( DataResponseModel data)?  updateGroupeLoaded,TResult Function( String message)?  updateGroupeFailed,TResult Function()?  deleteGroupeLoading,TResult Function( DataResponseModel data)?  deleteGroupeLoaded,TResult Function( String message)?  deleteGroupeFailed,TResult Function()?  importEmployeLoading,TResult Function( DataImportResponseModel data)?  importEmployeLoaded,TResult Function( String message)?  importEmployeFailed,TResult Function()?  getEmployeesGroupLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesGroupLoaded,TResult Function( String message)?  getEmployeesGroupFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getGroupsLoading,TResult Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult Function( String message)?  getGroupsFailed,TResult Function()?  createGroupeLoading,TResult Function( DataResponseModel data)?  createGroupeLoaded,TResult Function( String message)?  createGroupeFailed,TResult Function()?  updateGroupeLoading,TResult Function( DataResponseModel data)?  updateGroupeLoaded,TResult Function( String message)?  updateGroupeFailed,TResult Function()?  deleteGroupeLoading,TResult Function( DataResponseModel data)?  deleteGroupeLoaded,TResult Function( String message)?  deleteGroupeFailed,TResult Function()?  importEmployeLoading,TResult Function( DataImportResponseModel data)?  importEmployeLoaded,TResult Function( String message)?  importEmployeFailed,TResult Function()?  getEmployeesGroupLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesGroupLoaded,TResult Function( String message)?  getEmployeesGroupFailed,TResult Function()?  configNotifGroupeLoading,TResult Function( DataResponseModel data)?  configNotifGroupeLoaded,TResult Function( String message)?  configNotifGroupeFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetGroupsLoading() when getGroupsLoading != null:
@@ -194,7 +203,10 @@ return importEmployeLoaded(_that.data);case ImportEmployeFailed() when importEmp
 return importEmployeFailed(_that.message);case GetEmployeesGroupLoading() when getEmployeesGroupLoading != null:
 return getEmployeesGroupLoading();case GetEmployeesGroupLoaded() when getEmployeesGroupLoaded != null:
 return getEmployeesGroupLoaded(_that.data);case GetEmployeesGroupFailed() when getEmployeesGroupFailed != null:
-return getEmployeesGroupFailed(_that.message);case _:
+return getEmployeesGroupFailed(_that.message);case ConfigNotifGroupeLoading() when configNotifGroupeLoading != null:
+return configNotifGroupeLoading();case ConfigNotifGroupeLoaded() when configNotifGroupeLoaded != null:
+return configNotifGroupeLoaded(_that.data);case ConfigNotifGroupeFailed() when configNotifGroupeFailed != null:
+return configNotifGroupeFailed(_that.message);case _:
   return orElse();
 
 }
@@ -212,7 +224,7 @@ return getEmployeesGroupFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getGroupsLoading,required TResult Function( DataGroupResponseModel data)  getGroupsLoaded,required TResult Function( String message)  getGroupsFailed,required TResult Function()  createGroupeLoading,required TResult Function( DataResponseModel data)  createGroupeLoaded,required TResult Function( String message)  createGroupeFailed,required TResult Function()  updateGroupeLoading,required TResult Function( DataResponseModel data)  updateGroupeLoaded,required TResult Function( String message)  updateGroupeFailed,required TResult Function()  deleteGroupeLoading,required TResult Function( DataResponseModel data)  deleteGroupeLoaded,required TResult Function( String message)  deleteGroupeFailed,required TResult Function()  importEmployeLoading,required TResult Function( DataImportResponseModel data)  importEmployeLoaded,required TResult Function( String message)  importEmployeFailed,required TResult Function()  getEmployeesGroupLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesGroupLoaded,required TResult Function( String message)  getEmployeesGroupFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getGroupsLoading,required TResult Function( DataGroupResponseModel data)  getGroupsLoaded,required TResult Function( String message)  getGroupsFailed,required TResult Function()  createGroupeLoading,required TResult Function( DataResponseModel data)  createGroupeLoaded,required TResult Function( String message)  createGroupeFailed,required TResult Function()  updateGroupeLoading,required TResult Function( DataResponseModel data)  updateGroupeLoaded,required TResult Function( String message)  updateGroupeFailed,required TResult Function()  deleteGroupeLoading,required TResult Function( DataResponseModel data)  deleteGroupeLoaded,required TResult Function( String message)  deleteGroupeFailed,required TResult Function()  importEmployeLoading,required TResult Function( DataImportResponseModel data)  importEmployeLoaded,required TResult Function( String message)  importEmployeFailed,required TResult Function()  getEmployeesGroupLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesGroupLoaded,required TResult Function( String message)  getEmployeesGroupFailed,required TResult Function()  configNotifGroupeLoading,required TResult Function( DataResponseModel data)  configNotifGroupeLoaded,required TResult Function( String message)  configNotifGroupeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetGroupsLoading():
@@ -233,7 +245,10 @@ return importEmployeLoaded(_that.data);case ImportEmployeFailed():
 return importEmployeFailed(_that.message);case GetEmployeesGroupLoading():
 return getEmployeesGroupLoading();case GetEmployeesGroupLoaded():
 return getEmployeesGroupLoaded(_that.data);case GetEmployeesGroupFailed():
-return getEmployeesGroupFailed(_that.message);case _:
+return getEmployeesGroupFailed(_that.message);case ConfigNotifGroupeLoading():
+return configNotifGroupeLoading();case ConfigNotifGroupeLoaded():
+return configNotifGroupeLoaded(_that.data);case ConfigNotifGroupeFailed():
+return configNotifGroupeFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -250,7 +265,7 @@ return getEmployeesGroupFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getGroupsLoading,TResult? Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult? Function( String message)?  getGroupsFailed,TResult? Function()?  createGroupeLoading,TResult? Function( DataResponseModel data)?  createGroupeLoaded,TResult? Function( String message)?  createGroupeFailed,TResult? Function()?  updateGroupeLoading,TResult? Function( DataResponseModel data)?  updateGroupeLoaded,TResult? Function( String message)?  updateGroupeFailed,TResult? Function()?  deleteGroupeLoading,TResult? Function( DataResponseModel data)?  deleteGroupeLoaded,TResult? Function( String message)?  deleteGroupeFailed,TResult? Function()?  importEmployeLoading,TResult? Function( DataImportResponseModel data)?  importEmployeLoaded,TResult? Function( String message)?  importEmployeFailed,TResult? Function()?  getEmployeesGroupLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesGroupLoaded,TResult? Function( String message)?  getEmployeesGroupFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getGroupsLoading,TResult? Function( DataGroupResponseModel data)?  getGroupsLoaded,TResult? Function( String message)?  getGroupsFailed,TResult? Function()?  createGroupeLoading,TResult? Function( DataResponseModel data)?  createGroupeLoaded,TResult? Function( String message)?  createGroupeFailed,TResult? Function()?  updateGroupeLoading,TResult? Function( DataResponseModel data)?  updateGroupeLoaded,TResult? Function( String message)?  updateGroupeFailed,TResult? Function()?  deleteGroupeLoading,TResult? Function( DataResponseModel data)?  deleteGroupeLoaded,TResult? Function( String message)?  deleteGroupeFailed,TResult? Function()?  importEmployeLoading,TResult? Function( DataImportResponseModel data)?  importEmployeLoaded,TResult? Function( String message)?  importEmployeFailed,TResult? Function()?  getEmployeesGroupLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesGroupLoaded,TResult? Function( String message)?  getEmployeesGroupFailed,TResult? Function()?  configNotifGroupeLoading,TResult? Function( DataResponseModel data)?  configNotifGroupeLoaded,TResult? Function( String message)?  configNotifGroupeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetGroupsLoading() when getGroupsLoading != null:
@@ -271,7 +286,10 @@ return importEmployeLoaded(_that.data);case ImportEmployeFailed() when importEmp
 return importEmployeFailed(_that.message);case GetEmployeesGroupLoading() when getEmployeesGroupLoading != null:
 return getEmployeesGroupLoading();case GetEmployeesGroupLoaded() when getEmployeesGroupLoaded != null:
 return getEmployeesGroupLoaded(_that.data);case GetEmployeesGroupFailed() when getEmployeesGroupFailed != null:
-return getEmployeesGroupFailed(_that.message);case _:
+return getEmployeesGroupFailed(_that.message);case ConfigNotifGroupeLoading() when configNotifGroupeLoading != null:
+return configNotifGroupeLoading();case ConfigNotifGroupeLoaded() when configNotifGroupeLoaded != null:
+return configNotifGroupeLoaded(_that.data);case ConfigNotifGroupeFailed() when configNotifGroupeFailed != null:
+return configNotifGroupeFailed(_that.message);case _:
   return null;
 
 }
@@ -1287,6 +1305,170 @@ class _$GetEmployeesGroupFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(GetEmployeesGroupFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ConfigNotifGroupeLoading implements GroupState {
+  const ConfigNotifGroupeLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConfigNotifGroupeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'GroupState.configNotifGroupeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ConfigNotifGroupeLoaded implements GroupState {
+  const ConfigNotifGroupeLoaded({required this.data});
+  
+
+ final  DataResponseModel data;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ConfigNotifGroupeLoadedCopyWith<ConfigNotifGroupeLoaded> get copyWith => _$ConfigNotifGroupeLoadedCopyWithImpl<ConfigNotifGroupeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConfigNotifGroupeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'GroupState.configNotifGroupeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ConfigNotifGroupeLoadedCopyWith<$Res> implements $GroupStateCopyWith<$Res> {
+  factory $ConfigNotifGroupeLoadedCopyWith(ConfigNotifGroupeLoaded value, $Res Function(ConfigNotifGroupeLoaded) _then) = _$ConfigNotifGroupeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$ConfigNotifGroupeLoadedCopyWithImpl<$Res>
+    implements $ConfigNotifGroupeLoadedCopyWith<$Res> {
+  _$ConfigNotifGroupeLoadedCopyWithImpl(this._self, this._then);
+
+  final ConfigNotifGroupeLoaded _self;
+  final $Res Function(ConfigNotifGroupeLoaded) _then;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(ConfigNotifGroupeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ConfigNotifGroupeFailed implements GroupState {
+  const ConfigNotifGroupeFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ConfigNotifGroupeFailedCopyWith<ConfigNotifGroupeFailed> get copyWith => _$ConfigNotifGroupeFailedCopyWithImpl<ConfigNotifGroupeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConfigNotifGroupeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'GroupState.configNotifGroupeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ConfigNotifGroupeFailedCopyWith<$Res> implements $GroupStateCopyWith<$Res> {
+  factory $ConfigNotifGroupeFailedCopyWith(ConfigNotifGroupeFailed value, $Res Function(ConfigNotifGroupeFailed) _then) = _$ConfigNotifGroupeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$ConfigNotifGroupeFailedCopyWithImpl<$Res>
+    implements $ConfigNotifGroupeFailedCopyWith<$Res> {
+  _$ConfigNotifGroupeFailedCopyWithImpl(this._self, this._then);
+
+  final ConfigNotifGroupeFailed _self;
+  final $Res Function(ConfigNotifGroupeFailed) _then;
+
+/// Create a copy of GroupState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(ConfigNotifGroupeFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
