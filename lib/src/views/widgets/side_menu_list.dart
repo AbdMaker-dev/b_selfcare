@@ -122,7 +122,7 @@ class _SideMenuListState extends State<SideMenuList> {
         SizedBox(height: 20.rh),
         const MenuSeparator(title: 'ADMINISTRATION'),
         CustomItemMenu(
-          title: "Utilisateurs",
+          title: "Comptes",
           icon: Icons.manage_accounts,
           isActive: context.router.currentUrl.contains("users"),
           onSelect: () => context.router.pushPath('$routeApp/$routeAppUsers'),
