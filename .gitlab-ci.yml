@@ -1,13 +1,21 @@
 # =============================================================================
 # .gitlab-ci.yml -- Pipeline Flutter Web
 # Deploy test et prod via SSH + notification SMS
+# NOTIF : envoyee a l'AUTEUR du commit deploye (et non a celui qui clique play)
+# -----------------------------------------------------------------------------
+# IMPORTANT : GitLab n'expose PAS le username GitLab de l'auteur d'un commit.
+# CI_COMMIT_AUTHOR = "Nom Prenom <email>". On matche donc sur l'EMAIL.
+# La map USER_PHONE_MAP peut etre clee :
+#   - par email   : alioune-badara.diouf@yas.sn:760158277,...   (recommande)
+#   - par username SI username == partie avant @ de l'email pro
+# Le script tente les deux (email complet, puis partie avant @).
 # =============================================================================
 
 variables:
   DEPLOY_SCRIPT: "/var/www/b2b-css-front/deploy.sh"
   SMS_API_URL: "https://192.168.41.45:9040/services/SendNotifications.aspx"
   SMS_API_SENDER: "Yas"
-  SMS_RECIPIENTS: "768095469"
+  SMS_RECIPIENTS: "768095469"   # fallback si l'auteur n'est pas dans USER_PHONE_MAP
 
 stages:
   - deploy
@@ -39,17 +47,23 @@ deploy:test:
   after_script:
     - |
       if [ "$CI_JOB_STATUS" = "success" ]; then
-        MESSAGE="[Flutter Web] Deploy TEST OK - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy TEST OK - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       else
-        MESSAGE="[Flutter Web] Deploy TEST FAILED - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy TEST FAILED - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       fi
+
+      # --- Destinataire = AUTEUR du commit deploye ----------------------------
+      # CI_COMMIT_AUTHOR = "Nom Prenom <email>" -> on isole email + partie avant @
+      COMMIT_EMAIL=$(echo "$CI_COMMIT_AUTHOR" | sed -n 's/.*<\(.*\)>.*/\1/p')
+      COMMIT_LOGIN=$(echo "$COMMIT_EMAIL" | cut -d'@' -f1)
+      echo "DEBUG author=[$CI_COMMIT_AUTHOR] email=[$COMMIT_EMAIL] login=[$COMMIT_LOGIN]"
 
       RESOLVED_PHONE=""
       if [ -n "${USER_PHONE_MAP:-}" ]; then
         for ENTRY in $(echo "$USER_PHONE_MAP" | tr ',' ' '); do
           MAP_USER=$(echo "$ENTRY" | cut -d':' -f1)
           MAP_PHONE=$(echo "$ENTRY" | cut -d':' -f2)
-          if [ "$MAP_USER" = "$GITLAB_USER_LOGIN" ]; then
+          if [ "$MAP_USER" = "$COMMIT_EMAIL" ] || [ "$MAP_USER" = "$COMMIT_LOGIN" ]; then
             RESOLVED_PHONE="$MAP_PHONE"
             break
           fi
@@ -92,17 +106,22 @@ deploy:production:
   after_script:
     - |
       if [ "$CI_JOB_STATUS" = "success" ]; then
-        MESSAGE="[Flutter Web] Deploy PROD OK - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy PROD OK - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       else
-        MESSAGE="[Flutter Web] Deploy PROD FAILED - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy PROD FAILED - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       fi
+
+      # --- Destinataire = AUTEUR du commit deploye ----------------------------
+      COMMIT_EMAIL=$(echo "$CI_COMMIT_AUTHOR" | sed -n 's/.*<\(.*\)>.*/\1/p')
+      COMMIT_LOGIN=$(echo "$COMMIT_EMAIL" | cut -d'@' -f1)
+      echo "DEBUG author=[$CI_COMMIT_AUTHOR] email=[$COMMIT_EMAIL] login=[$COMMIT_LOGIN]"
 
       RESOLVED_PHONE=""
       if [ -n "${USER_PHONE_MAP:-}" ]; then
         for ENTRY in $(echo "$USER_PHONE_MAP" | tr ',' ' '); do
           MAP_USER=$(echo "$ENTRY" | cut -d':' -f1)
           MAP_PHONE=$(echo "$ENTRY" | cut -d':' -f2)
-          if [ "$MAP_USER" = "$GITLAB_USER_LOGIN" ]; then
+          if [ "$MAP_USER" = "$COMMIT_EMAIL" ] || [ "$MAP_USER" = "$COMMIT_LOGIN" ]; then
             RESOLVED_PHONE="$MAP_PHONE"
             break
           fi
