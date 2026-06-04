@@ -22,11 +22,10 @@ class SourceCampagne extends AppTableSource<CampaignModel> {
     (label: 'Campagne',     flex: 5),
     (label: 'Fréquence',    flex: 3),
     (label: 'Produit',      flex: 4),
-    (label: 'Coût/Run',     flex: 3),
     (label: 'Début',        flex: 2),
     (label: 'Fin',          flex: 2),
     (label: 'Prochain Run', flex: 2),
-    (label: 'Statut',       flex: 2),
+    (label: 'Statut',       flex: 3),
     (label: 'Actions',      flex: 3),
   ];
 
@@ -35,7 +34,6 @@ class SourceCampagne extends AppTableSource<CampaignModel> {
     CellTextTable(text: e.name ?? '---', sub: e.description),
     CellTextTable(text: e.frequency ?? '---'),
     CellTextTable(text: e.product?.name ?? '---'),
-    CellTextTable(text: e.estimatedCost ?? '---'),
     CellTextTable(text: e.startDate != null ? AppDate.formatShort(e.startDate!) : '---'),
     CellTextTable(text: e.endDate != null ? AppDate.formatShort(e.endDate!) : '---'),
     CellTextTable(text: e.nextExecution != null ? AppDate.formatShort(e.nextExecution!) : '---'),

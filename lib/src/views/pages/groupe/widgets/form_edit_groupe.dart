@@ -213,6 +213,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                                 orElse: () => initialLabel ?? 'Choisir un produit',
                               ),
                               options: options,
+                              searchMode: SelectSearchMode.local,
                               onChanged: (opt) =>
                                   setState(() => _selectedProductId = opt.value),
                             ),
