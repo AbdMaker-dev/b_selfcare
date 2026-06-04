@@ -118,6 +118,13 @@ class _SectionInfos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final count = groupe.employeesCount;
+    final quotas = groupe.product?.quotas;
+    final pricePerEmployee = (quotas != null && quotas.isNotEmpty)
+        ? quotas.fold<num>(0, (s, q) => s + (q.price ?? 0))
+        : groupe.product?.price;
+    final globalCost = (pricePerEmployee != null && count != null) ? pricePerEmployee * count : null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -135,6 +142,19 @@ class _SectionInfos extends StatelessWidget {
         DetailInfoRow(
           left: DetailInfoItem(label: 'Date de création', value: AppDate.format(groupe.createdAt), icon: Icons.calendar_today_outlined),
           right: DetailInfoItem(label: 'Dernière modification', value: AppDate.format(groupe.updatedAt), icon: Icons.update_outlined),
+        ),
+        SizedBox(height: 12.rh),
+        DetailInfoRow(
+          left: DetailInfoItem(
+            label: 'Nombre d\'employés',
+            value: '${count ?? 0} employé${(count ?? 0) > 1 ? 's' : ''}',
+            icon: Icons.people_outline,
+          ),
+          right: DetailInfoItem(
+            label: 'Coût global',
+            value: globalCost != null ? AppMoney.format(globalCost) : '---',
+            icon: Icons.monetization_on_outlined,
+          ),
         ),
       ],
     );

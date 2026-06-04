@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
@@ -27,19 +28,19 @@ class FormGroupe extends StatefulWidget {
     required GroupCubit groupCubit,
     VoidCallback? onCreated,
   }) {
-    showDialog<void>(
+    showGeneralDialog<void>(
       context: context,
       useRootNavigator: true,
       barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: AppColors.primary.withValues(alpha: 0.7),
-      builder: (_) => Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.rr),
-        ),
-        child: SizedBox(
-          width: 700,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(24.rw),
+      pageBuilder: (_, __, ___) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 650.rw,
+            height: double.infinity,
             child: FormGroupe(
               groupCubit: groupCubit,
               onCreated: onCreated,
@@ -138,7 +139,7 @@ class _FormGroupeState extends State<FormGroupe> {
             Navigator.of(context, rootNavigator: true).pop();
             widget.onCreated?.call();
           },
-          createGroupeFailed: (message){},
+          createGroupeFailed: (message) {},
           orElse: () {},
         );
       },
@@ -147,171 +148,254 @@ class _FormGroupeState extends State<FormGroupe> {
         child: KeyedSubtree(
           key: ValueKey(_formSectionKey),
           child: Container(
-            padding: EdgeInsets.all(12.rw),
+            height: double.infinity,
             decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(12.rr),
-              border: Border.all(color: AppColors.gray),
+              color: AppColors.background,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12.rr),
+                bottomLeft: Radius.circular(12.rr),
+              ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(
-                  'Créer un groupe',
-                  fontSize: 18.rsp,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                ),
-                SizedBox(height: 20.rh),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: AppInput(
-                        labelText: 'Nom du groupe',
-                        keyboardType: TextInputType.text,
-                        controller: _nameController,
-                        isRequired: true,
-                        hintText: 'Ex: Direction Générale',
-                        validator: (v) =>
-                            (v == null || v.trim().isEmpty) ? 'Le nom est obligatoire' : null,
-                      ),
+                // HEADER
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.rw,
+                    vertical: 16.rh,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    border: Border(
+                      bottom: BorderSide(color: AppColors.gray),
                     ),
-                    SizedBox(width: 16.rw),
-                    Expanded(
-                      child: AppInput(
-                        labelText: 'Description',
-                        keyboardType: TextInputType.text,
-                        controller: _descriptionController,
-                        hintText: 'Ex: Groupe des cadres dirigeants',
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.rh),
-                Row(
-                  children: [
-                    Expanded(
-                      child: BlocBuilder<ProductsCubit, ProductsState>(
-                        bloc: productsCubit,
-                        builder: (context, productsState) {
-                          final options = productsCubit.products
-                              .map((p) => SelectOptionModel<String>(
-                                    label: p.name ?? '---',
-                                    value: p.id.toString(),
-                                  ))
-                              .toList();
-                          return SelectField<String>(
-                            label: 'Produit',
-                            placeholder: productsState.maybeWhen(
-                              productsLoading: () => 'Chargement...',
-                              orElse: () => 'Choisir un produit',
-                            ),
-                            options: options,
-                            onChanged: (opt) =>
-                                setState(() => _selectedProductId = opt.value.toString()),
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 16.rw),
-                    Expanded(
-                      child: SelectField<String>(
-                        label: 'Fréquence',
-                        placeholder: 'Choisir une fréquence',
-                        options: const [
-                          SelectOptionModel(label: 'DAILY - Quotidien',     value: 'DAILY'),
-                          SelectOptionModel(label: 'WEEKLY - Hebdomadaire', value: 'WEEKLY'),
-                          SelectOptionModel(label: 'MONTHLY - Mensuel',     value: 'MONTHLY'),
-                        ],
-                        onChanged: (opt) => setState(() {
-                          _selectedFrequency = opt.value;
-                          _selectedDayWeek = null;
-                          _selectedDayMonth = null;
-                        }),
-                      ),
-                    ),
-                  ],
-                ),
-                if (_selectedFrequency == 'WEEKLY') ...[
-                  SizedBox(height: 20.rh),
-                  Row(
+                  ),
+                  child: Row(
                     children: [
                       Expanded(
-                        child: SelectField<String>(
-                          label: 'Jour de la semaine',
-                          placeholder: 'Choisir un jour',
-                          options: const [
-                            SelectOptionModel(label: 'Lundi',    value: '1'),
-                            SelectOptionModel(label: 'Mardi',    value: '2'),
-                            SelectOptionModel(label: 'Mercredi', value: '3'),
-                            SelectOptionModel(label: 'Jeudi',    value: '4'),
-                            SelectOptionModel(label: 'Vendredi', value: '5'),
-                            SelectOptionModel(label: 'Samedi',   value: '6'),
-                            SelectOptionModel(label: 'Dimanche', value: '7'),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText.textHighlight(
+                              'Nouveau groupe',
+                              fontSize: 20.rsp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.grayAsh,
+                              highlight: 'groupe',
+                              fontFamily: FontFamily.syne,
+                              highlightColor: AppColors.primary,
+                              highlightFontSize: 20.rsp,
+                            ),
+                            SizedBox(height: 4.rh),
+                            AppText(
+                              'NOM · PRODUIT · FRÉQUENCE · DATE DÉBUT',
+                              fontSize: 10.rsp,
+                              color: AppColors.textMuted,
+                            ),
                           ],
-                          onChanged: (opt) =>
-                              setState(() => _selectedDayWeek = opt.value),
                         ),
                       ),
-                      const Expanded(child: SizedBox()),
-                    ],
-                  ),
-                ],
-                if (_selectedFrequency == 'MONTHLY') ...[
-                  SizedBox(height: 20.rh),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: SelectField<String>(
-                          label: 'Jour du mois',
-                          placeholder: 'Choisir un jour (1–31)',
-                          searchMode: SelectSearchMode.local,
-                          options: List.generate(
-                            31,
-                            (i) => SelectOptionModel(
-                              label: '${i + 1}',
-                              value: '${i + 1}',
-                            ),
+                      InkWell(
+                        onTap: () =>
+                            Navigator.of(context, rootNavigator: true).pop(),
+                        borderRadius: BorderRadius.circular(6),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 6,
                           ),
-                          onChanged: (opt) =>
-                              setState(() => _selectedDayMonth = opt.value),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: AppColors.graySilver),
+                          ),
+                          child: AppText(
+                            'X',
+                            fontSize: 13.rsp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ),
-                      const Expanded(child: SizedBox()),
                     ],
                   ),
-                ],
-                SizedBox(height: 20.rh),
-                Row(
-                  children: [
-                    Expanded(
-                      child: AppDateField(
-                        label: 'Date de début',
-                        required: true,
-                        onChanged: (date) =>
-                            setState(() => _selectedStartDate = date),
-                      ),
-                    ),
-                    SizedBox(width: 16.rw),
-                    Expanded(
-                      child: AppDateField(
-                        label: 'Date de fin',
-                        optional: true,
-                        onChanged: (date) {},
-                      ),
-                    ),
-                  ],
                 ),
                 SizedBox(height: 20.rh),
-                SizedBox(
-                  width: 250.rw,
-                  child: AppButton(
-                    text: 'Créer le groupe',
-                    type: AppButtonType.secondary,
-                    onPressed: _submit,
-                    fontSize: 15.rsp,
+                // SCROLLABLE BODY
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 20.rw),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          'INFORMATIONS GROUPE',
+                          fontSize: 11.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textMuted,
+                        ),
+                        SizedBox(height: 12.rh),
+                        AppInput(
+                          labelText: 'Nom du groupe',
+                          keyboardType: TextInputType.text,
+                          controller: _nameController,
+                          isRequired: true,
+                          hintText: 'Ex: Direction Générale',
+                          validator: (v) => (v == null || v.trim().isEmpty)
+                              ? 'Le nom est obligatoire'
+                              : null,
+                        ),
+                        SizedBox(height: 16.rh),
+                        AppInput(
+                          labelText: 'Description',
+                          keyboardType: TextInputType.text,
+                          controller: _descriptionController,
+                          hintText: 'Ex: Groupe des cadres dirigeants',
+                        ),
+                        SizedBox(height: 24.rh),
+                        AppText(
+                          'CONFIGURATION',
+                          fontSize: 11.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textMuted,
+                        ),
+                        SizedBox(height: 12.rh),
+                        BlocBuilder<ProductsCubit, ProductsState>(
+                          bloc: productsCubit,
+                          builder: (context, productsState) {
+                            final options = productsCubit.products
+                                .map((p) => SelectOptionModel<String>(
+                                      label: p.name ?? '---',
+                                      value: p.id.toString(),
+                                    ))
+                                .toList();
+                            return SelectField<String>(
+                              label: 'Produit',
+                              placeholder: productsState.maybeWhen(
+                                productsLoading: () => 'Chargement...',
+                                orElse: () => 'Choisir un produit',
+                              ),
+                              options: options,
+                              searchMode: SelectSearchMode.local,
+                              onChanged: (opt) => setState(
+                                  () => _selectedProductId = opt.value.toString()),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 16.rh),
+                        SelectField<String>(
+                          label: 'Fréquence',
+                          placeholder: 'Choisir une fréquence',
+                          options: const [
+                            SelectOptionModel(
+                                label: 'DAILY - Quotidien', value: 'DAILY'),
+                            SelectOptionModel(
+                                label: 'WEEKLY - Hebdomadaire', value: 'WEEKLY'),
+                            SelectOptionModel(
+                                label: 'MONTHLY - Mensuel', value: 'MONTHLY'),
+                          ],
+                          onChanged: (opt) => setState(() {
+                            _selectedFrequency = opt.value;
+                            _selectedDayWeek = null;
+                            _selectedDayMonth = null;
+                          }),
+                        ),
+                        if (_selectedFrequency == 'WEEKLY') ...[
+                          SizedBox(height: 16.rh),
+                          SelectField<String>(
+                            label: 'Jour de la semaine',
+                            placeholder: 'Choisir un jour',
+                            options: const [
+                              SelectOptionModel(label: 'Lundi', value: '1'),
+                              SelectOptionModel(label: 'Mardi', value: '2'),
+                              SelectOptionModel(label: 'Mercredi', value: '3'),
+                              SelectOptionModel(label: 'Jeudi', value: '4'),
+                              SelectOptionModel(label: 'Vendredi', value: '5'),
+                              SelectOptionModel(label: 'Samedi', value: '6'),
+                              SelectOptionModel(label: 'Dimanche', value: '7'),
+                            ],
+                            onChanged: (opt) =>
+                                setState(() => _selectedDayWeek = opt.value),
+                          ),
+                        ],
+                        if (_selectedFrequency == 'MONTHLY') ...[
+                          SizedBox(height: 16.rh),
+                          SelectField<String>(
+                            label: 'Jour du mois',
+                            placeholder: 'Choisir un jour (1–31)',
+                            searchMode: SelectSearchMode.local,
+                            options: List.generate(
+                              31,
+                              (i) => SelectOptionModel(
+                                label: '${i + 1}',
+                                value: '${i + 1}',
+                              ),
+                            ),
+                            onChanged: (opt) =>
+                                setState(() => _selectedDayMonth = opt.value),
+                          ),
+                        ],
+                        SizedBox(height: 16.rh),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: AppDateField(
+                                label: 'Date de début',
+                                required: true,
+                                onChanged: (date) =>
+                                    setState(() => _selectedStartDate = date),
+                              ),
+                            ),
+                            SizedBox(width: 16.rw),
+                            Expanded(
+                              child: AppDateField(
+                                label: 'Date de fin',
+                                optional: true,
+                                onChanged: (date) {},
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24.rh),
+                      ],
+                    ),
+                  ),
+                ),
+
+                // FOOTER
+                Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.rw,
+                    vertical: 16.rh,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    border: Border(
+                      top: BorderSide(color: AppColors.gray),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AppButton(
+                          text: 'Annuler',
+                          type: AppButtonType.outline,
+                          onPressed: () =>
+                              Navigator.of(context, rootNavigator: true).pop(),
+                          fontSize: 15.rsp,
+                        ),
+                      ),
+                      SizedBox(width: 12.rw),
+                      Expanded(
+                        flex: 2,
+                        child: AppButton(
+                          text: '+ Créer le groupe',
+                          type: AppButtonType.secondary,
+                          onPressed: _submit,
+                          fontSize: 15.rsp,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

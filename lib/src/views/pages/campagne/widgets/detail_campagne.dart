@@ -109,7 +109,6 @@ class _SectionInfos extends StatelessWidget {
         SizedBox(height: 12.rh),
         DetailInfoRow(
           left: DetailInfoItem(label: 'Date de création', value: AppDate.format(campaign.createdAt), icon: Icons.calendar_today_outlined),
-          right: DetailInfoItem(label: 'Coût estimé / run', value: campaign.estimatedCost ?? '---', icon: Icons.monetization_on_outlined),
         ),
       ],
     );
