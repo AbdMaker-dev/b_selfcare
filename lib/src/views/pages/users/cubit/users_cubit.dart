@@ -17,24 +17,24 @@ class UsersCubit extends Cubit<UsersState> {
   List<UserProfileModel> users = [];
   List<RoleModel> roles = [];
   UserProfileModel? selectedUser;
-  int currentPage = 1;
-  int totalCount  = 0;
-  int lastPage    = 1;
+  MetaModel meta = MetaModel();
+
+  int get currentPage        => meta.currentPage ?? 1;
+  int get totalCount         => meta.total ?? 0;
+  int get lastPage           => meta.lastPage ?? 1;
+  int get perPage            => meta.perPage ?? 20;
+  List<StatusOption> get availableStatuses => meta.availableStatuses ?? [];
 
   Future<void> getUsers({Map<String, dynamic>? data}) async {
-    // if(users.isNotEmpty) return;
     emit(const UsersState.getUsersLoading());
     final response = await _httpHelper.handleGetRequest('users', params: data);
     response.fold(
       (left) => emit(UsersState.getUsersFailed(left.message)),
       (right) {
-        final body  = right.response?['data'] as Map<String, dynamic>? ?? {};
-        final list  = body['data'] as List<dynamic>? ?? [];
-        final meta  = MetaModel.fromJson(body['meta'] as Map<String, dynamic>? ?? {});
-        users        = list.whereType<Map<String, dynamic>>().map(UserProfileModel.fromJson).toList();
-        currentPage  = meta.currentPage ?? 1;
-        totalCount   = meta.total ?? 0;
-        lastPage     = meta.lastPage ?? 1;
+        final body = right.response?['data'] as Map<String, dynamic>? ?? {};
+        final list = body['data'] as List<dynamic>? ?? [];
+        meta  = MetaModel.fromJson(body['meta'] as Map<String, dynamic>? ?? {});
+        users = list.whereType<Map<String, dynamic>>().map(UserProfileModel.fromJson).toList();
         emit(const UsersState.getUsersLoaded());
       },
     );

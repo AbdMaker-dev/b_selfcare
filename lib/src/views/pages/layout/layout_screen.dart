@@ -72,9 +72,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
               child: Column(
                 children: [
                   DashboardAppBar(
-                    companyName: 'CORTECH GROUP',
-                    solde: '2 850 000 Fcfa',
-                    isActif: false,
+                    companyName: _cubit.currentUser?.company?.name ?? '—',
+                    solde: _cubit.currentUser?.company?.formattedBalance ?? '—',
+                    isActif: _cubit.currentUser?.company?.status == 'ACTIVE',
                     onActualiser: () {},
                     onRecharger: () {},
                   ),

@@ -26,17 +26,11 @@ class MetaModel {
     lastPage = json['last_page'];
     from = json['from'];
     to = json['to'];
-    availableStatuses = json['available_statuses'] != null
-        ? (json['available_statuses'] as List).map((e) {
-            if (e is String) return StatusOption(value: e);
-            return StatusOption.fromJson(e);
-          }).toList()
-        : null;
-    availableStatusesOptions = json['available_statuses_options'] != null
-        ? (json['available_statuses_options'] as List)
-            .map((e) => StatusOption.fromJson(e))
-            .toList()
-        : null;
+    final rawStatuses = json['available_statuses'];
+    if (rawStatuses is List && rawStatuses.isNotEmpty && rawStatuses.first is Map) {
+      availableStatuses = rawStatuses.whereType<Map<String, dynamic>>().map(StatusOption.fromJson).toList();
+    }
+    availableStatusesOptions = json['available_statuses_options'] != null? (json['available_statuses_options'] as List).map((e) => StatusOption.fromJson(e)).toList(): null;
   }
 
   Map<String, dynamic> toJson() {

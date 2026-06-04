@@ -16,6 +16,7 @@ class AppButton extends StatelessWidget {
   final Color? textColor;
   final double? fontSize;
   final Color? color;
+  final EdgeInsetsGeometry? padding;
 
   const AppButton({
     super.key,
@@ -29,6 +30,7 @@ class AppButton extends StatelessWidget {
     this.textColor,
     this.fontSize,
     this.color,
+    this.padding,
   });
 
   @override
@@ -66,8 +68,9 @@ class AppButton extends StatelessWidget {
     return GestureDetector(
       onTap: isEnabled ? onPressed : null,
       child: Container(
-        width: width ?? double.infinity,
+        width: width,
         height: (height ?? 63).rh,
+        padding: padding ?? EdgeInsets.symmetric(horizontal: 20.rw),
         decoration: BoxDecoration(
           color: effectiveColor,
           borderRadius: BorderRadius.circular(12.rr),
@@ -85,17 +88,22 @@ class AppButton extends StatelessWidget {
           )
         : Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null) ...[
                 Icon(icon, size: fontSize ?? 18.rsp, color: effectiveTxtColor),
                 SizedBox(width: 8.rw),
               ],
-              AppText(
-                text,
-                color: effectiveTxtColor,
-                fontWeight: FontWeight.w700,
-                fontSize: fontSize ?? 19.rsp,
-                fontStyle: FontStyle.normal,
+              Flexible(
+                child: AppText(
+                  text,
+                  color: effectiveTxtColor,
+                  fontWeight: FontWeight.w700,
+                  fontSize: fontSize ?? 19.rsp,
+                  fontStyle: FontStyle.normal,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
               ),
             ],
           ),

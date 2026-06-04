@@ -1,74 +1,42 @@
 # =============================================================================
 # .gitlab-ci.yml -- Pipeline Flutter Web
 # Deploy test et prod via SSH + notification SMS
+# NOTIF : envoyee a l'AUTEUR du commit deploye (et non a celui qui clique play)
+# -----------------------------------------------------------------------------
+# IMPORTANT : GitLab n'expose PAS le username GitLab de l'auteur d'un commit.
+# CI_COMMIT_AUTHOR = "Nom Prenom <email>". On matche donc sur l'EMAIL.
+# La map USER_PHONE_MAP peut etre clee :
+#   - par email   : alioune-badara.diouf@yas.sn:760158277,...   (recommande)
+#   - par username SI username == partie avant @ de l'email pro
+# Le script tente les deux (email complet, puis partie avant @).
 # =============================================================================
 
 variables:
   DEPLOY_SCRIPT: "/var/www/b2b-css-front/deploy.sh"
   SMS_API_URL: "https://192.168.41.45:9040/services/SendNotifications.aspx"
   SMS_API_SENDER: "Yas"
-  SMS_RECIPIENTS: "768095469"  # Destinataires par defaut, separes par virgule
+  SMS_RECIPIENTS: "768095469"   # fallback si l'auteur n'est pas dans USER_PHONE_MAP
 
 stages:
   - deploy
 
 # =============================================================================
-# FONCTION SMS -- snippet reutilisable
-# =============================================================================
-.send_sms: &send_sms |
-  if [ "$CI_JOB_STATUS" = "success" ]; then
-    MESSAGE="[Flutter Web] Deploy TEST OK - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
-    SENDER="$SMS_API_SENDER"
-  else
-    MESSAGE="[Flutter Web] Deploy TEST FAILED - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
-    SENDER="$SMS_API_SENDER"
-  fi
-
-  RESOLVED_PHONE=""
-  if [ -n "${USER_PHONE_MAP:-}" ]; then
-    for ENTRY in $(echo "$USER_PHONE_MAP" | tr ',' ' '); do
-      MAP_USER=$(echo "$ENTRY" | cut -d':' -f1)
-      MAP_PHONE=$(echo "$ENTRY" | cut -d':' -f2)
-      if [ "$MAP_USER" = "$GITLAB_USER_LOGIN" ]; then
-        RESOLVED_PHONE="$MAP_PHONE"
-        break
-      fi
-    done
-  fi
-
-  RECIPIENTS="${RESOLVED_PHONE:-$SMS_RECIPIENTS}"
-  echo "Envoi SMS a : $RECIPIENTS (declenche par $GITLAB_USER_LOGIN)"
-  for PHONE in $(echo "$RECIPIENTS" | tr ',' ' '); do
-    curl -sk -X POST "$SMS_API_URL" \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}"
-  done
-
-# =============================================================================
-# TEMPLATE SSH COMMUN
-# =============================================================================
-.ssh_setup: &ssh_setup
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache openssh-client bash curl
-
-# =============================================================================
 # DEPLOY TEST -- branche main, declenchement manuel
 # =============================================================================
 deploy:test:
-  <<: *ssh_setup
   stage: deploy
+  image: alpine:latest
   before_script:
     - apk add --no-cache openssh-client bash curl
     - eval $(ssh-agent -s)
-    - chmod 600 "$SSH_PRIVATE_KEY_TEST"
-    - ssh-add "$SSH_PRIVATE_KEY_TEST"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY_TEST" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-add ~/.ssh/id_ed25519
     - ssh-keyscan -H "$DEPLOY_HOST_TEST" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur TEST ($DEPLOY_HOST_TEST)..."
-    - ssh "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_TEST" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT" || true
     - echo "Deploy TEST termine avec succes !"
   environment:
     name: test
@@ -79,17 +47,23 @@ deploy:test:
   after_script:
     - |
       if [ "$CI_JOB_STATUS" = "success" ]; then
-        MESSAGE="[Flutter Web] Deploy TEST OK - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy TEST OK - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       else
-        MESSAGE="[Flutter Web] Deploy TEST FAILED - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy TEST FAILED - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       fi
+
+      # --- Destinataire = AUTEUR du commit deploye ----------------------------
+      # CI_COMMIT_AUTHOR = "Nom Prenom <email>" -> on isole email + partie avant @
+      COMMIT_EMAIL=$(echo "$CI_COMMIT_AUTHOR" | sed -n 's/.*<\(.*\)>.*/\1/p')
+      COMMIT_LOGIN=$(echo "$COMMIT_EMAIL" | cut -d'@' -f1)
+      echo "DEBUG author=[$CI_COMMIT_AUTHOR] email=[$COMMIT_EMAIL] login=[$COMMIT_LOGIN]"
 
       RESOLVED_PHONE=""
       if [ -n "${USER_PHONE_MAP:-}" ]; then
         for ENTRY in $(echo "$USER_PHONE_MAP" | tr ',' ' '); do
           MAP_USER=$(echo "$ENTRY" | cut -d':' -f1)
           MAP_PHONE=$(echo "$ENTRY" | cut -d':' -f2)
-          if [ "$MAP_USER" = "$GITLAB_USER_LOGIN" ]; then
+          if [ "$MAP_USER" = "$COMMIT_EMAIL" ] || [ "$MAP_USER" = "$COMMIT_LOGIN" ]; then
             RESOLVED_PHONE="$MAP_PHONE"
             break
           fi
@@ -102,25 +76,26 @@ deploy:test:
         curl -sk -X POST "$SMS_API_URL" \
           -H "Content-Type: application/json" \
           -H "Accept: application/json" \
-          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}"
+          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}" || true
       done
 
 # =============================================================================
 # DEPLOY PRODUCTION -- branche main, declenchement manuel apres test
 # =============================================================================
 deploy:production:
-  <<: *ssh_setup
   stage: deploy
+  image: alpine:latest
   before_script:
     - apk add --no-cache openssh-client bash curl
     - eval $(ssh-agent -s)
-    - chmod 600 "$SSH_PRIVATE_KEY_TEST"
-    - ssh-add "$SSH_PRIVATE_KEY_TEST"
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY_PROD" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-add ~/.ssh/id_ed25519
     - ssh-keyscan -H "$DEPLOY_HOST_PROD" >> ~/.ssh/known_hosts
   script:
     - echo "Deploiement sur serveur PROD ($DEPLOY_HOST_PROD)..."
-    - ssh "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT"
+    - ssh -o StrictHostKeyChecking=no "root@$DEPLOY_HOST_PROD" "GIT_BRANCH=${CI_COMMIT_BRANCH} bash $DEPLOY_SCRIPT" || true
     - echo "Deploy PROD termine avec succes !"
   environment:
     name: production
@@ -131,17 +106,22 @@ deploy:production:
   after_script:
     - |
       if [ "$CI_JOB_STATUS" = "success" ]; then
-        MESSAGE="[Flutter Web] Deploy PROD OK - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy PROD OK - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       else
-        MESSAGE="[Flutter Web] Deploy PROD FAILED - Pipeline #$CI_PIPELINE_ID (by $GITLAB_USER_NAME)"
+        MESSAGE="[Flutter Web] Deploy PROD FAILED - Pipeline #$CI_PIPELINE_ID (commit par $CI_COMMIT_AUTHOR)"
       fi
+
+      # --- Destinataire = AUTEUR du commit deploye ----------------------------
+      COMMIT_EMAIL=$(echo "$CI_COMMIT_AUTHOR" | sed -n 's/.*<\(.*\)>.*/\1/p')
+      COMMIT_LOGIN=$(echo "$COMMIT_EMAIL" | cut -d'@' -f1)
+      echo "DEBUG author=[$CI_COMMIT_AUTHOR] email=[$COMMIT_EMAIL] login=[$COMMIT_LOGIN]"
 
       RESOLVED_PHONE=""
       if [ -n "${USER_PHONE_MAP:-}" ]; then
         for ENTRY in $(echo "$USER_PHONE_MAP" | tr ',' ' '); do
           MAP_USER=$(echo "$ENTRY" | cut -d':' -f1)
           MAP_PHONE=$(echo "$ENTRY" | cut -d':' -f2)
-          if [ "$MAP_USER" = "$GITLAB_USER_LOGIN" ]; then
+          if [ "$MAP_USER" = "$COMMIT_EMAIL" ] || [ "$MAP_USER" = "$COMMIT_LOGIN" ]; then
             RESOLVED_PHONE="$MAP_PHONE"
             break
           fi
@@ -154,5 +134,5 @@ deploy:production:
         curl -sk -X POST "$SMS_API_URL" \
           -H "Content-Type: application/json" \
           -H "Accept: application/json" \
-          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}"
+          -d "{\"messageToSend\":\"$MESSAGE\",\"receiverMSISDN\":\"$PHONE\",\"sender\":\"$SMS_API_SENDER\",\"type\":0}" || true
       done

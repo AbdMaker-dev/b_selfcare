@@ -85,14 +85,15 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                       highlight: 'groupes',
                       fontSize: 22.rsp,
                       highlightColor: AppColors.warning,
-                      fontFamily: FontFamily.syne,
+                      fontFamily: FontFamily.fraunces,
+                      fontStyle: FontStyle.italic,
                     ),
                     SizedBox(height: 8.rh),
                     AppText(
                       total > 0
                       ? '$total groupes · Gestion des groupes d\'employés'
                       : 'Organisez vos employés par groupes et produits',
-                      fontSize: 14.rsp,
+                      fontSize: 14.5.rsp,
                       color: AppColors.textMuted,
                     ),
                   ],
