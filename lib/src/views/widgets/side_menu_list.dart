@@ -190,12 +190,12 @@ class CustomItemMenu extends StatelessWidget {
             Icon(
               icon,
               color: isActive ? AppColors.secondary : AppColors.white,
-              size: 16.rsp,
+              size: 15.rsp,
             ),
             AppText(
               title,
               color: isActive ? AppColors.secondary : AppColors.white,
-              fontSize: 17.rsp,
+              fontSize: 16.rsp,
               onClick: onSelect,
             ),
           ],
