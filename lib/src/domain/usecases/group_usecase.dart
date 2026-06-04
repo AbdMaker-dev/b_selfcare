@@ -48,6 +48,14 @@ class GroupUsecase {
       },
     );
   }
+  Future<Either<Failure, DataResponseModel>> configurationNotificationGroupe({required int id, required dynamic data}) async {
+    var res = await groupRepo.configurationNotificationGroupe(id: id, data: data);
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(success),
+    );
+  }
+
   Future<Either<Failure, DataResponseModel>> deleteGroupe({required int id}) async {
     var res = await groupRepo.deleteGroupe(id:id);
     return res.fold(

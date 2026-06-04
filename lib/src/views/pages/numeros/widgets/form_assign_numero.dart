@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/employee/employee_model.dart';
 import 'package:b_selfcare/src/data/models/flotte_number/flotte_number_model.dart';
@@ -8,7 +9,6 @@ import 'package:b_selfcare/src/domain/usecases/employee_usecase.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
-import 'package:b_selfcare/src/views/widgets/detail_components.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_field.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_option_model.dart';
 import 'package:flutter/material.dart';
@@ -29,10 +29,23 @@ class FormAssignNumero extends StatefulWidget {
     required FlotteNumberModel numero,
     required FlotteNumberCubit flotteNumberCubit,
   }) {
-    showDetailDialog(
-      context,
-      width: 500.rw,
-      child: FormAssignNumero(numero: numero, flotteNumberCubit: flotteNumberCubit),
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      pageBuilder: (_, __, ___) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 550.rw,
+            height: double.infinity,
+            child: FormAssignNumero(numero: numero, flotteNumberCubit: flotteNumberCubit),
+          ),
+        ),
+      ),
     );
   }
 
@@ -74,11 +87,8 @@ class _FormAssignNumeroState extends State<FormAssignNumero> {
         bloc: _myFlotteCubit,
         listener: (context, state) {
           state.maybeWhen(
-            getEmployeesLoaded: (data) {
-              setState(() {
-                _employees = data.data?.employees ?? [];
-              });
-            },
+            getEmployeesLoaded: (data) =>
+                setState(() => _employees = data.data?.employees ?? []),
             orElse: () {},
           );
         },
@@ -97,83 +107,156 @@ class _FormAssignNumeroState extends State<FormAssignNumero> {
                       ))
                   .toList();
 
-              return DetailContainer(children: [
-                // Header
-                Row(children: [
-                  Container(
-                    padding: EdgeInsets.all(10.rw),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(10.rr),
-                    ),
-                    child: Icon(Icons.person_add_outlined, color: AppColors.primary, size: 24.rsp),
+              return Container(
+                height: double.infinity.rh,
+                decoration: BoxDecoration(
+                  color: AppColors.background,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12.rr),
+                    bottomLeft: Radius.circular(12.rr),
                   ),
-                  SizedBox(width: 14.rw),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText('Assigner le numéro', fontSize: 16.rsp, fontWeight: FontWeight.w700, color: AppColors.textHeading),
-                        SizedBox(height: 3.rh),
-                        AppText(widget.numero.msisdn ?? '---', fontSize: 13.rsp, color: AppColors.textMuted),
-                      ],
-                    ),
-                  ),
-                ]),
-                SizedBox(height: 20.rh),
-                const DetailDivider(),
-                SizedBox(height: 20.rh),
-
-                // Sélection d'employé
-                if (isLoadingEmployees)
-                  Center(child: CircularProgressIndicator(color: AppColors.primary))
-                else
-                  SelectField<EmployeeModel>(
-                    label: 'Employé *',
-                    options: options,
-                    placeholder: 'Sélectionner un employé...',
-                    onChanged: (opt) => setState(() => _selectedEmployee = opt.value),
-                    searchMode: SelectSearchMode.api,
-                    onSearch: (query) async {
-                      final result = await _employeeUsecase.getEmployees(
-                        data: {'status': 'ACTIVE', 'search': query},
-                      );
-                      return result.fold(
-                        (_) => [],
-                        (data) => (data.data?.employees ?? [])
-                            .map((e) => SelectOptionModel<EmployeeModel>(
-                                  label: '${e.firstName ?? ''} ${e.lastName ?? ''}'.trim(),
-                                  value: e,
-                                  subtitle: e.position,
-                                ))
-                            .toList(),
-                      );
-                    },
-                  ),
-
-                SizedBox(height: 24.rh),
-                const DetailDivider(),
-                SizedBox(height: 16.rh),
-
-                // Actions
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DetailActionBtn(
-                      label: 'Annuler',
-                      type: AppButtonType.outline,
-                      width: 120,
-                      onPressed: isLoading ? null : () => Navigator.of(context, rootNavigator: true).pop(),
+                    // HEADER
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        border: Border(bottom: BorderSide(color: AppColors.gray)),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AppText.textHighlight(
+                                  'Assigner numéro',
+                                  fontSize: 20.rsp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.grayAsh,
+                                  highlight: 'numéro',
+                                  fontFamily: FontFamily.syne,
+                                  highlightColor: AppColors.primary,
+                                  highlightFontSize: 20.rsp,
+                                ),
+                                SizedBox(height: 4.rh),
+                                AppText(
+                                  widget.numero.msisdn ?? '---',
+                                  fontSize: 10.rsp,
+                                  color: AppColors.textMuted,
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                            borderRadius: BorderRadius.circular(6),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 6.rh),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: AppColors.graySilver),
+                              ),
+                              child: AppText(
+                                'X',
+                                fontSize: 13.rsp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 10.rw),
-                    DetailActionBtn(
-                      label: 'Assigner',
-                      icon: Icons.person_add_outlined,
-                      onPressed: (isLoading || _selectedEmployee == null) ? null : _submit,
+
+                    // SCROLLABLE BODY
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.all(16.rw),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText(
+                              'SÉLECTION DE L\'EMPLOYÉ',
+                              fontSize: 11.rsp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textMuted,
+                            ),
+                            SizedBox(height: 12.rh),
+                            if (isLoadingEmployees)
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 24.rh),
+                                  child: CircularProgressIndicator(color: AppColors.primary),
+                                ),
+                              )
+                            else
+                              SelectField<EmployeeModel>(
+                                label: 'Employé',
+                                options: options,
+                                placeholder: 'Sélectionner un employé...',
+                                onChanged: (opt) => setState(() => _selectedEmployee = opt.value),
+                                searchMode: SelectSearchMode.api,
+                                onSearch: (query) async {
+                                  final result = await _employeeUsecase.getEmployees(
+                                    data: {'status': 'ACTIVE', 'search': query},
+                                  );
+                                  return result.fold(
+                                    (_) => [],
+                                    (data) => (data.data?.employees ?? [])
+                                        .map((e) => SelectOptionModel<EmployeeModel>(
+                                              label: '${e.firstName ?? ''} ${e.lastName ?? ''}'.trim(),
+                                              value: e,
+                                              subtitle: e.position,
+                                            ))
+                                        .toList(),
+                                  );
+                                },
+                              ),
+                            SizedBox(height: 24.rh),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // FOOTER
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        border: Border(top: BorderSide(color: AppColors.gray)),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              text: 'Annuler',
+                              type: AppButtonType.outline,
+                              fontSize: 14.rsp,
+                              onPressed: isLoading
+                                  ? null
+                                  : () => Navigator.of(context, rootNavigator: true).pop(),
+                            ),
+                          ),
+                          SizedBox(width: 12.rw),
+                          Expanded(
+                            flex: 2,
+                            child: AppButton(
+                              text: isLoading ? 'Assignation...' : '+ Assigner le numéro',
+                              type: AppButtonType.secondary,
+                              fontSize: 14.rsp,
+                              onPressed: (isLoading || _selectedEmployee == null) ? null : _submit,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ]);
+              );
             },
           );
         },

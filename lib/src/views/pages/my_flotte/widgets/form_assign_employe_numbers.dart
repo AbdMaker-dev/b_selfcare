@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/employee/employee_model.dart';
 import 'package:b_selfcare/src/data/models/flotte_number/flotte_number_model.dart';
@@ -7,7 +8,6 @@ import 'package:b_selfcare/src/views/pages/my_flotte/cubit/flotte_number/flotte_
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
-import 'package:b_selfcare/src/views/widgets/detail_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,10 +26,23 @@ class FormAssignEmployeNumbers extends StatefulWidget {
     required EmployeeModel employee,
     required MyFlotteCubit myFlotteCubit,
   }) {
-    showDetailDialog(
-      context,
-      width: 530.rw,
-      child: FormAssignEmployeNumbers(employee: employee, myFlotteCubit: myFlotteCubit),
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      pageBuilder: (_, __, ___) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 550.rw,
+            height: double.infinity,
+            child: FormAssignEmployeNumbers(employee: employee, myFlotteCubit: myFlotteCubit),
+          ),
+        ),
+      ),
     );
   }
 
@@ -95,13 +108,11 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
         bloc: _flotteNumberCubit,
         listener: (context, state) {
           state.maybeWhen(
-            getNumbersLoaded: (data) {
-              setState(() {
-                _availableNumbers = (data.data?.numbers ?? [])
-                    .where((n) => n.employee == null)
-                    .toList();
-              });
-            },
+            getNumbersLoaded: (data) => setState(() {
+              _availableNumbers = (data.data?.numbers ?? [])
+                  .where((n) => n.employee == null)
+                  .toList();
+            }),
             orElse: () {},
           );
         },
@@ -120,181 +131,235 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
                           (n.iccid ?? '').toLowerCase().contains(_searchQuery))
                       .toList();
 
-              return DetailContainer(children: [
-                // Header
-                Row(children: [
-                  Container(
-                    padding: EdgeInsets.all(10.rw),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(10.rr),
-                    ),
-                    child: Icon(Icons.sim_card_outlined, color: AppColors.primary, size: 24.rsp),
+              return Container(
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppColors.background,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12.rr),
+                    bottomLeft: Radius.circular(12.rr),
                   ),
-                  SizedBox(width: 14.rw),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText('Assigner des numéros', fontSize: 16.rsp, fontWeight: FontWeight.w700, color: AppColors.textHeading),
-                        SizedBox(height: 3.rh),
-                        AppText(
-                          fullName.isNotEmpty ? fullName : widget.employee.email ?? '---',
-                          fontSize: 13.rsp,
-                          color: AppColors.textMuted,
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
-                SizedBox(height: 20.rh),
-                const DetailDivider(),
-                SizedBox(height: 16.rh),
-
-                // Recherche
-                if (!isLoadingNumbers && _availableNumbers.isNotEmpty)
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 12.rh),
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
-                      style: TextStyle(fontSize: 14.rsp),
-                      decoration: InputDecoration(
-                        hintText: 'Rechercher un numéro...',
-                        hintStyle: TextStyle(fontSize: 13.rsp, color: AppColors.grayAsh),
-                        prefixIcon: Icon(Icons.search_rounded, size: 18, color: AppColors.grayAsh),
-                        isDense: true,
-                        contentPadding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 10.rh),
-                        filled: true,
-                        fillColor: AppColors.grayWh,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.rr),
-                          borderSide: BorderSide(color: AppColors.gray),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.rr),
-                          borderSide: BorderSide(color: AppColors.gray),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.rr),
-                          borderSide: BorderSide(color: AppColors.greyCharcoal),
-                        ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // HEADER
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        border: Border(bottom: BorderSide(color: AppColors.gray)),
                       ),
-                    ),
-                  ),
-
-                // Liste des numéros
-                if (isLoadingNumbers)
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 30.rh),
-                      child: CircularProgressIndicator(color: AppColors.primary),
-                    ),
-                  )
-                else if (filtered.isEmpty)
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24.rh),
-                    child: Center(
-                      child: AppText(
-                        _searchQuery.isEmpty ? 'Aucun numéro disponible' : 'Aucun résultat',
-                        fontSize: 14.rsp,
-                        color: AppColors.textMuted,
-                      ),
-                    ),
-                  )
-                else
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: 300.rh),
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: filtered.length,
-                      separatorBuilder: (_, __) => Divider(height: 1, color: AppColors.gray),
-                      itemBuilder: (context, i) {
-                        final n = filtered[i];
-                        final selected = _selectedIds.contains(n.id);
-                        return InkWell(
-                          onTap: n.id != null ? () => _toggle(n.id!) : null,
-                          borderRadius: BorderRadius.circular(6.rr),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.rw, vertical: 10.rh),
-                            child: Row(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Checkbox(
-                                  value: selected,
-                                  activeColor: AppColors.primary,
-                                  onChanged: n.id != null ? (_) => _toggle(n.id!) : null,
-                                ),
-                                SizedBox(width: 8.rw),
-                                Container(
-                                  width: 8.rw,
-                                  height: 8.rh,
-                                  decoration: BoxDecoration(
-                                    color: n.status?.toUpperCase() == 'ACTIVE'
-                                        ? AppColors.success
-                                        : AppColors.grayAsh,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                                SizedBox(width: 8.rw),
-                                AppText(
-                                  n.msisdn ?? '---',
-                                  fontSize: 14.rsp,
+                                AppText.textHighlight(
+                                  'Assigner numéros',
+                                  fontSize: 20.rsp,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.textHeading,
+                                  color: AppColors.grayAsh,
+                                  highlight: 'numéros',
+                                  fontFamily: FontFamily.syne,
+                                  highlightColor: AppColors.primary,
+                                  highlightFontSize: 20.rsp,
                                 ),
-                                if (n.iccid != null) ...[
-                                  SizedBox(width: 10.rw),
-                                  AppText(
-                                    n.iccid!,
-                                    fontSize: 11.rsp,
-                                    color: AppColors.textMuted,
-                                  ),
-                                ],
+                                SizedBox(height: 4.rh),
+                                AppText(
+                                  fullName.isNotEmpty ? fullName : widget.employee.email ?? '---',
+                                  fontSize: 10.rsp,
+                                  color: AppColors.textMuted,
+                                ),
                               ],
                             ),
                           ),
-                        );
-                      },
+                          InkWell(
+                            onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                            borderRadius: BorderRadius.circular(6),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: AppColors.graySilver),
+                              ),
+                              child: AppText('X', fontSize: 13.rsp, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                SizedBox(height: 16.rh),
-                const DetailDivider(),
-                SizedBox(height: 16.rh),
+                    // SCROLLABLE BODY
+                    Expanded(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.all(16.rw),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText(
+                              'NUMÉROS DISPONIBLES',
+                              fontSize: 11.rsp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.textMuted,
+                            ),
+                            SizedBox(height: 12.rh),
 
-                // Actions
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (_selectedIds.isNotEmpty)
-                      AppText(
-                        '${_selectedIds.length} sélectionné${_selectedIds.length > 1 ? 's' : ''}',
-                        fontSize: 13.rsp,
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w600,
-                      )
-                    else
-                      const SizedBox.shrink(),
-                    Row(
-                      children: [
-                        DetailActionBtn(
-                          label: 'Annuler',
-                          type: AppButtonType.outline,
-                          width: 120.rw,
-                          onPressed: isSubmitting ? null : () => Navigator.of(context, rootNavigator: true).pop(),
+                            // Recherche
+                            if (!isLoadingNumbers && _availableNumbers.isNotEmpty)
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 12.rh),
+                                child: TextField(
+                                  controller: _searchController,
+                                  onChanged: (v) => setState(() => _searchQuery = v.toLowerCase()),
+                                  style: TextStyle(fontSize: 14.rsp),
+                                  decoration: InputDecoration(
+                                    hintText: 'Rechercher un numéro...',
+                                    hintStyle: TextStyle(fontSize: 13.rsp, color: AppColors.grayAsh),
+                                    prefixIcon: Icon(Icons.search_rounded, size: 18, color: AppColors.grayAsh),
+                                    isDense: true,
+                                    contentPadding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 10.rh),
+                                    filled: true,
+                                    fillColor: AppColors.grayWh,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.rr),
+                                      borderSide: BorderSide(color: AppColors.gray),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.rr),
+                                      borderSide: BorderSide(color: AppColors.gray),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8.rr),
+                                      borderSide: BorderSide(color: AppColors.primary),
+                                    ),
+                                  ),
+                                ),
+                              ),
+
+                            // Liste des numéros
+                            if (isLoadingNumbers)
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 30.rh),
+                                  child: CircularProgressIndicator(color: AppColors.primary),
+                                ),
+                              )
+                            else if (filtered.isEmpty)
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 24.rh),
+                                child: Center(
+                                  child: AppText(
+                                    _searchQuery.isEmpty ? 'Aucun numéro disponible' : 'Aucun résultat',
+                                    fontSize: 14.rsp,
+                                    color: AppColors.textMuted,
+                                  ),
+                                ),
+                              )
+                            else
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(10.rr),
+                                  border: Border.all(color: AppColors.gray),
+                                ),
+                                child: ListView.separated(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: filtered.length,
+                                  separatorBuilder: (_, __) => Divider(height: 1, color: AppColors.gray),
+                                  itemBuilder: (context, i) {
+                                    final n = filtered[i];
+                                    final selected = _selectedIds.contains(n.id);
+                                    return InkWell(
+                                      onTap: n.id != null ? () => _toggle(n.id!) : null,
+                                      borderRadius: i == 0
+                                          ? BorderRadius.vertical(top: Radius.circular(10.rr))
+                                          : i == filtered.length - 1
+                                              ? BorderRadius.vertical(bottom: Radius.circular(10.rr))
+                                              : BorderRadius.zero,
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 4.rw, vertical: 10.rh),
+                                        child: Row(
+                                          children: [
+                                            Checkbox(
+                                              value: selected,
+                                              activeColor: AppColors.primary,
+                                              onChanged: n.id != null ? (_) => _toggle(n.id!) : null,
+                                            ),
+                                            SizedBox(width: 8.rw),
+                                            Container(
+                                              width: 8.rw,
+                                              height: 8.rh,
+                                              decoration: BoxDecoration(
+                                                color: n.status?.toUpperCase() == 'ACTIVE'
+                                                    ? AppColors.success
+                                                    : AppColors.grayAsh,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            ),
+                                            SizedBox(width: 8.rw),
+                                            AppText(n.msisdn ?? '---', fontSize: 14.rsp, fontWeight: FontWeight.w600, color: AppColors.textHeading),
+                                            if (n.iccid != null) ...[
+                                              SizedBox(width: 10.rw),
+                                              AppText(n.iccid!, fontSize: 11.rsp, color: AppColors.textMuted),
+                                            ],
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            SizedBox(height: 16.rh),
+                          ],
                         ),
-                        SizedBox(width: 10.rw),
-                        DetailActionBtn(
-                          width: 150.rw,
-                          label: isSubmitting ? 'Assignation...' : 'Assigner',
-                          icon: Icons.check,
-                          onPressed: (isSubmitting || _selectedIds.isEmpty) ? null : _submit,
-                        ),
-                      ],
+                      ),
+                    ),
+
+                    // FOOTER
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        border: Border(top: BorderSide(color: AppColors.gray)),
+                      ),
+                      child: Row(
+                        children: [
+                          if (_selectedIds.isNotEmpty) ...[
+                            AppText(
+                              '${_selectedIds.length} sélectionné${_selectedIds.length > 1 ? 's' : ''}',
+                              fontSize: 13.rsp,
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            SizedBox(width: 12.rw),
+                          ],
+                          Expanded(
+                            child: AppButton(
+                              text: 'Annuler',
+                              type: AppButtonType.outline,
+                              fontSize: 14.rsp,
+                              onPressed: isSubmitting ? null : () => Navigator.of(context, rootNavigator: true).pop(),
+                            ),
+                          ),
+                          SizedBox(width: 12.rw),
+                          Expanded(
+                            flex: 2,
+                            child: AppButton(
+                              text: isSubmitting ? 'Assignation...' : '+ Assigner les numéros',
+                              type: AppButtonType.secondary,
+                              fontSize: 13.rsp,
+                              onPressed: (isSubmitting || _selectedIds.isEmpty) ? null : _submit,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              ]);
+              );
             },
           );
         },

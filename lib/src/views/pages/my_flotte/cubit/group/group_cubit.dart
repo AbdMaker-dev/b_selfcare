@@ -74,4 +74,13 @@ class GroupCubit extends Cubit<GroupState> {
       (data) => emit(GroupState.getEmployeesGroupLoaded(data: data)),
     );
   }
+
+  Future<void> configurationNotificationGroupe({required int id, required dynamic data}) async {
+    emit(const GroupState.configNotifGroupeLoading());
+    final res = await groupUsecase.configurationNotificationGroupe(id: id, data: data);
+    res.fold(
+      (failure) => emit(GroupState.configNotifGroupeFailed(failure.message)),
+      (data) => emit(GroupState.configNotifGroupeLoaded(data: data)),
+    );
+  }
 }

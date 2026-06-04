@@ -148,7 +148,7 @@ class _FormGroupeState extends State<FormGroupe> {
         child: KeyedSubtree(
           key: ValueKey(_formSectionKey),
           child: Container(
-            height: double.infinity,
+            height: double.infinity.rh,
             decoration: BoxDecoration(
               color: AppColors.background,
               borderRadius: BorderRadius.only(
@@ -201,9 +201,9 @@ class _FormGroupeState extends State<FormGroupe> {
                             Navigator.of(context, rootNavigator: true).pop(),
                         borderRadius: BorderRadius.circular(6),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 6,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.rw,
+                            vertical: 6.rh,
                           ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(6),
@@ -390,7 +390,7 @@ class _FormGroupeState extends State<FormGroupe> {
                         flex: 2,
                         child: AppButton(
                           text: '+ Créer le groupe',
-                          type: AppButtonType.secondary,
+                          type: AppButtonType.primary,
                           onPressed: _submit,
                           fontSize: 15.rsp,
                         ),
