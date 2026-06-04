@@ -1,3 +1,4 @@
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/user_profile_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
@@ -6,7 +7,6 @@ import 'package:b_selfcare/src/views/pages/users/cubit/users_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
-import 'package:b_selfcare/src/views/widgets/detail_components.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_field.dart';
 import 'package:b_selfcare/src/views/widgets/select_option/select_option_model.dart';
 import 'package:flutter/material.dart';
@@ -17,13 +17,34 @@ class UserForm extends StatefulWidget {
 
   const UserForm({super.key, this.user});
 
+  static void show(BuildContext context, {UserProfileModel? user}) {
+    showGeneralDialog<void>(
+      context: context,
+      useRootNavigator: true,
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+      barrierColor: AppColors.primary.withValues(alpha: 0.7),
+      pageBuilder: (_, _, _) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 650.rw,
+            height: double.infinity,
+            child: UserForm(user: user),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   State<UserForm> createState() => _UserFormState();
 }
 
 class _UserFormState extends State<UserForm> {
-  final _cubit    = getIt<UsersCubit>();
-  final _formKey  = GlobalKey<FormState>();
+  final _cubit   = getIt<UsersCubit>();
+  final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _firstNameCtrl;
   late final TextEditingController _lastNameCtrl;
@@ -135,128 +156,225 @@ class _UserFormState extends State<UserForm> {
       child: Form(
         key: _formKey,
         child: Container(
-          padding: EdgeInsets.all(24.rw),
-          child: DetailContainer(
+          height: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.background,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(12.rr),
+              bottomLeft: Radius.circular(12.rr),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppText(
-                _isEdit ? 'Modifier l\'utilisateur' : 'Créer un utilisateur',
-                fontSize: 18.rsp,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-              ),
-              SizedBox(height: 24.rh),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: AppInput(
-                      labelText: 'Prénom',
-                      controller: _firstNameCtrl,
-                      hintText: 'Ex: Alioune Badara',
-                      keyboardType: TextInputType.name,
-                      validator: (v) =>
-                          (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
-                    ),
-                  ),
-                  SizedBox(width: 16.rw),
-                  Expanded(
-                    child: AppInput(
-                      labelText: 'Nom',
-                      controller: _lastNameCtrl,
-                      hintText: 'Ex: DIOUF',
-                      keyboardType: TextInputType.name,
-                      validator: (v) =>
-                          (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.rh),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: AppInput(
-                      labelText: 'Email',
-                      controller: _emailCtrl,
-                      hintText: 'Ex: prenom.nom@entreprise.sn',
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (v) {
-                        if (v == null || v.trim().isEmpty) return 'Champ obligatoire';
-                        if (!v.contains('@')) return 'Email invalide';
-                        return null;
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 16.rw),
-                  Expanded(
-                    child: AppInput(
-                      labelText: 'Téléphone (MSISDN)',
-                      controller: _msisdnCtrl,
-                      hintText: 'Ex: 770000000',
-                      keyboardType: TextInputType.phone,
-                      validator: (v) =>
-                          (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.rh),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: SelectField<int>(
-                      label: 'Rôle',
-                      placeholder: 'Choisir un rôle',
-                      options: _roleOptions,
-                      initialValue: _initialRole,
-                      onChanged: (opt) => setState(() => _selectedRoleId = opt.value),
-                    ),
-                  ),
-                  if (_isEdit) ...[
-                    SizedBox(width: 16.rw),
+              // HEADER
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  border: Border(bottom: BorderSide(color: AppColors.gray)),
+                ),
+                child: Row(
+                  children: [
                     Expanded(
-                      child: SelectField<String>(
-                        label: 'Statut',
-                        placeholder: 'Choisir un statut',
-                        options: _statuses,
-                        initialValue: _initialStatus,
-                        onChanged: (opt) => setState(() => _selectedStatus = opt.value),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText.textHighlight(
+                            _isEdit ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur',
+                            fontSize: 20.rsp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.grayAsh,
+                            highlight: _isEdit ? 'utilisateur' : 'utilisateur',
+                            fontFamily: FontFamily.syne,
+                            highlightColor: AppColors.primary,
+                            highlightFontSize: 20.rsp,
+                          ),
+                          SizedBox(height: 4.rh),
+                          AppText(
+                            'PRÉNOM · NOM · EMAIL · TÉLÉPHONE · RÔLE',
+                            fontSize: 10.rsp,
+                            color: AppColors.textMuted,
+                          ),
+                        ],
                       ),
                     ),
-                  ] else
-                    const Expanded(child: SizedBox()),
-                ],
-              ),
-              SizedBox(height: 28.rh),
-              BlocBuilder<UsersCubit, UsersState>(
-                bloc: _cubit,
-                builder: (context, state) {
-                  final isLoading = state is CreateUserLoading || state is UpdateUserLoading;
-                  return SizedBox(
-                    width: 220.rw,
-                    child: AppButton(
-                      text: _isEdit ? 'Enregistrer' : 'Créer l\'utilisateur',
-                      type: AppButtonType.secondary,
-                      onPressed: isLoading ? null : _submit,
-                      fontSize: 14.rsp,
+                    InkWell(
+                      onTap: () => Navigator.of(context, rootNavigator: true).pop(),
+                      borderRadius: BorderRadius.circular(6),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: AppColors.graySilver),
+                        ),
+                        child: AppText(
+                          'X',
+                          fontSize: 13.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
                     ),
-                  );
-                },
+                  ],
+                ),
+              ),
+
+              // BODY
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 20.rw, vertical: 20.rh),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(
+                        'INFORMATIONS PERSONNELLES',
+                        fontSize: 11.rsp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textMuted,
+                      ),
+                      SizedBox(height: 12.rh),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: AppInput(
+                              labelText: 'Prénom',
+                              controller: _firstNameCtrl,
+                              hintText: 'Ex: Alioune Badara',
+                              keyboardType: TextInputType.name,
+                              validator: (v) =>
+                                  (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
+                            ),
+                          ),
+                          SizedBox(width: 16.rw),
+                          Expanded(
+                            child: AppInput(
+                              labelText: 'Nom',
+                              controller: _lastNameCtrl,
+                              hintText: 'Ex: DIOUF',
+                              keyboardType: TextInputType.name,
+                              validator: (v) =>
+                                  (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16.rh),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: AppInput(
+                              labelText: 'Email',
+                              controller: _emailCtrl,
+                              hintText: 'Ex: prenom.nom@entreprise.sn',
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (v) {
+                                if (v == null || v.trim().isEmpty) return 'Champ obligatoire';
+                                if (!v.contains('@')) return 'Email invalide';
+                                return null;
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 16.rw),
+                          Expanded(
+                            child: AppInput(
+                              labelText: 'Téléphone (MSISDN)',
+                              controller: _msisdnCtrl,
+                              hintText: 'Ex: 770000000',
+                              keyboardType: TextInputType.phone,
+                              validator: (v) =>
+                                  (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 24.rh),
+                      AppText(
+                        'ACCÈS ET PERMISSIONS',
+                        fontSize: 11.rsp,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.textMuted,
+                      ),
+                      SizedBox(height: 12.rh),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: SelectField<int>(
+                              label: 'Rôle',
+                              placeholder: 'Choisir un rôle',
+                              options: _roleOptions,
+                              initialValue: _initialRole,
+                              onChanged: (opt) => setState(() => _selectedRoleId = opt.value),
+                            ),
+                          ),
+                          if (_isEdit) ...[
+                            SizedBox(width: 16.rw),
+                            Expanded(
+                              child: SelectField<String>(
+                                label: 'Statut',
+                                placeholder: 'Choisir un statut',
+                                options: _statuses,
+                                initialValue: _initialStatus,
+                                onChanged: (opt) => setState(() => _selectedStatus = opt.value),
+                              ),
+                            ),
+                          ] else
+                            const Expanded(child: SizedBox()),
+                        ],
+                      ),
+                      SizedBox(height: 24.rh),
+                    ],
+                  ),
+                ),
+              ),
+
+              // FOOTER
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  border: Border(top: BorderSide(color: AppColors.gray)),
+                ),
+                child: BlocBuilder<UsersCubit, UsersState>(
+                  bloc: _cubit,
+                  builder: (context, state) {
+                    final isLoading = state is CreateUserLoading || state is UpdateUserLoading;
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            text: 'Annuler',
+                            type: AppButtonType.outline,
+                            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                            fontSize: 15.rsp,
+                          ),
+                        ),
+                        SizedBox(width: 12.rw),
+                        Expanded(
+                          flex: 2,
+                          child: AppButton(
+                            text: isLoading
+                                ? 'Chargement...'
+                                : _isEdit
+                                    ? 'Enregistrer les modifications'
+                                    : '+ Créer l\'utilisateur',
+                            type: AppButtonType.secondary,
+                            onPressed: isLoading ? null : _submit,
+                            fontSize: 15.rsp,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ],
           ),
-        
         ),
       ),
     );
   }
 }
-
-          // padding: EdgeInsets.all(12.rw),
-          // decoration: BoxDecoration(
-          //   color: AppColors.white,
-          //   borderRadius: BorderRadius.circular(12.rr),
-          //   border: Border.all(color: AppColors.gray),
-          // ),

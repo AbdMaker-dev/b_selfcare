@@ -9,7 +9,6 @@ import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_empty.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/confirm_dialog.dart';
-import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
 import 'package:b_selfcare/src/views/widgets/plan_card.dart';
@@ -70,14 +69,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 text: 'Produit',
                 icon: Icons.add_circle_outline,
                 type: AppButtonType.secondary,
-                onPressed: (){
-                  AppDialogs.popup(
-                    context: context,
-                    width: 600.rw,
-                    height: 0.75,
-                    contents: ProductForm(),
-                  );
-                },
+                onPressed: () => ProductForm.show(context),
                 width: 130.rw,
                 height: 60.rh,
                 fontSize: 15.rsp,
@@ -129,36 +121,27 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     status: product.isActive == true ? PlanStatus.active : PlanStatus.archive,
                     price: product.price??00,
                     features: (product.quotas??[]).map((q)=> PlanFeature(label: q.name??"---", unit: q.unit??"---", value: '${q.quota??0}', price: q.price)).toList(),
-                    onDuplicate: () => AppDialogs.popup(
-                      context: context,
-                      width: 600.rw,
-                      height: 0.75,
-                      contents: ProductForm(
-                        product: ProductsModel(
-                          name: '${product.name ?? ''} (copie)',
-                          description: product.description,
-                          quotas: product.quotas
-                          ?.map((q) => Quotas(
-                                walletId: q.walletId,
-                                quota: q.quota,
-                                price: q.price,
-                                category: q.category,
-                                unit: q.unit,
-                                name: q.name,
-                                code: q.code,
-                              ))
-                          .toList(),
-                        ),
+                    onDuplicate: () => ProductForm.show(
+                      context,
+                      product: ProductsModel(
+                        name: '${product.name ?? ''} (copie)',
+                        description: product.description,
+                        quotas: product.quotas
+                            ?.map((q) => Quotas(
+                                  walletId: q.walletId,
+                                  quota: q.quota,
+                                  price: q.price,
+                                  category: q.category,
+                                  unit: q.unit,
+                                  name: q.name,
+                                  code: q.code,
+                                ))
+                            .toList(),
                       ),
                     ),
                     onEdit: product.isActive == true
-                    ? () => AppDialogs.popup(
-                        context: context,
-                        width: 600.rw,
-                        height: 0.75,
-                        contents: ProductForm(product: product),
-                      )
-                    : null,
+                        ? () => ProductForm.show(context, product: product)
+                        : null,
                     onArchive: product.id != null && product.isActive == true
                     ? () => AppConfirmDialog.show(
                         context: context,

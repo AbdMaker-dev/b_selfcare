@@ -12,7 +12,6 @@ import 'package:b_selfcare/src/views/pages/users/widgets/user_form.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
-import 'package:b_selfcare/src/views/widgets/ctrt_dialogs.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
@@ -58,12 +57,7 @@ class _UsersScreenState extends State<UsersScreen> {
   }
 
   void _showEdit(UserProfileModel? user) {
-    AppDialogs.popup(
-      context: context,
-      width: 600,
-      height: 0.47,
-      contents: UserForm(user: user),
-    );
+    UserForm.show(context, user: user);
   }
 
   void _showDisable(UserProfileModel user) {
