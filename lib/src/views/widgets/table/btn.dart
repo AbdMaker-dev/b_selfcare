@@ -25,22 +25,34 @@ class _BtnState extends State<Btn> {
         onTap: widget.onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 100),
-          padding:  EdgeInsets.symmetric(horizontal: 10.rw, vertical: 4.rh),
+          constraints: BoxConstraints(
+            minWidth: 40.rw,
+            maxWidth: 120.rw,   // évite un bouton trop large sur desktop
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: 8.rw,
+            vertical: 4.rh,
+          ),
           decoration: BoxDecoration(
             color: _hovered
                 ? (widget.danger ? AppColors.orangePeach : AppColors.grayGh)
                 : Colors.white,
             borderRadius: BorderRadius.circular(6.rr),
             border: Border.all(
-                color: widget.danger ? AppColors.orangeSalmon : AppColors.gray),
+              color: widget.danger ? AppColors.orangeSalmon : AppColors.gray,
+            ),
           ),
-          child:
-          AppText(
-            widget.label,
-            fontSize: 11.5.rsp,
-            fontWeight: FontWeight.w500,
-            color: widget.danger ? AppColors.orangeBurnt : AppColors.greyCharcoal,
-          )
+          child: FittedBox(                // ← scale le texte si espace insuffisant
+            fit: BoxFit.scaleDown,
+            child: AppText(
+              widget.label,
+              fontSize: 11.5.rsp,
+              fontWeight: FontWeight.w500,
+              color: widget.danger
+                  ? AppColors.orangeBurnt
+                  : AppColors.greyCharcoal,
+            ),
+          ),
         ),
       ),
     );
