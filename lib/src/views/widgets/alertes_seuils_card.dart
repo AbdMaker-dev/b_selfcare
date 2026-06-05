@@ -64,7 +64,7 @@ class AlertesSeuilsCard extends StatelessWidget {
               children: [
                 AppText('Alertes & seuils', type: AppTextType.heading, fontSize: 13.rsp),
                 SizedBox(height: 3.rh),
-                AppText('Notifications configurées', type: AppTextType.small, color: AppColors.textMuted, fontSize: 11.rsp),
+                AppText('Notifications configurées', type: AppTextType.small, color: AppColors.textMuted, fontSize: 12.rsp),
               ],
             ),
           ),
@@ -105,7 +105,7 @@ class _AlerteRow extends StatelessWidget {
               children: [
                 AppText(item.title, type: AppTextType.body, fontSize: 13.rsp, fontWeight: FontWeight.w700, color: AppColors.primary),
                 SizedBox(height: 3.rh),
-                AppText(item.meta, type: AppTextType.small, fontSize: 11.rsp, color: AppColors.textMuted),
+                AppText(item.meta, type: AppTextType.small, fontSize: 12.rsp, color: AppColors.textMuted),
               ],
             ),
           ),

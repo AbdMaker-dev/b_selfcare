@@ -139,7 +139,7 @@ class _BadgeActif extends StatelessWidget {
           AppText(
             isActif ? 'Actif' : 'Inactif',
             type: AppTextType.small,
-            fontSize: 13.rsp,
+            fontSize: 14.rsp,
             fontWeight: FontWeight.w500,
             color: isActif ? AppColors.success : AppColors.error,
           ),
@@ -182,7 +182,7 @@ class _BadgeSolde extends StatelessWidget {
           AppText(
             solde,
             type: AppTextType.small,
-            fontSize: 13.rsp,
+            fontSize: 14.rsp,
             fontWeight: FontWeight.w500,
             color: AppColors.warning,
             fontFamily: 'monospace',

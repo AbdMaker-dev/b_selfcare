@@ -58,7 +58,7 @@ class FlotteCard extends StatelessWidget {
             '${_fmt(total)} numéros',
             type: AppTextType.small,
             color: AppColors.textMuted,
-            fontSize: 11.rsp,
+            fontSize: 12.rsp,
           ),
         ],
       ),
@@ -180,7 +180,7 @@ class _StatBox extends StatelessWidget {
         children: [
           AppText(value, type: AppTextType.heading, fontSize: 16.rsp, fontStyle: FontStyle.italic, color: color),
           SizedBox(height: 4.rh),
-          AppText(label, type: AppTextType.small, fontSize: 9.rsp, color: AppColors.textMuted),
+          AppText(label, type: AppTextType.body, fontSize: 11.rsp, color: AppColors.textBody),
         ],
       ),
     );

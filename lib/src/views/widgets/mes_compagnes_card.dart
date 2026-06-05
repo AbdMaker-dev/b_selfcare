@@ -128,9 +128,9 @@ class _CampagneRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(item.name, type: AppTextType.heading, fontSize: 13.rsp, color: AppColors.primary),
+                AppText(item.name, type: AppTextType.heading, fontSize: 14.rsp, color: AppColors.primary),
                 SizedBox(height: 4.rh),
-                AppText(item.meta, type: AppTextType.small, fontSize: 11.rsp, color: AppColors.textMuted),
+                AppText(item.meta, type: AppTextType.small, fontSize: 12.rsp, color: AppColors.textMuted),
               ],
             ),
           ),

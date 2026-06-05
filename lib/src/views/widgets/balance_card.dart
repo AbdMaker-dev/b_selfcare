@@ -58,7 +58,7 @@ class BalanceCard extends StatelessWidget {
                   title,
                   fontWeight: FontWeight.w400,
                   color: AppColors.textMuted,
-                  fontSize: 11.5.rsp,
+                  fontSize: 12.rsp,
                 ),
                 SizedBox(height: 5.rh),
                 Row(
@@ -90,7 +90,7 @@ class BalanceCard extends StatelessWidget {
                       '$status · rechargé le $rechargeDate',
                       fontWeight: FontWeight.w400,
                       color: chartColor ?? AppColors.success,
-                      fontSize: 11.rsp,
+                      fontSize: 12.rsp,
                     ),
                   ],
                 ),
