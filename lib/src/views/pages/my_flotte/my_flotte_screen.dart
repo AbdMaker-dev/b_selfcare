@@ -77,6 +77,7 @@ class _MyFlotteScreenState extends State<MyFlotteScreen>
                   highlightColor: Colors.green,
                   fontFamily: FontFamily.fraunces,
                   fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w400,
                 ),
                 SizedBox(height: 8.rh),
                 AppText(

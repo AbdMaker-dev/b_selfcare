@@ -53,6 +53,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               fontFamily: FontFamily.fraunces,
               fontStyle: FontStyle.italic,
               highlightColor: AppColors.warning,
+              fontWeight: FontWeight.w400,
             ),
             SizedBox(height: 8.rh),
             AppText(

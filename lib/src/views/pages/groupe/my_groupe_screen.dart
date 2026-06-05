@@ -87,6 +87,7 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                       highlightColor: AppColors.warning,
                       fontFamily: FontFamily.fraunces,
                       fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w400,
                     ),
                     SizedBox(height: 8.rh),
                     AppText(
