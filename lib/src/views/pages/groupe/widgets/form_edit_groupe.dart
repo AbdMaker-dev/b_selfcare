@@ -173,18 +173,18 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                         children: [
                           AppText.textHighlight(
                             'Modifier groupe',
-                            fontSize: 20.rsp,
+                            fontSize: 24.rsp,
                             fontWeight: FontWeight.w600,
                             color: AppColors.grayAsh,
                             highlight: 'groupe',
                             fontFamily: FontFamily.syne,
                             highlightColor: AppColors.primary,
-                            highlightFontSize: 20.rsp,
+                            highlightFontSize: 24.rsp,
                           ),
                           SizedBox(height: 4.rh),
                           AppText(
                             'NOM · PRODUIT · FRÉQUENCE · DATE DÉBUT',
-                            fontSize: 10.rsp,
+                            fontSize: 12.rsp,
                             color: AppColors.textMuted,
                           ),
                         ],

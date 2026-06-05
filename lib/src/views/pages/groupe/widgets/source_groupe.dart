@@ -3,7 +3,6 @@ import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_date.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_actions_table.dart';
-import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_text_table.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +12,9 @@ class SourceGroupe extends AppTableSource<GroupModel> {
   final void Function(GroupModel)? onDetail;
   final void Function(GroupModel)? onEdit;
   final void Function(GroupModel)? onDelete;
+  final void Function(GroupModel)? onToggleNotification;
 
-  SourceGroupe({required this.rows, this.onDetail, this.onEdit, this.onDelete});
+  SourceGroupe({required this.rows, this.onDetail, this.onEdit, this.onDelete, this.onToggleNotification});
 
   @override
   List<({String label, int flex})> get columns => [
@@ -38,9 +38,16 @@ class SourceGroupe extends AppTableSource<GroupModel> {
     CellTextTable(text: e.campaign?.frequency ?? '---'),
     CellTextTable(text: AppDate.formatShort(e.campaign?.startDate)),
     CellTextTable(text: e.employeesCount?.toString() ?? '---'),
-    e.smsNotificationEnabled == true
-        ? CellBadgeTable(label: 'Activée', color: AppColors.greenOlive)
-        : CellBadgeTable(label: 'Désactivée', color: AppColors.grayAsh),
+    Tooltip(
+      message: e.smsNotificationEnabled == true ? 'Désactiver les notifications' : 'Activer les notifications',
+      child: IconButton(
+        onPressed: () => onToggleNotification?.call(e),
+        icon: Icon(
+          e.smsNotificationEnabled == true ? Icons.notifications_active : Icons.notifications_off_outlined,
+          color: e.smsNotificationEnabled == true ? AppColors.greenOlive : AppColors.grayAsh,
+        ),
+      ),
+    ),
     CellTextTable(text: e.createdAt != null ? AppDate.formatShort(e.createdAt!) : '---'),
     CellActionsTable(actions: [
       (label: 'Modifier', danger: false, onTap: () => onEdit?.call(e)),

@@ -151,18 +151,18 @@ class _FormEditEmployeState extends State<FormEditEmploye> {
                         children: [
                           AppText.textHighlight(
                             'Modifier employé',
-                            fontSize: 20.rsp,
+                            fontSize: 24.rsp,
                             fontWeight: FontWeight.w600,
                             color: AppColors.grayAsh,
                             highlight: 'employé',
                             fontFamily: FontFamily.syne,
                             highlightColor: AppColors.primary,
-                            highlightFontSize: 20.rsp,
+                            highlightFontSize: 24.rsp,
                           ),
                           SizedBox(height: 4.rh),
                           AppText(
                             '${widget.employee.firstName ?? ''} ${widget.employee.lastName ?? ''}'.trim(),
-                            fontSize: 10.rsp,
+                            fontSize: 12.rsp,
                             color: AppColors.textMuted,
                           ),
                         ],
