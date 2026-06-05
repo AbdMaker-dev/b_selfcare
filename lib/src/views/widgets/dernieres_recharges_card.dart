@@ -168,9 +168,9 @@ class _RechargeRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppText(item.providerName, type: AppTextType.heading, fontSize: 13.rsp, color: AppColors.primary),
+                AppText(item.providerName, type: AppTextType.heading, fontSize: 14.rsp, color: AppColors.primary),
                 SizedBox(height: 3.rh),
-                AppText(item.date, type: AppTextType.small, fontSize: 11.rsp, color: AppColors.textMuted),
+                AppText(item.date, type: AppTextType.small, fontSize: 12.rsp, color: AppColors.textMuted),
               ],
             ),
           ),

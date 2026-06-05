@@ -40,8 +40,8 @@ class SourceUsers extends AppTableSource<UserProfileModel> {
   @override
   List<Widget> buildRow(UserProfileModel item) => [
     CellTextTable(text: item.name ?? '—'),
-    CellMutedTable(text: item.email ?? '—'),
-    CellMutedTable(text: _roleLabel(item)),
+    CellTextTable(text: item.email ?? '—'),
+    CellTextTable(text: _roleLabel(item)),
     item.status?.toUpperCase() == 'ACTIVE'
         ? CellBadgeTable.actif()
         : CellBadgeTable.inactif(),
