@@ -14,6 +14,9 @@ class FontFamily {
   /// Font family: Fraunces
   static const String fraunces = 'Fraunces';
 
+  /// Font family: Manrope
+  static const String manrope = 'Manrope';
+
   /// Font family: Montserrat
   static const String montserrat = 'Montserrat';
 

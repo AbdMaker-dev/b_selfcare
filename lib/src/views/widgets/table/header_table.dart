@@ -23,8 +23,8 @@ class HeaderTable extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 10.rh),
             child: AppText(
               c.label.toUpperCase(),
-              fontSize: 10.5.rsp,
-              color: AppColors.textMuted,
+              fontSize: 13.rsp,
+              color: AppColors.inputBorderLight,
               fontWeight: FontWeight.w600,
             ),
           ),

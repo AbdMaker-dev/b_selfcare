@@ -49,17 +49,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
             AppText.textHighlight(
               "Bonjour, ${getIt<LayoutCubit>().currentUser?.firstName ?? ''}",
               highlight: getIt<LayoutCubit>().currentUser?.firstName ?? '',
-              fontSize: 22.rsp,
+              fontSize: 24.rsp,
               fontFamily: FontFamily.fraunces,
               fontStyle: FontStyle.italic,
               highlightColor: AppColors.warning,
               fontWeight: FontWeight.w400,
+              highlightFontSize: 24.rsp,
             ),
             SizedBox(height: 8.rh),
             AppText(
               _cubit.companySubtitle,
-              fontSize: 14.5.rsp,
-              color: AppColors.textMuted,
+              fontSize: 16.rsp,
+              color: AppColors.inputBorderLight,
             ),
             SizedBox(height: 30.rh),
 
@@ -147,12 +148,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               spacing: 12.rw,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AlertesSeuilsCard(
-                  items: stats != null ? DashboardMapper.alertItems(stats.alerts) : [],
+                Expanded(
+                  child: AlertesSeuilsCard(
+                    items: stats != null ? DashboardMapper.alertItems(stats.alerts) : [],
+                  ),
                 ),
-                EtatServicesCard(
+              /*  EtatServicesCard(
                   services: stats != null ? DashboardMapper.serviceItems(stats.serviceStatus) : [],
-                ),
+                ),*/
               ],
             ),
           ],

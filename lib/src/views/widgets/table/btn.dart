@@ -46,7 +46,7 @@ class _BtnState extends State<Btn> {
             fit: BoxFit.scaleDown,
             child: AppText(
               widget.label,
-              fontSize: 11.5.rsp,
+              fontSize: 13.rsp,
               fontWeight: FontWeight.w500,
               color: widget.danger
                   ? AppColors.orangeBurnt

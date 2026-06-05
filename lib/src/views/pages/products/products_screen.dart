@@ -38,7 +38,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 24.rw, vertical: 20.rh),
+      //padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 20.rh),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -51,17 +51,18 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   AppText.textHighlight(
                     "Mes produits",
                     highlight: "produits",
-                    fontSize: 22.rsp,
+                    fontSize: 24.rsp,
                     fontFamily: FontFamily.fraunces,
                     fontStyle: FontStyle.italic,
                     highlightColor: AppColors.warning,
                     fontWeight: FontWeight.w400,
+                    highlightFontSize: 24.rsp,
                   ),
                   SizedBox(height: 8.rh),
                   AppText(
                     "FORFAITS PERSONNALISÉS · COMPUTED_COST AUTO",
-                    fontSize: 14.5.rsp,
-                    color: AppColors.textMuted,
+                    fontSize: 16.rsp,
+                    color: AppColors.inputBorderLight,
                   )
                 ],
               ),

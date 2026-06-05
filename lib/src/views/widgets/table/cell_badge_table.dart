@@ -40,8 +40,8 @@ class CellBadgeTable extends StatelessWidget {
           SizedBox(width: 5.rw),
           AppText(
             label,
-            fontSize: 10.5.rsp,
-            fontWeight: FontWeight.w700,
+            fontSize: 13.rsp,
+            fontWeight: FontWeight.w800,
             color: color,
           ),
         ],

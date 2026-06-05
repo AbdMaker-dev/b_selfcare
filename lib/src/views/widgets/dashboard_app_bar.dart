@@ -63,7 +63,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
         SizedBox(width: 10.rw),
         AppText(
           "$companyName > Tableau de bord",
-          fontSize: 11.5.rsp,
+          fontSize: 13.rsp,
           fontWeight: FontWeight.w400,
           color: AppColors.primary,
         ),
@@ -79,7 +79,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
         _BadgeActif(isActif: isActif),
         SizedBox(width: 8.rw),
         _BadgeSolde(solde: solde),
-        SizedBox(width: 8.rw),
+        /*SizedBox(width: 8.rw),
         AppButton(
           text: 'Actualiser',
           icon: Icons.refresh_rounded,
@@ -98,7 +98,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
           // width: 120.rw,
           height: 60.rh,
           fontSize: 15.rsp,
-        ),
+        ),*/
       ],
     );
   }

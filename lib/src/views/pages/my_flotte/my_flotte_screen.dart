@@ -73,17 +73,18 @@ class _MyFlotteScreenState extends State<MyFlotteScreen>
                 AppText.textHighlight(
                   title,
                   highlight: highlight,
-                  fontSize: 22.rsp,
+                  fontSize: 24.rsp,
                   highlightColor: Colors.green,
                   fontFamily: FontFamily.fraunces,
                   fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.w400,
+                  highlightFontSize: 24.rsp,
                 ),
                 SizedBox(height: 8.rh),
                 AppText(
                   total > 0 ? '$total $label' : '...',
-                  fontSize: 14.5.rsp,
-                  color: AppColors.textMuted,
+                  fontSize: 16.rsp,
+                  color: AppColors.inputBorderLight,
                 ),
               ],
             );

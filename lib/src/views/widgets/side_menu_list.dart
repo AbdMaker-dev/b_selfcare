@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/gen/assets.gen.dart';
+import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/routers/app_router.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
@@ -226,6 +227,7 @@ class CustomItemMenu extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: 45.rh,
+            margin: EdgeInsets.only(bottom: 10.rh),
             decoration: BoxDecoration(
               color: isActive ? AppColors.secondary.withValues(alpha: 0.1) : null,
               border: Border(
@@ -273,7 +275,8 @@ class CustomItemMenu extends StatelessWidget {
             AppText(
               title,
               color: isActive ? AppColors.secondary : AppColors.white,
-              fontSize: 16.rsp,
+              fontSize: 18.rsp,
+              fontFamily: FontFamily.manrope,
               onClick: onSelect,
             ),
           ],

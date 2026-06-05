@@ -45,7 +45,7 @@ class AlertesSeuilsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 708.rw,
+      width: double.infinity,/*708.rw*/
       height: 300.rh,
       decoration: BoxDecoration(
         color: AppColors.white,

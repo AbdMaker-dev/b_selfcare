@@ -17,15 +17,15 @@ class CellTextTable extends StatelessWidget {
       children: [
         AppText(
           text,
-          fontSize: 13.rsp,
-          color: AppColors.textHeading,
+          fontSize: 16.rsp,
+          color: AppColors.primary,
             fontWeight: FontWeight.w500,
           overflow: TextOverflow.ellipsis,
         ),
         if (sub != null)
           AppText(
             sub ?? "",
-            fontSize: 11.5.rsp,
+            fontSize: 13.5.rsp,
             color: AppColors.textMuted,
           ),
       ],
