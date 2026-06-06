@@ -102,7 +102,7 @@ deploy:production:
     url: https://votre-app.com
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-      when: on_success
+      when: manual
   after_script:
     - |
       if [ "$CI_JOB_STATUS" = "success" ]; then
