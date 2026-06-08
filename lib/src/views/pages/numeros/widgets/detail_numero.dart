@@ -82,18 +82,18 @@ class DetailNumero extends StatelessWidget {
                       children: [
                         AppText.textHighlight(
                           'Détail numéro',
-                          fontSize: 20.rsp,
+                          fontSize: 24.rsp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.grayAsh,
                           highlight: 'numéro',
                           fontFamily: FontFamily.syne,
                           highlightColor: AppColors.primary,
-                          highlightFontSize: 20.rsp,
+                          highlightFontSize: 24.rsp,
                         ),
                         SizedBox(height: 4.rh),
                         AppText(
                           '${numero.msisdn ?? '---'} · ${numero.status ?? '---'}',
-                          fontSize: 10.rsp,
+                          fontSize: 12.rsp,
                           color: AppColors.textMuted,
                         ),
                       ],

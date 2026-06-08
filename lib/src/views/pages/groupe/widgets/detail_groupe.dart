@@ -8,11 +8,9 @@ import 'package:b_selfcare/src/views/pages/groupe/widgets/form_import_employe.da
 import 'package:b_selfcare/src/views/pages/groupe/widgets/group_employees_dialog.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
-import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/detail_components.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailGroupe extends StatelessWidget {
   final GroupModel groupe;
@@ -27,7 +25,7 @@ class DetailGroupe extends StatelessWidget {
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: AppColors.primary.withValues(alpha: 0.7),
-      pageBuilder: (_, __, ___) => Align(
+      pageBuilder: (_, _, _) => Align(
         alignment: Alignment.centerRight,
         child: Material(
           color: Colors.transparent,
@@ -72,18 +70,18 @@ class DetailGroupe extends StatelessWidget {
                     children: [
                       AppText.textHighlight(
                         'Détail groupe',
-                        fontSize: 20.rsp,
+                        fontSize: 24.rsp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.grayAsh,
                         highlight: 'groupe',
                         fontFamily: FontFamily.syne,
                         highlightColor: AppColors.primary,
-                        highlightFontSize: 20.rsp,
+                        highlightFontSize: 24.rsp,
                       ),
                       SizedBox(height: 4.rh),
                       AppText(
                         '${groupe.name ?? '---'} · ${groupe.employeesCount ?? 0} employé(s)',
-                        fontSize: 10.rsp,
+                        fontSize: 12.rsp,
                         color: AppColors.textMuted,
                       ),
                     ],
@@ -126,10 +124,6 @@ class DetailGroupe extends StatelessWidget {
                     SizedBox(height: 16.rh),
                     DetailProductSection(product: product),
                   ],
-                  SizedBox(height: 16.rh),
-                  const DetailDivider(),
-                  SizedBox(height: 16.rh),
-                  _SectionSmsNotification(groupe: groupe, groupCubit: groupCubit),
                   SizedBox(height: 16.rh),
                 ],
               ),
@@ -326,148 +320,3 @@ class _SectionInfos extends StatelessWidget {
   }
 }
 
-// ─── Section Notification SMS interactive ────────────────────────────────────
-
-class _SectionSmsNotification extends StatefulWidget {
-  final GroupModel groupe;
-  final GroupCubit groupCubit;
-  const _SectionSmsNotification({required this.groupe, required this.groupCubit});
-
-  @override
-  State<_SectionSmsNotification> createState() => _SectionSmsNotificationState();
-}
-
-class _SectionSmsNotificationState extends State<_SectionSmsNotification> {
-  late bool _enabled;
-  late final TextEditingController _templateController;
-
-  @override
-  void initState() {
-    super.initState();
-    _enabled = widget.groupe.smsNotificationEnabled ?? false;
-    _templateController = TextEditingController(
-      text: widget.groupe.smsNotificationTemplate ?? '',
-    );
-  }
-
-  @override
-  void dispose() {
-    _templateController.dispose();
-    super.dispose();
-  }
-
-  void _save() {
-    final id = widget.groupe.id;
-    if (id == null) return;
-    widget.groupCubit.configurationNotificationGroupe(
-      id: id,
-      data: {
-        'sms_notification_enabled': _enabled,
-        'sms_notification_template': _templateController.text.trim(),
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocConsumer<GroupCubit, GroupState>(
-      bloc: widget.groupCubit,
-      listener: (context, state) {
-        state.maybeWhen(
-          configNotifGroupeLoaded: (_) {
-            widget.groupCubit.getGroups(data: {'page': 1});
-          },
-          configNotifGroupeFailed: (msg) {
-          },
-          orElse: () {},
-        );
-      },
-      builder: (context, state) {
-        final isLoading = state is ConfigNotifGroupeLoading;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DetailSectionTitle(label: 'Notification SMS', icon: Icons.sms_outlined),
-            SizedBox(height: 14.rh),
-            // Toggle activer / désactiver
-            GestureDetector(
-              onTap: () => setState(() => _enabled = !_enabled),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 10.rh),
-                decoration: BoxDecoration(
-                  color: AppColors.grayWh,
-                  borderRadius: BorderRadius.circular(10.rr),
-                  border: Border.all(
-                    color: _enabled ? AppColors.success : AppColors.gray,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Switch(
-                      value: _enabled,
-                      onChanged: (v) => setState(() => _enabled = v),
-                      activeTrackColor: AppColors.success.withValues(alpha: 0.3),
-                      activeThumbColor: AppColors.success,
-                    ),
-                    SizedBox(width: 8.rw),
-                    AppText(
-                      _enabled ? 'Notifications SMS activées' : 'Notifications SMS désactivées',
-                      fontSize: 14.rsp,
-                      color: _enabled ? AppColors.success : AppColors.textMuted,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            if (_enabled) ...[
-              SizedBox(height: 12.rh),
-              AppText(
-                'Template SMS',
-                fontSize: 12.rsp,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
-              ),
-              SizedBox(height: 6.rh),
-              TextFormField(
-                controller: _templateController,
-                maxLines: 4,
-                keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                  hintText: 'Ex:YAS B2B : Bonjour {prenom}, votre forfait ({ressources}) a été renouvelé avec succès sur le numéro {msisdn}.',
-                  hintStyle: TextStyle(fontSize: 13.rsp, color: AppColors.grayAsh),
-                  filled: true,
-                  fillColor: AppColors.grayWh,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 12.rh),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.rr),
-                    borderSide: BorderSide(color: AppColors.gray),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.rr),
-                    borderSide: BorderSide(color: AppColors.gray),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.rr),
-                    borderSide: BorderSide(color: AppColors.primary),
-                  ),
-                ),
-              ),
-            ],
-            SizedBox(height: 12.rh),
-            SizedBox(
-              width: double.infinity,
-              child: AppButton(
-                text: isLoading ? 'Enregistrement...' : 'Enregistrer la configuration SMS',
-                type: AppButtonType.primary,
-                fontSize: 13.rsp,
-                onPressed: isLoading ? null : _save,
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}

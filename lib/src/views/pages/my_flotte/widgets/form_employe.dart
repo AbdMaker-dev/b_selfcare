@@ -179,18 +179,18 @@ class _FormEmployeState extends State<FormEmploye> {
                           children: [
                             AppText.textHighlight(
                               'Nouvel employé',
-                              fontSize: 20.rsp,
+                              fontSize: 24.rsp,
                               fontWeight: FontWeight.w600,
                               color: AppColors.grayAsh,
                               highlight: 'employé',
                               fontFamily: FontFamily.syne,
                               highlightColor: AppColors.primary,
-                              highlightFontSize: 20.rsp,
+                              highlightFontSize: 24.rsp,
                             ),
                             SizedBox(height: 4.rh),
                             AppText(
                               'PRÉNOM · NOM · EMAIL · POSTE · NUMÉROS',
-                              fontSize: 10.rsp,
+                              fontSize: 12.rsp,
                               color: AppColors.textMuted,
                             ),
                           ],

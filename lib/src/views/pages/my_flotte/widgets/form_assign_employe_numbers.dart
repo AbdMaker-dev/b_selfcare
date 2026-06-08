@@ -158,18 +158,18 @@ class _FormAssignEmployeNumbersState extends State<FormAssignEmployeNumbers> {
                               children: [
                                 AppText.textHighlight(
                                   'Assigner numéros',
-                                  fontSize: 20.rsp,
+                                  fontSize: 24.rsp,
                                   fontWeight: FontWeight.w600,
                                   color: AppColors.grayAsh,
                                   highlight: 'numéros',
                                   fontFamily: FontFamily.syne,
                                   highlightColor: AppColors.primary,
-                                  highlightFontSize: 20.rsp,
+                                  highlightFontSize: 24.rsp,
                                 ),
                                 SizedBox(height: 4.rh),
                                 AppText(
                                   fullName.isNotEmpty ? fullName : widget.employee.email ?? '---',
-                                  fontSize: 10.rsp,
+                                  fontSize: 12.rsp,
                                   color: AppColors.textMuted,
                                 ),
                               ],

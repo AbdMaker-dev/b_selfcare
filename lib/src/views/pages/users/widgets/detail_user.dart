@@ -89,18 +89,18 @@ class _DetailUserState extends State<DetailUser> {
                     children: [
                       AppText.textHighlight(
                         'Détail utilisateur',
-                        fontSize: 20.rsp,
+                        fontSize: 24.rsp,
                         fontWeight: FontWeight.w600,
                         color: AppColors.grayAsh,
                         highlight: 'utilisateur',
                         fontFamily: FontFamily.syne,
                         highlightColor: AppColors.primary,
-                        highlightFontSize: 20.rsp,
+                        highlightFontSize: 24.rsp,
                       ),
                       SizedBox(height: 4.rh),
                       AppText(
                         '${user.name ?? '---'} · ${user.email ?? '---'} · ${user.status ?? '---'}',
-                        fontSize: 10.rsp,
+                        fontSize: 12.rsp,
                         color: AppColors.textMuted,
                       ),
                     ],

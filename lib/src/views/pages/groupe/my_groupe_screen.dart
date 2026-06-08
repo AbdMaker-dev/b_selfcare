@@ -3,6 +3,7 @@ import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/groupe/widgets/config_notif_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/confirm_delete_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/detail_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_edit_groupe.dart';
@@ -57,6 +58,9 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
             groupCubit.getGroups(data: {'page': _currentPage});
           },
           deleteGroupeFailed: (message) {},
+          configNotifGroupeLoaded: (_) {
+            groupCubit.getGroups(data: {'page': _currentPage});
+          },
           orElse: () {},
         );
       },
@@ -146,6 +150,11 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                     groupCubit: groupCubit,
                   ),
                   onDelete: (groupe) => ConfirmDeleteGroupe.show(
+                    context,
+                    groupe: groupe,
+                    groupCubit: groupCubit,
+                  ),
+                  onToggleNotification: (groupe) => ConfigNotifGroupe.show(
                     context,
                     groupe: groupe,
                     groupCubit: groupCubit,
