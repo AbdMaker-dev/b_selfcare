@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/singleton.dart';
@@ -5,21 +8,21 @@ import 'package:b_selfcare/src/data/models/employee/data_employee_response_model
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
-import 'package:b_selfcare/src/views/pages/numeros/numeros_content.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_disable_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/detail_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/source_employe.dart';
+import 'package:b_selfcare/src/views/pages/numeros/numeros_content.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/filter_tab/cubit/filter_tab_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
 import 'package:b_selfcare/src/views/widgets/info_flotte_card.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
@@ -153,18 +156,64 @@ class _EmployesTab extends StatefulWidget {
 }
 
 class _EmployesTabState extends State<_EmployesTab> {
+  final _searchController = TextEditingController();
+  Timer? _debounce;
+  bool _skipSearchListener = false;
+
   int _currentPage = 1;
+  String _searchQuery = '';
+  String? _statusFilter;
   DataEmployeeResponseModel? _cachedData;
 
   @override
   void initState() {
     super.initState();
     widget.myFlotte.getEmployees(data: {'page': _currentPage});
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    if (_skipSearchListener) return;
+    final value = _searchController.text;
+    if (value == _searchQuery) return;
+    setState(() { _searchQuery = value; _currentPage = 1; });
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      widget.myFlotte.getEmployees(data: _buildParams(page: 1));
+    });
+  }
+
+  Map<String, dynamic> _buildParams({int? page}) {
+    final params = <String, dynamic>{'page': page ?? _currentPage};
+    if (_searchQuery.isNotEmpty) params['search'] = _searchQuery;
+    if (_statusFilter != null) params['status'] = _statusFilter;
+    return params;
   }
 
   void _fetchPage(int page) {
     setState(() => _currentPage = page);
-    widget.myFlotte.getEmployees(data: {'page': page});
+    widget.myFlotte.getEmployees(data: _buildParams(page: page));
+  }
+
+  void _resetFilters() {
+    _debounce?.cancel();
+    _skipSearchListener = true;
+    setState(() {
+      _searchQuery = '';
+      _statusFilter = null;
+      _currentPage = 1;
+    });
+    _searchController.clear();
+    _skipSearchListener = false;
+    getIt<FilterTabCubit>().selectTab(0);
   }
 
   @override
@@ -174,11 +223,14 @@ class _EmployesTabState extends State<_EmployesTab> {
       listener: (context, state) {
         state.maybeWhen(
           getEmployeesFailed: (message) {},
-          disableEmployeeLoaded: (_) => widget.myFlotte.getEmployees(data: {'page': _currentPage}),
+          disableEmployeeLoaded: (_) {
+            _resetFilters();
+            widget.myFlotte.getEmployees(data: {'page': 1});
+          },
           disableEmployeeFailed: (message) {},
-          removeNumbersLoaded: (_) => widget.myFlotte.getEmployees(data: {'page': _currentPage}),
+          removeNumbersLoaded: (_) => widget.myFlotte.getEmployees(data: _buildParams()),
           removeNumbersFailed: (message) {},
-          assignNumbersLoaded: (_) => widget.myFlotte.getEmployees(data: {'page': _currentPage}),
+          assignNumbersLoaded: (_) => widget.myFlotte.getEmployees(data: _buildParams()),
           assignNumbersFailed: (message) {},
           downloadFileEmployesFailed: (message) {},
           orElse: () {},
@@ -224,7 +276,7 @@ class _EmployesTabState extends State<_EmployesTab> {
                       onPressed: () => FormEmploye.show(
                         context,
                         myFlotteCubit: widget.myFlotte,
-                        onCreated: () => widget.myFlotte.getEmployees(data: {'page': _currentPage}),
+                        onCreated: () => widget.myFlotte.getEmployees(data: _buildParams()),
                       ),
                     ),
                   ],
@@ -233,7 +285,7 @@ class _EmployesTabState extends State<_EmployesTab> {
             ),
             SizedBox(height: 30.rh),
             AppSearchInput(
-              onChanged: (value) => widget.myFlotte.getEmployees(data: {'search': value}),
+              controller: _searchController,
             ),
             SizedBox(height: 20.rh),
             FilterTabsWidget(
@@ -243,9 +295,11 @@ class _EmployesTabState extends State<_EmployesTab> {
                 const FilterTab(label: 'Inactive'),
               ],
               onTabChanged: (model) {
-                model.label == 'Tous'
-                    ? widget.myFlotte.getEmployees(data: {'page': _currentPage})
-                    : widget.myFlotte.getEmployees(data: {'status': model.label.toUpperCase()});
+                setState(() {
+                  _statusFilter = model.label == 'Tous' ? null : model.label.toUpperCase();
+                  _currentPage = 1;
+                });
+                widget.myFlotte.getEmployees(data: _buildParams(page: 1));
               },
             ),
             SizedBox(height: 20.rh),
@@ -295,7 +349,7 @@ class _EmployesTabState extends State<_EmployesTab> {
                     context,
                     employee: e,
                     myFlotteCubit: widget.myFlotte,
-                    onUpdated: () => widget.myFlotte.getEmployees(data: {'page': _currentPage}),
+                    onUpdated: () => widget.myFlotte.getEmployees(data: _buildParams()),
                   ),
                   onDisable: (e) => ConfirmDisableEmploye.show(context, employee: e, myFlotteCubit: widget.myFlotte),
                 ),

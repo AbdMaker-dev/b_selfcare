@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
@@ -12,6 +14,7 @@ import 'package:b_selfcare/src/views/pages/users/widgets/user_form.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/filter_tab/cubit/filter_tab_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
@@ -28,6 +31,9 @@ class UsersScreen extends StatefulWidget {
 
 class _UsersScreenState extends State<UsersScreen> {
   final _cubit = getIt<UsersCubit>();
+  final _searchController = TextEditingController();
+  Timer? _debounce;
+  bool _skipSearchListener = false;
   int _currentPage = 1;
   String? _statusFilter;
   String _searchQuery = '';
@@ -36,8 +42,26 @@ class _UsersScreenState extends State<UsersScreen> {
   void initState() {
     super.initState();
     _cubit.getUsers(data: {'page': _currentPage});
+    _searchController.addListener(_onSearchChanged);
+  }
 
-    // _cubit.fetchRoles();
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    if (_skipSearchListener) return;
+    final value = _searchController.text;
+    if (value == _searchQuery) return;
+    setState(() { _searchQuery = value; _currentPage = 1; });
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      _cubit.getUsers(data: _buildParams(page: 1));
+    });
   }
 
   Map<String, dynamic> _buildParams({int? page}) {
@@ -50,6 +74,19 @@ class _UsersScreenState extends State<UsersScreen> {
   void _fetchPage(int page) {
     setState(() => _currentPage = page);
     _cubit.getUsers(data: _buildParams(page: page));
+  }
+
+  void _resetFilters() {
+    _debounce?.cancel();
+    _skipSearchListener = true;
+    setState(() {
+      _searchQuery = '';
+      _statusFilter = null;
+      _currentPage = 1;
+    });
+    _searchController.clear();
+    _skipSearchListener = false;
+    getIt<FilterTabCubit>().selectTab(0);
   }
 
   void _showDetail(UserProfileModel user) {
@@ -70,7 +107,10 @@ class _UsersScreenState extends State<UsersScreen> {
       bloc: _cubit,
       listener: (context, state) {
         state.maybeWhen(
-          disableUserLoaded: () => _cubit.getUsers(data: _buildParams()),
+          disableUserLoaded: () {
+            _resetFilters();
+            _cubit.getUsers(data: {'page': 1});
+          },
           createUserLoaded:  () => _cubit.getUsers(data: _buildParams()),
           updateUserLoaded:  () => _cubit.getUsers(data: _buildParams()),
           orElse: () {},
@@ -129,10 +169,7 @@ class _UsersScreenState extends State<UsersScreen> {
             ),
             SizedBox(height: 24.rh),
             AppSearchInput(
-              onChanged: (value) {
-                setState(() { _searchQuery = value; _currentPage = 1; });
-                _cubit.getUsers(data: _buildParams(page: 1));
-              },
+              controller: _searchController,
             ),
             SizedBox(height: 16.rh),
             FilterTabsWidget(
@@ -173,5 +210,3 @@ class _UsersScreenState extends State<UsersScreen> {
     );
   }
 }
-
-

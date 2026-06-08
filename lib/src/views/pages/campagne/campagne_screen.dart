@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/generated/l10n.dart';
 import 'package:b_selfcare/singleton.dart';
@@ -14,7 +17,6 @@ import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab_widget.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,19 +30,49 @@ class CampagneScreen extends StatefulWidget {
 
 class _CampagneScreenState extends State<CampagneScreen> {
   final campagne = getIt<CampagneCubit>();
+  final _searchController = TextEditingController();
+  Timer? _debounce;
 
   int _currentPage = 1;
+  String _searchQuery = '';
+  String? _statusFilter;
   DataCampaignResponseModel? _cachedData;
 
   @override
   void initState() {
     super.initState();
     campagne.getCampaigns(data: {'page': _currentPage});
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    final value = _searchController.text;
+    if (value == _searchQuery) return;
+    setState(() { _searchQuery = value; _currentPage = 1; });
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      campagne.getCampaigns(data: _buildParams(page: 1));
+    });
+  }
+
+  Map<String, dynamic> _buildParams({int? page}) {
+    final params = <String, dynamic>{'page': page ?? _currentPage};
+    if (_searchQuery.isNotEmpty) params['search'] = _searchQuery;
+    if (_statusFilter != null) params['status'] = _statusFilter;
+    return params;
   }
 
   void _fetchPage(int page) {
     setState(() => _currentPage = page);
-    campagne.getCampaigns(data: {'page': page});
+    campagne.getCampaigns(data: _buildParams(page: page));
   }
 
   @override
@@ -56,7 +88,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
     state.maybeWhen(
       getCampaignsFailed: (_) {},
       executeCampaignsLoaded: (_) => WidgetsBinding.instance.addPostFrameCallback(
-        (_) { if (mounted) campagne.getCampaigns(data: {'page': _currentPage}); },
+        (_) { if (mounted) campagne.getCampaigns(data: _buildParams()); },
       ),
       executeCampaignsFailed: (_) {},
       orElse: () {},
@@ -78,7 +110,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
         _buildHeader(context, total),
         SizedBox(height: 30.rh),
         AppSearchInput(
-          onChanged: (value) => campagne.getCampaigns(data: {'search': value}),
+          controller: _searchController,
         ),
         SizedBox(height: 20.rh),
         _buildFilterTabs(meta),
@@ -134,9 +166,10 @@ class _CampagneScreenState extends State<CampagneScreen> {
 
     return FilterTabsWidget(
       tabs: [const FilterTab(label: 'Tous'), ...statusTabs],
-      onTabChanged: (tab) => tab.value == null
-          ? campagne.getCampaigns(data: {'page': _currentPage})
-          : campagne.getCampaigns(data: {'status': tab.value}),
+      onTabChanged: (tab) {
+        setState(() { _statusFilter = tab.value; _currentPage = 1; });
+        campagne.getCampaigns(data: _buildParams(page: 1));
+      },
     );
   }
 
