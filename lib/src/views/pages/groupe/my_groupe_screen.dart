@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:auto_route/auto_route.dart';
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
@@ -15,7 +17,6 @@ import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table.dart';
 import 'package:flutter/material.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 @RoutePage()
@@ -28,19 +29,60 @@ class MyGroupeScreen extends StatefulWidget {
 
 class _MyGroupeScreenState extends State<MyGroupeScreen> {
   final groupCubit = getIt<GroupCubit>();
+  final _searchController = TextEditingController();
+  Timer? _debounce;
+  bool _skipSearchListener = false;
 
   int _currentPage = 1;
+  String _searchQuery = '';
   DataGroupResponseModel? _cachedData;
 
   @override
   void initState() {
     super.initState();
     groupCubit.getGroups(data: {'page': _currentPage});
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    if (_skipSearchListener) return;
+    final value = _searchController.text;
+    if (value == _searchQuery) return;
+    setState(() { _searchQuery = value; _currentPage = 1; });
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      groupCubit.getGroups(data: _buildParams(page: 1));
+    });
+  }
+
+  Map<String, dynamic> _buildParams({int? page}) {
+    final params = <String, dynamic>{'page': page ?? _currentPage};
+    if (_searchQuery.isNotEmpty) params['search'] = _searchQuery;
+    return params;
   }
 
   void _fetchPage(int page) {
     setState(() => _currentPage = page);
-    groupCubit.getGroups(data: {'page': page});
+    groupCubit.getGroups(data: _buildParams(page: page));
+  }
+
+  void _resetFilters() {
+    _debounce?.cancel();
+    _skipSearchListener = true;
+    setState(() {
+      _searchQuery = '';
+      _currentPage = 1;
+    });
+    _searchController.clear();
+    _skipSearchListener = false;
   }
 
   @override
@@ -49,17 +91,18 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
       bloc: groupCubit,
       listener: (context, state) {
         state.maybeWhen(
-          getGroupsFailed: (message){},
+          getGroupsFailed: (message) {},
           updateGroupeLoaded: (_) {
-            groupCubit.getGroups(data: {'page': _currentPage});
+            groupCubit.getGroups(data: _buildParams());
           },
           updateGroupeFailed: (message) {},
           deleteGroupeLoaded: (_) {
-            groupCubit.getGroups(data: {'page': _currentPage});
+            _resetFilters();
+            groupCubit.getGroups(data: {'page': 1});
           },
           deleteGroupeFailed: (message) {},
           configNotifGroupeLoaded: (_) {
-            groupCubit.getGroups(data: {'page': _currentPage});
+            groupCubit.getGroups(data: _buildParams());
           },
           orElse: () {},
         );
@@ -115,16 +158,14 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                   onPressed: () => FormGroupe.show(
                     context,
                     groupCubit: groupCubit,
-                    onCreated: () => groupCubit.getGroups(data: {'page': _currentPage}),
+                    onCreated: () => groupCubit.getGroups(data: _buildParams()),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 30.rh),
             AppSearchInput(
-              onChanged: (value){
-                groupCubit.getGroups(data: {'search': value});
-              },
+              controller: _searchController,
             ),
             SizedBox(height: 20.rh),
             if (isLoading && groups.isEmpty)
