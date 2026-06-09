@@ -17,7 +17,7 @@ extension ResponsiveExtension on num {
   // le zoom navigateur (qui change la viewport) ne grossisse les textes.
   double get rsp {
     if (kIsWeb) {
-      final scale = ScreenUtil().scaleWidth.clamp(0.8, 0.97);
+      final scale = ScreenUtil().scaleWidth.clamp(0.8, 1.0);
       return toDouble() * scale;
     }
     return sp;
