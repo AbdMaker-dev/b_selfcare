@@ -247,7 +247,7 @@ class _FormEmployeState extends State<FormEmploye> {
                                 keyboardType: TextInputType.text,
                                 controller: _lastNameController,
                                 isRequired: true,
-                                hintText: 'Ex: Diallo',
+                                hintText: 'Ex: NAPAL',
                                 validator: (v) => (v == null || v.trim().isEmpty) ? 'Le nom est obligatoire' : null,
                               ),
                             ),
