@@ -260,6 +260,7 @@ class _FeatureBox extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -267,7 +268,7 @@ class _FeatureBox extends StatelessWidget {
               AppText(
                 feature.label,
                 type: AppTextType.small,
-                fontSize: 12.rsp,
+                fontSize: 13.rsp,
                 color: AppColors.textMuted,
                 fontWeight: FontWeight.w400,
               ),
@@ -296,7 +297,7 @@ class _FeatureBox extends StatelessWidget {
               AppText(
                 feature.unit,
                 type: AppTextType.body,
-                fontSize: 9.5.rsp,
+                fontSize: 11.rsp,
                 color: AppColors.textMuted,
               ),
             ],
