@@ -11,10 +11,9 @@ import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart'
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_disable_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/detail_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
-import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_employe.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/employe_action_dropdown.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/source_employe.dart';
 import 'package:b_selfcare/src/views/pages/numeros/numeros_content.dart';
-import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/cubit/filter_tab_cubit.dart';
@@ -256,28 +255,9 @@ class _EmployesTabState extends State<_EmployesTab> {
                 const Spacer(),
                 Row(
                   children: [
-                    AppButton(
-                      text: 'Fichier exemple',
-                      type: AppButtonType.outline,
-                      icon: Icons.download,
-                      width: 180.rw,
-                      height: 60.rh,
-                      fontSize: 15.rsp,
-                      onPressed: () => widget.myFlotte.downloadFileEmployes(),
-                    ),
-                    SizedBox(width: 10.rw),
-                    AppButton(
-                      text: 'Employé',
-                      icon: Icons.add_circle_outline,
-                      type: AppButtonType.secondary,
-                      width: 140.rw,
-                      height: 60.rh,
-                      fontSize: 15.rsp,
-                      onPressed: () => FormEmploye.show(
-                        context,
-                        myFlotteCubit: widget.myFlotte,
-                        onCreated: () => widget.myFlotte.getEmployees(data: _buildParams()),
-                      ),
+                    EmployeActionDropdown(
+                      myFlotteCubit: widget.myFlotte,
+                      onCreated: () => widget.myFlotte.getEmployees(data: _buildParams()),
                     ),
                   ],
                 ),
@@ -369,7 +349,6 @@ class _EmployesTabState extends State<_EmployesTab> {
 }
 
 // ─── Onglet Numéros ───────────────────────────────────────────────────────────
-
 
 // ─── Pilule d'onglet ──────────────────────────────────────────────────────────
 

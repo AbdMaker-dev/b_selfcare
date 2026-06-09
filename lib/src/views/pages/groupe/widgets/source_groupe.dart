@@ -23,8 +23,8 @@ class SourceGroupe extends AppTableSource<GroupModel> {
     (label: 'Fréquence',       flex: 3),
     (label: 'Date début',      flex: 2),
     (label: 'Employés',        flex: 2),
-    (label: 'Notif. SMS',      flex: 2),
     (label: 'Date création',   flex: 2),
+    (label: 'Notif. SMS',      flex: 2),
     (label: 'Actions',         flex: 2),
   ];
 
@@ -38,6 +38,7 @@ class SourceGroupe extends AppTableSource<GroupModel> {
     CellTextTable(text: e.campaign?.frequency ?? '---'),
     CellTextTable(text: AppDate.formatShort(e.campaign?.startDate)),
     CellTextTable(text: e.employeesCount?.toString() ?? '---'),
+    CellTextTable(text: e.createdAt != null ? AppDate.formatShort(e.createdAt!) : '---'),
     Tooltip(
       message: e.smsNotificationEnabled == true ? 'Désactiver les notifications' : 'Activer les notifications',
       child: IconButton(
@@ -48,7 +49,6 @@ class SourceGroupe extends AppTableSource<GroupModel> {
         ),
       ),
     ),
-    CellTextTable(text: e.createdAt != null ? AppDate.formatShort(e.createdAt!) : '---'),
     CellActionsTable(actions: [
       (label: 'Modifier', danger: false, onTap: () => onEdit?.call(e)),
     ]),

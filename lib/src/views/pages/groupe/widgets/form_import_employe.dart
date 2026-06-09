@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/group/data_import_response_model.dart';
 import 'package:b_selfcare/src/data/models/group/group_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/detail_components.dart';
@@ -21,7 +23,7 @@ class FormImportEmploye extends StatefulWidget {
   static void show(BuildContext context, {required GroupModel groupe, required GroupCubit groupCubit}) {
     showDetailDialog(
       context,
-      width: 520.rw,
+      width: 650.rw,
       child: FormImportEmploye(groupe: groupe, groupCubit: groupCubit),
     );
   }
@@ -182,10 +184,20 @@ class _FormImportEmployeState extends State<FormImportEmploye> {
                 onPressed: isLoading ? null : () => Navigator.of(context, rootNavigator: true).pop(),
               ),
               SizedBox(width: 10.rw),
+              AppButton(
+                text: 'Fichier exemple',
+                type: AppButtonType.outline,
+                icon: Icons.download,
+                width: 180.rw,
+                height: 60.rh,
+                fontSize: 15.rsp,
+                onPressed: isLoading ? null : () => getIt<MyFlotteCubit>().downloadFileEmployes(),
+              ),
+              SizedBox(width: 10.rw),
               DetailActionBtn(
                 label: isLoading ? 'Import...' : 'Importer',
                 icon: isLoading ? null : Icons.upload_rounded,
-                type: AppButtonType.secondary,
+                type: AppButtonType.primary,
                 onPressed: (_file != null && !isLoading) ? _submit : null,
               ),
             ],
