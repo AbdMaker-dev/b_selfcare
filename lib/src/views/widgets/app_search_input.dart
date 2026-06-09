@@ -40,7 +40,7 @@ class AppSearchInput extends StatelessWidget {
         filled: true,
         fillColor: Colors.white,
         isDense: true,
-        contentPadding: EdgeInsets.symmetric(vertical: 11.rh),
+        // contentPadding: EdgeInsets.symmetric(vertical: 11.rh),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.rr),
           borderSide: BorderSide(color: AppColors.inputBorder, width: 1.2),
