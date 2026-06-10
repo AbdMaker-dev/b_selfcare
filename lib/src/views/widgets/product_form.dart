@@ -280,7 +280,7 @@ class _ProductFormState extends State<ProductForm> {
                               if (id == null) return const SizedBox();
                               return AppInput(
                                 controller: _quotaControllers[id],
-                                labelText: wallet.name ?? '—',
+                                labelText: "${wallet.name ?? '---'} (${wallet.unit ?? ''})",
                                 hintText: '0',
                                 keyboardType: const TextInputType.numberWithOptions(
                                   decimal: true,
