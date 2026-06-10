@@ -83,15 +83,11 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> createProductsBulk({required String name, String? description, required List<Map<String, dynamic>> quotas}) async {
     emit(ProductsState.createProductsLoading());
     final response = await _httpHelper.handlePostRequest(
-      "products/custom/bulk",
+      "products/custom",
       {
-        "products": [
-          {
-            "name": name,
-            if (description != null && description.isNotEmpty) "description": description,
-            "quotas": quotas,
-          }
-        ]
+        "name": name,
+        if (description != null && description.isNotEmpty) "description": description,
+        "quotas": quotas,
       },
     );
     response.fold(
