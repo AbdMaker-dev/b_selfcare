@@ -6,6 +6,7 @@ import 'package:b_selfcare/src/data/models/employee/employee_model.dart';
 import 'package:b_selfcare/src/data/models/products_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
 import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
@@ -26,17 +27,18 @@ class ApprovisionnerDrawer extends StatefulWidget {
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: AppColors.primary.withValues(alpha: 0.7),
-      pageBuilder: (context, animation, secondaryAnimation) => Align(
-        alignment: Alignment.centerRight,
-        child: Material(
-          color: Colors.transparent,
-          child: SizedBox(
-            width: 650.rw,
-            height: double.infinity,
-            child: ApprovisionnerDrawer(employee: employee),
+      pageBuilder:
+          (context, animation, secondaryAnimation) => Align(
+            alignment: Alignment.centerRight,
+            child: Material(
+              color: Colors.transparent,
+              child: SizedBox(
+                width: 650.rw,
+                height: double.infinity,
+                child: ApprovisionnerDrawer(employee: employee),
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 
@@ -47,7 +49,11 @@ class ApprovisionnerDrawer extends StatefulWidget {
 class _ApprovisionnerDrawerState extends State<ApprovisionnerDrawer>
     with SingleTickerProviderStateMixin {
   final _productsCubit = getIt<ProductsCubit>();
+  final _myFlotteCubit = getIt<MyFlotteCubit>();
   late final TabController _tabController;
+  int _tab1Key = 0;
+  int _tab2Key = 0;
+  int _lastTab = 0;
 
   @override
   void initState() {
@@ -55,10 +61,23 @@ class _ApprovisionnerDrawerState extends State<ApprovisionnerDrawer>
     _tabController = TabController(length: 2, vsync: this);
     _productsCubit.fetchProducts();
     _productsCubit.fetchWallets();
+    _tabController.addListener(_onTabChanged);
+  }
+
+  void _onTabChanged() {
+    if (_tabController.indexIsChanging) { return; }
+    final newTab = _tabController.index;
+    if (newTab == _lastTab) { return; }
+    setState(() {
+      // Reset le tab qu'on quitte
+      if (_lastTab == 0) { _tab1Key++; } else { _tab2Key++; }
+      _lastTab = newTab;
+    });
   }
 
   @override
   void dispose() {
+    _tabController.removeListener(_onTabChanged);
     _tabController.dispose();
     super.dispose();
   }
@@ -68,7 +87,8 @@ class _ApprovisionnerDrawerState extends State<ApprovisionnerDrawer>
   @override
   Widget build(BuildContext context) {
     final employeeName =
-        '${widget.employee.firstName ?? ''} ${widget.employee.lastName ?? ''}'.trim();
+        '${widget.employee.firstName ?? ''} ${widget.employee.lastName ?? ''}'
+            .trim();
 
     return Container(
       height: double.infinity,
@@ -121,7 +141,10 @@ class _ApprovisionnerDrawerState extends State<ApprovisionnerDrawer>
                       onTap: _close,
                       borderRadius: BorderRadius.circular(6),
                       child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 6.rh),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.rw,
+                          vertical: 6.rh,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(color: AppColors.graySilver),
@@ -169,13 +192,17 @@ class _ApprovisionnerDrawerState extends State<ApprovisionnerDrawer>
               controller: _tabController,
               children: [
                 _SelectProductTab(
+                  key: ValueKey(_tab1Key),
                   employee: widget.employee,
                   productsCubit: _productsCubit,
+                  myFlotteCubit: _myFlotteCubit,
                   onClose: _close,
                 ),
                 _CreateProductTab(
+                  key: ValueKey(_tab2Key),
                   employee: widget.employee,
                   productsCubit: _productsCubit,
+                  myFlotteCubit: _myFlotteCubit,
                   onClose: _close,
                 ),
               ],
@@ -192,11 +219,14 @@ class _ApprovisionnerDrawerState extends State<ApprovisionnerDrawer>
 class _SelectProductTab extends StatefulWidget {
   final EmployeeModel employee;
   final ProductsCubit productsCubit;
+  final MyFlotteCubit myFlotteCubit;
   final VoidCallback onClose;
 
   const _SelectProductTab({
+    super.key,
     required this.employee,
     required this.productsCubit,
+    required this.myFlotteCubit,
     required this.onClose,
   });
 
@@ -222,8 +252,9 @@ class _SelectProductTabState extends State<_SelectProductTab> {
         widget.productsCubit.products.where((p) => p.isActive == true).toList();
     if (_searchQuery.isEmpty) return products;
     return products
-        .where((p) =>
-            (p.name ?? '').toLowerCase().contains(_searchQuery.toLowerCase()))
+        .where(
+          (p) =>(p.name ?? '').toLowerCase().contains(_searchQuery.toLowerCase()),
+        )
         .toList();
   }
 
@@ -240,7 +271,9 @@ class _SelectProductTabState extends State<_SelectProductTab> {
             onChanged: (v) {
               _debounce?.cancel();
               _debounce = Timer(const Duration(milliseconds: 300), () {
-                setState(() { _searchQuery = v; });
+                setState(() {
+                  _searchQuery = v;
+                });
               });
             },
           ),
@@ -274,24 +307,33 @@ class _SelectProductTabState extends State<_SelectProductTab> {
               }
 
               return ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rh),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.rw,
+                  vertical: 16.rh,
+                ),
                 itemCount: products.length,
                 separatorBuilder: (_, index) => SizedBox(height: 10.rh),
                 itemBuilder: (_, i) {
                   final p = products[i];
                   final isSelected = _selected?.id == p.id;
                   return GestureDetector(
-                    onTap: () => setState(() => _selected = isSelected ? null : p),
+                    onTap:
+                        () => setState(() => _selected = isSelected ? null : p),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 150),
-                      padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 12.rh),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 14.rw,
+                        vertical: 12.rh,
+                      ),
                       decoration: BoxDecoration(
-                        color: isSelected
-                            ? AppColors.primary.withValues(alpha: 0.06)
-                            : AppColors.white,
+                        color:
+                            isSelected
+                                ? AppColors.primary.withValues(alpha: 0.06)
+                                : AppColors.white,
                         borderRadius: BorderRadius.circular(10.rr),
                         border: Border.all(
-                          color: isSelected ? AppColors.primary : AppColors.gray,
+                          color:
+                              isSelected ? AppColors.primary : AppColors.gray,
                           width: isSelected ? 1.5 : 1,
                         ),
                       ),
@@ -305,9 +347,10 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                                   p.name ?? '—',
                                   fontSize: 14.rsp,
                                   fontWeight: FontWeight.w600,
-                                  color: isSelected
-                                      ? AppColors.primary
-                                      : AppColors.textHeading,
+                                  color:
+                                      isSelected
+                                          ? AppColors.primary
+                                          : AppColors.textHeading,
                                 ),
                                 if (p.description != null) ...[
                                   SizedBox(height: 2.rh),
@@ -322,23 +365,33 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                                   Wrap(
                                     spacing: 6.rw,
                                     runSpacing: 4.rh,
-                                    children: (p.quotas ?? [])
-                                        .map((q) => Container(
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.rw, vertical: 3.rh),
-                                              decoration: BoxDecoration(
-                                                color: AppColors.background,
-                                                borderRadius: BorderRadius.circular(6.rr),
-                                                border: Border.all(
-                                                    color: AppColors.inputBorder),
+                                    children:
+                                        (p.quotas ?? [])
+                                            .map(
+                                              (q) => Container(
+                                                padding: EdgeInsets.symmetric(
+                                                  horizontal: 8.rw,
+                                                  vertical: 3.rh,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: AppColors.background,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        6.rr,
+                                                      ),
+                                                  border: Border.all(
+                                                    color:
+                                                        AppColors.inputBorder,
+                                                  ),
+                                                ),
+                                                child: AppText(
+                                                  '${q.name ?? ''}: ${q.quota ?? 0} ${q.unit ?? ''}',
+                                                  fontSize: 11.rsp,
+                                                  color: AppColors.textMuted,
+                                                ),
                                               ),
-                                              child: AppText(
-                                                '${q.name ?? ''}: ${q.quota ?? 0} ${q.unit ?? ''}',
-                                                fontSize: 11.rsp,
-                                                color: AppColors.textMuted,
-                                              ),
-                                            ))
-                                        .toList(),
+                                            )
+                                            .toList(),
                                   ),
                                 ],
                               ],
@@ -358,7 +411,8 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                             isSelected
                                 ? Icons.check_circle
                                 : Icons.circle_outlined,
-                            color: isSelected ? AppColors.primary : AppColors.gray,
+                            color:
+                                isSelected ? AppColors.primary : AppColors.gray,
                             size: 20.rsp,
                           ),
                         ],
@@ -391,16 +445,34 @@ class _SelectProductTabState extends State<_SelectProductTab> {
               SizedBox(width: 12.rw),
               Expanded(
                 flex: 2,
-                child: AppButton(
-                  text: 'Approvisionner',
-                  type: AppButtonType.secondary,
-                  fontSize: 13.rsp,
-                  onPressed: _selected == null
-                      ? null
-                      : () {
-                          // TODO: appeler l'API avec widget.employee.id et _selected!.id
-                          widget.onClose();
-                        },
+                child: BlocConsumer<MyFlotteCubit, MyFlotteState>(
+                  bloc: widget.myFlotteCubit,
+                  listener: (context, state) {
+                    state.maybeWhen(
+                      manualProvisioningLoaded: (_) => widget.onClose(),
+                      orElse: () {},
+                    );
+                  },
+                  builder: (context, state) {
+                    final isLoading = state.maybeWhen(
+                      manualProvisioningLoading: () => true,
+                      orElse: () => false,
+                    );
+                    return AppButton(
+                      text: isLoading ? 'Chargement...' : 'Approvisionner',
+                      type: AppButtonType.secondary,
+                      fontSize: 13.rsp,
+                      onPressed:
+                          (_selected == null || isLoading)
+                              ? null
+                              : () {
+                                widget.myFlotteCubit.manualProvisioning(data: {
+                                  'product_id': _selected!.id,
+                                  'fleet_number_ids': widget.employee.fleetNumbers?.map((f) => f.id).where((id) => id != null).toList() ?? [],
+                                });
+                              },
+                    );
+                  },
                 ),
               ),
             ],
@@ -416,11 +488,14 @@ class _SelectProductTabState extends State<_SelectProductTab> {
 class _CreateProductTab extends StatefulWidget {
   final EmployeeModel employee;
   final ProductsCubit productsCubit;
+  final MyFlotteCubit myFlotteCubit;
   final VoidCallback onClose;
 
   const _CreateProductTab({
+    super.key,
     required this.employee,
     required this.productsCubit,
+    required this.myFlotteCubit,
     required this.onClose,
   });
 
@@ -430,15 +505,13 @@ class _CreateProductTab extends StatefulWidget {
 
 class _CreateProductTabState extends State<_CreateProductTab> {
   final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _nameController;
-  late final TextEditingController _descController;
   final Map<int, TextEditingController> _quotaControllers = {};
+  // Pour les wallets MB_GB : 'MB' ou 'GB' par wallet id
+  final Map<int, String> _unitSelections = {};
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController();
-    _descController = TextEditingController();
     _initControllers();
     widget.productsCubit.fetchWallets().then((_) {
       if (mounted) {
@@ -451,49 +524,52 @@ class _CreateProductTabState extends State<_CreateProductTab> {
   void _initControllers() {
     for (final wallet in widget.productsCubit.wallets) {
       final id = wallet.id;
-      if (id == null || _quotaControllers.containsKey(id)) continue;
-      _quotaControllers[id] = TextEditingController();
+      if (id == null) continue;
+      if (!_quotaControllers.containsKey(id)) {
+        _quotaControllers[id] = TextEditingController();
+      }
+      if (wallet.unit == 'MB_GB' && !_unitSelections.containsKey(id)) {
+        _unitSelections[id] = 'GB';
+      }
     }
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _descController.dispose();
-    for (final c in _quotaControllers.values) { c.dispose(); }
+    for (final c in _quotaControllers.values) {
+      c.dispose();
+    }
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  void _submit() {
     if (!_formKey.currentState!.validate()) return;
 
-    final quotas = widget.productsCubit.wallets
+    final resources = widget.productsCubit.wallets
         .where((w) => w.id != null)
         .map((w) {
           final text = _quotaControllers[w.id!]?.text.trim() ?? '';
           final val = double.tryParse(text);
           if (val == null || val <= 0) return null;
-          return {'wallet_id': w.id!, 'quota': val};
+          // Pour MB_GB : 'GB' → 'MB_GB', 'MB' → 'MB'. Autres wallets : unit brute.
+          final String unit;
+          if (w.unit == 'MB_GB') {
+            unit = (_unitSelections[w.id!] ?? 'GB') == 'GB' ? 'MB_GB' : 'MB';
+          } else {
+            unit = w.unit ?? '';
+          }
+          return {'wallet_id': w.id!, 'quantity': val, 'unit': unit};
         })
         .whereType<Map<String, dynamic>>()
         .toList();
 
-    if (quotas.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text('Veuillez renseigner au moins un quota.'),
-        backgroundColor: AppColors.error,
-      ));
-      return;
-    }
+    if (resources.isEmpty) { return; }
 
-    await widget.productsCubit.createProductsBulk(
-      name: _nameController.text.trim(),
-      description: _descController.text.trim(),
-      quotas: quotas,
-    );
-
-    // TODO: appeler l'API d'approvisionnement avec le nouvel ID et widget.employee.id
-    widget.onClose();
+    widget.myFlotteCubit.manualProvisioning(data: {
+      'product_id': null,
+      'fleet_number_ids': widget.employee.fleetNumbers?.map((f) => f.id).where((id) => id != null).toList() ?? [],
+      'resources': resources,
+    });
   }
 
   @override
@@ -510,37 +586,21 @@ class _CreateProductTabState extends State<_CreateProductTab> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20.rh),
-                  AppText('INFORMATIONS PRODUIT',
-                      fontSize: 11.rsp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textMuted),
-                  SizedBox(height: 12.rh),
-                  AppInput(
-                    controller: _nameController,
-                    labelText: 'Nom',
-                    hintText: 'Ex: SELFCARE VOICE XNET',
-                    validator: (v) =>
-                        (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
+                  AppText(
+                    'WALLETS & QUOTAS',
+                    fontSize: 11.rsp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textMuted,
                   ),
-                  SizedBox(height: 14.rh),
-                  AppInput(
-                    controller: _descController,
-                    labelText: 'Description (optionnel)',
-                    hintText: 'Ex: Forfait voix entreprise',
-                  ),
-                  SizedBox(height: 24.rh),
-                  AppText('WALLETS & QUOTAS',
-                      fontSize: 11.rsp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textMuted),
                   SizedBox(height: 12.rh),
                   BlocBuilder<ProductsCubit, ProductsState>(
                     bloc: widget.productsCubit,
-                    buildWhen: (_, state) => state.maybeWhen(
-                      walletsLoaded: () => true,
-                      walletsLoading: () => true,
-                      orElse: () => false,
-                    ),
+                    buildWhen:
+                        (_, state) => state.maybeWhen(
+                          walletsLoaded: () => true,
+                          walletsLoading: () => true,
+                          orElse: () => false,
+                        ),
                     builder: (context, state) {
                       if (widget.productsCubit.wallets.isEmpty) {
                         return Center(
@@ -568,12 +628,32 @@ class _CreateProductTabState extends State<_CreateProductTab> {
                           final wallet = widget.productsCubit.wallets[i];
                           final id = wallet.id;
                           if (id == null) return const SizedBox();
-                          return AppInput(
-                            controller: _quotaControllers[id],
-                            labelText: wallet.name ?? '—',
-                            hintText: '0',
-                            keyboardType:
-                                const TextInputType.numberWithOptions(decimal: true),
+                          final isMbGb = wallet.unit == 'MB_GB';
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppInput(
+                                controller: _quotaControllers[id],
+                                labelText: wallet.name ?? '—',
+                                hintText: '0',
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                      decimal: true,
+                                    ),
+                                suffixIcon:
+                                    isMbGb
+                                        ? _UnitToggle(
+                                          selected: _unitSelections[id] ?? 'MB',
+                                          onChanged:
+                                              (unit) => setState(
+                                                () =>
+                                                    _unitSelections[id] = unit,
+                                              ),
+                                        )
+                                        : null,
+                              ),
+                            ],
                           );
                         },
                       );
@@ -592,17 +672,17 @@ class _CreateProductTabState extends State<_CreateProductTab> {
               color: AppColors.white,
               border: Border(top: BorderSide(color: AppColors.gray)),
             ),
-            child: BlocBuilder<ProductsCubit, ProductsState>(
-              bloc: widget.productsCubit,
-              buildWhen: (_, state) => state.maybeWhen(
-                createProductsLoading: () => true,
-                createProductsError: (_) => true,
-                createProductsSuccess: () => true,
-                orElse: () => false,
-              ),
+            child: BlocConsumer<MyFlotteCubit, MyFlotteState>(
+              bloc: widget.myFlotteCubit,
+              listener: (context, state) {
+                state.maybeWhen(
+                  manualProvisioningLoaded: (_) => widget.onClose(),
+                  orElse: () {},
+                );
+              },
               builder: (context, state) {
                 final isLoading = state.maybeWhen(
-                  createProductsLoading: () => true,
+                  manualProvisioningLoading: () => true,
                   orElse: () => false,
                 );
                 return Row(
@@ -619,7 +699,7 @@ class _CreateProductTabState extends State<_CreateProductTab> {
                     Expanded(
                       flex: 2,
                       child: AppButton(
-                        text: isLoading ? 'Chargement...' : '+ Créer et approvisionner',
+                        text: isLoading ? 'Chargement...' : '+ Approvisionner',
                         type: AppButtonType.secondary,
                         fontSize: 13.rsp,
                         onPressed: isLoading ? null : _submit,
@@ -631,6 +711,56 @@ class _CreateProductTabState extends State<_CreateProductTab> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// ─── Toggle MB / GB ───────────────────────────────────────────────────────────
+
+class _UnitToggle extends StatelessWidget {
+  final String selected;
+  final void Function(String) onChanged;
+
+  const _UnitToggle({required this.selected, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 6.rw, vertical: 6.rh),
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.background,
+          borderRadius: BorderRadius.circular(6.rr),
+          border: Border.all(color: AppColors.inputBorder),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children:
+              ['MB', 'GB'].map((unit) {
+                final isActive = selected == unit;
+                return GestureDetector(
+                  onTap: () => onChanged(unit),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.rw,
+                      vertical: 4.rh,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isActive ? AppColors.primary : Colors.transparent,
+                      borderRadius: BorderRadius.circular(5.rr),
+                    ),
+                    child: AppText(
+                      unit,
+                      fontSize: 11.rsp,
+                      fontWeight: FontWeight.w600,
+                      color: isActive ? AppColors.white : AppColors.textMuted,
+                    ),
+                  ),
+                );
+              }).toList(),
+        ),
       ),
     );
   }

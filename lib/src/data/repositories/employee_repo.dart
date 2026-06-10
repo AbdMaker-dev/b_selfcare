@@ -91,6 +91,17 @@ class EmployeeRepo {
     );
   }
 
+  Future<Either<Failure, DataResponseModel>> manualProvisioning({required dynamic data}) async {
+    var res = await htttHelper.handlePostRequest("provisioning/manual", data, showLoader: true);
+    return res.fold(
+      (error) => Left(error),
+      (success) async {
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
   Future<Either<Failure, bool>> downloadFileEmployes() async {
     var res = await htttHelper.handleGetExcelFileRequest(
       "fleet/employees/import/template",

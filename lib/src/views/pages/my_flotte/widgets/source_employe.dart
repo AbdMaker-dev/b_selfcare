@@ -1,6 +1,7 @@
 import 'package:b_selfcare/src/data/models/employee/employee_model.dart';
+import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
-import 'package:b_selfcare/src/views/widgets/table/cell_actions_table.dart';
+import 'package:b_selfcare/src/views/widgets/table/btn.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_text_table.dart';
 import 'package:flutter/material.dart';
@@ -11,21 +12,22 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
   final void Function(EmployeeModel)? onDetail;
   final void Function(EmployeeModel)? onEdit;
   final void Function(EmployeeModel)? onDisable;
+  final void Function(EmployeeModel)? onApprovisionner;
 
-  SourceEmployes({required this.rows, this.onDetail, this.onEdit, this.onDisable});
+  SourceEmployes({required this.rows, this.onDetail, this.onEdit, this.onDisable, this.onApprovisionner});
 
   @override
   void onRowTap(BuildContext context, EmployeeModel item) => onDetail?.call(item);
 
   @override
   List<({String label, int flex})> get columns => [
-    (label: 'Employé',   flex: 5),
-    (label: 'Poste',     flex: 4),
-    (label: 'Lignes',    flex: 4),
-    (label: 'Numéros',   flex: 4),
+    (label: 'Employé',  flex: 5),
+    (label: 'Poste',    flex: 4),
+    (label: 'Lignes',   flex: 4),
+    (label: 'Numéros',  flex: 4),
     (label: 'Groupe',   flex: 4),
-    (label: 'Statut',    flex: 3),
-    (label: 'Actions',   flex: 4),
+    (label: 'Statut',   flex: 3),
+    (label: 'Actions',  flex: 4),
   ];
 
   @override
@@ -43,12 +45,18 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
     CellTextTable(text: '${e.fleetNumbersCount ?? 0} numéros'),
     CellTextTable(text: e.group?.name ?? '-'),
     _statusBadge(e.status),
-    CellActionsTable(actions: [
-      (label: 'Modifier', danger: false, onTap: () => onEdit?.call(e)),
-      if (e.status?.toLowerCase() == 'active')
-        (label: 'Désactiver', danger: true, onTap: () => onDisable?.call(e)),
-    ]),
+    Wrap(
+      spacing: 6.rw,
+      runSpacing: 4.rh,
+      children: [
+        Btn(label: 'Modifier',       icon: Icons.edit_outlined,                  onTap: () => onEdit?.call(e)),
+        if ((e.fleetNumbersCount ?? 0) > 0)
+          Btn(label: 'Approvisionner', icon: Icons.account_balance_wallet_outlined, onTap: () => onApprovisionner?.call(e)),
+        if (e.status?.toLowerCase() == 'active') Btn(label: 'Désactiver',   icon: Icons.block_outlined, danger: true,   onTap: () => onDisable?.call(e)),
+      ],
+    ),
   ];
+
   Widget _statusBadge(String? status) {
     return switch (status?.toLowerCase()) {
       'active'   => CellBadgeTable.actif(),

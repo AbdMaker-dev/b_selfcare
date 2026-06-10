@@ -68,6 +68,15 @@ class MyFlotteCubit extends Cubit<MyFlotteState> {
     );
   }
 
+  Future<void> manualProvisioning({required dynamic data}) async {
+    emit(const MyFlotteState.manualProvisioningLoading());
+    final res = await employeeUsecase.manualProvisioning(data: data);
+    res.fold(
+      (failure) => emit(MyFlotteState.manualProvisioningFailed(failure.message)),
+      (data) => emit(MyFlotteState.manualProvisioningLoaded(data: data)),
+    );
+  }
+
   Future<void> downloadFileEmployes() async {
     emit(const MyFlotteState.downloadFileEmployesLoading());
     final res = await employeeUsecase.downloadFileEmployes();

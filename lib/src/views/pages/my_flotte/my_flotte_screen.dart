@@ -8,6 +8,7 @@ import 'package:b_selfcare/src/data/models/employee/data_employee_response_model
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/my_flotte_cubit.dart';
+import 'package:b_selfcare/src/views/pages/my_flotte/widgets/approvisionner_drawer.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_disable_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/detail_employe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
@@ -331,6 +332,7 @@ class _EmployesTabState extends State<_EmployesTab> {
                     myFlotteCubit: widget.myFlotte,
                     onUpdated: () => widget.myFlotte.getEmployees(data: _buildParams()),
                   ),
+                  onApprovisionner: (e) => ApprovisionnerDrawer.show(context, employee: e),
                   onDisable: (e) => ConfirmDisableEmploye.show(context, employee: e, myFlotteCubit: widget.myFlotte),
                 ),
                 currentPage: _currentPage,

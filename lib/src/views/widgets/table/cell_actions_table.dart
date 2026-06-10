@@ -8,9 +8,9 @@ class CellActionsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(                         // ← passe à la ligne si espace insuffisant
-      spacing: 6.rw,                    // espace horizontal entre boutons
-      runSpacing: 4.rh,                 // espace vertical si wrap
+    return Wrap(
+      spacing: 6.rw,
+      runSpacing: 4.rh,
       children: actions.map((a) => Btn(
         label: a.label,
         danger: a.danger,

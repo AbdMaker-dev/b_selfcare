@@ -24,4 +24,7 @@ class MyFlotteState with _$MyFlotteState {
   const factory MyFlotteState.downloadFileEmployesLoading() = DownloadFileEmployesLoading;
   const factory MyFlotteState.downloadFileEmployesLoaded() = DownloadFileEmployesLoaded;
   const factory MyFlotteState.downloadFileEmployesFailed(String message) = DownloadFileEmployesFailed;
+  const factory MyFlotteState.manualProvisioningLoading() = ManualProvisioningLoading;
+  const factory MyFlotteState.manualProvisioningLoaded({required DataResponseModel data}) = ManualProvisioningLoaded;
+  const factory MyFlotteState.manualProvisioningFailed(String message) = ManualProvisioningFailed;
 }

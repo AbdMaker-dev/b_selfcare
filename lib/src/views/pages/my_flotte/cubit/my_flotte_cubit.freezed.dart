@@ -55,7 +55,7 @@ extension MyFlotteStatePatterns on MyFlotteState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,TResult Function( ManualProvisioningLoading value)?  manualProvisioningLoading,TResult Function( ManualProvisioningLoaded value)?  manualProvisioningLoaded,TResult Function( ManualProvisioningFailed value)?  manualProvisioningFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -80,7 +80,10 @@ return assignNumbersLoaded(_that);case AssignNumbersFailed() when assignNumbersF
 return assignNumbersFailed(_that);case DownloadFileEmployesLoading() when downloadFileEmployesLoading != null:
 return downloadFileEmployesLoading(_that);case DownloadFileEmployesLoaded() when downloadFileEmployesLoaded != null:
 return downloadFileEmployesLoaded(_that);case DownloadFileEmployesFailed() when downloadFileEmployesFailed != null:
-return downloadFileEmployesFailed(_that);case _:
+return downloadFileEmployesFailed(_that);case ManualProvisioningLoading() when manualProvisioningLoading != null:
+return manualProvisioningLoading(_that);case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
+return manualProvisioningLoaded(_that);case ManualProvisioningFailed() when manualProvisioningFailed != null:
+return manualProvisioningFailed(_that);case _:
   return orElse();
 
 }
@@ -98,7 +101,7 @@ return downloadFileEmployesFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetEmployeesLoading value)  getEmployeesLoading,required TResult Function( GetEmployeesLoaded value)  getEmployeesLoaded,required TResult Function( GetEmployeesFailed value)  getEmployeesFailed,required TResult Function( CreateEmployeeLoading value)  createEmployeeLoading,required TResult Function( CreateEmployeeLoaded value)  createEmployeeLoaded,required TResult Function( CreateEmployeeFailed value)  createEmployeeFailed,required TResult Function( UpdateEmployeeLoading value)  updateEmployeeLoading,required TResult Function( UpdateEmployeeLoaded value)  updateEmployeeLoaded,required TResult Function( UpdateEmployeeFailed value)  updateEmployeeFailed,required TResult Function( DisableEmployeeLoading value)  disableEmployeeLoading,required TResult Function( DisableEmployeeLoaded value)  disableEmployeeLoaded,required TResult Function( DisableEmployeeFailed value)  disableEmployeeFailed,required TResult Function( RemoveNumbersLoading value)  removeNumbersLoading,required TResult Function( RemoveNumbersLoaded value)  removeNumbersLoaded,required TResult Function( RemoveNumbersFailed value)  removeNumbersFailed,required TResult Function( AssignNumbersLoading value)  assignNumbersLoading,required TResult Function( AssignNumbersLoaded value)  assignNumbersLoaded,required TResult Function( AssignNumbersFailed value)  assignNumbersFailed,required TResult Function( DownloadFileEmployesLoading value)  downloadFileEmployesLoading,required TResult Function( DownloadFileEmployesLoaded value)  downloadFileEmployesLoaded,required TResult Function( DownloadFileEmployesFailed value)  downloadFileEmployesFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetEmployeesLoading value)  getEmployeesLoading,required TResult Function( GetEmployeesLoaded value)  getEmployeesLoaded,required TResult Function( GetEmployeesFailed value)  getEmployeesFailed,required TResult Function( CreateEmployeeLoading value)  createEmployeeLoading,required TResult Function( CreateEmployeeLoaded value)  createEmployeeLoaded,required TResult Function( CreateEmployeeFailed value)  createEmployeeFailed,required TResult Function( UpdateEmployeeLoading value)  updateEmployeeLoading,required TResult Function( UpdateEmployeeLoaded value)  updateEmployeeLoaded,required TResult Function( UpdateEmployeeFailed value)  updateEmployeeFailed,required TResult Function( DisableEmployeeLoading value)  disableEmployeeLoading,required TResult Function( DisableEmployeeLoaded value)  disableEmployeeLoaded,required TResult Function( DisableEmployeeFailed value)  disableEmployeeFailed,required TResult Function( RemoveNumbersLoading value)  removeNumbersLoading,required TResult Function( RemoveNumbersLoaded value)  removeNumbersLoaded,required TResult Function( RemoveNumbersFailed value)  removeNumbersFailed,required TResult Function( AssignNumbersLoading value)  assignNumbersLoading,required TResult Function( AssignNumbersLoaded value)  assignNumbersLoaded,required TResult Function( AssignNumbersFailed value)  assignNumbersFailed,required TResult Function( DownloadFileEmployesLoading value)  downloadFileEmployesLoading,required TResult Function( DownloadFileEmployesLoaded value)  downloadFileEmployesLoaded,required TResult Function( DownloadFileEmployesFailed value)  downloadFileEmployesFailed,required TResult Function( ManualProvisioningLoading value)  manualProvisioningLoading,required TResult Function( ManualProvisioningLoaded value)  manualProvisioningLoaded,required TResult Function( ManualProvisioningFailed value)  manualProvisioningFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -123,7 +126,10 @@ return assignNumbersLoaded(_that);case AssignNumbersFailed():
 return assignNumbersFailed(_that);case DownloadFileEmployesLoading():
 return downloadFileEmployesLoading(_that);case DownloadFileEmployesLoaded():
 return downloadFileEmployesLoaded(_that);case DownloadFileEmployesFailed():
-return downloadFileEmployesFailed(_that);case _:
+return downloadFileEmployesFailed(_that);case ManualProvisioningLoading():
+return manualProvisioningLoading(_that);case ManualProvisioningLoaded():
+return manualProvisioningLoaded(_that);case ManualProvisioningFailed():
+return manualProvisioningFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -140,7 +146,7 @@ return downloadFileEmployesFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult? Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult? Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult? Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult? Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult? Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult? Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult? Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult? Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult? Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult? Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult? Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult? Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult? Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult? Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult? Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult? Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult? Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult? Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult? Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult? Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult? Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult? Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult? Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult? Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult? Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult? Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult? Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult? Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult? Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult? Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult? Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult? Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult? Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult? Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult? Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult? Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult? Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult? Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult? Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult? Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,TResult? Function( ManualProvisioningLoading value)?  manualProvisioningLoading,TResult? Function( ManualProvisioningLoaded value)?  manualProvisioningLoaded,TResult? Function( ManualProvisioningFailed value)?  manualProvisioningFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -165,7 +171,10 @@ return assignNumbersLoaded(_that);case AssignNumbersFailed() when assignNumbersF
 return assignNumbersFailed(_that);case DownloadFileEmployesLoading() when downloadFileEmployesLoading != null:
 return downloadFileEmployesLoading(_that);case DownloadFileEmployesLoaded() when downloadFileEmployesLoaded != null:
 return downloadFileEmployesLoaded(_that);case DownloadFileEmployesFailed() when downloadFileEmployesFailed != null:
-return downloadFileEmployesFailed(_that);case _:
+return downloadFileEmployesFailed(_that);case ManualProvisioningLoading() when manualProvisioningLoading != null:
+return manualProvisioningLoading(_that);case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
+return manualProvisioningLoaded(_that);case ManualProvisioningFailed() when manualProvisioningFailed != null:
+return manualProvisioningFailed(_that);case _:
   return null;
 
 }
@@ -182,7 +191,7 @@ return downloadFileEmployesFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getEmployeesLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult Function( String message)?  getEmployeesFailed,TResult Function()?  createEmployeeLoading,TResult Function( DataResponseModel data)?  createEmployeeLoaded,TResult Function( String message)?  createEmployeeFailed,TResult Function()?  updateEmployeeLoading,TResult Function( DataResponseModel data)?  updateEmployeeLoaded,TResult Function( String message)?  updateEmployeeFailed,TResult Function()?  disableEmployeeLoading,TResult Function( DataResponseModel data)?  disableEmployeeLoaded,TResult Function( String message)?  disableEmployeeFailed,TResult Function()?  removeNumbersLoading,TResult Function( DataResponseModel data)?  removeNumbersLoaded,TResult Function( String message)?  removeNumbersFailed,TResult Function()?  assignNumbersLoading,TResult Function( DataResponseModel data)?  assignNumbersLoaded,TResult Function( String message)?  assignNumbersFailed,TResult Function()?  downloadFileEmployesLoading,TResult Function()?  downloadFileEmployesLoaded,TResult Function( String message)?  downloadFileEmployesFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getEmployeesLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult Function( String message)?  getEmployeesFailed,TResult Function()?  createEmployeeLoading,TResult Function( DataResponseModel data)?  createEmployeeLoaded,TResult Function( String message)?  createEmployeeFailed,TResult Function()?  updateEmployeeLoading,TResult Function( DataResponseModel data)?  updateEmployeeLoaded,TResult Function( String message)?  updateEmployeeFailed,TResult Function()?  disableEmployeeLoading,TResult Function( DataResponseModel data)?  disableEmployeeLoaded,TResult Function( String message)?  disableEmployeeFailed,TResult Function()?  removeNumbersLoading,TResult Function( DataResponseModel data)?  removeNumbersLoaded,TResult Function( String message)?  removeNumbersFailed,TResult Function()?  assignNumbersLoading,TResult Function( DataResponseModel data)?  assignNumbersLoaded,TResult Function( String message)?  assignNumbersFailed,TResult Function()?  downloadFileEmployesLoading,TResult Function()?  downloadFileEmployesLoaded,TResult Function( String message)?  downloadFileEmployesFailed,TResult Function()?  manualProvisioningLoading,TResult Function( DataResponseModel data)?  manualProvisioningLoaded,TResult Function( String message)?  manualProvisioningFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetEmployeesLoading() when getEmployeesLoading != null:
@@ -206,7 +215,10 @@ return assignNumbersLoaded(_that.data);case AssignNumbersFailed() when assignNum
 return assignNumbersFailed(_that.message);case DownloadFileEmployesLoading() when downloadFileEmployesLoading != null:
 return downloadFileEmployesLoading();case DownloadFileEmployesLoaded() when downloadFileEmployesLoaded != null:
 return downloadFileEmployesLoaded();case DownloadFileEmployesFailed() when downloadFileEmployesFailed != null:
-return downloadFileEmployesFailed(_that.message);case _:
+return downloadFileEmployesFailed(_that.message);case ManualProvisioningLoading() when manualProvisioningLoading != null:
+return manualProvisioningLoading();case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
+return manualProvisioningLoaded(_that.data);case ManualProvisioningFailed() when manualProvisioningFailed != null:
+return manualProvisioningFailed(_that.message);case _:
   return orElse();
 
 }
@@ -224,7 +236,7 @@ return downloadFileEmployesFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getEmployeesLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesLoaded,required TResult Function( String message)  getEmployeesFailed,required TResult Function()  createEmployeeLoading,required TResult Function( DataResponseModel data)  createEmployeeLoaded,required TResult Function( String message)  createEmployeeFailed,required TResult Function()  updateEmployeeLoading,required TResult Function( DataResponseModel data)  updateEmployeeLoaded,required TResult Function( String message)  updateEmployeeFailed,required TResult Function()  disableEmployeeLoading,required TResult Function( DataResponseModel data)  disableEmployeeLoaded,required TResult Function( String message)  disableEmployeeFailed,required TResult Function()  removeNumbersLoading,required TResult Function( DataResponseModel data)  removeNumbersLoaded,required TResult Function( String message)  removeNumbersFailed,required TResult Function()  assignNumbersLoading,required TResult Function( DataResponseModel data)  assignNumbersLoaded,required TResult Function( String message)  assignNumbersFailed,required TResult Function()  downloadFileEmployesLoading,required TResult Function()  downloadFileEmployesLoaded,required TResult Function( String message)  downloadFileEmployesFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getEmployeesLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesLoaded,required TResult Function( String message)  getEmployeesFailed,required TResult Function()  createEmployeeLoading,required TResult Function( DataResponseModel data)  createEmployeeLoaded,required TResult Function( String message)  createEmployeeFailed,required TResult Function()  updateEmployeeLoading,required TResult Function( DataResponseModel data)  updateEmployeeLoaded,required TResult Function( String message)  updateEmployeeFailed,required TResult Function()  disableEmployeeLoading,required TResult Function( DataResponseModel data)  disableEmployeeLoaded,required TResult Function( String message)  disableEmployeeFailed,required TResult Function()  removeNumbersLoading,required TResult Function( DataResponseModel data)  removeNumbersLoaded,required TResult Function( String message)  removeNumbersFailed,required TResult Function()  assignNumbersLoading,required TResult Function( DataResponseModel data)  assignNumbersLoaded,required TResult Function( String message)  assignNumbersFailed,required TResult Function()  downloadFileEmployesLoading,required TResult Function()  downloadFileEmployesLoaded,required TResult Function( String message)  downloadFileEmployesFailed,required TResult Function()  manualProvisioningLoading,required TResult Function( DataResponseModel data)  manualProvisioningLoaded,required TResult Function( String message)  manualProvisioningFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetEmployeesLoading():
@@ -248,7 +260,10 @@ return assignNumbersLoaded(_that.data);case AssignNumbersFailed():
 return assignNumbersFailed(_that.message);case DownloadFileEmployesLoading():
 return downloadFileEmployesLoading();case DownloadFileEmployesLoaded():
 return downloadFileEmployesLoaded();case DownloadFileEmployesFailed():
-return downloadFileEmployesFailed(_that.message);case _:
+return downloadFileEmployesFailed(_that.message);case ManualProvisioningLoading():
+return manualProvisioningLoading();case ManualProvisioningLoaded():
+return manualProvisioningLoaded(_that.data);case ManualProvisioningFailed():
+return manualProvisioningFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -265,7 +280,7 @@ return downloadFileEmployesFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,TResult? Function()?  disableEmployeeLoading,TResult? Function( DataResponseModel data)?  disableEmployeeLoaded,TResult? Function( String message)?  disableEmployeeFailed,TResult? Function()?  removeNumbersLoading,TResult? Function( DataResponseModel data)?  removeNumbersLoaded,TResult? Function( String message)?  removeNumbersFailed,TResult? Function()?  assignNumbersLoading,TResult? Function( DataResponseModel data)?  assignNumbersLoaded,TResult? Function( String message)?  assignNumbersFailed,TResult? Function()?  downloadFileEmployesLoading,TResult? Function()?  downloadFileEmployesLoaded,TResult? Function( String message)?  downloadFileEmployesFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,TResult? Function()?  disableEmployeeLoading,TResult? Function( DataResponseModel data)?  disableEmployeeLoaded,TResult? Function( String message)?  disableEmployeeFailed,TResult? Function()?  removeNumbersLoading,TResult? Function( DataResponseModel data)?  removeNumbersLoaded,TResult? Function( String message)?  removeNumbersFailed,TResult? Function()?  assignNumbersLoading,TResult? Function( DataResponseModel data)?  assignNumbersLoaded,TResult? Function( String message)?  assignNumbersFailed,TResult? Function()?  downloadFileEmployesLoading,TResult? Function()?  downloadFileEmployesLoaded,TResult? Function( String message)?  downloadFileEmployesFailed,TResult? Function()?  manualProvisioningLoading,TResult? Function( DataResponseModel data)?  manualProvisioningLoaded,TResult? Function( String message)?  manualProvisioningFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetEmployeesLoading() when getEmployeesLoading != null:
@@ -289,7 +304,10 @@ return assignNumbersLoaded(_that.data);case AssignNumbersFailed() when assignNum
 return assignNumbersFailed(_that.message);case DownloadFileEmployesLoading() when downloadFileEmployesLoading != null:
 return downloadFileEmployesLoading();case DownloadFileEmployesLoaded() when downloadFileEmployesLoaded != null:
 return downloadFileEmployesLoaded();case DownloadFileEmployesFailed() when downloadFileEmployesFailed != null:
-return downloadFileEmployesFailed(_that.message);case _:
+return downloadFileEmployesFailed(_that.message);case ManualProvisioningLoading() when manualProvisioningLoading != null:
+return manualProvisioningLoading();case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
+return manualProvisioningLoaded(_that.data);case ManualProvisioningFailed() when manualProvisioningFailed != null:
+return manualProvisioningFailed(_that.message);case _:
   return null;
 
 }
@@ -1435,6 +1453,170 @@ class _$DownloadFileEmployesFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(DownloadFileEmployesFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ManualProvisioningLoading implements MyFlotteState {
+  const ManualProvisioningLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ManualProvisioningLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MyFlotteState.manualProvisioningLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ManualProvisioningLoaded implements MyFlotteState {
+  const ManualProvisioningLoaded({required this.data});
+  
+
+ final  DataResponseModel data;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ManualProvisioningLoadedCopyWith<ManualProvisioningLoaded> get copyWith => _$ManualProvisioningLoadedCopyWithImpl<ManualProvisioningLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ManualProvisioningLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'MyFlotteState.manualProvisioningLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ManualProvisioningLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $ManualProvisioningLoadedCopyWith(ManualProvisioningLoaded value, $Res Function(ManualProvisioningLoaded) _then) = _$ManualProvisioningLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$ManualProvisioningLoadedCopyWithImpl<$Res>
+    implements $ManualProvisioningLoadedCopyWith<$Res> {
+  _$ManualProvisioningLoadedCopyWithImpl(this._self, this._then);
+
+  final ManualProvisioningLoaded _self;
+  final $Res Function(ManualProvisioningLoaded) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(ManualProvisioningLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ManualProvisioningFailed implements MyFlotteState {
+  const ManualProvisioningFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ManualProvisioningFailedCopyWith<ManualProvisioningFailed> get copyWith => _$ManualProvisioningFailedCopyWithImpl<ManualProvisioningFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ManualProvisioningFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'MyFlotteState.manualProvisioningFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ManualProvisioningFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $ManualProvisioningFailedCopyWith(ManualProvisioningFailed value, $Res Function(ManualProvisioningFailed) _then) = _$ManualProvisioningFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$ManualProvisioningFailedCopyWithImpl<$Res>
+    implements $ManualProvisioningFailedCopyWith<$Res> {
+  _$ManualProvisioningFailedCopyWithImpl(this._self, this._then);
+
+  final ManualProvisioningFailed _self;
+  final $Res Function(ManualProvisioningFailed) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(ManualProvisioningFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));
