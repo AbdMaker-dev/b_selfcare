@@ -88,8 +88,8 @@ class _ProductFormState extends State<ProductForm> {
             ?.where((q) => q.walletId == id)
             .firstOrNull
             ?.unit;
-        // MB_GB stocké → GB, MB stocké → MB, sinon GB par défaut
-        _unitSelections[id] = existingUnit == 'MB' ? 'MB' : 'GB';
+        // MB / Mo → MB, MB_GB / GB / Go ou null → GB par défaut
+        _unitSelections[id] = (existingUnit == 'MB' || existingUnit == 'Mo') ? 'MB' : 'GB';
       }
     }
   }
