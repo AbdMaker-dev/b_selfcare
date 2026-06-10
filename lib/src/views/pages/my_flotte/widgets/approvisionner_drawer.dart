@@ -635,23 +635,19 @@ class _CreateProductTabState extends State<_CreateProductTab> {
                             children: [
                               AppInput(
                                 controller: _quotaControllers[id],
-                                labelText: wallet.name ?? '—',
+                                labelText: "${wallet.name ?? '---'} (${wallet.unit ?? ''})",
                                 hintText: '0',
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                      decimal: true,
-                                    ),
-                                suffixIcon:
-                                    isMbGb
-                                        ? _UnitToggle(
-                                          selected: _unitSelections[id] ?? 'MB',
-                                          onChanged:
-                                              (unit) => setState(
-                                                () =>
-                                                    _unitSelections[id] = unit,
-                                              ),
-                                        )
-                                        : null,
+                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                suffixIcon: isMbGb
+                                ? _UnitToggle(
+                                  selected: _unitSelections[id] ?? 'MB',
+                                  onChanged:
+                                      (unit) => setState(
+                                        () =>
+                                            _unitSelections[id] = unit,
+                                      ),
+                                )
+                                : null,
                               ),
                             ],
                           );
