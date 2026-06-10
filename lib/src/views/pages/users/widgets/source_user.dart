@@ -1,4 +1,5 @@
 import 'package:b_selfcare/src/data/models/user_profile_model.dart';
+import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_actions_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
@@ -42,9 +43,12 @@ class SourceUsers extends AppTableSource<UserProfileModel> {
     CellTextTable(text: item.name ?? '—'),
     CellTextTable(text: item.email ?? '—'),
     CellTextTable(text: _roleLabel(item)),
-    item.status?.toUpperCase() == 'ACTIVE'
-        ? CellBadgeTable.actif()
-        : CellBadgeTable.inactif(),
+    switch (item.status?.toUpperCase()) {
+      'ACTIVE'    => CellBadgeTable.actif(),
+      'SUSPENDED' => CellBadgeTable.suspendu(),
+      'INVITED'   => CellBadgeTable.invite(),
+      _           => CellBadgeTable.inactif(),
+    },
     CellActionsTable(actions: [
       (label: 'Modifier',   danger: false, onTap: () => onEdit?.call(item)),
       (label: 'Supprimer', danger: true, onTap: () => onDisable?.call(item)),
