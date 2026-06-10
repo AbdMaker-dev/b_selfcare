@@ -31,6 +31,12 @@ class AppDateField extends StatefulWidget {
 class _AppDateFieldState extends State<AppDateField> {
   DateTime? _selectedDate;
 
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = widget.initialDate;
+  }
+
   String get _displayText {
     if (_selectedDate == null) return '';
     return DateFormat('dd/MM/yyyy').format(_selectedDate!);
