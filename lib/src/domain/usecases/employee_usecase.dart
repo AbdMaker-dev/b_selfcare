@@ -81,6 +81,14 @@ class EmployeeUsecase {
     );
   }
 
+  Future<Either<Failure, DataResponseModel>> manualProvisioning({required dynamic data}) async {
+    var res = await employeeRepo.manualProvisioning(data: data);
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(success),
+    );
+  }
+
   Future<Either<Failure, bool>> downloadFileEmployes() async {
     var res = await employeeRepo.downloadFileEmployes();
     return res.fold(
