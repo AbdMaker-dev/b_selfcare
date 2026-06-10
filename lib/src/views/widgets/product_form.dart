@@ -319,7 +319,7 @@ class _ProductFormState extends State<ProductForm> {
                               final isMbGb = wallet.unit == 'MB_GB';
                               return AppInput(
                                 controller: _quotaControllers[id],
-                                labelText: wallet.name ?? '---',
+                                labelText: "${wallet.name ?? '---'} (${wallet.unit ?? ''})",
                                 hintText: '0',
                                 keyboardType:
                                     const TextInputType.numberWithOptions(
