@@ -52,9 +52,10 @@ class SourceCampagne extends AppTableSource<CampaignModel> {
   Widget _statusBadge(String? status) {
     return switch (status?.toLowerCase()) {
       'active'    => CellBadgeTable.actif(),
-      'inactive'  => CellBadgeTable.inactif(),
-      'paused'    => CellBadgeTable.enAttente(),
+      'blocked'   => CellBadgeTable.bloque(),
+      'paused'    => CellBadgeTable.enPause(),
       'cancelled' => CellBadgeTable.cancelled(),
+      'completed' => CellBadgeTable.termine(),
       _           => CellBadgeTable.inactif(),
     };
   }
