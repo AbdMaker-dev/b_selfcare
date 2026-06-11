@@ -86,9 +86,7 @@ class _ApprovisionnerDrawerState extends State<ApprovisionnerDrawer>
 
   @override
   Widget build(BuildContext context) {
-    final employeeName =
-        '${widget.employee.firstName ?? ''} ${widget.employee.lastName ?? ''}'
-            .trim();
+    final employeeName = '${widget.employee.firstName ?? ''} ${widget.employee.lastName ?? ''}' .trim();
 
     return Container(
       height: double.infinity,
@@ -248,14 +246,9 @@ class _SelectProductTabState extends State<_SelectProductTab> {
   }
 
   List<ProductsModel> get _filtered {
-    final products =
-        widget.productsCubit.products.where((p) => p.isActive == true).toList();
+    final products = widget.productsCubit.products.where((p) => p.isActive == true).toList();
     if (_searchQuery.isEmpty) return products;
-    return products
-        .where(
-          (p) =>(p.name ?? '').toLowerCase().contains(_searchQuery.toLowerCase()),
-        )
-        .toList();
+    return products.where((p) =>(p.name ?? '').toLowerCase().contains(_searchQuery.toLowerCase())).toList();
   }
 
   @override
@@ -317,8 +310,7 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                   final p = products[i];
                   final isSelected = _selected?.id == p.id;
                   return GestureDetector(
-                    onTap:
-                        () => setState(() => _selected = isSelected ? null : p),
+                    onTap: () => setState(() => _selected = isSelected ? null : p),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 150),
                       padding: EdgeInsets.symmetric(
@@ -326,16 +318,9 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                         vertical: 12.rh,
                       ),
                       decoration: BoxDecoration(
-                        color:
-                            isSelected
-                                ? AppColors.primary.withValues(alpha: 0.06)
-                                : AppColors.white,
+                        color: isSelected ? AppColors.primary.withValues(alpha: 0.06) : AppColors.white,
                         borderRadius: BorderRadius.circular(10.rr),
-                        border: Border.all(
-                          color:
-                              isSelected ? AppColors.primary : AppColors.gray,
-                          width: isSelected ? 1.5 : 1,
-                        ),
+                        border: Border.all(color: isSelected ? AppColors.primary : AppColors.gray, width: isSelected ? 1.5 : 1),
                       ),
                       child: Row(
                         children: [
@@ -347,10 +332,7 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                                   p.name ?? '—',
                                   fontSize: 14.rsp,
                                   fontWeight: FontWeight.w600,
-                                  color:
-                                      isSelected
-                                          ? AppColors.primary
-                                          : AppColors.textHeading,
+                                  color: isSelected ? AppColors.primary : AppColors.textHeading,
                                 ),
                                 if (p.description != null) ...[
                                   SizedBox(height: 2.rh),
@@ -365,33 +347,29 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                                   Wrap(
                                     spacing: 6.rw,
                                     runSpacing: 4.rh,
-                                    children:
-                                        (p.quotas ?? [])
-                                            .map(
-                                              (q) => Container(
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: 8.rw,
-                                                  vertical: 3.rh,
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  color: AppColors.background,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                        6.rr,
-                                                      ),
-                                                  border: Border.all(
-                                                    color:
-                                                        AppColors.inputBorder,
-                                                  ),
-                                                ),
-                                                child: AppText(
-                                                  '${q.name ?? ''}: ${q.quota ?? 0} ${q.unit ?? ''}',
-                                                  fontSize: 11.rsp,
-                                                  color: AppColors.textMuted,
-                                                ),
-                                              ),
-                                            )
-                                            .toList(),
+                                    children: (p.quotas ?? []).map(
+                                    (q) => Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 8.rw,
+                                        vertical: 3.rh,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.background,
+                                        borderRadius:
+                                            BorderRadius.circular(
+                                              6.rr,
+                                            ),
+                                        border: Border.all(
+                                          color:
+                                              AppColors.inputBorder,
+                                        ),
+                                      ),
+                                      child: AppText(
+                                        '${q.name ?? ''}: ${q.quota ?? 0} ${q.unit ?? ''}',
+                                        fontSize: 11.rsp,
+                                        color: AppColors.textMuted,
+                                      ),
+                                    ),).toList(),
                                   ),
                                 ],
                               ],
@@ -407,12 +385,8 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                             ),
                           ],
                           SizedBox(width: 10.rw),
-                          Icon(
-                            isSelected
-                                ? Icons.check_circle
-                                : Icons.circle_outlined,
-                            color:
-                                isSelected ? AppColors.primary : AppColors.gray,
+                          Icon(isSelected ? Icons.check_circle : Icons.circle_outlined,
+                            color: isSelected ? AppColors.primary : AppColors.gray,
                             size: 20.rsp,
                           ),
                         ],
@@ -462,15 +436,14 @@ class _SelectProductTabState extends State<_SelectProductTab> {
                       text: isLoading ? 'Chargement...' : 'Approvisionner',
                       type: AppButtonType.secondary,
                       fontSize: 13.rsp,
-                      onPressed:
-                          (_selected == null || isLoading)
-                              ? null
-                              : () {
-                                widget.myFlotteCubit.manualProvisioning(data: {
-                                  'product_id': _selected!.id,
-                                  'fleet_number_ids': widget.employee.fleetNumbers?.map((f) => f.id).where((id) => id != null).toList() ?? [],
-                                });
-                              },
+                      onPressed: (_selected == null || isLoading)
+                      ? null
+                      : () {
+                        widget.myFlotteCubit.manualProvisioning(data: {
+                          'product_id': _selected!.id,
+                          'fleet_number_ids': widget.employee.fleetNumbers?.map((f) => f.id).where((id) => id != null).toList() ?? [],
+                        });
+                      },
                     );
                   },
                 ),
