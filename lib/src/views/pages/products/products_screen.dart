@@ -129,31 +129,29 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         name: '${product.name ?? ''} (copie)',
                         description: product.description,
                         quotas: product.quotas
-                            ?.map((q) => Quotas(
-                                  walletId: q.walletId,
-                                  quota: q.quota,
-                                  price: q.price,
-                                  category: q.category,
-                                  unit: q.unit,
-                                  name: q.name,
-                                  code: q.code,
-                                ))
-                            .toList(),
+                        ?.map((q) => Quotas(
+                          walletId: q.walletId,
+                          quota: q.quota,
+                          price: q.price,
+                          category: q.category,
+                          unit: q.unit,
+                          name: q.name,
+                          code: q.code,
+                        ))
+                        .toList(),
                       ),
                     ),
-                    onEdit: product.isActive == true
-                        ? () => ProductForm.show(context, product: product)
-                        : null,
+                    onEdit: product.isActive == true ? () => ProductForm.show(context, product: product) : null,
                     onArchive: product.id != null && product.isActive == true
                     ? () => AppConfirmDialog.show(
-                        context: context,
-                        title: 'Archiver le produit',
-                        message: 'Le produit "${product.name ?? ''}" sera archivé et ne sera plus disponible. Cette action est irréversible.',
-                        confirmLabel: 'Archiver',
-                        cancelLabel: 'Annuler',
-                        isDanger: true,
-                        onConfirm: () => _cubit.archiveProduct(product.id!),
-                      )
+                      context: context,
+                      title: 'Archiver le produit',
+                      message: 'Le produit "${product.name ?? ''}" sera archivé et ne sera plus disponible. Cette action est irréversible.',
+                      confirmLabel: 'Archiver',
+                      cancelLabel: 'Annuler',
+                      isDanger: true,
+                      onConfirm: () => _cubit.archiveProduct(product.id!),
+                    )
                     : null,
                   );
                 },

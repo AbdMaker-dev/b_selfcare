@@ -275,7 +275,7 @@ class _FeatureBox extends StatelessWidget {
               if (feature.price != null)
                 AppText(
                   '${feature.price} F',
-                  fontSize: 11.rsp,
+                  fontSize: 10.rsp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.success,
                 ),
@@ -289,7 +289,7 @@ class _FeatureBox extends StatelessWidget {
               AppText(
                 feature.value,
                 type: AppTextType.heading,
-                fontSize: 14.rsp,
+                fontSize: 16.rsp,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primary,
               ),
@@ -297,7 +297,7 @@ class _FeatureBox extends StatelessWidget {
               AppText(
                 feature.unit,
                 type: AppTextType.body,
-                fontSize: 11.rsp,
+                fontSize: 15.rsp,
                 color: AppColors.textMuted,
               ),
             ],

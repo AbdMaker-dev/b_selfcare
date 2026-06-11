@@ -52,7 +52,7 @@ class Quotas {
     quota = json['quota'];
     price = json['price'];
     category = json['category']??json['wallet']?['category'];
-    unit = json['unit']??json['wallet']?['unit'];
+    unit =  json['unit_label']??json['unit']??json['wallet']?['unit'];
     name = json['name']??json['wallet']?['name'];
     code = json['code']??json['wallet']?['code'];
   }
