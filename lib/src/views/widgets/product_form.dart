@@ -22,18 +22,17 @@ class ProductForm extends StatefulWidget {
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: AppColors.primary.withValues(alpha: 0.7),
-      pageBuilder:
-          (_, _, _) => Align(
-            alignment: Alignment.centerRight,
-            child: Material(
-              color: Colors.transparent,
-              child: SizedBox(
-                width: 650.rw,
-                height: double.infinity,
-                child: ProductForm(product: product),
-              ),
-            ),
+      pageBuilder: (_, _, _) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 650.rw,
+            height: double.infinity,
+            child: ProductForm(product: product),
           ),
+        ),
+      ),
     );
   }
 
@@ -88,8 +87,8 @@ class _ProductFormState extends State<ProductForm> {
             ?.where((q) => q.walletId == id)
             .firstOrNull
             ?.unit;
-        // MB_GB stocké → GB, MB stocké → MB, sinon GB par défaut
-        _unitSelections[id] = existingUnit == 'MB' ? 'MB' : 'GB';
+        // MB / Mo → MB, MB_GB / GB / Go ou null → GB par défaut
+        _unitSelections[id] = (existingUnit == 'MB' || existingUnit == 'Mo') ? 'MB' : 'GB';
       }
     }
   }
@@ -281,12 +280,11 @@ class _ProductFormState extends State<ProductForm> {
                       SizedBox(height: 12.rh),
                       BlocBuilder<ProductsCubit, ProductsState>(
                         bloc: _cubit,
-                        buildWhen:
-                            (_, state) => state.maybeWhen(
-                              walletsLoaded: () => true,
-                              walletsLoading: () => true,
-                              orElse: () => false,
-                            ),
+                        buildWhen: (_, state) => state.maybeWhen(
+                          walletsLoaded: () => true,
+                          walletsLoading: () => true,
+                          orElse: () => false,
+                        ),
                         builder: (context, state) {
                           if (_cubit.wallets.isEmpty) {
                             return Center(
@@ -304,13 +302,12 @@ class _ProductFormState extends State<ProductForm> {
                           return GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 12.rw,
-                                  mainAxisSpacing: 12.rh,
-                                  mainAxisExtent: 100.rh,
-                                ),
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12.rw,
+                              mainAxisSpacing: 12.rh,
+                              mainAxisExtent: 100.rh,
+                            ),
                             itemCount: _cubit.wallets.length,
                             itemBuilder: (_, i) {
                               final wallet = _cubit.wallets[i];
@@ -319,22 +316,15 @@ class _ProductFormState extends State<ProductForm> {
                               final isMbGb = wallet.unit == 'MB_GB';
                               return AppInput(
                                 controller: _quotaControllers[id],
-                                labelText: "${wallet.name ?? '---'} (${wallet.unit ?? ''})",
+                                labelText: "${wallet.name ?? '---'} (${(wallet.unit ?? '').replaceAll("_", " ou ")})",
                                 hintText: '0',
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                      decimal: true,
-                                    ),
-                                suffixIcon:
-                                    isMbGb
-                                        ? _UnitToggle(
-                                          selected: _unitSelections[id] ?? 'GB',
-                                          onChanged:
-                                              (unit) => setState(
-                                                () => _unitSelections[id] = unit,
-                                              ),
-                                        )
-                                        : null,
+                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                suffixIcon: isMbGb
+                                ? _UnitToggle(
+                                  selected: _unitSelections[id] ?? 'GB',
+                                  onChanged: (unit) => setState(() => _unitSelections[id] = unit),
+                                )
+                                : null,
                               );
                             },
                           );
