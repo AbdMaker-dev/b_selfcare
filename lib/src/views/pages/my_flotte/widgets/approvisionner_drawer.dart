@@ -27,18 +27,17 @@ class ApprovisionnerDrawer extends StatefulWidget {
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: AppColors.primary.withValues(alpha: 0.7),
-      pageBuilder:
-          (context, animation, secondaryAnimation) => Align(
-            alignment: Alignment.centerRight,
-            child: Material(
-              color: Colors.transparent,
-              child: SizedBox(
-                width: 650.rw,
-                height: double.infinity,
-                child: ApprovisionnerDrawer(employee: employee),
-              ),
-            ),
+      pageBuilder: (context, animation, secondaryAnimation) => Align(
+        alignment: Alignment.centerRight,
+        child: Material(
+          color: Colors.transparent,
+          child: SizedBox(
+            width: 650.rw,
+            height: double.infinity,
+            child: ApprovisionnerDrawer(employee: employee),
           ),
+        ),
+      ),
     );
   }
 
