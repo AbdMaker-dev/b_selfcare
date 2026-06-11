@@ -1,5 +1,6 @@
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
+import 'package:b_selfcare/src/data/models/resource_custom/data_resource_custom_response_model.dart';
 import 'package:b_selfcare/src/data/services/http_helper.dart';
 import 'package:b_selfcare/src/data/services/local_helper.dart';
 import 'package:dartz/dartz.dart';
@@ -34,6 +35,19 @@ class EmployeeRepo {
       },
           (success) async{
         var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
+  Future<Either<Failure, DataResourceCustomResponseModel>> getResourceEmploye({required int fleetNumberId}) async {
+    var res = await htttHelper.handleGetRequest("fleet/numbers/${fleetNumberId}/recovery/resources",showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResourceCustomResponseModel.fromJson(success.response);
         return Right(data);
       },
     );
