@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/employee/data_employee_response_model.dart';
+import 'package:b_selfcare/src/data/models/resource_custom/data_recovery_history_response_model.dart';
+import 'package:b_selfcare/src/data/models/resource_custom/data_resource_custom_aggregated_response_model.dart';
+import 'package:b_selfcare/src/data/models/resource_custom/data_resource_custom_response_model.dart';
 import 'package:b_selfcare/src/domain/usecases/employee_usecase.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -83,6 +86,42 @@ class MyFlotteCubit extends Cubit<MyFlotteState> {
     res.fold(
       (failure) => emit(MyFlotteState.downloadFileEmployesFailed(failure.message)),
       (_) => emit(const MyFlotteState.downloadFileEmployesLoaded()),
+    );
+  }
+
+  Future<void> getResourceEmploye({required int fleetNumberId}) async {
+    emit(const MyFlotteState.getResourceEmployeLoading());
+    final res = await employeeUsecase.getResourceEmploye(fleetNumberId: fleetNumberId);
+    res.fold(
+      (failure) => emit(MyFlotteState.getResourceEmployeFailed(failure.message)),
+      (data) => emit(MyFlotteState.getResourceEmployeLoaded(data: data)),
+    );
+  }
+
+  Future<void> getResourceAggregatedEmploye({required int fleetNumberId}) async {
+    emit(const MyFlotteState.getResourceAggregatedEmployeLoading());
+    final res = await employeeUsecase.getResourceAggregatedEmploye(fleetNumberId: fleetNumberId);
+    res.fold(
+      (failure) => emit(MyFlotteState.getResourceAggregatedEmployeFailed(failure.message)),
+      (data) => emit(MyFlotteState.getResourceAggregatedEmployeLoaded(data: data)),
+    );
+  }
+
+  Future<void> recoveryConfirmEmployee({required int fleetNumberId, required dynamic data}) async {
+    emit(const MyFlotteState.recoveryConfirmEmployeeLoading());
+    final res = await employeeUsecase.recoveryConfirmEmployee(fleetNumberId: fleetNumberId, data: data);
+    res.fold(
+      (failure) => emit(MyFlotteState.recoveryConfirmEmployeeFailed(failure.message)),
+      (data) => emit(MyFlotteState.recoveryConfirmEmployeeLoaded(data: data)),
+    );
+  }
+
+  Future<void> historiqueRecoveryEmployee({required int fleetNumberId, required dynamic data}) async {
+    emit(const MyFlotteState.historiqueRecoveryEmployeeLoading());
+    final res = await employeeUsecase.historiqueRecoveryEmployee(fleetNumberId: fleetNumberId, data: data);
+    res.fold(
+      (failure) => emit(MyFlotteState.historiqueRecoveryEmployeeFailed(failure.message)),
+      (data) => emit(MyFlotteState.historiqueRecoveryEmployeeLoaded(data: data)),
     );
   }
 

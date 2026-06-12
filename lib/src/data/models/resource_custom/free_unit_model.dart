@@ -5,6 +5,7 @@ class FreeUnitModel {
   final String? measureUnitLabel;
   final String? formattedTotalAmount;
   final String? walletDescription;
+  final String? unit;
 
   FreeUnitModel({
      this.freeUnitType,
@@ -13,6 +14,7 @@ class FreeUnitModel {
      this.measureUnitLabel,
      this.formattedTotalAmount,
      this.walletDescription,
+     this.unit,
   });
 
   factory FreeUnitModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class FreeUnitModel {
       measureUnitLabel: json['measure_unit_label'],
       formattedTotalAmount: json['formatted_total_amount'],
       walletDescription: json['wallet_description'],
+      unit: json['unit'],
     );
   }
 
@@ -34,6 +37,7 @@ class FreeUnitModel {
       'measure_unit_label': measureUnitLabel,
       'formatted_total_amount': formattedTotalAmount,
       'wallet_description': walletDescription,
+      'unit': unit,
     };
   }
 }

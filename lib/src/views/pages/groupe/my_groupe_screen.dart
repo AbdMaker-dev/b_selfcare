@@ -5,11 +5,11 @@ import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/data/models/group/data_group_response_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
-import 'package:b_selfcare/src/views/pages/groupe/widgets/config_notif_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/confirm_delete_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/detail_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_edit_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_groupe.dart';
+import 'package:b_selfcare/src/views/widgets/confirm_dialog.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/source_groupe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
@@ -195,11 +195,30 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                     groupe: groupe,
                     groupCubit: groupCubit,
                   ),
-                  onToggleNotification: (groupe) => ConfigNotifGroupe.show(
-                    context,
-                    groupe: groupe,
-                    groupCubit: groupCubit,
-                  ),
+                  onToggleNotification: (groupe) {
+                    final id = groupe.id;
+                    if (id == null) return;
+                    final willEnable = !(groupe.smsNotificationEnabled ?? false);
+                    AppConfirmDialog.show(
+                      context: context,
+                      title: willEnable
+                          ? 'Activer les notifications SMS'
+                          : 'Désactiver les notifications SMS',
+                      message: willEnable
+                          ? 'Les notifications SMS seront activées pour le groupe "${groupe.name ?? ''}".'
+                          : 'Les notifications SMS seront désactivées pour le groupe "${groupe.name ?? ''}".',
+                      confirmLabel: willEnable ? 'Activer' : 'Désactiver',
+                      isDanger: !willEnable,
+                      onConfirm: () => groupCubit.configurationNotificationGroupe(
+                        id: id,
+                        data: {
+                          'sms_notification_enabled': willEnable,
+                          'sms_notification_template':
+                              groupe.smsNotificationTemplate ?? '',
+                        },
+                      ),
+                    );
+                  },
                 ),
                 currentPage: _currentPage,
                 totalCount: total,

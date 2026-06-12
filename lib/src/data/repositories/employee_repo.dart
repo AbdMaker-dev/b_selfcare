@@ -7,6 +7,8 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 import '../models/employee/data_employee_response_model.dart';
+import '../models/resource_custom/data_recovery_history_response_model.dart';
+import '../models/resource_custom/data_resource_custom_aggregated_response_model.dart';
 
 @singleton
 class EmployeeRepo {
@@ -53,6 +55,20 @@ class EmployeeRepo {
     );
   }
 
+  Future<Either<Failure, DataResourceCustomAggregatedResponseModel>> getResourceAggregatedEmploye({required int fleetNumberId}) async {
+    var res = await htttHelper.handleGetRequest("fleet/numbers/${fleetNumberId}/recovery/resources/aggregated",showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResourceCustomAggregatedResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
+
   Future<Either<Failure, DataResponseModel>> updateEmployee({required int id, required dynamic data}) async {
     var res = await htttHelper.handlePutRequest("fleet/employees/$id", data, showLoader: true);
     return res.fold(
@@ -78,6 +94,34 @@ class EmployeeRepo {
       },
     );
   }
+
+  Future<Either<Failure, DataResponseModel>> recoveryConfirmEmployee({required int fleetNumberId, required dynamic data}) async {
+    var res = await htttHelper.handlePostRequest("fleet/numbers/$fleetNumberId/recovery/confirm", data, showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
+
+  Future<Either<Failure, DataRecoveryHistoryResponseModel>> historiqueRecoveryEmployee({required int fleetNumberId, required dynamic data}) async {
+    var res = await htttHelper.handleGetRequest("fleet/numbers/${fleetNumberId}/recovery/history", params: data, showLoader: true);
+    return res.fold(
+          (error) {
+        return Left(error);
+      },
+          (success) async{
+        var data = DataRecoveryHistoryResponseModel.fromJson(success.response);
+        return Right(data);
+      },
+    );
+  }
+
 
   Future<Either<Failure, DataResponseModel>> removeNumbersForEmploye({required int id,required dynamic data}) async {
     var res = await htttHelper.handlePostRequest("fleet/employees/${id}/unassign-numbers", data,showLoader: true);
