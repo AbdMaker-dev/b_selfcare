@@ -92,6 +92,7 @@ class AppText extends StatelessWidget {
         break;
       case AppTextType.small:
         defaultStyle = Theme.of(context).textTheme.bodySmall!.copyWith(
+          fontFamily: fontFamily?? 'Montserrat',
           color: color ?? AppColors.textMuted,
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -99,6 +100,7 @@ class AppText extends StatelessWidget {
         break;
       case AppTextType.label:
         defaultStyle = Theme.of(context).textTheme.labelLarge!.copyWith(
+          fontFamily: fontFamily?? 'Montserrat',
           color: color ?? AppColors.textHeading,
           fontSize: fontSize,
           fontWeight: fontWeight ?? FontWeight.w400,
@@ -110,6 +112,7 @@ class AppText extends StatelessWidget {
       // ignore: unreachable_switch_default
       default:
         defaultStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
+          fontFamily: fontFamily?? 'Montserrat',
           color: color ?? AppColors.textBody,
           fontSize: fontSize,
           fontWeight: fontWeight,
@@ -117,14 +120,12 @@ class AppText extends StatelessWidget {
         break;
     }
 
-    final finalStyle = defaultStyle
-        .merge(style)
-        .copyWith(
+    final finalStyle = defaultStyle.merge(style).copyWith(
           color: color,
           fontSize: (fontSize ?? defaultStyle.fontSize)?.rsp,
           fontWeight: fontWeight ?? defaultStyle.fontWeight,
           fontStyle: fontStyle,
-          fontFamily: fontFamily ?? defaultStyle.fontFamily,
+          fontFamily: fontFamily?? 'Montserrat',
         );
 
     if (highlight != null && text.contains(highlight!)) {
@@ -149,8 +150,7 @@ class AppText extends StatelessWidget {
                         text: highlight,
                         style: finalStyle.copyWith(
                           color: hColor,
-                          fontSize:
-                              highlightFontSize?.rsp ?? finalStyle.fontSize,
+                          fontSize: highlightFontSize?.rsp ?? finalStyle.fontSize,
                           height: highlightHeight ?? 1.0,
                         ),
                       ),

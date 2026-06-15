@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:b_selfcare/routers/app_router.dart';
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
@@ -12,7 +13,6 @@ import 'package:b_selfcare/src/views/widgets/alertes_seuils_card.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/balance_card.dart';
 import 'package:b_selfcare/src/views/widgets/dernieres_recharges_card.dart';
-import 'package:b_selfcare/src/views/widgets/etat_services_card.dart';
 import 'package:b_selfcare/src/views/widgets/flotte_card.dart';
 import 'package:b_selfcare/src/views/widgets/mes_compagnes_card.dart';
 import 'package:b_selfcare/src/views/widgets/provisioning_chart_card.dart';
@@ -50,7 +50,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               "Bonjour, ${getIt<LayoutCubit>().currentUser?.firstName ?? ''}",
               highlight: getIt<LayoutCubit>().currentUser?.firstName ?? '',
               fontSize: 24.rsp,
-              fontFamily: FontFamily.fraunces,
+              fontFamily: FontFamily.montserrat,
               fontStyle: FontStyle.italic,
               highlightColor: AppColors.warning,
               fontWeight: FontWeight.w400,
@@ -135,6 +135,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 MesCampagnesCard(
                   campagnes: stats != null ? DashboardMapper.campaignItems(stats.recentCampaigns) : [],
+                  onVoirTout: () => context.router.pushPath('$routeApp/$routeAppMyCampagnes'),
                 ),
                 DernieresRechargesCard(
                   recharges: stats != null ? DashboardMapper.rechargeItems(stats.recentRecharges) : [],

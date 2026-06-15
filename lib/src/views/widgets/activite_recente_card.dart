@@ -66,14 +66,14 @@ class ActiviteRecenteCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppText('Activité récente', type: AppTextType.heading, fontSize: 20.rsp),
-          AppButton(
-            text: 'Tout',
-            type: AppButtonType.outline,
-            onPressed: onToutPressed,
-            height: 29.rh,
-            fontSize: 11.rsp,
-            padding: EdgeInsets.symmetric(horizontal: 12.rw),
-          ),
+          // AppButton(
+          //   text: 'Tout',
+          //   type: AppButtonType.outline,
+          //   onPressed: onToutPressed,
+          //   height: 29.rh,
+          //   fontSize: 11.rsp,
+          //   padding: EdgeInsets.symmetric(horizontal: 12.rw),
+          // ),
         ],
       ),
     );

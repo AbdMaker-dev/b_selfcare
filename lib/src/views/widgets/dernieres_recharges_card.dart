@@ -107,15 +107,15 @@ class DernieresRechargesCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppText('Dernières recharges', type: AppTextType.heading, fontSize: 13.rsp),
-          AppButton(
-            text: 'Voir tout →',
-            type: AppButtonType.outline,
-            onPressed: onVoirTout,
-            // width: 80.rw,
-            height: 29.rh,
-            fontSize: 11.rsp,
-            padding: EdgeInsets.symmetric(horizontal: 12.rw),
-          ),
+          // AppButton(
+          //   text: 'Voir tout →',
+          //   type: AppButtonType.outline,
+          //   onPressed: onVoirTout,
+          //   // width: 80.rw,
+          //   height: 29.rh,
+          //   fontSize: 11.rsp,
+          //   padding: EdgeInsets.symmetric(horizontal: 12.rw),
+          // ),
         ],
       ),
     );
