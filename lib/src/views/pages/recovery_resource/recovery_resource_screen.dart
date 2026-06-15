@@ -266,6 +266,12 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
           recoveryConfirmEmployeeLoaded: (_) {
             final id = _selectedNumber?.id;
             if (id != null) {
+              _clearControllers();
+              setState(() {
+                _resourcesCache.remove(id);
+                _loadingNumberId = id;
+              });
+              _cubit.getResourceEmploye(fleetNumberId: id);
               _cubit.historiqueRecoveryEmployee(
                   fleetNumberId: id, data: {'page': 1});
             }
