@@ -1,6 +1,7 @@
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:flutter/material.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
+import 'package:intl/intl.dart';
 import 'app_text.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -12,6 +13,7 @@ class BalanceCard extends StatelessWidget {
   final List<double> chartData;
   final Color? amountColor;
   final Color? chartColor;
+  final double? rawAmount;
 
   const BalanceCard({
     super.key,
@@ -23,7 +25,13 @@ class BalanceCard extends StatelessWidget {
     this.amountColor,
     this.chartColor,
     this.title = 'Solde Principal',
+    this.rawAmount,
   });
+
+  String? get _formattedRaw {
+    if (rawAmount == null) return null;
+    return '≈ ${NumberFormat('#,##0', 'fr_FR').format(rawAmount!.toInt())} FCFA';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +89,15 @@ class BalanceCard extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (_formattedRaw != null) ...[
+                  SizedBox(height: 2.rh),
+                  AppText(
+                    _formattedRaw!,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.textMuted,
+                    fontSize: 11.rsp,
+                  ),
+                ],
                 SizedBox(height: 6.rh),
                 Row(
                   children: [

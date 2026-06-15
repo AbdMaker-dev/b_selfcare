@@ -24,4 +24,8 @@ class ProductsState with _$ProductsState {
   const factory ProductsState.archiveProductLoading() = _ArchiveProductLoading;
   const factory ProductsState.archiveProductError(String? message) = _ArchiveProductError;
   const factory ProductsState.archiveProductSuccess() = _ArchiveProductSuccess;
+
+  const factory ProductsState.nativeProductsLoading() = _NativeProductsLoading;
+  const factory ProductsState.nativeProductsError(String? message) = _NativeProductsError;
+  const factory ProductsState.nativeProductsLoaded() = _NativeProductsLoaded;
 }

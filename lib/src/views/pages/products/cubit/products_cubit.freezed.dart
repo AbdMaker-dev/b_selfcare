@@ -55,7 +55,7 @@ extension ProductsStatePatterns on ProductsState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _ProductsLoading value)?  productsLoading,TResult Function( _ProductsError value)?  productsError,TResult Function( ProductsLoaded value)?  productsLoaded,TResult Function( _WalletsLoading value)?  walletsLoading,TResult Function( _WalletsError value)?  walletsError,TResult Function( _WalletsLoaded value)?  walletsLoaded,TResult Function( _CreateProductsLoading value)?  createProductsLoading,TResult Function( _CreateProductsError value)?  createProductsError,TResult Function( _CreateProductsSuccess value)?  createProductsSuccess,TResult Function( _UpdateProductLoading value)?  updateProductLoading,TResult Function( _UpdateProductError value)?  updateProductError,TResult Function( _UpdateProductSuccess value)?  updateProductSuccess,TResult Function( _ArchiveProductLoading value)?  archiveProductLoading,TResult Function( _ArchiveProductError value)?  archiveProductError,TResult Function( _ArchiveProductSuccess value)?  archiveProductSuccess,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( _ProductsLoading value)?  productsLoading,TResult Function( _ProductsError value)?  productsError,TResult Function( ProductsLoaded value)?  productsLoaded,TResult Function( _WalletsLoading value)?  walletsLoading,TResult Function( _WalletsError value)?  walletsError,TResult Function( _WalletsLoaded value)?  walletsLoaded,TResult Function( _CreateProductsLoading value)?  createProductsLoading,TResult Function( _CreateProductsError value)?  createProductsError,TResult Function( _CreateProductsSuccess value)?  createProductsSuccess,TResult Function( _UpdateProductLoading value)?  updateProductLoading,TResult Function( _UpdateProductError value)?  updateProductError,TResult Function( _UpdateProductSuccess value)?  updateProductSuccess,TResult Function( _ArchiveProductLoading value)?  archiveProductLoading,TResult Function( _ArchiveProductError value)?  archiveProductError,TResult Function( _ArchiveProductSuccess value)?  archiveProductSuccess,TResult Function( _NativeProductsLoading value)?  nativeProductsLoading,TResult Function( _NativeProductsError value)?  nativeProductsError,TResult Function( _NativeProductsLoaded value)?  nativeProductsLoaded,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -74,7 +74,10 @@ return updateProductError(_that);case _UpdateProductSuccess() when updateProduct
 return updateProductSuccess(_that);case _ArchiveProductLoading() when archiveProductLoading != null:
 return archiveProductLoading(_that);case _ArchiveProductError() when archiveProductError != null:
 return archiveProductError(_that);case _ArchiveProductSuccess() when archiveProductSuccess != null:
-return archiveProductSuccess(_that);case _:
+return archiveProductSuccess(_that);case _NativeProductsLoading() when nativeProductsLoading != null:
+return nativeProductsLoading(_that);case _NativeProductsError() when nativeProductsError != null:
+return nativeProductsError(_that);case _NativeProductsLoaded() when nativeProductsLoaded != null:
+return nativeProductsLoaded(_that);case _:
   return orElse();
 
 }
@@ -92,7 +95,7 @@ return archiveProductSuccess(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _ProductsLoading value)  productsLoading,required TResult Function( _ProductsError value)  productsError,required TResult Function( ProductsLoaded value)  productsLoaded,required TResult Function( _WalletsLoading value)  walletsLoading,required TResult Function( _WalletsError value)  walletsError,required TResult Function( _WalletsLoaded value)  walletsLoaded,required TResult Function( _CreateProductsLoading value)  createProductsLoading,required TResult Function( _CreateProductsError value)  createProductsError,required TResult Function( _CreateProductsSuccess value)  createProductsSuccess,required TResult Function( _UpdateProductLoading value)  updateProductLoading,required TResult Function( _UpdateProductError value)  updateProductError,required TResult Function( _UpdateProductSuccess value)  updateProductSuccess,required TResult Function( _ArchiveProductLoading value)  archiveProductLoading,required TResult Function( _ArchiveProductError value)  archiveProductError,required TResult Function( _ArchiveProductSuccess value)  archiveProductSuccess,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( _ProductsLoading value)  productsLoading,required TResult Function( _ProductsError value)  productsError,required TResult Function( ProductsLoaded value)  productsLoaded,required TResult Function( _WalletsLoading value)  walletsLoading,required TResult Function( _WalletsError value)  walletsError,required TResult Function( _WalletsLoaded value)  walletsLoaded,required TResult Function( _CreateProductsLoading value)  createProductsLoading,required TResult Function( _CreateProductsError value)  createProductsError,required TResult Function( _CreateProductsSuccess value)  createProductsSuccess,required TResult Function( _UpdateProductLoading value)  updateProductLoading,required TResult Function( _UpdateProductError value)  updateProductError,required TResult Function( _UpdateProductSuccess value)  updateProductSuccess,required TResult Function( _ArchiveProductLoading value)  archiveProductLoading,required TResult Function( _ArchiveProductError value)  archiveProductError,required TResult Function( _ArchiveProductSuccess value)  archiveProductSuccess,required TResult Function( _NativeProductsLoading value)  nativeProductsLoading,required TResult Function( _NativeProductsError value)  nativeProductsError,required TResult Function( _NativeProductsLoaded value)  nativeProductsLoaded,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -111,7 +114,10 @@ return updateProductError(_that);case _UpdateProductSuccess():
 return updateProductSuccess(_that);case _ArchiveProductLoading():
 return archiveProductLoading(_that);case _ArchiveProductError():
 return archiveProductError(_that);case _ArchiveProductSuccess():
-return archiveProductSuccess(_that);case _:
+return archiveProductSuccess(_that);case _NativeProductsLoading():
+return nativeProductsLoading(_that);case _NativeProductsError():
+return nativeProductsError(_that);case _NativeProductsLoaded():
+return nativeProductsLoaded(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -128,7 +134,7 @@ return archiveProductSuccess(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _ProductsLoading value)?  productsLoading,TResult? Function( _ProductsError value)?  productsError,TResult? Function( ProductsLoaded value)?  productsLoaded,TResult? Function( _WalletsLoading value)?  walletsLoading,TResult? Function( _WalletsError value)?  walletsError,TResult? Function( _WalletsLoaded value)?  walletsLoaded,TResult? Function( _CreateProductsLoading value)?  createProductsLoading,TResult? Function( _CreateProductsError value)?  createProductsError,TResult? Function( _CreateProductsSuccess value)?  createProductsSuccess,TResult? Function( _UpdateProductLoading value)?  updateProductLoading,TResult? Function( _UpdateProductError value)?  updateProductError,TResult? Function( _UpdateProductSuccess value)?  updateProductSuccess,TResult? Function( _ArchiveProductLoading value)?  archiveProductLoading,TResult? Function( _ArchiveProductError value)?  archiveProductError,TResult? Function( _ArchiveProductSuccess value)?  archiveProductSuccess,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( _ProductsLoading value)?  productsLoading,TResult? Function( _ProductsError value)?  productsError,TResult? Function( ProductsLoaded value)?  productsLoaded,TResult? Function( _WalletsLoading value)?  walletsLoading,TResult? Function( _WalletsError value)?  walletsError,TResult? Function( _WalletsLoaded value)?  walletsLoaded,TResult? Function( _CreateProductsLoading value)?  createProductsLoading,TResult? Function( _CreateProductsError value)?  createProductsError,TResult? Function( _CreateProductsSuccess value)?  createProductsSuccess,TResult? Function( _UpdateProductLoading value)?  updateProductLoading,TResult? Function( _UpdateProductError value)?  updateProductError,TResult? Function( _UpdateProductSuccess value)?  updateProductSuccess,TResult? Function( _ArchiveProductLoading value)?  archiveProductLoading,TResult? Function( _ArchiveProductError value)?  archiveProductError,TResult? Function( _ArchiveProductSuccess value)?  archiveProductSuccess,TResult? Function( _NativeProductsLoading value)?  nativeProductsLoading,TResult? Function( _NativeProductsError value)?  nativeProductsError,TResult? Function( _NativeProductsLoaded value)?  nativeProductsLoaded,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -147,7 +153,10 @@ return updateProductError(_that);case _UpdateProductSuccess() when updateProduct
 return updateProductSuccess(_that);case _ArchiveProductLoading() when archiveProductLoading != null:
 return archiveProductLoading(_that);case _ArchiveProductError() when archiveProductError != null:
 return archiveProductError(_that);case _ArchiveProductSuccess() when archiveProductSuccess != null:
-return archiveProductSuccess(_that);case _:
+return archiveProductSuccess(_that);case _NativeProductsLoading() when nativeProductsLoading != null:
+return nativeProductsLoading(_that);case _NativeProductsError() when nativeProductsError != null:
+return nativeProductsError(_that);case _NativeProductsLoaded() when nativeProductsLoaded != null:
+return nativeProductsLoaded(_that);case _:
   return null;
 
 }
@@ -164,7 +173,7 @@ return archiveProductSuccess(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  productsLoading,TResult Function( String? message)?  productsError,TResult Function()?  productsLoaded,TResult Function()?  walletsLoading,TResult Function( String? message)?  walletsError,TResult Function()?  walletsLoaded,TResult Function()?  createProductsLoading,TResult Function( String? message)?  createProductsError,TResult Function()?  createProductsSuccess,TResult Function()?  updateProductLoading,TResult Function( String? message)?  updateProductError,TResult Function()?  updateProductSuccess,TResult Function()?  archiveProductLoading,TResult Function( String? message)?  archiveProductError,TResult Function()?  archiveProductSuccess,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  productsLoading,TResult Function( String? message)?  productsError,TResult Function()?  productsLoaded,TResult Function()?  walletsLoading,TResult Function( String? message)?  walletsError,TResult Function()?  walletsLoaded,TResult Function()?  createProductsLoading,TResult Function( String? message)?  createProductsError,TResult Function()?  createProductsSuccess,TResult Function()?  updateProductLoading,TResult Function( String? message)?  updateProductError,TResult Function()?  updateProductSuccess,TResult Function()?  archiveProductLoading,TResult Function( String? message)?  archiveProductError,TResult Function()?  archiveProductSuccess,TResult Function()?  nativeProductsLoading,TResult Function( String? message)?  nativeProductsError,TResult Function()?  nativeProductsLoaded,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _ProductsLoading() when productsLoading != null:
@@ -182,7 +191,10 @@ return updateProductError(_that.message);case _UpdateProductSuccess() when updat
 return updateProductSuccess();case _ArchiveProductLoading() when archiveProductLoading != null:
 return archiveProductLoading();case _ArchiveProductError() when archiveProductError != null:
 return archiveProductError(_that.message);case _ArchiveProductSuccess() when archiveProductSuccess != null:
-return archiveProductSuccess();case _:
+return archiveProductSuccess();case _NativeProductsLoading() when nativeProductsLoading != null:
+return nativeProductsLoading();case _NativeProductsError() when nativeProductsError != null:
+return nativeProductsError(_that.message);case _NativeProductsLoaded() when nativeProductsLoaded != null:
+return nativeProductsLoaded();case _:
   return orElse();
 
 }
@@ -200,7 +212,7 @@ return archiveProductSuccess();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  productsLoading,required TResult Function( String? message)  productsError,required TResult Function()  productsLoaded,required TResult Function()  walletsLoading,required TResult Function( String? message)  walletsError,required TResult Function()  walletsLoaded,required TResult Function()  createProductsLoading,required TResult Function( String? message)  createProductsError,required TResult Function()  createProductsSuccess,required TResult Function()  updateProductLoading,required TResult Function( String? message)  updateProductError,required TResult Function()  updateProductSuccess,required TResult Function()  archiveProductLoading,required TResult Function( String? message)  archiveProductError,required TResult Function()  archiveProductSuccess,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  productsLoading,required TResult Function( String? message)  productsError,required TResult Function()  productsLoaded,required TResult Function()  walletsLoading,required TResult Function( String? message)  walletsError,required TResult Function()  walletsLoaded,required TResult Function()  createProductsLoading,required TResult Function( String? message)  createProductsError,required TResult Function()  createProductsSuccess,required TResult Function()  updateProductLoading,required TResult Function( String? message)  updateProductError,required TResult Function()  updateProductSuccess,required TResult Function()  archiveProductLoading,required TResult Function( String? message)  archiveProductError,required TResult Function()  archiveProductSuccess,required TResult Function()  nativeProductsLoading,required TResult Function( String? message)  nativeProductsError,required TResult Function()  nativeProductsLoaded,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case _ProductsLoading():
@@ -218,7 +230,10 @@ return updateProductError(_that.message);case _UpdateProductSuccess():
 return updateProductSuccess();case _ArchiveProductLoading():
 return archiveProductLoading();case _ArchiveProductError():
 return archiveProductError(_that.message);case _ArchiveProductSuccess():
-return archiveProductSuccess();case _:
+return archiveProductSuccess();case _NativeProductsLoading():
+return nativeProductsLoading();case _NativeProductsError():
+return nativeProductsError(_that.message);case _NativeProductsLoaded():
+return nativeProductsLoaded();case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -235,7 +250,7 @@ return archiveProductSuccess();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  productsLoading,TResult? Function( String? message)?  productsError,TResult? Function()?  productsLoaded,TResult? Function()?  walletsLoading,TResult? Function( String? message)?  walletsError,TResult? Function()?  walletsLoaded,TResult? Function()?  createProductsLoading,TResult? Function( String? message)?  createProductsError,TResult? Function()?  createProductsSuccess,TResult? Function()?  updateProductLoading,TResult? Function( String? message)?  updateProductError,TResult? Function()?  updateProductSuccess,TResult? Function()?  archiveProductLoading,TResult? Function( String? message)?  archiveProductError,TResult? Function()?  archiveProductSuccess,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  productsLoading,TResult? Function( String? message)?  productsError,TResult? Function()?  productsLoaded,TResult? Function()?  walletsLoading,TResult? Function( String? message)?  walletsError,TResult? Function()?  walletsLoaded,TResult? Function()?  createProductsLoading,TResult? Function( String? message)?  createProductsError,TResult? Function()?  createProductsSuccess,TResult? Function()?  updateProductLoading,TResult? Function( String? message)?  updateProductError,TResult? Function()?  updateProductSuccess,TResult? Function()?  archiveProductLoading,TResult? Function( String? message)?  archiveProductError,TResult? Function()?  archiveProductSuccess,TResult? Function()?  nativeProductsLoading,TResult? Function( String? message)?  nativeProductsError,TResult? Function()?  nativeProductsLoaded,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case _ProductsLoading() when productsLoading != null:
@@ -253,7 +268,10 @@ return updateProductError(_that.message);case _UpdateProductSuccess() when updat
 return updateProductSuccess();case _ArchiveProductLoading() when archiveProductLoading != null:
 return archiveProductLoading();case _ArchiveProductError() when archiveProductError != null:
 return archiveProductError(_that.message);case _ArchiveProductSuccess() when archiveProductSuccess != null:
-return archiveProductSuccess();case _:
+return archiveProductSuccess();case _NativeProductsLoading() when nativeProductsLoading != null:
+return nativeProductsLoading();case _NativeProductsError() when nativeProductsError != null:
+return nativeProductsError(_that.message);case _NativeProductsLoaded() when nativeProductsLoaded != null:
+return nativeProductsLoaded();case _:
   return null;
 
 }
@@ -935,6 +953,136 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
   return 'ProductsState.archiveProductSuccess()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _NativeProductsLoading implements ProductsState {
+  const _NativeProductsLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NativeProductsLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ProductsState.nativeProductsLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _NativeProductsError implements ProductsState {
+  const _NativeProductsError(this.message);
+  
+
+ final  String? message;
+
+/// Create a copy of ProductsState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$NativeProductsErrorCopyWith<_NativeProductsError> get copyWith => __$NativeProductsErrorCopyWithImpl<_NativeProductsError>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NativeProductsError&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'ProductsState.nativeProductsError(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$NativeProductsErrorCopyWith<$Res> implements $ProductsStateCopyWith<$Res> {
+  factory _$NativeProductsErrorCopyWith(_NativeProductsError value, $Res Function(_NativeProductsError) _then) = __$NativeProductsErrorCopyWithImpl;
+@useResult
+$Res call({
+ String? message
+});
+
+
+
+
+}
+/// @nodoc
+class __$NativeProductsErrorCopyWithImpl<$Res>
+    implements _$NativeProductsErrorCopyWith<$Res> {
+  __$NativeProductsErrorCopyWithImpl(this._self, this._then);
+
+  final _NativeProductsError _self;
+  final $Res Function(_NativeProductsError) _then;
+
+/// Create a copy of ProductsState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = freezed,}) {
+  return _then(_NativeProductsError(
+freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _NativeProductsLoaded implements ProductsState {
+  const _NativeProductsLoaded();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _NativeProductsLoaded);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'ProductsState.nativeProductsLoaded()';
 }
 
 

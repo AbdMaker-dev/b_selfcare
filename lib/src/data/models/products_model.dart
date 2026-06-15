@@ -13,7 +13,7 @@ class ProductsModel {
     name = json['name'];
     description = json['description'];
     isActive = json['is_active'];
-    price = json['price'];
+    price = json['price'] ?? json['fixed_price'];
     if (json['quotas'] != null) {
       quotas = <Quotas>[];
       json['quotas'].forEach((v) {
@@ -54,7 +54,7 @@ class Quotas {
     category = json['category']??json['wallet']?['category'];
     unit =  json['unit_label']??json['unit']??json['wallet']?['unit'];
     name = json['name']??json['wallet']?['name'];
-    code = json['code']??json['wallet']?['code'];
+    code = json['code'] ?? json['wallet_code'] ?? json['wallet']?['code'];
   }
 
   Map<String, dynamic> toJson() {

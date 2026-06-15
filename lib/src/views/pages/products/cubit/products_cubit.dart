@@ -15,6 +15,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this._httpHelper) : super(ProductsState.initial());
 
   List<ProductsModel> products = [];
+  List<ProductsModel> nativeProducts = [];
   List<WalletModel> wallets = [];
 
   Future<void> fetchProducts() async {
@@ -27,6 +28,20 @@ class ProductsCubit extends Cubit<ProductsState> {
         final list = right.response?['data'] as List<dynamic>? ?? [];
         products = list.whereType<Map<String, dynamic>>().map(ProductsModel.fromJson).toList();
         emit(ProductsState.productsLoaded());
+      },
+    );
+  }
+
+  Future<void> fetchNativeProducts() async {
+    if (nativeProducts.isNotEmpty) return;
+    emit(ProductsState.nativeProductsLoading());
+    final response = await _httpHelper.handleGetRequest("products/native", showLoader: true);
+    response.fold(
+      (left) => emit(ProductsState.nativeProductsError(left.message)),
+      (right) {
+        final list = right.response?['data'] as List<dynamic>? ?? [];
+        nativeProducts = list.whereType<Map<String, dynamic>>().map(ProductsModel.fromJson).toList();
+        emit(ProductsState.nativeProductsLoaded());
       },
     );
   }
