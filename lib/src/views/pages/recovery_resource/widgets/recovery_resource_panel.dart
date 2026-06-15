@@ -168,7 +168,7 @@ class RecoveryResourcePanel extends StatelessWidget {
               child: _buildGrid(resource),
             ),
 
-            Container(
+            /*Container(
               padding:
                   EdgeInsets.symmetric(horizontal: 14.rw, vertical: 10.rh),
               decoration: BoxDecoration(
@@ -196,7 +196,7 @@ class RecoveryResourcePanel extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ),*/
           ],
         ],
       ),
