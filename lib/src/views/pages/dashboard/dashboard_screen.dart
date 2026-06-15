@@ -51,7 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               highlight: getIt<LayoutCubit>().currentUser?.firstName ?? '',
               fontSize: 24.rsp,
               fontFamily: FontFamily.montserrat,
-              fontStyle: FontStyle.italic,
+              // fontStyle: FontStyle.italic,
               highlightColor: AppColors.warning,
               fontWeight: FontWeight.w400,
               highlightFontSize: 24.rsp,
