@@ -136,6 +136,16 @@ class _SideMenuListState extends State<SideMenuList> {
         ),
 
         SizedBox(height: 20.rh),
+        MenuSeparator(title: 'FINANCE', collapsed: collapsed),
+        CustomItemMenu(
+          title: "Récupération",
+          icon: Icons.currency_exchange_outlined,
+          isActive: context.router.currentUrl.contains("resources"),
+          collapsed: collapsed,
+          onSelect: () => context.router.pushPath('$routeApp/$routeAppRecoveryResource'),
+        ),
+
+        SizedBox(height: 20.rh),
         MenuSeparator(title: 'COMPTE', collapsed: collapsed),
         CustomItemMenu(
           title: "Utilisateurs",

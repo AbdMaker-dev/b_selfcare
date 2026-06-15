@@ -23,6 +23,7 @@ const String routeAppProducts = 'products';
 const String routeAppGroups = 'groupes';
 const String routeAppNumbers = 'tels';
 const String routeAppUsers   = 'users';
+const String routeAppRecoveryResource   = 'resources';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
@@ -60,6 +61,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(path: routeAppNumbers, page: NumerosRoute.page),
         AutoRoute(path: routeAppProducts, page: ProductsRoute.page),
         AutoRoute(path: routeAppUsers,    page: UsersRoute.page),
+        AutoRoute(path: routeAppRecoveryResource,    page: RecoveryResourceRoute.page),
       ],
     ),
   ];

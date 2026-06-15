@@ -27,4 +27,16 @@ class MyFlotteState with _$MyFlotteState {
   const factory MyFlotteState.manualProvisioningLoading() = ManualProvisioningLoading;
   const factory MyFlotteState.manualProvisioningLoaded({required DataResponseModel data}) = ManualProvisioningLoaded;
   const factory MyFlotteState.manualProvisioningFailed(String message) = ManualProvisioningFailed;
+  const factory MyFlotteState.getResourceEmployeLoading() = GetResourceEmployeLoading;
+  const factory MyFlotteState.getResourceEmployeLoaded({required DataResourceCustomResponseModel data}) = GetResourceEmployeLoaded;
+  const factory MyFlotteState.getResourceEmployeFailed(String message) = GetResourceEmployeFailed;
+  const factory MyFlotteState.getResourceAggregatedEmployeLoading() = GetResourceAggregatedEmployeLoading;
+  const factory MyFlotteState.getResourceAggregatedEmployeLoaded({required DataResourceCustomAggregatedResponseModel data}) = GetResourceAggregatedEmployeLoaded;
+  const factory MyFlotteState.getResourceAggregatedEmployeFailed(String message) = GetResourceAggregatedEmployeFailed;
+  const factory MyFlotteState.recoveryConfirmEmployeeLoading() = RecoveryConfirmEmployeeLoading;
+  const factory MyFlotteState.recoveryConfirmEmployeeLoaded({required DataResponseModel data}) = RecoveryConfirmEmployeeLoaded;
+  const factory MyFlotteState.recoveryConfirmEmployeeFailed(String message) = RecoveryConfirmEmployeeFailed;
+  const factory MyFlotteState.historiqueRecoveryEmployeeLoading() = HistoriqueRecoveryEmployeeLoading;
+  const factory MyFlotteState.historiqueRecoveryEmployeeLoaded({required DataRecoveryHistoryResponseModel data}) = HistoriqueRecoveryEmployeeLoaded;
+  const factory MyFlotteState.historiqueRecoveryEmployeeFailed(String message) = HistoriqueRecoveryEmployeeFailed;
 }

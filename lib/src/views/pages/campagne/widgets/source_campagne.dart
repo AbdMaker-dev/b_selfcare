@@ -1,7 +1,7 @@
 import 'package:b_selfcare/src/data/models/campaign/campaign_model.dart';
 import 'package:b_selfcare/src/utils/app_date.dart';
 import 'package:b_selfcare/src/views/widgets/table/app_table_source.dart';
-import 'package:b_selfcare/src/views/widgets/table/cell_actions_menu_table.dart';
+import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_badge_table.dart';
 import 'package:b_selfcare/src/views/widgets/table/cell_text_table.dart';
 import 'package:flutter/material.dart';
@@ -38,16 +38,49 @@ class SourceCampagne extends AppTableSource<CampaignModel> {
     CellTextTable(text: e.endDate != null ? AppDate.formatShort(e.endDate!) : '---'),
     CellTextTable(text: e.nextExecution != null ? AppDate.formatShort(e.nextExecution!) : '---'),
     _statusBadge(e.status),
-    CellActionsMenuTable(actions: _actions(e)),
+    _buildActionIcons(e),
   ];
 
-  List<({String label, bool danger, IconData icon, VoidCallback? onTap})> _actions(CampaignModel e) => [
-    (label: 'Exécuter',     danger: false, icon: Icons.play_arrow_rounded,    onTap: () => onExecute?.call(e, 'execute')),
-    (label: 'Pause',        danger: false, icon: Icons.pause_rounded,         onTap: () => onExecute?.call(e, 'pause')),
-    (label: 'Réactiver',    danger: false, icon: Icons.replay_rounded,        onTap: () => onExecute?.call(e, 'reactivate')),
-    (label: 'Redéclencher', danger: false, icon: Icons.restart_alt_rounded,   onTap: () => onExecute?.call(e, 'retrigger')),
-    (label: 'Annuler',      danger: true,  icon: Icons.cancel_outlined,       onTap: () => onExecute?.call(e, 'cancel')),
-  ];
+  Widget _buildActionIcons(CampaignModel e) {
+    final status = (e.status ?? '').toUpperCase();
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (status == 'PAUSED')
+          Tooltip(
+            message: 'Réactiver',
+            child: IconButton(
+              onPressed: () => onExecute?.call(e, 'reactivate'),
+              icon: Icon(Icons.play_circle_outline, color: AppColors.success),
+            ),
+          ),
+        if (status == 'ACTIVE' || status == 'BLOCKED')
+          Tooltip(
+            message: 'Mettre en pause',
+            child: IconButton(
+              onPressed: () => onExecute?.call(e, 'pause'),
+              icon: Icon(Icons.pause_rounded, color: AppColors.warning),
+            ),
+          ),
+        if (status != 'CANCELLED' && status != 'COMPLETED')
+          Tooltip(
+            message: 'Annuler',
+            child: IconButton(
+              onPressed: () => onExecute?.call(e, 'cancel'),
+              icon: Icon(Icons.cancel_outlined, color: AppColors.error),
+            ),
+          ),
+        if (status == 'BLOCKED')
+          Tooltip(
+            message: 'Forcer l\'exécution',
+            child: IconButton(
+              onPressed: () => onExecute?.call(e, 'force_run'),
+              icon: Icon(Icons.restart_alt_rounded, color: AppColors.primary),
+            ),
+          ),
+      ],
+    );
+  }
 
   Widget _statusBadge(String? status) {
     return switch (status?.toLowerCase()) {
