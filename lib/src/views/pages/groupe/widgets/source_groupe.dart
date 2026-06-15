@@ -39,15 +39,13 @@ class SourceGroupe extends AppTableSource<GroupModel> {
     CellTextTable(text: AppDate.formatShort(e.campaign?.startDate)),
     CellTextTable(text: e.employeesCount?.toString() ?? '---'),
     CellTextTable(text: e.createdAt != null ? AppDate.formatShort(e.createdAt!) : '---'),
-    Tooltip(
-      message: e.smsNotificationEnabled == true ? 'Désactiver les notifications' : 'Activer les notifications',
-      child: IconButton(
-        onPressed: () => onToggleNotification?.call(e),
-        icon: Icon(
-          e.smsNotificationEnabled == true ? Icons.notifications_active : Icons.notifications_off_outlined,
-          color: e.smsNotificationEnabled == true ? AppColors.greenOlive : AppColors.grayAsh,
-        ),
-      ),
+    Switch(
+      value: e.smsNotificationEnabled == true,
+      onChanged: (_) => onToggleNotification?.call(e),
+      activeTrackColor: AppColors.greenOlive.withValues(alpha: 0.3),
+      activeThumbColor: AppColors.greenOlive,
+      inactiveThumbColor: AppColors.grayAsh,
+      inactiveTrackColor: AppColors.gray,
     ),
     CellActionsTable(actions: [
       (label: 'Modifier', danger: false, onTap: () => onEdit?.call(e)),

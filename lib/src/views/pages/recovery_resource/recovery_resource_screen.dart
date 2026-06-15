@@ -32,6 +32,10 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
   final Map<int, ResourceCustomModel> _resourcesCache = {};
   int? _loadingNumberId;
 
+  final Map<String, TextEditingController> _unitControllers = {};
+  final TextEditingController _mainCreditController = TextEditingController();
+  bool _isCustomAmount = false;
+
   List<FleetNumberModel> get _numbers =>
       _selectedEmployee?.fleetNumbers ?? [];
 
@@ -41,10 +45,56 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
   @override
   void initState() {
     super.initState();
+    _mainCreditController.addListener(_updateIsCustomAmount);
     _cubit.getEmployees(data: {'page': 1});
   }
 
+  @override
+  void dispose() {
+    for (final c in _unitControllers.values) {
+      c.dispose();
+    }
+    _mainCreditController.dispose();
+    super.dispose();
+  }
+
+  void _updateIsCustomAmount() {
+    final id = _selectedNumber?.id;
+    if (id == null) {
+      if (_isCustomAmount) setState(() => _isCustomAmount = false);
+      return;
+    }
+    final resource = _resourcesCache[id];
+    if (resource == null) {
+      if (_isCustomAmount) setState(() => _isCustomAmount = false);
+      return;
+    }
+
+    bool modified = false;
+
+    for (final u in resource.freeUnits ?? []) {
+      final key = u.freeUnitType ?? u.measureUnit ?? '';
+      final controller = _unitControllers[key];
+      if (controller == null) continue;
+      final max = RecoveryResourcePanel.toDisplayAmount(u);
+      if ((int.tryParse(controller.text) ?? 0) != max) {
+        modified = true;
+        break;
+      }
+    }
+
+    if (!modified) {
+      final maxCredit = resource.mainCreditFcfa ?? 0;
+      if ((int.tryParse(_mainCreditController.text) ?? 0) != maxCredit) {
+        modified = true;
+      }
+    }
+
+    if (modified != _isCustomAmount) setState(() => _isCustomAmount = modified);
+  }
+
   void _selectEmployee(EmployeeModel e) {
+    _clearControllers();
     setState(() {
       _selectedEmployee = e;
       _selectedNumberIndex = 0;
@@ -68,6 +118,8 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
     if (!_resourcesCache.containsKey(id)) {
       setState(() => _loadingNumberId = id);
       _cubit.getResourceEmploye(fleetNumberId: id);
+    } else {
+      _refreshControllers();
     }
 
     _cubit.historiqueRecoveryEmployee(
@@ -75,6 +127,7 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
   }
 
   void _clearEmployee() {
+    _clearControllers();
     setState(() {
       _selectedEmployee = null;
       _selectedNumberIndex = 0;
@@ -82,6 +135,56 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
       _loadingNumberId = null;
     });
     _cubit.getEmployees(data: {'page': 1});
+  }
+
+  void _clearControllers() {
+    for (final c in _unitControllers.values) {
+      c.dispose();
+    }
+    _unitControllers.clear();
+    _mainCreditController.text = '';
+    _isCustomAmount = false;
+  }
+
+  void _fillAll() {
+    final id = _selectedNumber?.id;
+    if (id == null) return;
+    final resource = _resourcesCache[id];
+    if (resource == null) return;
+
+    for (final u in resource.freeUnits ?? []) {
+      final key = u.freeUnitType ?? u.measureUnit ?? '';
+      final controller = _unitControllers[key];
+      if (controller != null) {
+        controller.text =
+            RecoveryResourcePanel.toDisplayAmount(u).toString();
+      }
+    }
+    _mainCreditController.text = (resource.mainCreditFcfa ?? 0).toString();
+  }
+
+  void _refreshControllers() {
+    final id = _selectedNumber?.id;
+    if (id == null) return;
+    final resource = _resourcesCache[id];
+    if (resource == null) return;
+
+    for (final c in _unitControllers.values) {
+      c.dispose();
+    }
+    _unitControllers.clear();
+
+    for (final u in resource.freeUnits ?? []) {
+      final key = u.freeUnitType ?? u.measureUnit ?? '';
+      if (key.isEmpty) continue;
+      final amount = RecoveryResourcePanel.toDisplayAmount(u);
+      final controller = TextEditingController(text: amount.toString());
+      controller.addListener(_updateIsCustomAmount);
+      _unitControllers[key] = controller;
+    }
+
+    _mainCreditController.text = (resource.mainCreditFcfa ?? 0).toString();
+    setState(() => _isCustomAmount = false);
   }
 
   void _launch() {
@@ -101,28 +204,28 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
     if (id == null) return;
     final resource = _resourcesCache[id];
     final body = {
-      'main_credit_fcfa': resource?.mainCreditFcfa ?? 0,
+      'main_credit_fcfa': int.tryParse(_mainCreditController.text) ?? 0,
       'bundles': (resource?.freeUnits ?? [])
           .map((u) {
-            final rawAmount = u.totalAmount ?? 0;
-            final rawUnit = (u.unit ?? '').toLowerCase();
+            final key = u.freeUnitType ?? u.measureUnit ?? '';
+            final controller = _unitControllers[key];
+            final inputAmount = int.tryParse(controller?.text ?? '') ?? 0;
 
-            final int convertedAmount;
+            final rawUnit = (u.unit ?? '').toLowerCase();
             final String convertedUnit;
+            final int convertedAmount;
 
             if (rawUnit.startsWith('min')) {
-              // totalAmount is in seconds → convert to minutes
-              convertedAmount = rawAmount ~/ 60;
               convertedUnit = u.unit ?? rawUnit;
+              convertedAmount = inputAmount;
             } else if (rawUnit.contains('mb') ||
                 rawUnit.contains('gb') ||
                 rawUnit.contains('byte')) {
-              // totalAmount is in bytes → convert to MB
-              convertedAmount = rawAmount ~/ (1024 * 1024);
               convertedUnit = 'MB_GB';
+              convertedAmount = inputAmount * 1024; // Go → MB
             } else {
-              convertedAmount = rawAmount;
               convertedUnit = u.unit ?? rawUnit;
+              convertedAmount = inputAmount;
             }
 
             return {
@@ -135,7 +238,6 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
     };
     _cubit.recoveryConfirmEmployee(fleetNumberId: id, data: body);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +260,7 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
                 _resourcesCache[matchId] = model;
                 _loadingNumberId = null;
               });
+              _refreshControllers();
             }
           },
           recoveryConfirmEmployeeLoaded: (_) {
@@ -173,7 +276,6 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
       child: ListView(
         padding: EdgeInsets.only(bottom: 50.rh),
         children: [
-          // Titre
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -192,7 +294,6 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
           ),
           SizedBox(height: 24.rh),
 
-          // Contenu 2 colonnes
           LayoutBuilder(
             builder: (context, constraints) {
               final wide = constraints.maxWidth > 700;
@@ -206,7 +307,6 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Card header
                     Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 14.rw, vertical: 10.rh),
@@ -238,7 +338,6 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
                         ],
                       ),
                     ),
-                    // Contenu
                     Padding(
                       padding: EdgeInsets.all(14.rw),
                       child: RecoveryLeftPanel(
@@ -260,6 +359,14 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
                                 selectedIndex: _selectedNumberIndex,
                                 resourcesCache: _resourcesCache,
                                 loadingNumberId: _loadingNumberId,
+                                unitControllers: _unitControllers.isEmpty
+                                    ? null
+                                    : _unitControllers,
+                                mainCreditController: _mainCreditController,
+                                onFillAll: _unitControllers.isEmpty
+                                    ? null
+                                    : _fillAll,
+                                isCustomAmount: _isCustomAmount,
                               ),
                       ),
                     ),

@@ -9,7 +9,6 @@ import 'package:b_selfcare/src/views/pages/groupe/widgets/confirm_delete_groupe.
 import 'package:b_selfcare/src/views/pages/groupe/widgets/detail_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_edit_groupe.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/form_groupe.dart';
-import 'package:b_selfcare/src/views/widgets/confirm_dialog.dart';
 import 'package:b_selfcare/src/views/pages/groupe/widgets/source_groupe.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
@@ -198,25 +197,14 @@ class _MyGroupeScreenState extends State<MyGroupeScreen> {
                   onToggleNotification: (groupe) {
                     final id = groupe.id;
                     if (id == null) return;
-                    final willEnable = !(groupe.smsNotificationEnabled ?? false);
-                    AppConfirmDialog.show(
-                      context: context,
-                      title: willEnable
-                          ? 'Activer les notifications SMS'
-                          : 'Désactiver les notifications SMS',
-                      message: willEnable
-                          ? 'Les notifications SMS seront activées pour le groupe "${groupe.name ?? ''}".'
-                          : 'Les notifications SMS seront désactivées pour le groupe "${groupe.name ?? ''}".',
-                      confirmLabel: willEnable ? 'Activer' : 'Désactiver',
-                      isDanger: !willEnable,
-                      onConfirm: () => groupCubit.configurationNotificationGroupe(
-                        id: id,
-                        data: {
-                          'sms_notification_enabled': willEnable,
-                          'sms_notification_template':
-                              groupe.smsNotificationTemplate ?? '',
-                        },
-                      ),
+                    groupCubit.configurationNotificationGroupe(
+                      id: id,
+                      data: {
+                        'sms_notification_enabled':
+                            !(groupe.smsNotificationEnabled ?? false),
+                        'sms_notification_template':
+                            groupe.smsNotificationTemplate ?? '',
+                      },
                     );
                   },
                 ),
