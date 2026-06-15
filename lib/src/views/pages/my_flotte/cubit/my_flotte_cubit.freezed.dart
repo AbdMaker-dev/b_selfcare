@@ -55,7 +55,7 @@ extension MyFlotteStatePatterns on MyFlotteState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,TResult Function( ManualProvisioningLoading value)?  manualProvisioningLoading,TResult Function( ManualProvisioningLoaded value)?  manualProvisioningLoaded,TResult Function( ManualProvisioningFailed value)?  manualProvisioningFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,TResult Function( ManualProvisioningLoading value)?  manualProvisioningLoading,TResult Function( ManualProvisioningLoaded value)?  manualProvisioningLoaded,TResult Function( ManualProvisioningFailed value)?  manualProvisioningFailed,TResult Function( GetResourceEmployeLoading value)?  getResourceEmployeLoading,TResult Function( GetResourceEmployeLoaded value)?  getResourceEmployeLoaded,TResult Function( GetResourceEmployeFailed value)?  getResourceEmployeFailed,TResult Function( GetResourceAggregatedEmployeLoading value)?  getResourceAggregatedEmployeLoading,TResult Function( GetResourceAggregatedEmployeLoaded value)?  getResourceAggregatedEmployeLoaded,TResult Function( GetResourceAggregatedEmployeFailed value)?  getResourceAggregatedEmployeFailed,TResult Function( RecoveryConfirmEmployeeLoading value)?  recoveryConfirmEmployeeLoading,TResult Function( RecoveryConfirmEmployeeLoaded value)?  recoveryConfirmEmployeeLoaded,TResult Function( RecoveryConfirmEmployeeFailed value)?  recoveryConfirmEmployeeFailed,TResult Function( HistoriqueRecoveryEmployeeLoading value)?  historiqueRecoveryEmployeeLoading,TResult Function( HistoriqueRecoveryEmployeeLoaded value)?  historiqueRecoveryEmployeeLoaded,TResult Function( HistoriqueRecoveryEmployeeFailed value)?  historiqueRecoveryEmployeeFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -83,7 +83,19 @@ return downloadFileEmployesLoaded(_that);case DownloadFileEmployesFailed() when 
 return downloadFileEmployesFailed(_that);case ManualProvisioningLoading() when manualProvisioningLoading != null:
 return manualProvisioningLoading(_that);case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
 return manualProvisioningLoaded(_that);case ManualProvisioningFailed() when manualProvisioningFailed != null:
-return manualProvisioningFailed(_that);case _:
+return manualProvisioningFailed(_that);case GetResourceEmployeLoading() when getResourceEmployeLoading != null:
+return getResourceEmployeLoading(_that);case GetResourceEmployeLoaded() when getResourceEmployeLoaded != null:
+return getResourceEmployeLoaded(_that);case GetResourceEmployeFailed() when getResourceEmployeFailed != null:
+return getResourceEmployeFailed(_that);case GetResourceAggregatedEmployeLoading() when getResourceAggregatedEmployeLoading != null:
+return getResourceAggregatedEmployeLoading(_that);case GetResourceAggregatedEmployeLoaded() when getResourceAggregatedEmployeLoaded != null:
+return getResourceAggregatedEmployeLoaded(_that);case GetResourceAggregatedEmployeFailed() when getResourceAggregatedEmployeFailed != null:
+return getResourceAggregatedEmployeFailed(_that);case RecoveryConfirmEmployeeLoading() when recoveryConfirmEmployeeLoading != null:
+return recoveryConfirmEmployeeLoading(_that);case RecoveryConfirmEmployeeLoaded() when recoveryConfirmEmployeeLoaded != null:
+return recoveryConfirmEmployeeLoaded(_that);case RecoveryConfirmEmployeeFailed() when recoveryConfirmEmployeeFailed != null:
+return recoveryConfirmEmployeeFailed(_that);case HistoriqueRecoveryEmployeeLoading() when historiqueRecoveryEmployeeLoading != null:
+return historiqueRecoveryEmployeeLoading(_that);case HistoriqueRecoveryEmployeeLoaded() when historiqueRecoveryEmployeeLoaded != null:
+return historiqueRecoveryEmployeeLoaded(_that);case HistoriqueRecoveryEmployeeFailed() when historiqueRecoveryEmployeeFailed != null:
+return historiqueRecoveryEmployeeFailed(_that);case _:
   return orElse();
 
 }
@@ -101,7 +113,7 @@ return manualProvisioningFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetEmployeesLoading value)  getEmployeesLoading,required TResult Function( GetEmployeesLoaded value)  getEmployeesLoaded,required TResult Function( GetEmployeesFailed value)  getEmployeesFailed,required TResult Function( CreateEmployeeLoading value)  createEmployeeLoading,required TResult Function( CreateEmployeeLoaded value)  createEmployeeLoaded,required TResult Function( CreateEmployeeFailed value)  createEmployeeFailed,required TResult Function( UpdateEmployeeLoading value)  updateEmployeeLoading,required TResult Function( UpdateEmployeeLoaded value)  updateEmployeeLoaded,required TResult Function( UpdateEmployeeFailed value)  updateEmployeeFailed,required TResult Function( DisableEmployeeLoading value)  disableEmployeeLoading,required TResult Function( DisableEmployeeLoaded value)  disableEmployeeLoaded,required TResult Function( DisableEmployeeFailed value)  disableEmployeeFailed,required TResult Function( RemoveNumbersLoading value)  removeNumbersLoading,required TResult Function( RemoveNumbersLoaded value)  removeNumbersLoaded,required TResult Function( RemoveNumbersFailed value)  removeNumbersFailed,required TResult Function( AssignNumbersLoading value)  assignNumbersLoading,required TResult Function( AssignNumbersLoaded value)  assignNumbersLoaded,required TResult Function( AssignNumbersFailed value)  assignNumbersFailed,required TResult Function( DownloadFileEmployesLoading value)  downloadFileEmployesLoading,required TResult Function( DownloadFileEmployesLoaded value)  downloadFileEmployesLoaded,required TResult Function( DownloadFileEmployesFailed value)  downloadFileEmployesFailed,required TResult Function( ManualProvisioningLoading value)  manualProvisioningLoading,required TResult Function( ManualProvisioningLoaded value)  manualProvisioningLoaded,required TResult Function( ManualProvisioningFailed value)  manualProvisioningFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetEmployeesLoading value)  getEmployeesLoading,required TResult Function( GetEmployeesLoaded value)  getEmployeesLoaded,required TResult Function( GetEmployeesFailed value)  getEmployeesFailed,required TResult Function( CreateEmployeeLoading value)  createEmployeeLoading,required TResult Function( CreateEmployeeLoaded value)  createEmployeeLoaded,required TResult Function( CreateEmployeeFailed value)  createEmployeeFailed,required TResult Function( UpdateEmployeeLoading value)  updateEmployeeLoading,required TResult Function( UpdateEmployeeLoaded value)  updateEmployeeLoaded,required TResult Function( UpdateEmployeeFailed value)  updateEmployeeFailed,required TResult Function( DisableEmployeeLoading value)  disableEmployeeLoading,required TResult Function( DisableEmployeeLoaded value)  disableEmployeeLoaded,required TResult Function( DisableEmployeeFailed value)  disableEmployeeFailed,required TResult Function( RemoveNumbersLoading value)  removeNumbersLoading,required TResult Function( RemoveNumbersLoaded value)  removeNumbersLoaded,required TResult Function( RemoveNumbersFailed value)  removeNumbersFailed,required TResult Function( AssignNumbersLoading value)  assignNumbersLoading,required TResult Function( AssignNumbersLoaded value)  assignNumbersLoaded,required TResult Function( AssignNumbersFailed value)  assignNumbersFailed,required TResult Function( DownloadFileEmployesLoading value)  downloadFileEmployesLoading,required TResult Function( DownloadFileEmployesLoaded value)  downloadFileEmployesLoaded,required TResult Function( DownloadFileEmployesFailed value)  downloadFileEmployesFailed,required TResult Function( ManualProvisioningLoading value)  manualProvisioningLoading,required TResult Function( ManualProvisioningLoaded value)  manualProvisioningLoaded,required TResult Function( ManualProvisioningFailed value)  manualProvisioningFailed,required TResult Function( GetResourceEmployeLoading value)  getResourceEmployeLoading,required TResult Function( GetResourceEmployeLoaded value)  getResourceEmployeLoaded,required TResult Function( GetResourceEmployeFailed value)  getResourceEmployeFailed,required TResult Function( GetResourceAggregatedEmployeLoading value)  getResourceAggregatedEmployeLoading,required TResult Function( GetResourceAggregatedEmployeLoaded value)  getResourceAggregatedEmployeLoaded,required TResult Function( GetResourceAggregatedEmployeFailed value)  getResourceAggregatedEmployeFailed,required TResult Function( RecoveryConfirmEmployeeLoading value)  recoveryConfirmEmployeeLoading,required TResult Function( RecoveryConfirmEmployeeLoaded value)  recoveryConfirmEmployeeLoaded,required TResult Function( RecoveryConfirmEmployeeFailed value)  recoveryConfirmEmployeeFailed,required TResult Function( HistoriqueRecoveryEmployeeLoading value)  historiqueRecoveryEmployeeLoading,required TResult Function( HistoriqueRecoveryEmployeeLoaded value)  historiqueRecoveryEmployeeLoaded,required TResult Function( HistoriqueRecoveryEmployeeFailed value)  historiqueRecoveryEmployeeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -129,7 +141,19 @@ return downloadFileEmployesLoaded(_that);case DownloadFileEmployesFailed():
 return downloadFileEmployesFailed(_that);case ManualProvisioningLoading():
 return manualProvisioningLoading(_that);case ManualProvisioningLoaded():
 return manualProvisioningLoaded(_that);case ManualProvisioningFailed():
-return manualProvisioningFailed(_that);case _:
+return manualProvisioningFailed(_that);case GetResourceEmployeLoading():
+return getResourceEmployeLoading(_that);case GetResourceEmployeLoaded():
+return getResourceEmployeLoaded(_that);case GetResourceEmployeFailed():
+return getResourceEmployeFailed(_that);case GetResourceAggregatedEmployeLoading():
+return getResourceAggregatedEmployeLoading(_that);case GetResourceAggregatedEmployeLoaded():
+return getResourceAggregatedEmployeLoaded(_that);case GetResourceAggregatedEmployeFailed():
+return getResourceAggregatedEmployeFailed(_that);case RecoveryConfirmEmployeeLoading():
+return recoveryConfirmEmployeeLoading(_that);case RecoveryConfirmEmployeeLoaded():
+return recoveryConfirmEmployeeLoaded(_that);case RecoveryConfirmEmployeeFailed():
+return recoveryConfirmEmployeeFailed(_that);case HistoriqueRecoveryEmployeeLoading():
+return historiqueRecoveryEmployeeLoading(_that);case HistoriqueRecoveryEmployeeLoaded():
+return historiqueRecoveryEmployeeLoaded(_that);case HistoriqueRecoveryEmployeeFailed():
+return historiqueRecoveryEmployeeFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -146,7 +170,7 @@ return manualProvisioningFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult? Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult? Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult? Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult? Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult? Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult? Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult? Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult? Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult? Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult? Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult? Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult? Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult? Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult? Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult? Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult? Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult? Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult? Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult? Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult? Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,TResult? Function( ManualProvisioningLoading value)?  manualProvisioningLoading,TResult? Function( ManualProvisioningLoaded value)?  manualProvisioningLoaded,TResult? Function( ManualProvisioningFailed value)?  manualProvisioningFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetEmployeesLoading value)?  getEmployeesLoading,TResult? Function( GetEmployeesLoaded value)?  getEmployeesLoaded,TResult? Function( GetEmployeesFailed value)?  getEmployeesFailed,TResult? Function( CreateEmployeeLoading value)?  createEmployeeLoading,TResult? Function( CreateEmployeeLoaded value)?  createEmployeeLoaded,TResult? Function( CreateEmployeeFailed value)?  createEmployeeFailed,TResult? Function( UpdateEmployeeLoading value)?  updateEmployeeLoading,TResult? Function( UpdateEmployeeLoaded value)?  updateEmployeeLoaded,TResult? Function( UpdateEmployeeFailed value)?  updateEmployeeFailed,TResult? Function( DisableEmployeeLoading value)?  disableEmployeeLoading,TResult? Function( DisableEmployeeLoaded value)?  disableEmployeeLoaded,TResult? Function( DisableEmployeeFailed value)?  disableEmployeeFailed,TResult? Function( RemoveNumbersLoading value)?  removeNumbersLoading,TResult? Function( RemoveNumbersLoaded value)?  removeNumbersLoaded,TResult? Function( RemoveNumbersFailed value)?  removeNumbersFailed,TResult? Function( AssignNumbersLoading value)?  assignNumbersLoading,TResult? Function( AssignNumbersLoaded value)?  assignNumbersLoaded,TResult? Function( AssignNumbersFailed value)?  assignNumbersFailed,TResult? Function( DownloadFileEmployesLoading value)?  downloadFileEmployesLoading,TResult? Function( DownloadFileEmployesLoaded value)?  downloadFileEmployesLoaded,TResult? Function( DownloadFileEmployesFailed value)?  downloadFileEmployesFailed,TResult? Function( ManualProvisioningLoading value)?  manualProvisioningLoading,TResult? Function( ManualProvisioningLoaded value)?  manualProvisioningLoaded,TResult? Function( ManualProvisioningFailed value)?  manualProvisioningFailed,TResult? Function( GetResourceEmployeLoading value)?  getResourceEmployeLoading,TResult? Function( GetResourceEmployeLoaded value)?  getResourceEmployeLoaded,TResult? Function( GetResourceEmployeFailed value)?  getResourceEmployeFailed,TResult? Function( GetResourceAggregatedEmployeLoading value)?  getResourceAggregatedEmployeLoading,TResult? Function( GetResourceAggregatedEmployeLoaded value)?  getResourceAggregatedEmployeLoaded,TResult? Function( GetResourceAggregatedEmployeFailed value)?  getResourceAggregatedEmployeFailed,TResult? Function( RecoveryConfirmEmployeeLoading value)?  recoveryConfirmEmployeeLoading,TResult? Function( RecoveryConfirmEmployeeLoaded value)?  recoveryConfirmEmployeeLoaded,TResult? Function( RecoveryConfirmEmployeeFailed value)?  recoveryConfirmEmployeeFailed,TResult? Function( HistoriqueRecoveryEmployeeLoading value)?  historiqueRecoveryEmployeeLoading,TResult? Function( HistoriqueRecoveryEmployeeLoaded value)?  historiqueRecoveryEmployeeLoaded,TResult? Function( HistoriqueRecoveryEmployeeFailed value)?  historiqueRecoveryEmployeeFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -174,7 +198,19 @@ return downloadFileEmployesLoaded(_that);case DownloadFileEmployesFailed() when 
 return downloadFileEmployesFailed(_that);case ManualProvisioningLoading() when manualProvisioningLoading != null:
 return manualProvisioningLoading(_that);case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
 return manualProvisioningLoaded(_that);case ManualProvisioningFailed() when manualProvisioningFailed != null:
-return manualProvisioningFailed(_that);case _:
+return manualProvisioningFailed(_that);case GetResourceEmployeLoading() when getResourceEmployeLoading != null:
+return getResourceEmployeLoading(_that);case GetResourceEmployeLoaded() when getResourceEmployeLoaded != null:
+return getResourceEmployeLoaded(_that);case GetResourceEmployeFailed() when getResourceEmployeFailed != null:
+return getResourceEmployeFailed(_that);case GetResourceAggregatedEmployeLoading() when getResourceAggregatedEmployeLoading != null:
+return getResourceAggregatedEmployeLoading(_that);case GetResourceAggregatedEmployeLoaded() when getResourceAggregatedEmployeLoaded != null:
+return getResourceAggregatedEmployeLoaded(_that);case GetResourceAggregatedEmployeFailed() when getResourceAggregatedEmployeFailed != null:
+return getResourceAggregatedEmployeFailed(_that);case RecoveryConfirmEmployeeLoading() when recoveryConfirmEmployeeLoading != null:
+return recoveryConfirmEmployeeLoading(_that);case RecoveryConfirmEmployeeLoaded() when recoveryConfirmEmployeeLoaded != null:
+return recoveryConfirmEmployeeLoaded(_that);case RecoveryConfirmEmployeeFailed() when recoveryConfirmEmployeeFailed != null:
+return recoveryConfirmEmployeeFailed(_that);case HistoriqueRecoveryEmployeeLoading() when historiqueRecoveryEmployeeLoading != null:
+return historiqueRecoveryEmployeeLoading(_that);case HistoriqueRecoveryEmployeeLoaded() when historiqueRecoveryEmployeeLoaded != null:
+return historiqueRecoveryEmployeeLoaded(_that);case HistoriqueRecoveryEmployeeFailed() when historiqueRecoveryEmployeeFailed != null:
+return historiqueRecoveryEmployeeFailed(_that);case _:
   return null;
 
 }
@@ -191,7 +227,7 @@ return manualProvisioningFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getEmployeesLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult Function( String message)?  getEmployeesFailed,TResult Function()?  createEmployeeLoading,TResult Function( DataResponseModel data)?  createEmployeeLoaded,TResult Function( String message)?  createEmployeeFailed,TResult Function()?  updateEmployeeLoading,TResult Function( DataResponseModel data)?  updateEmployeeLoaded,TResult Function( String message)?  updateEmployeeFailed,TResult Function()?  disableEmployeeLoading,TResult Function( DataResponseModel data)?  disableEmployeeLoaded,TResult Function( String message)?  disableEmployeeFailed,TResult Function()?  removeNumbersLoading,TResult Function( DataResponseModel data)?  removeNumbersLoaded,TResult Function( String message)?  removeNumbersFailed,TResult Function()?  assignNumbersLoading,TResult Function( DataResponseModel data)?  assignNumbersLoaded,TResult Function( String message)?  assignNumbersFailed,TResult Function()?  downloadFileEmployesLoading,TResult Function()?  downloadFileEmployesLoaded,TResult Function( String message)?  downloadFileEmployesFailed,TResult Function()?  manualProvisioningLoading,TResult Function( DataResponseModel data)?  manualProvisioningLoaded,TResult Function( String message)?  manualProvisioningFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getEmployeesLoading,TResult Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult Function( String message)?  getEmployeesFailed,TResult Function()?  createEmployeeLoading,TResult Function( DataResponseModel data)?  createEmployeeLoaded,TResult Function( String message)?  createEmployeeFailed,TResult Function()?  updateEmployeeLoading,TResult Function( DataResponseModel data)?  updateEmployeeLoaded,TResult Function( String message)?  updateEmployeeFailed,TResult Function()?  disableEmployeeLoading,TResult Function( DataResponseModel data)?  disableEmployeeLoaded,TResult Function( String message)?  disableEmployeeFailed,TResult Function()?  removeNumbersLoading,TResult Function( DataResponseModel data)?  removeNumbersLoaded,TResult Function( String message)?  removeNumbersFailed,TResult Function()?  assignNumbersLoading,TResult Function( DataResponseModel data)?  assignNumbersLoaded,TResult Function( String message)?  assignNumbersFailed,TResult Function()?  downloadFileEmployesLoading,TResult Function()?  downloadFileEmployesLoaded,TResult Function( String message)?  downloadFileEmployesFailed,TResult Function()?  manualProvisioningLoading,TResult Function( DataResponseModel data)?  manualProvisioningLoaded,TResult Function( String message)?  manualProvisioningFailed,TResult Function()?  getResourceEmployeLoading,TResult Function( DataResourceCustomResponseModel data)?  getResourceEmployeLoaded,TResult Function( String message)?  getResourceEmployeFailed,TResult Function()?  getResourceAggregatedEmployeLoading,TResult Function( DataResourceCustomAggregatedResponseModel data)?  getResourceAggregatedEmployeLoaded,TResult Function( String message)?  getResourceAggregatedEmployeFailed,TResult Function()?  recoveryConfirmEmployeeLoading,TResult Function( DataResponseModel data)?  recoveryConfirmEmployeeLoaded,TResult Function( String message)?  recoveryConfirmEmployeeFailed,TResult Function()?  historiqueRecoveryEmployeeLoading,TResult Function( DataRecoveryHistoryResponseModel data)?  historiqueRecoveryEmployeeLoaded,TResult Function( String message)?  historiqueRecoveryEmployeeFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetEmployeesLoading() when getEmployeesLoading != null:
@@ -218,7 +254,19 @@ return downloadFileEmployesLoaded();case DownloadFileEmployesFailed() when downl
 return downloadFileEmployesFailed(_that.message);case ManualProvisioningLoading() when manualProvisioningLoading != null:
 return manualProvisioningLoading();case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
 return manualProvisioningLoaded(_that.data);case ManualProvisioningFailed() when manualProvisioningFailed != null:
-return manualProvisioningFailed(_that.message);case _:
+return manualProvisioningFailed(_that.message);case GetResourceEmployeLoading() when getResourceEmployeLoading != null:
+return getResourceEmployeLoading();case GetResourceEmployeLoaded() when getResourceEmployeLoaded != null:
+return getResourceEmployeLoaded(_that.data);case GetResourceEmployeFailed() when getResourceEmployeFailed != null:
+return getResourceEmployeFailed(_that.message);case GetResourceAggregatedEmployeLoading() when getResourceAggregatedEmployeLoading != null:
+return getResourceAggregatedEmployeLoading();case GetResourceAggregatedEmployeLoaded() when getResourceAggregatedEmployeLoaded != null:
+return getResourceAggregatedEmployeLoaded(_that.data);case GetResourceAggregatedEmployeFailed() when getResourceAggregatedEmployeFailed != null:
+return getResourceAggregatedEmployeFailed(_that.message);case RecoveryConfirmEmployeeLoading() when recoveryConfirmEmployeeLoading != null:
+return recoveryConfirmEmployeeLoading();case RecoveryConfirmEmployeeLoaded() when recoveryConfirmEmployeeLoaded != null:
+return recoveryConfirmEmployeeLoaded(_that.data);case RecoveryConfirmEmployeeFailed() when recoveryConfirmEmployeeFailed != null:
+return recoveryConfirmEmployeeFailed(_that.message);case HistoriqueRecoveryEmployeeLoading() when historiqueRecoveryEmployeeLoading != null:
+return historiqueRecoveryEmployeeLoading();case HistoriqueRecoveryEmployeeLoaded() when historiqueRecoveryEmployeeLoaded != null:
+return historiqueRecoveryEmployeeLoaded(_that.data);case HistoriqueRecoveryEmployeeFailed() when historiqueRecoveryEmployeeFailed != null:
+return historiqueRecoveryEmployeeFailed(_that.message);case _:
   return orElse();
 
 }
@@ -236,7 +284,7 @@ return manualProvisioningFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getEmployeesLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesLoaded,required TResult Function( String message)  getEmployeesFailed,required TResult Function()  createEmployeeLoading,required TResult Function( DataResponseModel data)  createEmployeeLoaded,required TResult Function( String message)  createEmployeeFailed,required TResult Function()  updateEmployeeLoading,required TResult Function( DataResponseModel data)  updateEmployeeLoaded,required TResult Function( String message)  updateEmployeeFailed,required TResult Function()  disableEmployeeLoading,required TResult Function( DataResponseModel data)  disableEmployeeLoaded,required TResult Function( String message)  disableEmployeeFailed,required TResult Function()  removeNumbersLoading,required TResult Function( DataResponseModel data)  removeNumbersLoaded,required TResult Function( String message)  removeNumbersFailed,required TResult Function()  assignNumbersLoading,required TResult Function( DataResponseModel data)  assignNumbersLoaded,required TResult Function( String message)  assignNumbersFailed,required TResult Function()  downloadFileEmployesLoading,required TResult Function()  downloadFileEmployesLoaded,required TResult Function( String message)  downloadFileEmployesFailed,required TResult Function()  manualProvisioningLoading,required TResult Function( DataResponseModel data)  manualProvisioningLoaded,required TResult Function( String message)  manualProvisioningFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getEmployeesLoading,required TResult Function( DataEmployeeResponseModel data)  getEmployeesLoaded,required TResult Function( String message)  getEmployeesFailed,required TResult Function()  createEmployeeLoading,required TResult Function( DataResponseModel data)  createEmployeeLoaded,required TResult Function( String message)  createEmployeeFailed,required TResult Function()  updateEmployeeLoading,required TResult Function( DataResponseModel data)  updateEmployeeLoaded,required TResult Function( String message)  updateEmployeeFailed,required TResult Function()  disableEmployeeLoading,required TResult Function( DataResponseModel data)  disableEmployeeLoaded,required TResult Function( String message)  disableEmployeeFailed,required TResult Function()  removeNumbersLoading,required TResult Function( DataResponseModel data)  removeNumbersLoaded,required TResult Function( String message)  removeNumbersFailed,required TResult Function()  assignNumbersLoading,required TResult Function( DataResponseModel data)  assignNumbersLoaded,required TResult Function( String message)  assignNumbersFailed,required TResult Function()  downloadFileEmployesLoading,required TResult Function()  downloadFileEmployesLoaded,required TResult Function( String message)  downloadFileEmployesFailed,required TResult Function()  manualProvisioningLoading,required TResult Function( DataResponseModel data)  manualProvisioningLoaded,required TResult Function( String message)  manualProvisioningFailed,required TResult Function()  getResourceEmployeLoading,required TResult Function( DataResourceCustomResponseModel data)  getResourceEmployeLoaded,required TResult Function( String message)  getResourceEmployeFailed,required TResult Function()  getResourceAggregatedEmployeLoading,required TResult Function( DataResourceCustomAggregatedResponseModel data)  getResourceAggregatedEmployeLoaded,required TResult Function( String message)  getResourceAggregatedEmployeFailed,required TResult Function()  recoveryConfirmEmployeeLoading,required TResult Function( DataResponseModel data)  recoveryConfirmEmployeeLoaded,required TResult Function( String message)  recoveryConfirmEmployeeFailed,required TResult Function()  historiqueRecoveryEmployeeLoading,required TResult Function( DataRecoveryHistoryResponseModel data)  historiqueRecoveryEmployeeLoaded,required TResult Function( String message)  historiqueRecoveryEmployeeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetEmployeesLoading():
@@ -263,7 +311,19 @@ return downloadFileEmployesLoaded();case DownloadFileEmployesFailed():
 return downloadFileEmployesFailed(_that.message);case ManualProvisioningLoading():
 return manualProvisioningLoading();case ManualProvisioningLoaded():
 return manualProvisioningLoaded(_that.data);case ManualProvisioningFailed():
-return manualProvisioningFailed(_that.message);case _:
+return manualProvisioningFailed(_that.message);case GetResourceEmployeLoading():
+return getResourceEmployeLoading();case GetResourceEmployeLoaded():
+return getResourceEmployeLoaded(_that.data);case GetResourceEmployeFailed():
+return getResourceEmployeFailed(_that.message);case GetResourceAggregatedEmployeLoading():
+return getResourceAggregatedEmployeLoading();case GetResourceAggregatedEmployeLoaded():
+return getResourceAggregatedEmployeLoaded(_that.data);case GetResourceAggregatedEmployeFailed():
+return getResourceAggregatedEmployeFailed(_that.message);case RecoveryConfirmEmployeeLoading():
+return recoveryConfirmEmployeeLoading();case RecoveryConfirmEmployeeLoaded():
+return recoveryConfirmEmployeeLoaded(_that.data);case RecoveryConfirmEmployeeFailed():
+return recoveryConfirmEmployeeFailed(_that.message);case HistoriqueRecoveryEmployeeLoading():
+return historiqueRecoveryEmployeeLoading();case HistoriqueRecoveryEmployeeLoaded():
+return historiqueRecoveryEmployeeLoaded(_that.data);case HistoriqueRecoveryEmployeeFailed():
+return historiqueRecoveryEmployeeFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -280,7 +340,7 @@ return manualProvisioningFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,TResult? Function()?  disableEmployeeLoading,TResult? Function( DataResponseModel data)?  disableEmployeeLoaded,TResult? Function( String message)?  disableEmployeeFailed,TResult? Function()?  removeNumbersLoading,TResult? Function( DataResponseModel data)?  removeNumbersLoaded,TResult? Function( String message)?  removeNumbersFailed,TResult? Function()?  assignNumbersLoading,TResult? Function( DataResponseModel data)?  assignNumbersLoaded,TResult? Function( String message)?  assignNumbersFailed,TResult? Function()?  downloadFileEmployesLoading,TResult? Function()?  downloadFileEmployesLoaded,TResult? Function( String message)?  downloadFileEmployesFailed,TResult? Function()?  manualProvisioningLoading,TResult? Function( DataResponseModel data)?  manualProvisioningLoaded,TResult? Function( String message)?  manualProvisioningFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getEmployeesLoading,TResult? Function( DataEmployeeResponseModel data)?  getEmployeesLoaded,TResult? Function( String message)?  getEmployeesFailed,TResult? Function()?  createEmployeeLoading,TResult? Function( DataResponseModel data)?  createEmployeeLoaded,TResult? Function( String message)?  createEmployeeFailed,TResult? Function()?  updateEmployeeLoading,TResult? Function( DataResponseModel data)?  updateEmployeeLoaded,TResult? Function( String message)?  updateEmployeeFailed,TResult? Function()?  disableEmployeeLoading,TResult? Function( DataResponseModel data)?  disableEmployeeLoaded,TResult? Function( String message)?  disableEmployeeFailed,TResult? Function()?  removeNumbersLoading,TResult? Function( DataResponseModel data)?  removeNumbersLoaded,TResult? Function( String message)?  removeNumbersFailed,TResult? Function()?  assignNumbersLoading,TResult? Function( DataResponseModel data)?  assignNumbersLoaded,TResult? Function( String message)?  assignNumbersFailed,TResult? Function()?  downloadFileEmployesLoading,TResult? Function()?  downloadFileEmployesLoaded,TResult? Function( String message)?  downloadFileEmployesFailed,TResult? Function()?  manualProvisioningLoading,TResult? Function( DataResponseModel data)?  manualProvisioningLoaded,TResult? Function( String message)?  manualProvisioningFailed,TResult? Function()?  getResourceEmployeLoading,TResult? Function( DataResourceCustomResponseModel data)?  getResourceEmployeLoaded,TResult? Function( String message)?  getResourceEmployeFailed,TResult? Function()?  getResourceAggregatedEmployeLoading,TResult? Function( DataResourceCustomAggregatedResponseModel data)?  getResourceAggregatedEmployeLoaded,TResult? Function( String message)?  getResourceAggregatedEmployeFailed,TResult? Function()?  recoveryConfirmEmployeeLoading,TResult? Function( DataResponseModel data)?  recoveryConfirmEmployeeLoaded,TResult? Function( String message)?  recoveryConfirmEmployeeFailed,TResult? Function()?  historiqueRecoveryEmployeeLoading,TResult? Function( DataRecoveryHistoryResponseModel data)?  historiqueRecoveryEmployeeLoaded,TResult? Function( String message)?  historiqueRecoveryEmployeeFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetEmployeesLoading() when getEmployeesLoading != null:
@@ -307,7 +367,19 @@ return downloadFileEmployesLoaded();case DownloadFileEmployesFailed() when downl
 return downloadFileEmployesFailed(_that.message);case ManualProvisioningLoading() when manualProvisioningLoading != null:
 return manualProvisioningLoading();case ManualProvisioningLoaded() when manualProvisioningLoaded != null:
 return manualProvisioningLoaded(_that.data);case ManualProvisioningFailed() when manualProvisioningFailed != null:
-return manualProvisioningFailed(_that.message);case _:
+return manualProvisioningFailed(_that.message);case GetResourceEmployeLoading() when getResourceEmployeLoading != null:
+return getResourceEmployeLoading();case GetResourceEmployeLoaded() when getResourceEmployeLoaded != null:
+return getResourceEmployeLoaded(_that.data);case GetResourceEmployeFailed() when getResourceEmployeFailed != null:
+return getResourceEmployeFailed(_that.message);case GetResourceAggregatedEmployeLoading() when getResourceAggregatedEmployeLoading != null:
+return getResourceAggregatedEmployeLoading();case GetResourceAggregatedEmployeLoaded() when getResourceAggregatedEmployeLoaded != null:
+return getResourceAggregatedEmployeLoaded(_that.data);case GetResourceAggregatedEmployeFailed() when getResourceAggregatedEmployeFailed != null:
+return getResourceAggregatedEmployeFailed(_that.message);case RecoveryConfirmEmployeeLoading() when recoveryConfirmEmployeeLoading != null:
+return recoveryConfirmEmployeeLoading();case RecoveryConfirmEmployeeLoaded() when recoveryConfirmEmployeeLoaded != null:
+return recoveryConfirmEmployeeLoaded(_that.data);case RecoveryConfirmEmployeeFailed() when recoveryConfirmEmployeeFailed != null:
+return recoveryConfirmEmployeeFailed(_that.message);case HistoriqueRecoveryEmployeeLoading() when historiqueRecoveryEmployeeLoading != null:
+return historiqueRecoveryEmployeeLoading();case HistoriqueRecoveryEmployeeLoaded() when historiqueRecoveryEmployeeLoaded != null:
+return historiqueRecoveryEmployeeLoaded(_that.data);case HistoriqueRecoveryEmployeeFailed() when historiqueRecoveryEmployeeFailed != null:
+return historiqueRecoveryEmployeeFailed(_that.message);case _:
   return null;
 
 }
@@ -1617,6 +1689,662 @@ class _$ManualProvisioningFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(ManualProvisioningFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class GetResourceEmployeLoading implements MyFlotteState {
+  const GetResourceEmployeLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetResourceEmployeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MyFlotteState.getResourceEmployeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class GetResourceEmployeLoaded implements MyFlotteState {
+  const GetResourceEmployeLoaded({required this.data});
+  
+
+ final  DataResourceCustomResponseModel data;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GetResourceEmployeLoadedCopyWith<GetResourceEmployeLoaded> get copyWith => _$GetResourceEmployeLoadedCopyWithImpl<GetResourceEmployeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetResourceEmployeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'MyFlotteState.getResourceEmployeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GetResourceEmployeLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $GetResourceEmployeLoadedCopyWith(GetResourceEmployeLoaded value, $Res Function(GetResourceEmployeLoaded) _then) = _$GetResourceEmployeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResourceCustomResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$GetResourceEmployeLoadedCopyWithImpl<$Res>
+    implements $GetResourceEmployeLoadedCopyWith<$Res> {
+  _$GetResourceEmployeLoadedCopyWithImpl(this._self, this._then);
+
+  final GetResourceEmployeLoaded _self;
+  final $Res Function(GetResourceEmployeLoaded) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(GetResourceEmployeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResourceCustomResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class GetResourceEmployeFailed implements MyFlotteState {
+  const GetResourceEmployeFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GetResourceEmployeFailedCopyWith<GetResourceEmployeFailed> get copyWith => _$GetResourceEmployeFailedCopyWithImpl<GetResourceEmployeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetResourceEmployeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'MyFlotteState.getResourceEmployeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GetResourceEmployeFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $GetResourceEmployeFailedCopyWith(GetResourceEmployeFailed value, $Res Function(GetResourceEmployeFailed) _then) = _$GetResourceEmployeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$GetResourceEmployeFailedCopyWithImpl<$Res>
+    implements $GetResourceEmployeFailedCopyWith<$Res> {
+  _$GetResourceEmployeFailedCopyWithImpl(this._self, this._then);
+
+  final GetResourceEmployeFailed _self;
+  final $Res Function(GetResourceEmployeFailed) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(GetResourceEmployeFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class GetResourceAggregatedEmployeLoading implements MyFlotteState {
+  const GetResourceAggregatedEmployeLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetResourceAggregatedEmployeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MyFlotteState.getResourceAggregatedEmployeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class GetResourceAggregatedEmployeLoaded implements MyFlotteState {
+  const GetResourceAggregatedEmployeLoaded({required this.data});
+  
+
+ final  DataResourceCustomAggregatedResponseModel data;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GetResourceAggregatedEmployeLoadedCopyWith<GetResourceAggregatedEmployeLoaded> get copyWith => _$GetResourceAggregatedEmployeLoadedCopyWithImpl<GetResourceAggregatedEmployeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetResourceAggregatedEmployeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'MyFlotteState.getResourceAggregatedEmployeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GetResourceAggregatedEmployeLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $GetResourceAggregatedEmployeLoadedCopyWith(GetResourceAggregatedEmployeLoaded value, $Res Function(GetResourceAggregatedEmployeLoaded) _then) = _$GetResourceAggregatedEmployeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResourceCustomAggregatedResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$GetResourceAggregatedEmployeLoadedCopyWithImpl<$Res>
+    implements $GetResourceAggregatedEmployeLoadedCopyWith<$Res> {
+  _$GetResourceAggregatedEmployeLoadedCopyWithImpl(this._self, this._then);
+
+  final GetResourceAggregatedEmployeLoaded _self;
+  final $Res Function(GetResourceAggregatedEmployeLoaded) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(GetResourceAggregatedEmployeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResourceCustomAggregatedResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class GetResourceAggregatedEmployeFailed implements MyFlotteState {
+  const GetResourceAggregatedEmployeFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GetResourceAggregatedEmployeFailedCopyWith<GetResourceAggregatedEmployeFailed> get copyWith => _$GetResourceAggregatedEmployeFailedCopyWithImpl<GetResourceAggregatedEmployeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GetResourceAggregatedEmployeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'MyFlotteState.getResourceAggregatedEmployeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $GetResourceAggregatedEmployeFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $GetResourceAggregatedEmployeFailedCopyWith(GetResourceAggregatedEmployeFailed value, $Res Function(GetResourceAggregatedEmployeFailed) _then) = _$GetResourceAggregatedEmployeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$GetResourceAggregatedEmployeFailedCopyWithImpl<$Res>
+    implements $GetResourceAggregatedEmployeFailedCopyWith<$Res> {
+  _$GetResourceAggregatedEmployeFailedCopyWithImpl(this._self, this._then);
+
+  final GetResourceAggregatedEmployeFailed _self;
+  final $Res Function(GetResourceAggregatedEmployeFailed) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(GetResourceAggregatedEmployeFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class RecoveryConfirmEmployeeLoading implements MyFlotteState {
+  const RecoveryConfirmEmployeeLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecoveryConfirmEmployeeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MyFlotteState.recoveryConfirmEmployeeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class RecoveryConfirmEmployeeLoaded implements MyFlotteState {
+  const RecoveryConfirmEmployeeLoaded({required this.data});
+  
+
+ final  DataResponseModel data;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RecoveryConfirmEmployeeLoadedCopyWith<RecoveryConfirmEmployeeLoaded> get copyWith => _$RecoveryConfirmEmployeeLoadedCopyWithImpl<RecoveryConfirmEmployeeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecoveryConfirmEmployeeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'MyFlotteState.recoveryConfirmEmployeeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $RecoveryConfirmEmployeeLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $RecoveryConfirmEmployeeLoadedCopyWith(RecoveryConfirmEmployeeLoaded value, $Res Function(RecoveryConfirmEmployeeLoaded) _then) = _$RecoveryConfirmEmployeeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$RecoveryConfirmEmployeeLoadedCopyWithImpl<$Res>
+    implements $RecoveryConfirmEmployeeLoadedCopyWith<$Res> {
+  _$RecoveryConfirmEmployeeLoadedCopyWithImpl(this._self, this._then);
+
+  final RecoveryConfirmEmployeeLoaded _self;
+  final $Res Function(RecoveryConfirmEmployeeLoaded) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(RecoveryConfirmEmployeeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class RecoveryConfirmEmployeeFailed implements MyFlotteState {
+  const RecoveryConfirmEmployeeFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RecoveryConfirmEmployeeFailedCopyWith<RecoveryConfirmEmployeeFailed> get copyWith => _$RecoveryConfirmEmployeeFailedCopyWithImpl<RecoveryConfirmEmployeeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RecoveryConfirmEmployeeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'MyFlotteState.recoveryConfirmEmployeeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $RecoveryConfirmEmployeeFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $RecoveryConfirmEmployeeFailedCopyWith(RecoveryConfirmEmployeeFailed value, $Res Function(RecoveryConfirmEmployeeFailed) _then) = _$RecoveryConfirmEmployeeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$RecoveryConfirmEmployeeFailedCopyWithImpl<$Res>
+    implements $RecoveryConfirmEmployeeFailedCopyWith<$Res> {
+  _$RecoveryConfirmEmployeeFailedCopyWithImpl(this._self, this._then);
+
+  final RecoveryConfirmEmployeeFailed _self;
+  final $Res Function(RecoveryConfirmEmployeeFailed) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(RecoveryConfirmEmployeeFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class HistoriqueRecoveryEmployeeLoading implements MyFlotteState {
+  const HistoriqueRecoveryEmployeeLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoriqueRecoveryEmployeeLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MyFlotteState.historiqueRecoveryEmployeeLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class HistoriqueRecoveryEmployeeLoaded implements MyFlotteState {
+  const HistoriqueRecoveryEmployeeLoaded({required this.data});
+  
+
+ final  DataRecoveryHistoryResponseModel data;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HistoriqueRecoveryEmployeeLoadedCopyWith<HistoriqueRecoveryEmployeeLoaded> get copyWith => _$HistoriqueRecoveryEmployeeLoadedCopyWithImpl<HistoriqueRecoveryEmployeeLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoriqueRecoveryEmployeeLoaded&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'MyFlotteState.historiqueRecoveryEmployeeLoaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HistoriqueRecoveryEmployeeLoadedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $HistoriqueRecoveryEmployeeLoadedCopyWith(HistoriqueRecoveryEmployeeLoaded value, $Res Function(HistoriqueRecoveryEmployeeLoaded) _then) = _$HistoriqueRecoveryEmployeeLoadedCopyWithImpl;
+@useResult
+$Res call({
+ DataRecoveryHistoryResponseModel data
+});
+
+
+
+
+}
+/// @nodoc
+class _$HistoriqueRecoveryEmployeeLoadedCopyWithImpl<$Res>
+    implements $HistoriqueRecoveryEmployeeLoadedCopyWith<$Res> {
+  _$HistoriqueRecoveryEmployeeLoadedCopyWithImpl(this._self, this._then);
+
+  final HistoriqueRecoveryEmployeeLoaded _self;
+  final $Res Function(HistoriqueRecoveryEmployeeLoaded) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(HistoriqueRecoveryEmployeeLoaded(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as DataRecoveryHistoryResponseModel,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class HistoriqueRecoveryEmployeeFailed implements MyFlotteState {
+  const HistoriqueRecoveryEmployeeFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HistoriqueRecoveryEmployeeFailedCopyWith<HistoriqueRecoveryEmployeeFailed> get copyWith => _$HistoriqueRecoveryEmployeeFailedCopyWithImpl<HistoriqueRecoveryEmployeeFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoriqueRecoveryEmployeeFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'MyFlotteState.historiqueRecoveryEmployeeFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HistoriqueRecoveryEmployeeFailedCopyWith<$Res> implements $MyFlotteStateCopyWith<$Res> {
+  factory $HistoriqueRecoveryEmployeeFailedCopyWith(HistoriqueRecoveryEmployeeFailed value, $Res Function(HistoriqueRecoveryEmployeeFailed) _then) = _$HistoriqueRecoveryEmployeeFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$HistoriqueRecoveryEmployeeFailedCopyWithImpl<$Res>
+    implements $HistoriqueRecoveryEmployeeFailedCopyWith<$Res> {
+  _$HistoriqueRecoveryEmployeeFailedCopyWithImpl(this._self, this._then);
+
+  final HistoriqueRecoveryEmployeeFailed _self;
+  final $Res Function(HistoriqueRecoveryEmployeeFailed) _then;
+
+/// Create a copy of MyFlotteState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(HistoriqueRecoveryEmployeeFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

@@ -292,7 +292,7 @@ class _EmployesTabState extends State<_EmployesTab> {
                 ),
               )
             else ...[
-              LayoutBuilder(
+             /* LayoutBuilder(
                 builder: (context, constraints) {
                   final totalWidth = constraints.maxWidth;
                   final crossAxisCount = totalWidth > 900 ? 3 : totalWidth > 550 ? 2 : 1;
@@ -320,7 +320,7 @@ class _EmployesTabState extends State<_EmployesTab> {
                   );
                 },
               ),
-              SizedBox(height: 20.rh),
+              SizedBox(height: 20.rh),*/
               AppTable(
                 title: widget.s.flotteComplete,
                 source: SourceEmployes(

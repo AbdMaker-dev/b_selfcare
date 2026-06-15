@@ -13,7 +13,6 @@ class SourceEmployes extends AppTableSource<EmployeeModel> {
   final void Function(EmployeeModel)? onEdit;
   final void Function(EmployeeModel)? onDisable;
   final void Function(EmployeeModel)? onApprovisionner;
-
   SourceEmployes({required this.rows, this.onDetail, this.onEdit, this.onDisable, this.onApprovisionner});
 
   @override
