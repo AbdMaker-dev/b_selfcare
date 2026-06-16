@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:b_selfcare/src/data/models/campaign/campaign_execution_model.dart';
 import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model.dart';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/provisioning/provisioning_log_model.dart';
@@ -16,18 +17,21 @@ class CampagneCubit extends Cubit<CampagneState> {
   CampagneCubit(this.campaignUsecase) : super(const CampagneState.initial());
 
   ProvisioningLogsResponseModel? provisioningLogsData;
-  bool logsLoading = false;
+  CampaignExecutionsResponseModel? executionsData;
 
   Future<void> getProvisioningLogs({dynamic params}) async {
-    logsLoading = true;
     final res = await campaignUsecase.getProvisioningLogs(params: params);
-    logsLoading = false;
     res.fold(
       (_) {},
-      (data) {
-        provisioningLogsData = data;
-        emit(state);
-      },
+      (data) { provisioningLogsData = data; },
+    );
+  }
+
+  Future<void> getExecutions({dynamic params}) async {
+    final res = await campaignUsecase.getExecutions(params: params);
+    res.fold(
+      (_) {},
+      (data) { executionsData = data; },
     );
   }
 

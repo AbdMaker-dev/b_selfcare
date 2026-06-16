@@ -1,3 +1,4 @@
+import 'package:b_selfcare/src/data/models/campaign/campaign_execution_model.dart';
 import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model.dart';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
@@ -41,5 +42,9 @@ class CampaignUsecase {
 
   Future<Either<Failure, ProvisioningLogsResponseModel>> getProvisioningLogs({dynamic params}) async {
     return campaignRepo.getProvisioningLogs(params: params);
+  }
+
+  Future<Either<Failure, CampaignExecutionsResponseModel>> getExecutions({dynamic params}) async {
+    return campaignRepo.getExecutions(params: params);
   }
 }

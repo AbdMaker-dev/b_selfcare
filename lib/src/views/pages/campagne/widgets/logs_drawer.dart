@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LogsDrawer extends StatefulWidget {
   final CampagneCubit cubit;
-
   const LogsDrawer({super.key, required this.cubit});
 
   static void show(BuildContext context, {required CampagneCubit cubit}) {
@@ -72,8 +71,6 @@ class _LogsDrawerState extends State<LogsDrawer> {
           final summary = data?.summary;
           final pagination = data?.pagination;
           final lastPage = pagination?.lastPage ?? 1;
-          final isLoading = widget.cubit.logsLoading;
-
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -149,9 +146,7 @@ class _LogsDrawerState extends State<LogsDrawer> {
 
               // ─── Corps ───────────────────────────────────────────────────
               Expanded(
-                child: isLoading && items.isEmpty
-                    ? Center(child: CircularProgressIndicator(color: AppColors.primary))
-                    : items.isEmpty
+                child: items.isEmpty
                         ? Center(
                             child: AppText(
                               'Aucun log trouvé',

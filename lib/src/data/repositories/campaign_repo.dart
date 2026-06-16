@@ -1,3 +1,4 @@
+import 'package:b_selfcare/src/data/models/campaign/campaign_execution_model.dart';
 import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model.dart';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
@@ -57,6 +58,14 @@ class CampaignRepo {
     return res.fold(
       (error) => Left(error),
       (success) => Right(ProvisioningLogsResponseModel.fromJson(success.response)),
+    );
+  }
+
+  Future<Either<Failure, CampaignExecutionsResponseModel>> getExecutions({dynamic params}) async {
+    var res = await htttHelper.handleGetRequest("campaigns/executions", params: params, showLoader: true);
+    return res.fold(
+      (error) => Left(error),
+      (success) => Right(CampaignExecutionsResponseModel.fromJson(success.response)),
     );
   }
 }
