@@ -25,7 +25,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 @RoutePage()
 class CampagneScreen extends StatefulWidget {
   const CampagneScreen({super.key});
-
   @override
   State<CampagneScreen> createState() => _CampagneScreenState();
 }
