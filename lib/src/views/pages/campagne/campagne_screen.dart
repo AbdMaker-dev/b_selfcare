@@ -11,7 +11,9 @@ import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/campagne/cubit/campagne_cubit.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/detail_campagne.dart';
+import 'package:b_selfcare/src/views/pages/campagne/widgets/logs_drawer.dart';
 import 'package:b_selfcare/src/views/pages/campagne/widgets/source_campagne.dart';
+import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_search_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/filter_tab/filter_tab.dart';
@@ -42,6 +44,7 @@ class _CampagneScreenState extends State<CampagneScreen> {
   void initState() {
     super.initState();
     campagne.getCampaigns(data: {'page': _currentPage});
+    campagne.getProvisioningLogs();
     _searchController.addListener(_onSearchChanged);
   }
 
@@ -130,26 +133,40 @@ class _CampagneScreenState extends State<CampagneScreen> {
 
   Widget _buildHeader(BuildContext context, int total) {
     final s = S.of(context);
-    return Column(
+    return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AppText.textHighlight(
-          s.myCampagne,
-          highlight: s.campagne,
-          fontSize: 24.rsp,
-          highlightColor: AppColors.warning,
-          fontFamily: FontFamily.montserrat,
-          //fontStyle: FontStyle.italic,
-          fontWeight: FontWeight.w400,
-          highlightFontSize: 24.rsp,
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AppText.textHighlight(
+                s.myCampagne,
+                highlight: s.campagne,
+                fontSize: 24.rsp,
+                highlightColor: AppColors.warning,
+                fontFamily: FontFamily.montserrat,
+                fontWeight: FontWeight.w400,
+                highlightFontSize: 24.rsp,
+              ),
+              SizedBox(height: 8.rh),
+              AppText(
+                total > 0
+                ? '$total campagnes · Provisioning automatique CBS'
+                : 'Provisioning automatique - CBS - DAILY / WEEKLY / MONTHLY',
+                fontSize: 16.rsp,
+                color: AppColors.inputBorderLight,
+              ),
+            ],
+          ),
         ),
-        SizedBox(height: 8.rh),
-        AppText(
-          total > 0
-          ? '$total campagnes · Provisioning automatique CBS'
-          : 'Provisioning automatique - CBS - DAILY / WEEKLY / MONTHLY',
-          fontSize: 16.rsp,
-          color: AppColors.inputBorderLight,
+        AppButton(
+          text: 'Voir logs',
+          type: AppButtonType.outline,
+          fontSize: 13.rsp,
+          height: 38.rh,
+          padding: EdgeInsets.symmetric(horizontal: 16.rw),
+          onPressed: () => LogsDrawer.show(context, cubit: campagne),
         ),
       ],
     );

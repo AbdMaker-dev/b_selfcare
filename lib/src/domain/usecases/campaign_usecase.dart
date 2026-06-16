@@ -1,9 +1,11 @@
 import 'package:b_selfcare/src/data/models/campaign/data_campaign_response_model.dart';
 import 'package:b_selfcare/src/data/models/data_response_model.dart';
 import 'package:b_selfcare/src/data/models/failure.dart';
+import 'package:b_selfcare/src/data/models/provisioning/provisioning_log_model.dart';
 import 'package:b_selfcare/src/data/repositories/campaign_repo.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
+
 
 @lazySingleton
 class CampaignUsecase {
@@ -35,5 +37,9 @@ class CampaignUsecase {
       (error) => Left(error),
       (success) => Right(success),
     );
+  }
+
+  Future<Either<Failure, ProvisioningLogsResponseModel>> getProvisioningLogs({dynamic params}) async {
+    return campaignRepo.getProvisioningLogs(params: params);
   }
 }

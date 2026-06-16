@@ -11,7 +11,7 @@ class CampaignModel {
   String? endDate;
   String? nextExecution;
   String? status;
-  String? estimatedCost;
+  dynamic estimatedCost;
   ProductsModel? product;
   String? createdAt;
 
