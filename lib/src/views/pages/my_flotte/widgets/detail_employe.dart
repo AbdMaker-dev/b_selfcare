@@ -1,6 +1,7 @@
 import 'package:b_selfcare/gen/fonts.gen.dart';
 import 'package:b_selfcare/src/data/models/employee/employee_model.dart';
 import 'package:b_selfcare/src/data/models/employee/fleet_number_model.dart';
+import 'package:b_selfcare/src/data/models/resource_custom/resource_custom_model.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/app_date.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
@@ -9,13 +10,14 @@ import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_disable_emp
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/confirm_remove_number.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_assign_employe_numbers.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/widgets/form_edit_employe.dart';
+import 'package:b_selfcare/src/views/pages/recovery_resource/widgets/recovery_resource_panel.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/detail_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DetailEmploye extends StatelessWidget {
+class DetailEmploye extends StatefulWidget {
   final EmployeeModel employee;
   final MyFlotteCubit myFlotteCubit;
 
@@ -28,7 +30,7 @@ class DetailEmploye extends StatelessWidget {
       barrierDismissible: true,
       barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       barrierColor: AppColors.primary.withValues(alpha: 0.7),
-      pageBuilder: (_, __, ___) => Align(
+      pageBuilder: (context, _, _) => Align(
         alignment: Alignment.centerRight,
         child: Material(
           color: Colors.transparent,
@@ -43,16 +45,56 @@ class DetailEmploye extends StatelessWidget {
   }
 
   @override
+  State<DetailEmploye> createState() => _DetailEmployeState();
+}
+
+class _DetailEmployeState extends State<DetailEmploye> {
+  final Map<int, ResourceCustomModel> _resourcesCache = {};
+  int? _loadingNumberId;
+  int _queueIndex = 0;
+
+  List<FleetNumberModel> get _numbers => widget.employee.fleetNumbers ?? [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNext();
+  }
+
+  void _loadNext() {
+    while (_queueIndex < _numbers.length) {
+      final id = _numbers[_queueIndex].id;
+      if (id != null && !_resourcesCache.containsKey(id)) {
+        setState(() => _loadingNumberId = id);
+        widget.myFlotteCubit.getResourceEmploye(fleetNumberId: id);
+        return;
+      }
+      _queueIndex++;
+    }
+    if (_loadingNumberId != null) setState(() => _loadingNumberId = null);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final fullName = '${employee.firstName ?? ''} ${employee.lastName ?? ''}'.trim();
-    final isActive = employee.status?.toUpperCase() == 'ACTIVE';
+    final fullName = '${widget.employee.firstName ?? ''} ${widget.employee.lastName ?? ''}'.trim();
+    final isActive = widget.employee.status?.toUpperCase() == 'ACTIVE';
 
     return BlocListener<MyFlotteCubit, MyFlotteState>(
-      bloc: myFlotteCubit,
+      bloc: widget.myFlotteCubit,
       listener: (context, state) {
         state.maybeWhen(
           assignNumbersLoaded: (_) => Navigator.of(context, rootNavigator: true).pop(),
           removeNumbersLoaded: (_) => Navigator.of(context, rootNavigator: true).pop(),
+          getResourceEmployeLoaded: (data) {
+            final model = data.data;
+            if (model == null || _loadingNumberId == null) return;
+            setState(() {
+              _resourcesCache[_loadingNumberId!] = model;
+              _loadingNumberId = null;
+            });
+            _queueIndex++;
+            _loadNext();
+          },
           orElse: () {},
         );
       },
@@ -93,7 +135,7 @@ class DetailEmploye extends StatelessWidget {
                         ),
                         SizedBox(height: 4.rh),
                         AppText(
-                          '${fullName.isNotEmpty ? fullName : '---'} · ${employee.position ?? '---'}',
+                          '${fullName.isNotEmpty ? fullName : '---'} · ${widget.employee.position ?? '---'}',
                           fontSize: 12.rsp,
                           color: AppColors.textMuted,
                         ),
@@ -123,29 +165,39 @@ class DetailEmploye extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _HeaderCard(employee: employee),
+                    _HeaderCard(employee: widget.employee),
                     SizedBox(height: 16.rh),
-                    _SectionInfos(employee: employee),
-                    if (employee.group != null) ...[
+                    _SectionInfos(employee: widget.employee),
+                    if (widget.employee.group != null) ...[
                       SizedBox(height: 16.rh),
                       const DetailDivider(),
                       SizedBox(height: 16.rh),
-                      _SectionGroupe(employee: employee),
+                      _SectionGroupe(employee: widget.employee),
                     ],
-                    if (employee.group?.product != null) ...[
+                    if (widget.employee.group?.product != null) ...[
                       SizedBox(height: 16.rh),
                       const DetailDivider(),
                       SizedBox(height: 16.rh),
-                      DetailProductSection(product: employee.group!.product!),
+                      DetailProductSection(product: widget.employee.group!.product!),
                     ],
                     SizedBox(height: 16.rh),
                     const DetailDivider(),
                     SizedBox(height: 16.rh),
                     _SectionNumeros(
-                      fleetNumbers: employee.fleetNumbers ?? [],
-                      employee: employee,
-                      myFlotteCubit: myFlotteCubit,
+                      fleetNumbers: _numbers,
+                      employee: widget.employee,
+                      myFlotteCubit: widget.myFlotteCubit,
                     ),
+                    if (_numbers.isNotEmpty) ...[
+                      SizedBox(height: 16.rh),
+                      const DetailDivider(),
+                      SizedBox(height: 16.rh),
+                      _SectionRessources(
+                        fleetNumbers: _numbers,
+                        resourcesCache: _resourcesCache,
+                        loadingNumberId: _loadingNumberId,
+                      ),
+                    ],
                     SizedBox(height: 16.rh),
                   ],
                 ),
@@ -179,7 +231,7 @@ class DetailEmploye extends StatelessWidget {
                         fontSize: 13.rsp,
                         onPressed: () {
                           Navigator.of(context, rootNavigator: true).pop();
-                          ConfirmDisableEmploye.show(context, employee: employee, myFlotteCubit: myFlotteCubit);
+                          ConfirmDisableEmploye.show(context, employee: widget.employee, myFlotteCubit: widget.myFlotteCubit);
                         },
                       ),
                     ),
@@ -192,7 +244,7 @@ class DetailEmploye extends StatelessWidget {
                       fontSize: 13.rsp,
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).pop();
-                        FormEditEmploye.show(context, employee: employee, myFlotteCubit: myFlotteCubit);
+                        FormEditEmploye.show(context, employee: widget.employee, myFlotteCubit: widget.myFlotteCubit);
                       },
                     ),
                   ),
@@ -463,6 +515,174 @@ class _NumeroBadge extends StatelessWidget {
           GestureDetector(
             onTap: () => ConfirmRemoveNumber.show(context, employee: employee, fleetNumber: fleet, myFlotteCubit: myFlotteCubit),
             child: Icon(Icons.close, size: 15.rsp, color: AppColors.textMuted),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Section ressources ───────────────────────────────────────────────────────
+
+class _SectionRessources extends StatelessWidget {
+  final List<FleetNumberModel> fleetNumbers;
+  final Map<int, ResourceCustomModel> resourcesCache;
+  final int? loadingNumberId;
+
+  const _SectionRessources({
+    required this.fleetNumbers,
+    required this.resourcesCache,
+    required this.loadingNumberId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DetailSectionTitle(label: 'Ressources', icon: Icons.account_balance_wallet_outlined),
+        SizedBox(height: 14.rh),
+        Column(
+          children: fleetNumbers.asMap().entries.map((entry) {
+            final idx = entry.key;
+            final f = entry.value;
+            final id = f.id;
+            if (id == null) return const SizedBox.shrink();
+            return Padding(
+              padding: EdgeInsets.only(bottom: idx < fleetNumbers.length - 1 ? 10.rh : 0),
+              child: _NumberResourceCard(
+                fleet: f,
+                resource: resourcesCache[id],
+                isLoading: loadingNumberId == id,
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+}
+
+class _NumberResourceCard extends StatelessWidget {
+  final FleetNumberModel fleet;
+  final ResourceCustomModel? resource;
+  final bool isLoading;
+
+  const _NumberResourceCard({
+    required this.fleet,
+    this.resource,
+    required this.isLoading,
+  });
+
+  String _formatFcfa(int value) {
+    final s = value.toString();
+    final buf = StringBuffer();
+    for (var i = 0; i < s.length; i++) {
+      if (i > 0 && (s.length - i) % 3 == 0) buf.write(' ');
+      buf.write(s[i]);
+    }
+    return buf.toString();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(12.rw),
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(10.rr),
+        border: Border.all(color: AppColors.gray),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(Icons.sim_card_outlined, size: 13.rsp, color: AppColors.textMuted),
+              SizedBox(width: 6.rw),
+              AppText(
+                fleet.msisdn ?? '---',
+                fontSize: 13.rsp,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textHeading,
+              ),
+              const Spacer(),
+              if (isLoading)
+                SizedBox(
+                  width: 14.rw,
+                  height: 14.rh,
+                  child: CircularProgressIndicator(strokeWidth: 1.5, color: AppColors.primary),
+                ),
+            ],
+          ),
+          if (isLoading)
+            Padding(
+              padding: EdgeInsets.only(top: 10.rh),
+              child: AppText('Chargement des ressources...', fontSize: 12.rsp, color: AppColors.textMuted),
+            )
+          else if (resource == null)
+            Padding(
+              padding: EdgeInsets.only(top: 10.rh),
+              child: AppText('Aucune ressource disponible', fontSize: 12.rsp, color: AppColors.textMuted),
+            )
+          else ...[
+            SizedBox(height: 10.rh),
+            Wrap(
+              spacing: 8.rw,
+              runSpacing: 6.rh,
+              children: [
+                if (resource!.mainCreditFcfa != null)
+                  _ResourceChip(
+                    icon: Icons.account_balance_wallet_outlined,
+                    label: 'CRÉDIT',
+                    value: '${_formatFcfa(resource!.mainCreditFcfa!)} FCFA',
+                  ),
+                ...(resource!.freeUnits ?? []).map((u) => _ResourceChip(
+                      icon: RecoveryResourcePanel.unitIcon(u),
+                      label: RecoveryResourcePanel.unitLabel(u),
+                      value: '${RecoveryResourcePanel.toDisplayAmount(u)} ${RecoveryResourcePanel.displayUnit(u)}',
+                    )),
+              ],
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ResourceChip extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const _ResourceChip({
+    required this.icon,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10.rw, vertical: 6.rh),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(8.rr),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12.rsp, color: AppColors.primary),
+          SizedBox(width: 5.rw),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppText(label, fontSize: 9.rsp, color: AppColors.textMuted, fontWeight: FontWeight.w600),
+              AppText(value, fontSize: 12.rsp, color: AppColors.primary, fontWeight: FontWeight.w700),
+            ],
           ),
         ],
       ),
