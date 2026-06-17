@@ -36,6 +36,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
   }
 
+  ({double amount, String unit}) _scale(double value) {
+    if (value >= 1000000) return (amount: value / 1000000, unit: 'M FCFA');
+    return                       (amount: value,            unit: 'FCFA');
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardCubit, DashboardState>(
@@ -71,8 +76,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 BalanceCard(
                   title: 'SOLDE DISPONIBLE',
-                  amount: stats != null ? stats.balanceCard.currentBalance / 1000000 : 0,
-                  unit: 'M FCFA',
+                  amount: _scale(stats?.balanceCard.currentBalance ?? 0).amount,
+                  unit:   _scale(stats?.balanceCard.currentBalance ?? 0).unit,
                   rawAmount: stats?.balanceCard.currentBalance,
                   status: DashboardMapper.balanceStatus(stats?.balanceCard.status),
                   rechargeDate: AppDate.dashboardFmt(stats?.balanceCard.lastRechargeDate),
@@ -90,8 +95,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 BalanceCard(
                   title: 'DÉPENSES CE MOIS',
-                  amount: stats != null ? stats.monthlySpendCard.estimatedBudget / 1000000 : 0,
-                  unit: 'M FCFA',
+                  amount: _scale(stats?.monthlySpendCard.estimatedBudget ?? 0).amount,
+                  unit:   _scale(stats?.monthlySpendCard.estimatedBudget ?? 0).unit,
                   rawAmount: stats?.monthlySpendCard.estimatedBudget,
                   status: stats != null ? (stats.monthlySpendCard.withinBudget ? 'Dans le budget' : 'Hors budget') : '',
                   rechargeDate: 'estimé',

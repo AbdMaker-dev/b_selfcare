@@ -78,7 +78,7 @@ class DashboardAppBar extends StatelessWidget implements PreferredSizeWidget {
         // Badge Actif
         _BadgeActif(isActif: isActif),
         SizedBox(width: 8.rw),
-        _BadgeSolde(solde: solde),
+        _BadgeSolde(solde: solde, onActualiser: onActualiser),
         /*SizedBox(width: 8.rw),
         AppButton(
           text: 'Actualiser',
@@ -152,7 +152,8 @@ class _BadgeActif extends StatelessWidget {
 // --- Badge Solde ---
 class _BadgeSolde extends StatelessWidget {
   final String solde;
-  const _BadgeSolde({required this.solde});
+ final VoidCallback? onActualiser;
+  const _BadgeSolde({required this.solde,this.onActualiser});
 
   @override
   Widget build(BuildContext context) {
@@ -186,6 +187,26 @@ class _BadgeSolde extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: AppColors.warning,
             fontFamily: 'monospace',
+          ),
+          InkWell(
+            onTap: (){
+              if(onActualiser != null) onActualiser!();
+            },
+            child: Container(
+            width: 35.rw,
+            height: 35.rh,
+            decoration: BoxDecoration(
+              color: AppColors.warning,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Icon(
+                Icons.refresh_rounded,
+                color: AppColors.white,
+                size: 20.rw,
+              ),
+            ),
+          ),
           ),
         ],
       ),

@@ -3,6 +3,7 @@ import 'package:b_selfcare/routers/app_router.gr.dart';
 import 'package:b_selfcare/singleton.dart';
 import 'package:b_selfcare/src/utils/app_colors.dart';
 import 'package:b_selfcare/src/utils/responsive_extention.dart';
+import 'package:b_selfcare/src/views/pages/dashboard/cubit/dashboard_cubit.dart';
 import 'package:b_selfcare/src/views/pages/layout/cubit/layout_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
 import 'package:b_selfcare/src/views/widgets/confirm_dialog.dart';
@@ -21,6 +22,7 @@ class LayoutScreen extends StatefulWidget {
 
 class _LayoutScreenState extends State<LayoutScreen> {
   final LayoutCubit _cubit = getIt<LayoutCubit>();
+  final DashboardCubit _dcubit = getIt<DashboardCubit>();
 
   Widget _buildSideMenu({required bool collapsed}) {
     return AnimatedContainer(
@@ -37,13 +39,19 @@ class _LayoutScreenState extends State<LayoutScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.only(bottom: 100.rh),
-                  child: BlocSelector<LayoutCubit, LayoutState, AppMainRouteChange?>(
+                  child: BlocSelector<
+                    LayoutCubit,
+                    LayoutState,
+                    AppMainRouteChange?
+                  >(
                     bloc: _cubit,
-                    selector: (state) => state.map(
-                      initial: (_) => null,
-                      routeChanged: (v) => v,
-                    ),
-                    builder: (context, state) => SideMenuList(collapsed: collapsed),
+                    selector:
+                        (state) => state.map(
+                          initial: (_) => null,
+                          routeChanged: (v) => v,
+                        ),
+                    builder:
+                        (context, state) => SideMenuList(collapsed: collapsed),
                   ),
                 ),
               ),
@@ -68,12 +76,17 @@ class _LayoutScreenState extends State<LayoutScreen> {
 
     final mainContent = Column(
       children: [
-        DashboardAppBar(
-          companyName: _cubit.currentUser?.company?.name ?? '—',
-          solde: _cubit.currentUser?.company?.formattedBalance ?? '—',
-          isActif: _cubit.currentUser?.company?.status == 'ACTIVE',
-          onActualiser: () {},
-          onRecharger: () {},
+        BlocBuilder<DashboardCubit, DashboardState>(
+          bloc: _dcubit,
+          builder: (context, state) {
+            return DashboardAppBar(
+              companyName: _cubit.currentUser?.company?.name ?? '—',
+              solde: _cubit.currentUser?.company?.formattedBalance ?? '—',
+              isActif: _cubit.currentUser?.company?.status == 'ACTIVE',
+              onActualiser: _dcubit.fetchCompanyStats,
+              onRecharger: () {},
+            );
+          },
         ),
         Expanded(
           child: Padding(
@@ -94,14 +107,16 @@ class _LayoutScreenState extends State<LayoutScreen> {
             children: [
               SingleChildScrollView(
                 padding: EdgeInsets.only(bottom: 100.rh),
-                child: BlocSelector<LayoutCubit, LayoutState, AppMainRouteChange?>(
-                  bloc: _cubit,
-                  selector: (state) => state.map(
-                    initial: (_) => null,
-                    routeChanged: (v) => v,
-                  ),
-                  builder: (context, state) => const SideMenuList(),
-                ),
+                child:
+                    BlocSelector<LayoutCubit, LayoutState, AppMainRouteChange?>(
+                      bloc: _cubit,
+                      selector:
+                          (state) => state.map(
+                            initial: (_) => null,
+                            routeChanged: (v) => v,
+                          ),
+                      builder: (context, state) => const SideMenuList(),
+                    ),
               ),
               Positioned(
                 bottom: 0,
@@ -141,23 +156,27 @@ class _UserFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = cubit.currentUser;
     final fullName = user?.fullName ?? '—';
-    final role = user?.roles.firstOrNull?.displayName ?? user?.roles.firstOrNull?.name ?? '—';
+    final role =
+        user?.roles.firstOrNull?.displayName ??
+        user?.roles.firstOrNull?.name ??
+        '—';
 
     final logoutButton = IconButton(
-      onPressed: () => AppConfirmDialog.show(
-        context: context,
-        title: 'Se déconnecter',
-        message: 'Voulez-vous vraiment quitter votre session ?',
-        confirmLabel: 'Déconnecter',
-        cancelLabel: 'Annuler',
-        isDanger: true,
-        onConfirm: () async {
-          await cubit.logout();
-          if (context.mounted) {
-            context.router.replaceAll([const LoginRoute()]);
-          }
-        },
-      ),
+      onPressed:
+          () => AppConfirmDialog.show(
+            context: context,
+            title: 'Se déconnecter',
+            message: 'Voulez-vous vraiment quitter votre session ?',
+            confirmLabel: 'Déconnecter',
+            cancelLabel: 'Annuler',
+            isDanger: true,
+            onConfirm: () async {
+              await cubit.logout();
+              if (context.mounted) {
+                context.router.replaceAll([const LoginRoute()]);
+              }
+            },
+          ),
       icon: Icon(Icons.logout, color: AppColors.secondary, size: 20.rsp),
       tooltip: 'Se déconnecter',
       padding: EdgeInsets.zero,
@@ -166,36 +185,39 @@ class _UserFooter extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.12))),
+        border: Border(
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.12)),
+        ),
       ),
       padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 12.rh),
-      child: collapsed
-          ? Center(child: logoutButton)
-          : Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AppText(
-                        fullName,
-                        fontSize: 16.rsp,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                      SizedBox(height: 2.rh),
-                      AppText(
-                        role,
-                        fontSize: 14.rsp,
-                        color: Colors.white.withValues(alpha: 0.6),
-                      ),
-                    ],
+      child:
+          collapsed
+              ? Center(child: logoutButton)
+              : Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AppText(
+                          fullName,
+                          fontSize: 16.rsp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                        SizedBox(height: 2.rh),
+                        AppText(
+                          role,
+                          fontSize: 14.rsp,
+                          color: Colors.white.withValues(alpha: 0.6),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                logoutButton,
-              ],
-            ),
+                  logoutButton,
+                ],
+              ),
     );
   }
 }

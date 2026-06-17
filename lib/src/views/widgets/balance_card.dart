@@ -33,6 +33,11 @@ class BalanceCard extends StatelessWidget {
     return '≈ ${NumberFormat('#,##0', 'fr_FR').format(rawAmount!.toInt())} FCFA';
   }
 
+  String get _displayAmount {
+    final fmt = NumberFormat('#,##0.##', 'fr_FR');
+    return fmt.format(amount);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -74,7 +79,7 @@ class BalanceCard extends StatelessWidget {
                   textBaseline: TextBaseline.alphabetic,
                   children: [
                     AppText(
-                      amount.toStringAsFixed(2),
+                      _displayAmount,
                       fontWeight: FontWeight.w400,
                       color: AppColors.primary,
                       fontSize: 40.rsp,
