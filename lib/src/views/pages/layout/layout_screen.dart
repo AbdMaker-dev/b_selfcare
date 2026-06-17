@@ -39,19 +39,10 @@ class _LayoutScreenState extends State<LayoutScreen> {
               Expanded(
                 child: SingleChildScrollView(
                   padding: EdgeInsets.only(bottom: 100.rh),
-                  child: BlocSelector<
-                    LayoutCubit,
-                    LayoutState,
-                    AppMainRouteChange?
-                  >(
+                  child: BlocSelector<LayoutCubit, LayoutState, AppMainRouteChange?>(
                     bloc: _cubit,
-                    selector:
-                        (state) => state.map(
-                          initial: (_) => null,
-                          routeChanged: (v) => v,
-                        ),
-                    builder:
-                        (context, state) => SideMenuList(collapsed: collapsed),
+                    selector: (state) => state.map(initial: (_) => null, routeChanged: (v) => v),
+                    builder: (context, state) => SideMenuList(collapsed: collapsed),
                   ),
                 ),
               ),
