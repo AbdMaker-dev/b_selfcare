@@ -228,12 +228,8 @@ class _CampagnesTabState extends State<_CampagnesTab> {
 
         WidgetsBinding.instance.addPostFrameCallback((_) => widget.onTotalChanged(total));
 
-        final options = meta?.availableStatusesOptions?.isNotEmpty == true
-            ? meta!.availableStatusesOptions!
-            : meta?.availableStatuses ?? [];
-        final statusTabs = options
-            .map((s) => FilterTab(label: s.label ?? s.value ?? '', value: s.value))
-            .toList();
+        final options = meta?.availableStatusesOptions?.isNotEmpty == true ? meta!.availableStatusesOptions! : meta?.availableStatuses ?? [];
+        final statusTabs = options.map((s) => FilterTab(label: s.label ?? s.value ?? '', value: s.value)).toList();
 
         return ListView(
           padding: EdgeInsets.only(bottom: 50.rh),
