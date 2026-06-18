@@ -168,35 +168,51 @@ class RecoveryResourcePanel extends StatelessWidget {
               child: _buildGrid(resource),
             ),
 
-            /*Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: 14.rw, vertical: 10.rh),
-              decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: AppColors.gray)),
-              ),
-              child: Row(
-                children: [
-                  AppText(
-                    'Estimation récupération',
-                    fontSize: 12.rsp,
-                    color: AppColors.primary,
-                  ),
-                  const Spacer(),
-                  AppText(
-                    isCustomAmount
-                        ? '---'
-                        : (resource.mainCreditFcfa != null
-                            ? '≈ ${_formatFcfa(resource.mainCreditFcfa!)} FCFA'
-                            : '---'),
-                    fontSize: 12.rsp,
-                    fontWeight: FontWeight.w700,
-                    color: isCustomAmount
-                        ? AppColors.textMuted
-                        : AppColors.primary,
-                  ),
-                ],
-              ),
-            ),*/
+            Builder(builder: (context) {
+              final allControllers = [
+                if (mainCreditController != null) mainCreditController!,
+                ...?unitControllers?.values,
+              ];
+              if (allControllers.isEmpty) return const SizedBox.shrink();
+              return ListenableBuilder(
+                listenable: Listenable.merge(allControllers),
+                builder: (context, _) {
+                  final mainCredit =
+                      int.tryParse(mainCreditController?.text ?? '') ?? 0;
+                  final bundleTotal =
+                      (resource.freeUnits ?? []).fold<int>(0, (sum, u) {
+                    final key = u.freeUnitType ?? u.measureUnit ?? '';
+                    final qty =
+                        int.tryParse(unitControllers?[key]?.text ?? '') ?? 0;
+                    return sum + qty * (u.pricePerUnit ?? 0);
+                  });
+                  final total = mainCredit + bundleTotal;
+                  return Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 14.rw, vertical: 10.rh),
+                    decoration: BoxDecoration(
+                      border: Border(top: BorderSide(color: AppColors.gray)),
+                    ),
+                    child: Row(
+                      children: [
+                        AppText(
+                          'Estimation récupération',
+                          fontSize: 12.rsp,
+                          color: AppColors.primary,
+                        ),
+                        const Spacer(),
+                        AppText(
+                          '≈ ${_formatFcfa(total)} FCFA',
+                          fontSize: 12.rsp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }),
           ],
         ],
       ),
