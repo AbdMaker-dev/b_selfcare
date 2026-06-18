@@ -22,7 +22,15 @@ class _AppCheckboxState extends State<AppCheckbox> {
       return Row(
         spacing: 5.rw, 
         children: [
-          Icon(isChecked ?Icons.check_box : Icons.check_box_outline_blank, color: !isChecked ? widget.color : AppColors.primary, size: widget.fontSize+5.rsp,),
+          InkWell(
+            onTap: () {
+              setState(() {
+                isChecked = !isChecked;
+              });
+              widget.onCheck(isChecked);
+            },
+            child: Icon(isChecked ? Icons.check_box : Icons.check_box_outline_blank, color: !isChecked ? widget.color : AppColors.primary, size: widget.fontSize+5.rsp,),
+          ),
           AppText(
             widget.text,
             fontSize: widget.fontSize,
