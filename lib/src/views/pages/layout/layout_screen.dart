@@ -11,6 +11,7 @@ import 'package:b_selfcare/src/views/widgets/dashboard_app_bar.dart';
 import 'package:b_selfcare/src/views/widgets/side_menu_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 @RoutePage()
 class LayoutScreen extends StatefulWidget {
@@ -59,6 +60,9 @@ class _LayoutScreenState extends State<LayoutScreen> {
     );
   }
 
+
+  
+  
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -70,10 +74,10 @@ class _LayoutScreenState extends State<LayoutScreen> {
         BlocBuilder<DashboardCubit, DashboardState>(
           bloc: _dcubit,
           builder: (context, state) {
+            final fmt = NumberFormat('#,##0.##', 'fr_FR');
             return DashboardAppBar(
               companyName: _cubit.currentUser?.company?.name ?? '—',
-              solde: _cubit.currentUser?.company?.formattedBalance ?? '—',
-              isActif: _cubit.currentUser?.company?.status == 'ACTIVE',
+              solde: fmt.format(_dcubit.companyStats?.balanceCard.currentBalance ?? 0),
               onActualiser: _dcubit.fetchCompanyStats,
               onRecharger: () {},
             );
