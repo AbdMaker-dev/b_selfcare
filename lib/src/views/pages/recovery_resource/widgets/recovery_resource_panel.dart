@@ -106,7 +106,7 @@ class RecoveryResourcePanel extends StatelessWidget {
             child: Row(
               children: [
                 AppText(
-                  'GETSUBSCRIBERBALANCE CBS',
+                  "OBTENIR LE SOLDE DE L'ABONNÉ CBS",
                   fontSize: 10.rsp,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textMuted,

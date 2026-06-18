@@ -5,7 +5,7 @@ class RecoveryHistoryModel {
   int? fleetNumberId;
   int? employeeId;
   RecoveredResourcesModel? recoveredResources;
-  String? amountCredited;
+  int? amountCredited;
   String? cbsReference;
   String? status;
   String? errorMessage;

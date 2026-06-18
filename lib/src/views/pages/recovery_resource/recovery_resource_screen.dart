@@ -192,8 +192,8 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
       context: context,
       title: 'Confirmer la récupération',
       message:
-          'Cette opération est irréversible. Les ressources de l\'employé seront converties en FCFA via revokeBundle CBS.',
-      confirmLabel: 'Lancer revokeBundle',
+          'Cette opération est irréversible. Les ressources de l\'employé seront converties en FCFA via Révocation du Bundle CBS.',
+      confirmLabel: 'Valider le retrait',
       isDanger: true,
       onConfirm: _doLaunch,
     );
@@ -203,39 +203,43 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
     final id = _selectedNumber?.id;
     if (id == null) return;
     final resource = _resourcesCache[id];
-    final body = {
-      'main_credit_fcfa': int.tryParse(_mainCreditController.text) ?? 0,
-      'bundles': (resource?.freeUnits ?? [])
-          .map((u) {
-            final key = u.freeUnitType ?? u.measureUnit ?? '';
-            final controller = _unitControllers[key];
-            final inputAmount = int.tryParse(controller?.text ?? '') ?? 0;
 
-            final rawUnit = (u.unit ?? '').toLowerCase();
-            final String convertedUnit;
-            final int convertedAmount;
+    final bundles = (resource?.freeUnits ?? [])
+        .map((u) {
+          final key = u.freeUnitType ?? u.measureUnit ?? '';
+          final controller = _unitControllers[key];
+          final inputAmount = int.tryParse(controller?.text ?? '') ?? 0;
 
-            if (rawUnit.startsWith('min')) {
-              convertedUnit = u.unit ?? rawUnit;
-              convertedAmount = inputAmount;
-            } else if (rawUnit.contains('mb') ||
-                rawUnit.contains('gb') ||
-                rawUnit.contains('byte')) {
-              convertedUnit = 'MB_GB';
-              convertedAmount = inputAmount * 1024; // Go → MB
-            } else {
-              convertedUnit = u.unit ?? rawUnit;
-              convertedAmount = inputAmount;
-            }
+          final rawUnit = (u.unit ?? '').toLowerCase();
+          final String convertedUnit;
+          final int convertedAmount;
 
-            return {
-              'free_unit_type': u.freeUnitType,
-              'amount': convertedAmount,
-              'unit': convertedUnit,
-            };
-          })
-          .toList(),
-    };
+          if (rawUnit.startsWith('min')) {
+            convertedUnit = u.unit ?? rawUnit;
+            convertedAmount = inputAmount;
+          } else if (rawUnit.contains('mb') ||
+              rawUnit.contains('gb') ||
+              rawUnit.contains('byte')) {
+            convertedUnit = 'MB_GB';
+            convertedAmount = inputAmount * 1024;
+          } else {
+            convertedUnit = u.unit ?? rawUnit;
+            convertedAmount = inputAmount;
+          }
+
+          return {
+            'free_unit_type': u.freeUnitType,
+            'amount': convertedAmount,
+            'unit': convertedUnit,
+          };
+        })
+        .where((b) => (b['amount'] as int) > 0)
+        .toList();
+
+    final mainCredit = int.tryParse(_mainCreditController.text) ?? 0;
+    final body = <String, dynamic>{'bundles': bundles};
+    if (mainCredit > 0) body['main_credit_fcfa'] = mainCredit;
+
     _cubit.recoveryConfirmEmployee(fleetNumberId: id, data: body);
   }
 
@@ -334,13 +338,13 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
                             color: AppColors.primary,
                           ),
                           const Spacer(),
-                          AppText(
+                          /*AppText(
                             'revokeBundle CBS SOAP',
                             fontSize: 11.rsp,
                             fontWeight: FontWeight.w600,
                             color: AppColors.textBody,
                             fontFamily: FontFamily.syne,
-                          ),
+                          ),*/
                         ],
                       ),
                     ),

@@ -67,7 +67,7 @@ class RecoveryHistoryPanel extends StatelessWidget {
         }
 
         return AppTable<RecoveryHistoryModel>(
-          title: 'Historique recovery',
+          title: 'Historique de retrait',
           source: _RecoveryHistorySource(history),
           emptyMessage: 'Aucun historique disponible',
           currentPage: currentPage,

@@ -81,7 +81,7 @@ class RecoveryLeftPanel extends StatelessWidget {
               SizedBox(width: 8.rw),
               Expanded(
                 child: AppText(
-                  'Opération irréversible  ·  revokeBundle CBS  ·  Ressources → FCFA solde',
+                  'Opération irréversible  ·  Annulation du Bundle CBS  ·  Ressources → FCFA solde',
                   fontSize: 11.rsp,
                   color: AppColors.orangeBurnt,
                   fontWeight: FontWeight.w500,
@@ -110,7 +110,7 @@ class RecoveryLeftPanel extends StatelessWidget {
             return SizedBox(
               width: double.infinity,
               child: AppButton(
-                text: isLoading ? 'Lancement...' : 'Lancer revokeBundle',
+                text: isLoading ? 'Lancement...' : 'Valider le retrait',
                 type: AppButtonType.primary,
                 color: AppColors.greenDull,
                 icon: Icons.refresh_rounded,
