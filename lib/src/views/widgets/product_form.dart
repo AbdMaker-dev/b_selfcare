@@ -49,9 +49,6 @@ class _ProductFormState extends State<ProductForm> {
 
   // walletId → controller du quota
   final Map<int, TextEditingController> _quotaControllers = {};
-  // walletId → unité choisie pour MB_GB ('MB' ou 'GB')
-  final Map<int, String> _unitSelections = {};
-
   bool get _isEdit => widget.product?.id != null;
 
   @override
@@ -82,14 +79,6 @@ class _ProductFormState extends State<ProductForm> {
           text: existing != null ? existing.toString() : '',
         );
       }
-      if (wallet.unit == 'MB_GB' && !_unitSelections.containsKey(id)) {
-        final existingUnit = widget.product?.quotas
-            ?.where((q) => q.walletId == id)
-            .firstOrNull
-            ?.unit;
-        // MB / Mo → MB, MB_GB / GB / Go ou null → GB par défaut
-        _unitSelections[id] = (existingUnit == 'MB' || existingUnit == 'Mo') ? 'MB' : 'GB';
-      }
     }
   }
 
@@ -113,12 +102,7 @@ class _ProductFormState extends State<ProductForm> {
               final text = _quotaControllers[w.id!]?.text.trim() ?? '';
               final val = double.tryParse(text);
               if (val == null || val <= 0) return null;
-              final String unit;
-              if (w.unit == 'MB_GB') {
-                unit = (_unitSelections[w.id!] ?? 'GB') == 'GB' ? 'MB_GB' : 'MB';
-              } else {
-                unit = w.unit ?? '';
-              }
+              final String unit = w.unit == 'MB_GB' ? 'MB_GB' : (w.unit ?? '');
               return {'wallet_id': w.id!, 'quota': val, 'unit': unit};
             })
             .whereType<Map<String, dynamic>>()
@@ -313,18 +297,11 @@ class _ProductFormState extends State<ProductForm> {
                               final wallet = _cubit.wallets[i];
                               final id = wallet.id;
                               if (id == null) return const SizedBox();
-                              final isMbGb = wallet.unit == 'MB_GB';
                               return AppInput(
                                 controller: _quotaControllers[id],
-                                labelText: "${wallet.name ?? '---'} (${(wallet.unit ?? '').replaceAll("_", " ou ")})",
+                                labelText: "${wallet.name ?? '---'} (${wallet.unit == 'MB_GB' ? 'GB' : (wallet.unit ?? '')})",
                                 hintText: '0',
                                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                suffixIcon: isMbGb
-                                ? _UnitToggle(
-                                  selected: _unitSelections[id] ?? 'GB',
-                                  onChanged: (unit) => setState(() => _unitSelections[id] = unit),
-                                )
-                                : null,
                               );
                             },
                           );
@@ -401,50 +378,6 @@ class _ProductFormState extends State<ProductForm> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _UnitToggle extends StatelessWidget {
-  final String selected;
-  final void Function(String) onChanged;
-
-  const _UnitToggle({required this.selected, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 6.rw, vertical: 6.rh),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          borderRadius: BorderRadius.circular(6.rr),
-          border: Border.all(color: AppColors.inputBorder),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: ['MB', 'GB'].map((unit) {
-            final isActive = selected == unit;
-            return GestureDetector(
-              onTap: () => onChanged(unit),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 150),
-                padding: EdgeInsets.symmetric(horizontal: 8.rw, vertical: 4.rh),
-                decoration: BoxDecoration(
-                  color: isActive ? AppColors.primary : Colors.transparent,
-                  borderRadius: BorderRadius.circular(5.rr),
-                ),
-                child: AppText(
-                  unit,
-                  fontSize: 11.rsp,
-                  fontWeight: FontWeight.w600,
-                  color: isActive ? AppColors.white : AppColors.textMuted,
-                ),
-              ),
-            );
-          }).toList(),
         ),
       ),
     );
