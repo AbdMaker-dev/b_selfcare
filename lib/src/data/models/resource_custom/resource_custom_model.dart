@@ -23,7 +23,7 @@ class ResourceCustomModel {
     if (freeUnits != null) {
       data['free_units'] = freeUnits!.map((v) => v.toJson()).toList();
     }
-    data['free_units'] = msisdn;
+    data['msisdn'] = msisdn;
     data['main_credit_fcfa'] = mainCreditFcfa;
     return data;
   }
