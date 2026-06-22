@@ -140,10 +140,8 @@ class _ProductFormState extends State<ProductForm> {
       bloc: _cubit,
       listener: (context, state) {
         state.whenOrNull(
-          createProductsSuccess:
-              () => Navigator.of(context, rootNavigator: true).pop(),
-          updateProductSuccess:
-              () => Navigator.of(context, rootNavigator: true).pop(),
+          createProductsSuccess: () => Navigator.of(context, rootNavigator: true).pop(),
+          updateProductSuccess: () => Navigator.of(context, rootNavigator: true).pop(),
         );
       },
       child: Form(
@@ -196,9 +194,7 @@ class _ProductFormState extends State<ProductForm> {
                       ),
                     ),
                     InkWell(
-                      onTap:
-                          () =>
-                              Navigator.of(context, rootNavigator: true).pop(),
+                      onTap: () => Navigator.of(context, rootNavigator: true).pop(),
                       borderRadius: BorderRadius.circular(6),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -242,11 +238,7 @@ class _ProductFormState extends State<ProductForm> {
                         controller: _nameController,
                         labelText: 'Nom',
                         hintText: 'Ex: SELFCARE VOICE XNET',
-                        validator:
-                            (v) =>
-                                (v == null || v.trim().isEmpty)
-                                    ? 'Champ obligatoire'
-                                    : null,
+                        validator: (v) => (v == null || v.trim().isEmpty) ? 'Champ obligatoire' : null,
                       ),
                       SizedBox(height: 14.rh),
                       AppInput(
@@ -325,16 +317,15 @@ class _ProductFormState extends State<ProductForm> {
                 ),
                 child: BlocBuilder<ProductsCubit, ProductsState>(
                   bloc: _cubit,
-                  buildWhen:
-                      (_, state) => state.maybeWhen(
-                        createProductsLoading: () => true,
-                        createProductsError: (_) => true,
-                        createProductsSuccess: () => true,
-                        updateProductLoading: () => true,
-                        updateProductError: (_) => true,
-                        updateProductSuccess: () => true,
-                        orElse: () => false,
-                      ),
+                  buildWhen: (_, state) => state.maybeWhen(
+                    createProductsLoading: () => true,
+                    createProductsError: (_) => true,
+                    createProductsSuccess: () => true,
+                    updateProductLoading: () => true,
+                    updateProductError: (_) => true,
+                    updateProductSuccess: () => true,
+                    orElse: () => false,
+                  ),
                   builder: (context, state) {
                     final isLoading = state.maybeWhen(
                       createProductsLoading: () => true,
@@ -347,12 +338,7 @@ class _ProductFormState extends State<ProductForm> {
                           child: AppButton(
                             text: 'Annuler',
                             type: AppButtonType.outline,
-                            onPressed:
-                                () =>
-                                    Navigator.of(
-                                      context,
-                                      rootNavigator: true,
-                                    ).pop(),
+                            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
                             fontSize: 15.rsp,
                           ),
                         ),
@@ -360,12 +346,7 @@ class _ProductFormState extends State<ProductForm> {
                         Expanded(
                           flex: 2,
                           child: AppButton(
-                            text:
-                                isLoading
-                                    ? 'Chargement...'
-                                    : _isEdit
-                                    ? 'Enregistrer les modifications'
-                                    : '+ Créer le produit',
+                            text: isLoading ? 'Chargement...' : _isEdit ? 'Enregistrer les modifications' : '+ Créer le produit',
                             type: AppButtonType.secondary,
                             onPressed: isLoading ? null : _submit,
                             fontSize: 15.rsp,
