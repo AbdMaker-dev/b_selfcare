@@ -68,7 +68,7 @@ class _GroupedProductSelectFieldViewState
   final TextEditingController _searchController = TextEditingController();
 
   List<DataItemProductModel> _displayedGroups = [];
-  String _selectedType = 'NATIVE';
+  String _selectedType = '';
   bool _isLoading = false;
   Timer? _debounceTimer;
   StateSetter? _setOverlayState;
@@ -106,13 +106,10 @@ class _GroupedProductSelectFieldViewState
   void _showOverlay(SelectOptionModel? selected) {
     _removeOverlay();
     _displayedGroups = widget.groups;
-    _selectedType = 'NATIVE';
+    _selectedType = '';
 
     final cubit = context.read<SelectCubit>();
     final width = _triggerWidth;
-
-    // Initial fetch
-    Future.microtask(() => _fetchForType('NATIVE'));
 
     _overlayEntry = OverlayEntry(
       builder: (_) => Stack(
@@ -169,7 +166,7 @@ class _GroupedProductSelectFieldViewState
                                 SizedBox(width: 8.rw),
                                 Expanded(
                                   child: _TypeTab(
-                                    label: 'Produits custom',
+                                    label: 'Mes produits',
                                     isSelected: _selectedType == 'CUSTOM',
                                     onTap: () => _fetchForType('CUSTOM'),
                                   ),
@@ -264,11 +261,9 @@ class _GroupedProductSelectFieldViewState
   }
 
   List<Widget> _buildItems(SelectOptionModel? selected, SelectCubit cubit) {
-    final allItems = _displayedGroups
-        .expand((g) => g.items ?? [])
-        .toList();
+    final hasItems = _displayedGroups.any((g) => (g.items ?? []).isNotEmpty);
 
-    if (allItems.isEmpty) {
+    if (!hasItems) {
       return [
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.rh),
@@ -283,63 +278,99 @@ class _GroupedProductSelectFieldViewState
       ];
     }
 
-    return allItems.map((item) {
-      final opt = SelectOptionModel<String>(
-        label: item.name ?? '---',
-        value: item.id.toString(),
-        subtitle: item.description,
-      );
-      final isSelected = selected?.value == opt.value;
-      return GestureDetector(
-        onTap: () {
-          cubit.select(opt);
-          widget.onChanged?.call(opt);
-        },
-        child: Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 14.rw,
-            vertical: 10.rh,
-          ),
-          decoration: BoxDecoration(
-            color: isSelected ? AppColors.grayGh : Colors.transparent,
-            border: Border(
-              bottom: BorderSide(color: AppColors.gray.withValues(alpha: 0.5)),
+    final showHeaders = _displayedGroups.where((g) => (g.items ?? []).isNotEmpty).length > 1
+        || _selectedType.isEmpty;
+
+    final widgets = <Widget>[];
+
+    for (final group in _displayedGroups) {
+      final items = group.items ?? [];
+      if (items.isEmpty) continue;
+
+      if (showHeaders) {
+        widgets.add(
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 7.rh),
+            decoration: BoxDecoration(
+              color: AppColors.grayWh,
+              border: Border(
+                bottom: BorderSide(color: AppColors.gray),
+              ),
+            ),
+            child: AppText(
+              (group.label ?? '').toUpperCase(),
+              fontSize: 11.rsp,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textMuted,
             ),
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppText(
-                      item.name ?? '---',
-                      fontSize: 14.rsp,
-                      fontWeight:
-                          isSelected ? FontWeight.w600 : FontWeight.normal,
-                      color: AppColors.textHeading,
-                    ),
-                    if (item.description != null &&
-                        item.description!.isNotEmpty)
-                      AppText(
-                        item.description!,
-                        fontSize: 12.rsp,
-                        color: AppColors.grayAsh,
-                      ),
-                  ],
+        );
+      }
+
+      for (final item in items) {
+        final opt = SelectOptionModel<String>(
+          label: item.name ?? '---',
+          value: item.id.toString(),
+          subtitle: item.description,
+        );
+        final isSelected = selected?.value == opt.value;
+        widgets.add(
+          GestureDetector(
+            onTap: () {
+              cubit.select(opt);
+              widget.onChanged?.call(opt);
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 14.rw,
+                vertical: 10.rh,
+              ),
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.grayGh : Colors.transparent,
+                border: Border(
+                  bottom:
+                      BorderSide(color: AppColors.gray.withValues(alpha: 0.5)),
                 ),
               ),
-              if (isSelected)
-                Icon(
-                  Icons.check_rounded,
-                  size: 18.rsp,
-                  color: AppColors.greyCharcoal,
-                ),
-            ],
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppText(
+                          item.name ?? '---',
+                          fontSize: 14.rsp,
+                          fontWeight:
+                              isSelected ? FontWeight.w600 : FontWeight.normal,
+                          color: AppColors.textHeading,
+                        ),
+                        if (item.description != null &&
+                            item.description!.isNotEmpty)
+                          AppText(
+                            item.description!,
+                            fontSize: 12.rsp,
+                            color: AppColors.grayAsh,
+                          ),
+                      ],
+                    ),
+                  ),
+                  if (isSelected)
+                    Icon(
+                      Icons.check_rounded,
+                      size: 18.rsp,
+                      color: AppColors.greyCharcoal,
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-      );
-    }).toList();
+        );
+      }
+    }
+
+    return widgets;
   }
 
   void _removeOverlay() {
