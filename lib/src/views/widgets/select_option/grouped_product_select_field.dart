@@ -14,14 +14,14 @@ class GroupedProductSelectField extends StatelessWidget {
   final String placeholder;
   final List<DataItemProductModel> groups;
   final ValueChanged<SelectOptionModel<String>>? onChanged;
-  final Future<List<DataItemProductModel>> Function(String query) onSearch;
+  final Future<List<DataItemProductModel>> Function(dynamic data) onFetch;
 
   const GroupedProductSelectField({
     super.key,
     required this.label,
     required this.placeholder,
     required this.groups,
-    required this.onSearch,
+    required this.onFetch,
     this.onChanged,
   });
 
@@ -33,7 +33,7 @@ class GroupedProductSelectField extends StatelessWidget {
         label: label,
         placeholder: placeholder,
         groups: groups,
-        onSearch: onSearch,
+        onFetch: onFetch,
         onChanged: onChanged,
       ),
     );
@@ -45,13 +45,13 @@ class _GroupedProductSelectFieldView extends StatefulWidget {
   final String placeholder;
   final List<DataItemProductModel> groups;
   final ValueChanged<SelectOptionModel<String>>? onChanged;
-  final Future<List<DataItemProductModel>> Function(String query) onSearch;
+  final Future<List<DataItemProductModel>> Function(dynamic data) onFetch;
 
   const _GroupedProductSelectFieldView({
     required this.label,
     required this.placeholder,
     required this.groups,
-    required this.onSearch,
+    required this.onFetch,
     this.onChanged,
   });
 
@@ -68,7 +68,8 @@ class _GroupedProductSelectFieldViewState
   final TextEditingController _searchController = TextEditingController();
 
   List<DataItemProductModel> _displayedGroups = [];
-  bool _isLoadingSearch = false;
+  String _selectedType = 'NATIVE';
+  bool _isLoading = false;
   Timer? _debounceTimer;
   StateSetter? _setOverlayState;
 
@@ -77,24 +78,41 @@ class _GroupedProductSelectFieldViewState
     return box?.size.width ?? 200;
   }
 
+  Future<void> _fetch({required String type, String query = ''}) async {
+    _setOverlayState?.call(() => _isLoading = true);
+    final results = await widget.onFetch({
+      'type': type,
+      if (query.isNotEmpty) 'search': query,
+    });
+    _setOverlayState?.call(() {
+      _displayedGroups = results;
+      _isLoading = false;
+    });
+  }
+
+  Future<void> _fetchForType(String type) async {
+    _selectedType = type;
+    _searchController.clear();
+    await _fetch(type: type);
+  }
+
   void _onQueryChanged(String query) {
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 350), () async {
-      _setOverlayState?.call(() => _isLoadingSearch = true);
-      final results = await widget.onSearch(query);
-      _setOverlayState?.call(() {
-        _displayedGroups = results;
-        _isLoadingSearch = false;
-      });
+    _debounceTimer = Timer(const Duration(milliseconds: 350), () {
+      _fetch(type: _selectedType, query: query);
     });
   }
 
   void _showOverlay(SelectOptionModel? selected) {
     _removeOverlay();
     _displayedGroups = widget.groups;
+    _selectedType = 'NATIVE';
 
     final cubit = context.read<SelectCubit>();
     final width = _triggerWidth;
+
+    // Initial fetch
+    Future.microtask(() => _fetchForType('NATIVE'));
 
     _overlayEntry = OverlayEntry(
       builder: (_) => Stack(
@@ -116,7 +134,7 @@ class _GroupedProductSelectFieldViewState
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  constraints: BoxConstraints(maxHeight: 340.rsp),
+                  constraints: BoxConstraints(maxHeight: 360.rsp),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10.rr),
@@ -135,37 +153,49 @@ class _GroupedProductSelectFieldViewState
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          // Type tabs
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(
+                                10.rw, 10.rh, 10.rw, 8.rh),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: _TypeTab(
+                                    label: 'Produits natifs',
+                                    isSelected: _selectedType == 'NATIVE',
+                                    onTap: () => _fetchForType('NATIVE'),
+                                  ),
+                                ),
+                                SizedBox(width: 8.rw),
+                                Expanded(
+                                  child: _TypeTab(
+                                    label: 'Produits custom',
+                                    isSelected: _selectedType == 'CUSTOM',
+                                    onTap: () => _fetchForType('CUSTOM'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           // Search field
                           Padding(
-                            padding: EdgeInsets.fromLTRB(10.rw, 10.rh, 10.rw, 4.rh),
+                            padding: EdgeInsets.fromLTRB(
+                                10.rw, 0, 10.rw, 8.rh),
                             child: TextField(
                               controller: _searchController,
-                              autofocus: true,
                               onChanged: _onQueryChanged,
                               style: TextStyle(fontSize: 14.rsp),
                               decoration: InputDecoration(
-                                hintText: 'Rechercher un produit...',
+                                hintText: 'Rechercher...',
                                 hintStyle: TextStyle(
                                   fontSize: 13.rsp,
                                   color: AppColors.grayAsh,
                                 ),
-                                prefixIcon: _isLoadingSearch
-                                    ? Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: SizedBox(
-                                          width: 18,
-                                          height: 18,
-                                          child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: AppColors.grayAsh,
-                                          ),
-                                        ),
-                                      )
-                                    : Icon(
-                                        Icons.search_rounded,
-                                        size: 18,
-                                        color: AppColors.grayAsh,
-                                      ),
+                                prefixIcon: Icon(
+                                  Icons.search_rounded,
+                                  size: 18,
+                                  color: AppColors.grayAsh,
+                                ),
                                 isDense: true,
                                 contentPadding: EdgeInsets.symmetric(
                                   horizontal: 10.rw,
@@ -175,29 +205,48 @@ class _GroupedProductSelectFieldViewState
                                 fillColor: AppColors.grayWh,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.rr),
-                                  borderSide: BorderSide(color: AppColors.gray),
+                                  borderSide:
+                                      BorderSide(color: AppColors.gray),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.rr),
-                                  borderSide: BorderSide(color: AppColors.gray),
+                                  borderSide:
+                                      BorderSide(color: AppColors.gray),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8.rr),
-                                  borderSide:
-                                      BorderSide(color: AppColors.greyCharcoal),
+                                  borderSide: BorderSide(
+                                      color: AppColors.greyCharcoal),
                                 ),
                               ),
                             ),
                           ),
-                          // Grouped list
+                          Divider(height: 1, color: AppColors.gray),
+                          // Items list
                           Flexible(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: _buildGroupedItems(selected, cubit),
-                              ),
-                            ),
+                            child: _isLoading
+                                ? Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(vertical: 24.rh),
+                                    child: Center(
+                                      child: SizedBox(
+                                        width: 22,
+                                        height: 22,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: _buildItems(selected, cubit),
+                                    ),
+                                  ),
                           ),
                         ],
                       );
@@ -214,16 +263,18 @@ class _GroupedProductSelectFieldViewState
     Overlay.of(context).insert(_overlayEntry!);
   }
 
-  List<Widget> _buildGroupedItems(SelectOptionModel? selected, SelectCubit cubit) {
-    final hasItems = _displayedGroups.any((g) => (g.items ?? []).isNotEmpty);
+  List<Widget> _buildItems(SelectOptionModel? selected, SelectCubit cubit) {
+    final allItems = _displayedGroups
+        .expand((g) => g.items ?? [])
+        .toList();
 
-    if (!hasItems && !_isLoadingSearch) {
+    if (allItems.isEmpty) {
       return [
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.rh),
           child: Center(
             child: AppText(
-              'Aucun résultat',
+              'Aucun produit',
               fontSize: 13.rsp,
               color: AppColors.grayAsh,
             ),
@@ -232,93 +283,71 @@ class _GroupedProductSelectFieldViewState
       ];
     }
 
-    final widgets = <Widget>[];
-
-    for (final group in _displayedGroups) {
-      final items = group.items ?? [];
-      if (items.isEmpty) continue;
-
-      // Section header
-      widgets.add(
-        Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 14.rw, vertical: 7.rh),
+    return allItems.map((item) {
+      final opt = SelectOptionModel<String>(
+        label: item.name ?? '---',
+        value: item.id.toString(),
+        subtitle: item.description,
+      );
+      final isSelected = selected?.value == opt.value;
+      return GestureDetector(
+        onTap: () {
+          cubit.select(opt);
+          widget.onChanged?.call(opt);
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 14.rw,
+            vertical: 10.rh,
+          ),
           decoration: BoxDecoration(
-            color: AppColors.grayWh,
+            color: isSelected ? AppColors.grayGh : Colors.transparent,
             border: Border(
-              bottom: BorderSide(color: AppColors.gray),
+              bottom: BorderSide(color: AppColors.gray.withValues(alpha: 0.5)),
             ),
           ),
-          child: AppText(
-            (group.label ?? '').toUpperCase(),
-            fontSize: 11.rsp,
-            fontWeight: FontWeight.w600,
-            color: AppColors.textMuted,
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText(
+                      item.name ?? '---',
+                      fontSize: 14.rsp,
+                      fontWeight:
+                          isSelected ? FontWeight.w600 : FontWeight.normal,
+                      color: AppColors.textHeading,
+                    ),
+                    if (item.description != null &&
+                        item.description!.isNotEmpty)
+                      AppText(
+                        item.description!,
+                        fontSize: 12.rsp,
+                        color: AppColors.grayAsh,
+                      ),
+                  ],
+                ),
+              ),
+              if (isSelected)
+                Icon(
+                  Icons.check_rounded,
+                  size: 18.rsp,
+                  color: AppColors.greyCharcoal,
+                ),
+            ],
           ),
         ),
       );
-
-      // Items
-      for (final item in items) {
-        final opt = SelectOptionModel<String>(
-          label: item.name ?? '---',
-          value: item.id.toString(),
-          subtitle: item.description,
-        );
-        final isSelected = selected?.value == opt.value;
-        widgets.add(
-          GestureDetector(
-            onTap: () {
-              cubit.select(opt);
-              widget.onChanged?.call(opt);
-            },
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 14.rw,
-                vertical: 10.rh,
-              ),
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.grayGh : Colors.transparent,
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppText(
-                          item.name ?? '---',
-                          fontSize: 14.rsp,
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.normal,
-                          color: AppColors.textHeading,
-                        ),
-                      ],
-                    ),
-                  ),
-                  if (isSelected)
-                    Icon(
-                      Icons.check_rounded,
-                      size: 18.rsp,
-                      color: AppColors.greyCharcoal,
-                    ),
-                ],
-              ),
-            ),
-          ),
-        );
-      }
-    }
-
-    return widgets;
+    }).toList();
   }
 
   void _removeOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
     _searchController.clear();
-    _setOverlayState = null;
     _debounceTimer?.cancel();
+    _setOverlayState = null;
   }
 
   @override
@@ -371,15 +400,17 @@ class _GroupedProductSelectFieldViewState
                   child: AnimatedContainer(
                     key: _triggerKey,
                     duration: const Duration(milliseconds: 200),
-                    constraints:
-                        const BoxConstraints(minHeight: kMinInteractiveDimension),
+                    constraints: const BoxConstraints(
+                        minHeight: kMinInteractiveDimension),
                     padding: EdgeInsets.symmetric(horizontal: 14.rw),
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
                       color: AppColors.grayWh,
                       borderRadius: BorderRadius.circular(10.rr),
                       border: Border.all(
-                        color: isOpen ? AppColors.greyCharcoal : AppColors.gray,
+                        color: isOpen
+                            ? AppColors.greyCharcoal
+                            : AppColors.gray,
                       ),
                     ),
                     child: Row(
@@ -409,6 +440,43 @@ class _GroupedProductSelectFieldViewState
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class _TypeTab extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _TypeTab({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding: EdgeInsets.symmetric(vertical: 8.rh),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primary : AppColors.grayWh,
+          borderRadius: BorderRadius.circular(8.rr),
+          border: Border.all(
+            color: isSelected ? AppColors.primary : AppColors.gray,
+          ),
+        ),
+        child: AppText(
+          label,
+          fontSize: 13.rsp,
+          fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+          color: isSelected ? AppColors.white : AppColors.grayAsh,
+        ),
       ),
     );
   }

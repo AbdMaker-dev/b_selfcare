@@ -271,10 +271,8 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                                   orElse: () => initialLabel ?? 'Choisir un produit',
                                 ),
                                 groups: productsCubit.groupedProducts,
-                                onSearch: (query) async {
-                                  final result = await productsCubit.getGroupedProducts(
-                                    data: {'search': query},
-                                  );
+                                onFetch: (data) async {
+                                  final result = await productsCubit.getGroupedProducts(data: data);
                                   return result.fold((_) => [], (groups) => groups);
                                 },
                                 onChanged: (opt) =>
