@@ -178,7 +178,7 @@ class _RecoveryHistorySource extends AppTableSource<RecoveryHistoryModel> {
 
   String _formatBundleAmount(int? amount, String? unit) {
     if (amount == null) return '---';
-    if (unit == 'MB_GB' || unit == 'MB' || unit == 'GB') {
+    if (unit == 'MB_GB' || unit == 'MB' || unit == 'GB' || unit == 'Go') {
       if (amount >= 1024 * 1024 * 1024) {
         return '${(amount / (1024 * 1024 * 1024)).toStringAsFixed(1)} Go';
       } else if (amount >= 1024 * 1024) {
@@ -467,7 +467,7 @@ class _RecoveryDetailPanel extends StatelessWidget {
 
   String _formatBundleAmount(int? amount, String? unit) {
     if (amount == null) return '---';
-    if (unit == 'MB_GB' || unit == 'MB' || unit == 'GB') {
+    if (unit == 'MB_GB' || unit == 'MB' || unit == 'GB' || unit == 'Go') {
       if (amount >= 1024 * 1024 * 1024) {
         return '${(amount / (1024 * 1024 * 1024)).toStringAsFixed(1)} Go';
       } else if (amount >= 1024 * 1024) {

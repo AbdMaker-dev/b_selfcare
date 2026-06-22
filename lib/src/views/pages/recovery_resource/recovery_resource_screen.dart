@@ -214,14 +214,11 @@ class _RecoveryResourceScreenState extends State<RecoveryResourceScreen> {
           final String convertedUnit;
           final int convertedAmount;
 
-          if (rawUnit.startsWith('min')) {
-            convertedUnit = u.unit ?? rawUnit;
-            convertedAmount = inputAmount;
-          } else if (rawUnit.contains('mb') ||
+          if (rawUnit.contains('mb') ||
               rawUnit.contains('gb') ||
               rawUnit.contains('byte')) {
-            convertedUnit = 'MB_GB';
-            convertedAmount = inputAmount * 1024;
+            convertedUnit = 'Go';
+            convertedAmount = inputAmount;
           } else {
             convertedUnit = u.unit ?? rawUnit;
             convertedAmount = inputAmount;
