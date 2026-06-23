@@ -7,6 +7,7 @@ import 'package:b_selfcare/src/views/pages/invitation/cubit/invitation_cubit.dar
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/password_strength_indicator.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,12 @@ class _InvitationFormState extends State<InvitationForm> {
   final _cubit = getIt<InvitationCubit>();
   late final _passwordController = TextEditingController();
   late final _confirmController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordController.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
@@ -87,6 +94,7 @@ class _InvitationFormState extends State<InvitationForm> {
               isPassword: true,
               validator: AppValidators.password(context),
             ),
+            PasswordStrengthIndicator(password: _passwordController.text),
             SizedBox(height: 20.rh),
             AppInput(
               controller: _confirmController,

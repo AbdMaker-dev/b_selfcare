@@ -10,6 +10,7 @@ import 'package:b_selfcare/src/views/pages/reset_password/widgets/send_mail_mess
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
+import 'package:b_selfcare/src/views/widgets/password_strength_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,6 +32,12 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _newPasswordController.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
@@ -95,6 +102,7 @@ class _ChangePasswordFormState extends State<ChangePasswordForm> {
                     controller: _newPasswordController,
                     validator: AppValidators.password(context),
                   ),
+                  PasswordStrengthIndicator(password: _newPasswordController.text),
                   SizedBox(height: 20.rh),
                   AppInput(
                     labelText: s.confirmPassword,
