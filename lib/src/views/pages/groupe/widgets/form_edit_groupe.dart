@@ -6,6 +6,7 @@ import 'package:b_selfcare/src/utils/responsive_extention.dart';
 import 'package:b_selfcare/src/views/pages/my_flotte/cubit/group/group_cubit.dart';
 import 'package:b_selfcare/src/views/pages/products/cubit/products_cubit.dart';
 import 'package:b_selfcare/src/views/widgets/app_button.dart';
+import 'package:b_selfcare/src/views/widgets/select_option/grouped_product_select_field.dart';
 import 'package:b_selfcare/src/views/widgets/app_date_field.dart';
 import 'package:b_selfcare/src/views/widgets/app_input.dart';
 import 'package:b_selfcare/src/views/widgets/app_text.dart';
@@ -58,6 +59,7 @@ class FormEditGroupe extends StatefulWidget {
 
 class _FormEditGroupeState extends State<FormEditGroupe> {
   final productsCubit = getIt<ProductsCubit>();
+
   late final TextEditingController _nameController;
   late final TextEditingController _descriptionController;
 
@@ -83,7 +85,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
     _selectedDayMonth = widget.groupe.campaign?.dayOfMonth?.toString();
     _selectedStartDate = _parseDate(widget.groupe.campaign?.startDate);
     _selectedEndDate = _parseDate(widget.groupe.campaign?.endDate);
-    productsCubit.fetchProducts();
+    productsCubit.fetchGroupedProducts();
   }
 
   DateTime? _parseDate(String? iso) {
@@ -195,7 +197,7 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                           Navigator.of(context, rootNavigator: true).pop(),
                       borderRadius: BorderRadius.circular(6),
                       child: Container(
-                        padding:  EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 10.rw,
                           vertical: 6.rh,
                         ),
@@ -257,25 +259,22 @@ class _FormEditGroupeState extends State<FormEditGroupe> {
                       BlocBuilder<ProductsCubit, ProductsState>(
                         bloc: productsCubit,
                         builder: (context, productsState) {
-                          final options = productsCubit.products
-                              .map((p) => SelectOptionModel<String>(
-                                    label: p.name ?? '---',
-                                    value: p.id.toString(),
-                                  ))
-                              .toList();
                           final initialLabel = widget.groupe.product?.name;
                           return Opacity(
                             opacity: _removeProduct ? 0.4 : 1.0,
                             child: IgnorePointer(
                               ignoring: _removeProduct,
-                              child: SelectField<String>(
+                              child: GroupedProductSelectField(
                                 label: 'Produit',
                                 placeholder: productsState.maybeWhen(
-                                  productsLoading: () => 'Chargement...',
+                                  groupedProductsLoading: () => 'Chargement...',
                                   orElse: () => initialLabel ?? 'Choisir un produit',
                                 ),
-                                options: options,
-                                searchMode: SelectSearchMode.local,
+                                groups: productsCubit.groupedProducts,
+                                onFetch: (data) async {
+                                  final result = await productsCubit.getGroupedProducts(data: data);
+                                  return result.fold((_) => [], (groups) => groups);
+                                },
                                 onChanged: (opt) =>
                                     setState(() => _selectedProductId = opt.value),
                               ),

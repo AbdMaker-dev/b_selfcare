@@ -1,6 +1,9 @@
+import 'package:b_selfcare/src/data/models/failure.dart';
+import 'package:b_selfcare/src/data/models/group/data_item_product_model.dart';
 import 'package:b_selfcare/src/data/models/products_model.dart';
 import 'package:b_selfcare/src/data/models/wallet_model.dart';
 import 'package:b_selfcare/src/data/services/http_helper.dart';
+import 'package:dartz/dartz.dart';
 // import 'package:b_selfcare/src/views/widgets/plan_card.dart';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -17,6 +20,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   List<ProductsModel> products = [];
   List<ProductsModel> nativeProducts = [];
   List<WalletModel> wallets = [];
+  List<DataItemProductModel> groupedProducts = [];
 
   Future<void> fetchProducts() async {
     if (products.isNotEmpty) return;
@@ -91,6 +95,31 @@ class ProductsCubit extends Cubit<ProductsState> {
         products = [];
         fetchProducts();
         emit(ProductsState.archiveProductSuccess());
+      },
+    );
+  }
+
+  Future<void> fetchGroupedProducts({dynamic data}) async {
+    if (groupedProducts.isNotEmpty) return;
+    emit(ProductsState.groupedProductsLoading());
+    final response = await _httpHelper.handleGetRequest("products/grouped", params: data, showLoader: true);
+    response.fold(
+      (left) => emit(ProductsState.groupedProductsError(left.message)),
+      (right) {
+        final list = right.response?['data'] as List<dynamic>? ?? [];
+        groupedProducts = list.whereType<Map<String, dynamic>>().map(DataItemProductModel.fromJson).toList();
+        emit(ProductsState.groupedProductsLoaded());
+      },
+    );
+  }
+
+  Future<Either<Failure, List<DataItemProductModel>>> getGroupedProducts({required dynamic data}) async {
+    final response = await _httpHelper.handleGetRequest("products/grouped", params: data, showLoader: false);
+    return response.fold(
+      (left) => Left(left),
+      (right) {
+        final list = right.response?['data'] as List<dynamic>? ?? [];
+        return Right(list.whereType<Map<String, dynamic>>().map(DataItemProductModel.fromJson).toList());
       },
     );
   }

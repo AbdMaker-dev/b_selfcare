@@ -28,4 +28,8 @@ class ProductsState with _$ProductsState {
   const factory ProductsState.nativeProductsLoading() = _NativeProductsLoading;
   const factory ProductsState.nativeProductsError(String? message) = _NativeProductsError;
   const factory ProductsState.nativeProductsLoaded() = _NativeProductsLoaded;
+
+  const factory ProductsState.groupedProductsLoading() = _GroupedProductsLoading;
+  const factory ProductsState.groupedProductsError(String? message) = _GroupedProductsError;
+  const factory ProductsState.groupedProductsLoaded() = _GroupedProductsLoaded;
 }
