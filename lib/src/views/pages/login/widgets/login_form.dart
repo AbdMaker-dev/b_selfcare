@@ -116,7 +116,7 @@ class _LoginFormState extends State<LoginForm> {
               labelActionText: s.forgotPassword,
               keyboardType: TextInputType.text,
               isPassword: true,
-              validator: AppValidators.password(context),
+              validator: AppValidators.loginPassword(context),
               autofillHints: const [],
               labelActionOnTap: () {
                 context.router.replaceAll([const ResetPasswordRoute()]);

@@ -25,6 +25,14 @@ class AppValidators {
   // ignore: deprecated_member_use
   static final _specialRegex = RegExp(r'[!@#%^&*()\-_=+\[\]{};:,.<>?/|\\]');
 
+  static String? Function(String?) loginPassword(BuildContext context) {
+    final s = S.of(context);
+    return (value) {
+      if (value == null || value.isEmpty) return s.validatorPasswordRequired;
+      return null;
+    };
+  }
+
   static String? Function(String?) password(BuildContext context) {
     final s = S.of(context);
     return (value) {

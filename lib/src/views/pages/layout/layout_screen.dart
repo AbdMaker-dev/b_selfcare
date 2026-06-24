@@ -109,11 +109,10 @@ class _LayoutScreenState extends State<LayoutScreen> {
                 child:
                     BlocSelector<LayoutCubit, LayoutState, AppMainRouteChange?>(
                       bloc: _cubit,
-                      selector:
-                          (state) => state.map(
-                            initial: (_) => null,
-                            routeChanged: (v) => v,
-                          ),
+                      selector: (state) => state.map(
+                        initial: (_) => null,
+                        routeChanged: (v) => v,
+                      ),
                       builder: (context, state) => const SideMenuList(),
                     ),
               ),
