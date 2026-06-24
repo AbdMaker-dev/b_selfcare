@@ -10,7 +10,7 @@
 variables:
   DEPLOY_SCRIPT: "/var/www/b2b-css-front/deploy.sh"
   SMS_API_URL: "https://192.168.41.45:9040/services/SendNotifications.aspx"
-  SMS_API_SENDER: "Yas"
+  SMS_API_SENDER: "B2BSelf-CI"
   SMS_RECIPIENTS: "768095469"   # fallback si USER_PHONE_MAP est vide
 
 stages:
