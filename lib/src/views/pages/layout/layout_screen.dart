@@ -60,7 +60,6 @@ class _LayoutScreenState extends State<LayoutScreen> {
     );
   }
 
-
   @override
   void initState() {
     _dcubit.fetchCompanyStats();

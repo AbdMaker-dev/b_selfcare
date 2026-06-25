@@ -16,7 +16,11 @@ class UsersState with _$UsersState {
   const factory UsersState.updateUserLoaded()               = UpdateUserLoaded;
   const factory UsersState.updateUserFailed(String message) = UpdateUserFailed;
 
-  const factory UsersState.disableUserLoading()             = DisableUserLoading;
-  const factory UsersState.disableUserLoaded()              = DisableUserLoaded;
-  const factory UsersState.disableUserFailed(String message)= DisableUserFailed;
+  const factory UsersState.disableUserLoading()                   = DisableUserLoading;
+  const factory UsersState.disableUserLoaded()                    = DisableUserLoaded;
+  const factory UsersState.disableUserFailed(String message)      = DisableUserFailed;
+
+  const factory UsersState.resendInvitationLoading()              = ResendInvitationLoading;
+  const factory UsersState.resendInvitationLoaded()               = ResendInvitationLoaded;
+  const factory UsersState.resendInvitationFailed(String message) = ResendInvitationFailed;
 }

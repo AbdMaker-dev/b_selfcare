@@ -82,6 +82,20 @@ class UsersCubit extends Cubit<UsersState> {
     );
   }
 
+  Future<void> resendInvitation({required int id}) async {
+    emit(const UsersState.resendInvitationLoading());
+    final response = await _httpHelper.handlePostRequest(
+      'users/$id/resend-invitation',
+      {},
+      showSuccessToast: true,
+      showErrorToast: true,
+    );
+    response.fold(
+      (left) => emit(UsersState.resendInvitationFailed(left.message)),
+      (_)    => emit(const UsersState.resendInvitationLoaded()),
+    );
+  }
+
   Future<void> disableUser({required int id}) async {
     emit(const UsersState.disableUserLoading());
     final response = await _httpHelper.handleDeleteRequest(

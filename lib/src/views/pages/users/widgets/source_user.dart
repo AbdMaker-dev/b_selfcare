@@ -13,12 +13,14 @@ class SourceUsers extends AppTableSource<UserProfileModel> {
   final void Function(UserProfileModel)? onDetail;
   final void Function(UserProfileModel)? onEdit;
   final void Function(UserProfileModel)? onDisable;
+  final void Function(UserProfileModel)? onResendInvitation;
 
   SourceUsers({
     required this.rows,
     this.onDetail,
     this.onEdit,
     this.onDisable,
+    this.onResendInvitation,
   });
 
   @override
@@ -50,8 +52,10 @@ class SourceUsers extends AppTableSource<UserProfileModel> {
       _           => CellBadgeTable.inactif(),
     },
     CellActionsTable(actions: [
-      (label: 'Modifier',   danger: false, onTap: () => onEdit?.call(item)),
-      (label: 'Supprimer', danger: true, onTap: () => onDisable?.call(item)),
+      if (item.status?.toUpperCase() == 'INVITED')
+        (label: 'Renvoyer invitation', danger: false, onTap: () => onResendInvitation?.call(item)),
+      (label: 'Modifier',  danger: false, onTap: () => onEdit?.call(item)),
+      (label: 'Supprimer', danger: true,  onTap: () => onDisable?.call(item)),
     ]),
   ];
 }

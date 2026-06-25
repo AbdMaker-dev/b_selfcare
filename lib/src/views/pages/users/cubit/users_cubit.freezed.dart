@@ -55,7 +55,7 @@ extension UsersStatePatterns on UsersState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetUsersLoading value)?  getUsersLoading,TResult Function( GetUsersLoaded value)?  getUsersLoaded,TResult Function( GetUsersFailed value)?  getUsersFailed,TResult Function( CreateUserLoading value)?  createUserLoading,TResult Function( CreateUserLoaded value)?  createUserLoaded,TResult Function( CreateUserFailed value)?  createUserFailed,TResult Function( UpdateUserLoading value)?  updateUserLoading,TResult Function( UpdateUserLoaded value)?  updateUserLoaded,TResult Function( UpdateUserFailed value)?  updateUserFailed,TResult Function( DisableUserLoading value)?  disableUserLoading,TResult Function( DisableUserLoaded value)?  disableUserLoaded,TResult Function( DisableUserFailed value)?  disableUserFailed,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _Initial value)?  initial,TResult Function( GetUsersLoading value)?  getUsersLoading,TResult Function( GetUsersLoaded value)?  getUsersLoaded,TResult Function( GetUsersFailed value)?  getUsersFailed,TResult Function( CreateUserLoading value)?  createUserLoading,TResult Function( CreateUserLoaded value)?  createUserLoaded,TResult Function( CreateUserFailed value)?  createUserFailed,TResult Function( UpdateUserLoading value)?  updateUserLoading,TResult Function( UpdateUserLoaded value)?  updateUserLoaded,TResult Function( UpdateUserFailed value)?  updateUserFailed,TResult Function( DisableUserLoading value)?  disableUserLoading,TResult Function( DisableUserLoaded value)?  disableUserLoaded,TResult Function( DisableUserFailed value)?  disableUserFailed,TResult Function( ResendInvitationLoading value)?  resendInvitationLoading,TResult Function( ResendInvitationLoaded value)?  resendInvitationLoaded,TResult Function( ResendInvitationFailed value)?  resendInvitationFailed,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -71,7 +71,10 @@ return updateUserLoaded(_that);case UpdateUserFailed() when updateUserFailed != 
 return updateUserFailed(_that);case DisableUserLoading() when disableUserLoading != null:
 return disableUserLoading(_that);case DisableUserLoaded() when disableUserLoaded != null:
 return disableUserLoaded(_that);case DisableUserFailed() when disableUserFailed != null:
-return disableUserFailed(_that);case _:
+return disableUserFailed(_that);case ResendInvitationLoading() when resendInvitationLoading != null:
+return resendInvitationLoading(_that);case ResendInvitationLoaded() when resendInvitationLoaded != null:
+return resendInvitationLoaded(_that);case ResendInvitationFailed() when resendInvitationFailed != null:
+return resendInvitationFailed(_that);case _:
   return orElse();
 
 }
@@ -89,7 +92,7 @@ return disableUserFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetUsersLoading value)  getUsersLoading,required TResult Function( GetUsersLoaded value)  getUsersLoaded,required TResult Function( GetUsersFailed value)  getUsersFailed,required TResult Function( CreateUserLoading value)  createUserLoading,required TResult Function( CreateUserLoaded value)  createUserLoaded,required TResult Function( CreateUserFailed value)  createUserFailed,required TResult Function( UpdateUserLoading value)  updateUserLoading,required TResult Function( UpdateUserLoaded value)  updateUserLoaded,required TResult Function( UpdateUserFailed value)  updateUserFailed,required TResult Function( DisableUserLoading value)  disableUserLoading,required TResult Function( DisableUserLoaded value)  disableUserLoaded,required TResult Function( DisableUserFailed value)  disableUserFailed,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _Initial value)  initial,required TResult Function( GetUsersLoading value)  getUsersLoading,required TResult Function( GetUsersLoaded value)  getUsersLoaded,required TResult Function( GetUsersFailed value)  getUsersFailed,required TResult Function( CreateUserLoading value)  createUserLoading,required TResult Function( CreateUserLoaded value)  createUserLoaded,required TResult Function( CreateUserFailed value)  createUserFailed,required TResult Function( UpdateUserLoading value)  updateUserLoading,required TResult Function( UpdateUserLoaded value)  updateUserLoaded,required TResult Function( UpdateUserFailed value)  updateUserFailed,required TResult Function( DisableUserLoading value)  disableUserLoading,required TResult Function( DisableUserLoaded value)  disableUserLoaded,required TResult Function( DisableUserFailed value)  disableUserFailed,required TResult Function( ResendInvitationLoading value)  resendInvitationLoading,required TResult Function( ResendInvitationLoaded value)  resendInvitationLoaded,required TResult Function( ResendInvitationFailed value)  resendInvitationFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial():
@@ -105,7 +108,10 @@ return updateUserLoaded(_that);case UpdateUserFailed():
 return updateUserFailed(_that);case DisableUserLoading():
 return disableUserLoading(_that);case DisableUserLoaded():
 return disableUserLoaded(_that);case DisableUserFailed():
-return disableUserFailed(_that);case _:
+return disableUserFailed(_that);case ResendInvitationLoading():
+return resendInvitationLoading(_that);case ResendInvitationLoaded():
+return resendInvitationLoaded(_that);case ResendInvitationFailed():
+return resendInvitationFailed(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -122,7 +128,7 @@ return disableUserFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetUsersLoading value)?  getUsersLoading,TResult? Function( GetUsersLoaded value)?  getUsersLoaded,TResult? Function( GetUsersFailed value)?  getUsersFailed,TResult? Function( CreateUserLoading value)?  createUserLoading,TResult? Function( CreateUserLoaded value)?  createUserLoaded,TResult? Function( CreateUserFailed value)?  createUserFailed,TResult? Function( UpdateUserLoading value)?  updateUserLoading,TResult? Function( UpdateUserLoaded value)?  updateUserLoaded,TResult? Function( UpdateUserFailed value)?  updateUserFailed,TResult? Function( DisableUserLoading value)?  disableUserLoading,TResult? Function( DisableUserLoaded value)?  disableUserLoaded,TResult? Function( DisableUserFailed value)?  disableUserFailed,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _Initial value)?  initial,TResult? Function( GetUsersLoading value)?  getUsersLoading,TResult? Function( GetUsersLoaded value)?  getUsersLoaded,TResult? Function( GetUsersFailed value)?  getUsersFailed,TResult? Function( CreateUserLoading value)?  createUserLoading,TResult? Function( CreateUserLoaded value)?  createUserLoaded,TResult? Function( CreateUserFailed value)?  createUserFailed,TResult? Function( UpdateUserLoading value)?  updateUserLoading,TResult? Function( UpdateUserLoaded value)?  updateUserLoaded,TResult? Function( UpdateUserFailed value)?  updateUserFailed,TResult? Function( DisableUserLoading value)?  disableUserLoading,TResult? Function( DisableUserLoaded value)?  disableUserLoaded,TResult? Function( DisableUserFailed value)?  disableUserFailed,TResult? Function( ResendInvitationLoading value)?  resendInvitationLoading,TResult? Function( ResendInvitationLoaded value)?  resendInvitationLoaded,TResult? Function( ResendInvitationFailed value)?  resendInvitationFailed,}){
 final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
@@ -138,7 +144,10 @@ return updateUserLoaded(_that);case UpdateUserFailed() when updateUserFailed != 
 return updateUserFailed(_that);case DisableUserLoading() when disableUserLoading != null:
 return disableUserLoading(_that);case DisableUserLoaded() when disableUserLoaded != null:
 return disableUserLoaded(_that);case DisableUserFailed() when disableUserFailed != null:
-return disableUserFailed(_that);case _:
+return disableUserFailed(_that);case ResendInvitationLoading() when resendInvitationLoading != null:
+return resendInvitationLoading(_that);case ResendInvitationLoaded() when resendInvitationLoaded != null:
+return resendInvitationLoaded(_that);case ResendInvitationFailed() when resendInvitationFailed != null:
+return resendInvitationFailed(_that);case _:
   return null;
 
 }
@@ -155,7 +164,7 @@ return disableUserFailed(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getUsersLoading,TResult Function()?  getUsersLoaded,TResult Function( String message)?  getUsersFailed,TResult Function()?  createUserLoading,TResult Function()?  createUserLoaded,TResult Function( String message)?  createUserFailed,TResult Function()?  updateUserLoading,TResult Function()?  updateUserLoaded,TResult Function( String message)?  updateUserFailed,TResult Function()?  disableUserLoading,TResult Function()?  disableUserLoaded,TResult Function( String message)?  disableUserFailed,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  getUsersLoading,TResult Function()?  getUsersLoaded,TResult Function( String message)?  getUsersFailed,TResult Function()?  createUserLoading,TResult Function()?  createUserLoaded,TResult Function( String message)?  createUserFailed,TResult Function()?  updateUserLoading,TResult Function()?  updateUserLoaded,TResult Function( String message)?  updateUserFailed,TResult Function()?  disableUserLoading,TResult Function()?  disableUserLoaded,TResult Function( String message)?  disableUserFailed,TResult Function()?  resendInvitationLoading,TResult Function()?  resendInvitationLoaded,TResult Function( String message)?  resendInvitationFailed,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetUsersLoading() when getUsersLoading != null:
@@ -170,7 +179,10 @@ return updateUserLoaded();case UpdateUserFailed() when updateUserFailed != null:
 return updateUserFailed(_that.message);case DisableUserLoading() when disableUserLoading != null:
 return disableUserLoading();case DisableUserLoaded() when disableUserLoaded != null:
 return disableUserLoaded();case DisableUserFailed() when disableUserFailed != null:
-return disableUserFailed(_that.message);case _:
+return disableUserFailed(_that.message);case ResendInvitationLoading() when resendInvitationLoading != null:
+return resendInvitationLoading();case ResendInvitationLoaded() when resendInvitationLoaded != null:
+return resendInvitationLoaded();case ResendInvitationFailed() when resendInvitationFailed != null:
+return resendInvitationFailed(_that.message);case _:
   return orElse();
 
 }
@@ -188,7 +200,7 @@ return disableUserFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getUsersLoading,required TResult Function()  getUsersLoaded,required TResult Function( String message)  getUsersFailed,required TResult Function()  createUserLoading,required TResult Function()  createUserLoaded,required TResult Function( String message)  createUserFailed,required TResult Function()  updateUserLoading,required TResult Function()  updateUserLoaded,required TResult Function( String message)  updateUserFailed,required TResult Function()  disableUserLoading,required TResult Function()  disableUserLoaded,required TResult Function( String message)  disableUserFailed,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  getUsersLoading,required TResult Function()  getUsersLoaded,required TResult Function( String message)  getUsersFailed,required TResult Function()  createUserLoading,required TResult Function()  createUserLoaded,required TResult Function( String message)  createUserFailed,required TResult Function()  updateUserLoading,required TResult Function()  updateUserLoaded,required TResult Function( String message)  updateUserFailed,required TResult Function()  disableUserLoading,required TResult Function()  disableUserLoaded,required TResult Function( String message)  disableUserFailed,required TResult Function()  resendInvitationLoading,required TResult Function()  resendInvitationLoaded,required TResult Function( String message)  resendInvitationFailed,}) {final _that = this;
 switch (_that) {
 case _Initial():
 return initial();case GetUsersLoading():
@@ -203,7 +215,10 @@ return updateUserLoaded();case UpdateUserFailed():
 return updateUserFailed(_that.message);case DisableUserLoading():
 return disableUserLoading();case DisableUserLoaded():
 return disableUserLoaded();case DisableUserFailed():
-return disableUserFailed(_that.message);case _:
+return disableUserFailed(_that.message);case ResendInvitationLoading():
+return resendInvitationLoading();case ResendInvitationLoaded():
+return resendInvitationLoaded();case ResendInvitationFailed():
+return resendInvitationFailed(_that.message);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -220,7 +235,7 @@ return disableUserFailed(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getUsersLoading,TResult? Function()?  getUsersLoaded,TResult? Function( String message)?  getUsersFailed,TResult? Function()?  createUserLoading,TResult? Function()?  createUserLoaded,TResult? Function( String message)?  createUserFailed,TResult? Function()?  updateUserLoading,TResult? Function()?  updateUserLoaded,TResult? Function( String message)?  updateUserFailed,TResult? Function()?  disableUserLoading,TResult? Function()?  disableUserLoaded,TResult? Function( String message)?  disableUserFailed,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  getUsersLoading,TResult? Function()?  getUsersLoaded,TResult? Function( String message)?  getUsersFailed,TResult? Function()?  createUserLoading,TResult? Function()?  createUserLoaded,TResult? Function( String message)?  createUserFailed,TResult? Function()?  updateUserLoading,TResult? Function()?  updateUserLoaded,TResult? Function( String message)?  updateUserFailed,TResult? Function()?  disableUserLoading,TResult? Function()?  disableUserLoaded,TResult? Function( String message)?  disableUserFailed,TResult? Function()?  resendInvitationLoading,TResult? Function()?  resendInvitationLoaded,TResult? Function( String message)?  resendInvitationFailed,}) {final _that = this;
 switch (_that) {
 case _Initial() when initial != null:
 return initial();case GetUsersLoading() when getUsersLoading != null:
@@ -235,7 +250,10 @@ return updateUserLoaded();case UpdateUserFailed() when updateUserFailed != null:
 return updateUserFailed(_that.message);case DisableUserLoading() when disableUserLoading != null:
 return disableUserLoading();case DisableUserLoaded() when disableUserLoaded != null:
 return disableUserLoaded();case DisableUserFailed() when disableUserFailed != null:
-return disableUserFailed(_that.message);case _:
+return disableUserFailed(_that.message);case ResendInvitationLoading() when resendInvitationLoading != null:
+return resendInvitationLoading();case ResendInvitationLoaded() when resendInvitationLoaded != null:
+return resendInvitationLoaded();case ResendInvitationFailed() when resendInvitationFailed != null:
+return resendInvitationFailed(_that.message);case _:
   return null;
 
 }
@@ -787,6 +805,136 @@ class _$DisableUserFailedCopyWithImpl<$Res>
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(DisableUserFailed(
+null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class ResendInvitationLoading implements UsersState {
+  const ResendInvitationLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResendInvitationLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'UsersState.resendInvitationLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ResendInvitationLoaded implements UsersState {
+  const ResendInvitationLoaded();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResendInvitationLoaded);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'UsersState.resendInvitationLoaded()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ResendInvitationFailed implements UsersState {
+  const ResendInvitationFailed(this.message);
+  
+
+ final  String message;
+
+/// Create a copy of UsersState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ResendInvitationFailedCopyWith<ResendInvitationFailed> get copyWith => _$ResendInvitationFailedCopyWithImpl<ResendInvitationFailed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ResendInvitationFailed&&(identical(other.message, message) || other.message == message));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'UsersState.resendInvitationFailed(message: $message)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ResendInvitationFailedCopyWith<$Res> implements $UsersStateCopyWith<$Res> {
+  factory $ResendInvitationFailedCopyWith(ResendInvitationFailed value, $Res Function(ResendInvitationFailed) _then) = _$ResendInvitationFailedCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
+
+
+
+
+}
+/// @nodoc
+class _$ResendInvitationFailedCopyWithImpl<$Res>
+    implements $ResendInvitationFailedCopyWith<$Res> {
+  _$ResendInvitationFailedCopyWithImpl(this._self, this._then);
+
+  final ResendInvitationFailed _self;
+  final $Res Function(ResendInvitationFailed) _then;
+
+/// Create a copy of UsersState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(ResendInvitationFailed(
 null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,
   ));

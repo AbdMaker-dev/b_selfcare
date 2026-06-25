@@ -101,18 +101,21 @@ class _UsersScreenState extends State<UsersScreen> {
     ConfirmDeleteUser.show(context, user: user, usersCubit: _cubit);
   }
 
+  void _resendInvitation(UserProfileModel user) {
+    if (user.id == null) return;
+    _cubit.resendInvitation(id: user.id!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UsersCubit, UsersState>(
       bloc: _cubit,
       listener: (context, state) {
         state.maybeWhen(
-          disableUserLoaded: () {
-            _resetFilters();
-            _cubit.getUsers(data: {'page': 1});
-          },
-          createUserLoaded:  () => _cubit.getUsers(data: _buildParams()),
-          updateUserLoaded:  () => _cubit.getUsers(data: _buildParams()),
+          disableUserLoaded:       () { _resetFilters(); _cubit.getUsers(data: {'page': 1}); },
+          createUserLoaded:        () => _cubit.getUsers(data: _buildParams()),
+          updateUserLoaded:        () => _cubit.getUsers(data: _buildParams()),
+          resendInvitationLoaded:  () => _cubit.getUsers(data: _buildParams()),
           orElse: () {},
         );
       },
@@ -193,9 +196,10 @@ class _UsersScreenState extends State<UsersScreen> {
                 title: 'Utilisateurs',
                 source: SourceUsers(
                   rows: users,
-                  onDetail:  _showDetail,
-                  onEdit:    _showEdit,
-                  onDisable: _showDisable,
+                  onDetail:           _showDetail,
+                  onEdit:             _showEdit,
+                  onDisable:          _showDisable,
+                  onResendInvitation: _resendInvitation,
                 ),
                 currentPage: _currentPage,
                 totalCount: total,
